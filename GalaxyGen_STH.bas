@@ -71,47 +71,10 @@ _PRINTMODE _KEEPBACKGROUND
 '*******************************************************************************
 '*******************************************************************************
 
-'SLEEP 1
-'SCREEN 0
-'CLS
-'1
-'COLOR 12 'Sets the inquiry to red
-'PRINT ""
-'PRINT ""
-'PRINT ""
-'PRINT ""
-'PRINT ""
-'PRINT ""
-'PRINT "To Boldly Go v0.1 - Kopernicus Procedural Galaxy Generator!"
-'PRINT "Copyright (C) 2016  Daniel L."
-'PRINT ""
-'PRINT "This program is free software; you can redistribute it and/or modify"
-'PRINT "it under the terms of the GNU General Public License as published by"
-'PRINT "the Free Software Foundation; either version 2 of the License, or"
-'PRINT "(at your option) any later version."
-'PRINT
-'PRINT "This program is distributed in the hope that it will be useful,"
-'PRINT "but WITHOUT ANY WARRANTY; without even the implied warranty of"
-'PRINT "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the"
-'PRINT "GNU General Public License for more details."
-'PRINT
-'PRINT "You should have received a copy of the GNU General Public License"
-'PRINT "along with this program; if not, write to the Free Software"
-'PRINT "Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 PRINT ""
-'SLEEP
 
-'CLS
-'Image = _LOADIMAGE("TBG_Data_Folder/Logo.png")
-'PALETTECOLOR 7, &HFFDAA520
-'CLS , _RGB(0, 128, 128)
-'COLOR _RGBA(1, 0, 0, 1)
-
-'_PUTIMAGE (0, 0), Backdrop
-'_PUTIMAGE (54, 0), Image
 _SNDPLAYFILE "TBG_Data_Folder/beep.wav", .5
 
-'GOTO 777
 778 PRINT
 _FONT _LOADFONT("TBG_Data_Folder/font.ttf", 15, "MONOSPACE") 'select monospace font
 _PRINTMODE _KEEPBACKGROUND
@@ -126,7 +89,6 @@ IF ATOGGLE = 1 THEN
 END IF
 
 
-'BEEP
 PRINT ""
 PRINT ""
 PRINT ""
@@ -134,9 +96,7 @@ PRINT ""
 PRINT ""
 PRINT ""
 PRINT ""
-'PRINT ""
-'PRINT ""
-'PRINT ""
+
 INPUT " GALAXY NAME:", GNAME$
 2222 INPUT " (CUSTOM/AUTO)(c/a):", CUSTOM$
 
@@ -289,9 +249,9 @@ IF GTYPE = 3 THEN
             PRINT #1, "        {"
             PRINT #1, "            referenceBody = Sun"
             PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 50) - 25; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
             PRINT #1, "            mode = 0"
             PRINT #1, "        }"
@@ -383,31 +343,31 @@ PRINT #1, "        {"
 
 IF GTYPE = 3 THEN
 
-    'RANDOMIZE TIMER
+    
     PRINT #1, "            referenceBody = "; INT(RND * CLUSTERNUM)
-    'RANDOMIZE TIMER
+    
     PRINT #1, "            semiMajorAxis ="; INT(RND * 10000000000000) + 10000000000; ""
-    'RANDOMIZE TIMER
+    
     PRINT #1, "            inclination ="; INT(RND * 360); ""
 END IF
 
 IF GTYPE = 1 THEN
     PRINT #1, "            referenceBody = Sun"
-    'RANDOMIZE TIMER
+    
     PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-    'RANDOMIZE TIMER
+    
     PRINT #1, "            inclination ="; INT(RND * 360); ""
 END IF
 
 IF GTYPE = 2 THEN
     PRINT #1, "            referenceBody = Sun"
-    'RANDOMIZE TIMER
+    
     PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-    'RANDOMIZE TIMER
+    
     PRINT #1, "            inclination ="; INT(RND * 50) - 25; ""
 END IF
 
-'RANDOMIZE TIMER
+
 PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
 PRINT #1, "            mode = 0"
 PRINT #1, "            color = 1,1,0,1"
@@ -547,33 +507,11 @@ PRINT #1, "     }"
 PRINT #1, " }"
 PRINT #1, "}"
 
-'PRINT ""
-'COLOR _RGB(255, 255, 255)
-'PRINT "         "; REDSTAR + YELLOWSTAR + BLUESTAR + WHITESTAR + BROWNSTAR + DWARFSTAR; " OBJECTS";
-'PRINT "         GENERATED"
-'PRINT ""
-'PRINT ""
-'PRINT ""
-'PRINT ""
-'PRINT ""
-'PRINT ""
-'PRINT "         Press any key to"
-'PRINT "         Terminate"
-
-'SLEEP
-
-'PRINT ""
-
-'PRINT "         "; REDSTAR + YELLOWSTAR + BLUESTAR + WHITESTAR + BROWNSTAR + DWARFSTAR; " OBJECTS GENERATED"
-'SLEEP
 
 IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carries out an action.
-
-
-
     DO
         IF PENABLE$ = "y" THEN
-            'RANDOMIZE TIMER
+            
             SPN = INT(RND * 4)
         ELSE
             SPN = 1
@@ -582,8 +520,6 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
         DIM a AS INTEGER
 
         FOR a = 1 TO 1
-            'RANDOMIZE TIMER
-            'PRINT INT(RND * 300000000) + 15000000;
             PRINT #1, "@Kopernicus"
             PRINT #1, "{"
             PRINT #1, "    Body"
@@ -606,34 +542,24 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
         PRINT #1, "        {"
 
         IF GTYPE = 3 THEN
-            'RANDOMIZE TIMER
             PRINT #1, "            referenceBody = "; INT(RND * CLUSTERNUM)
-            'RANDOMIZE TIMER
             PRINT #1, "            semiMajorAxis ="; INT(RND * 10000000000000) + 10000000000; ""
-
-            'RANDOMIZE TIMER
             PRINT #1, "            inclination ="; INT(RND * 360); ""
         END IF
 
         IF GTYPE = 1 THEN
             PRINT #1, "            referenceBody = Sun"
-            'RANDOMIZE TIMER
             PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-            'RANDOMIZE TIMER
             PRINT #1, "            inclination ="; INT(RND * 360); ""
         END IF
 
         IF GTYPE = 2 THEN
             PRINT #1, "            referenceBody = Sun"
-            'RANDOMIZE TIMER
             PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-            'RANDOMIZE TIMER
             PRINT #1, "            inclination ="; INT(RND * 50) - 25; ""
         END IF
 
         FOR D = 1 TO 1
-            'RANDOMIZE TIMER
-            'PRINT INT(RND * 1000);
             PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
         NEXT D
         PRINT #1, "            mode = 0"
@@ -696,19 +622,13 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
         PRINT #1, "          }"
         PRINT #1, "        }"
         PRINT #1, "    }"
-        'PRINT #1, "}"
         IF SPN = 0 THEN
-            'RANDOMIZE TIMER
             GAS = INT(RND * 5)
             GASNUMBER = 1
             IF GAS > 0 THEN
-                'RANDOMIZE TIMER
                 SEMIMAJORAXIS = INT(RND * 10000000000) + 10000000
-                'RANDOMIZE TIMER
                 INCLINATION = INT(RND * 360)
                 DO
-                    'PRINT #1, "@Kopernicus"
-                    'PRINT #1, "{"
                     PRINT #1, "    Body"
                     PRINT #1, "    {"
                     IF GASNUMBER = 1 THEN
@@ -742,7 +662,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                     SEMIMAJORAXIS = SEMIMAJORAXIS * 1.5
 
                     PRINT #1, "            longitudeOfAscendingNode = 0"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
                     PRINT #1, "            meanAnomalyAtEpoch = 0"
                     PRINT #1, "            meanAnomalyAtEpochD = 0"
@@ -754,7 +674,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                     PRINT #1, "         Template"
                     PRINT #1, "         {"
 
-                    'RANDOMIZE TIMER
+                    
                     PLANETTYPE = INT(RND * 13)
                     SELECT CASE PLANETTYPE
                         CASE 0
@@ -796,12 +716,12 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
 
 
                         PRINT #1, "            description = A red rocky world. Dull and barren, But here in the void. It is all a blessing just to find this world."
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -811,7 +731,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -832,12 +752,12 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
 
 
                         PRINT #1, "            description = A world with a thick purple sky. And a great ocean. Vast rocky plains. And great winds."
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 1500000) + 300000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -847,7 +767,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -868,12 +788,12 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
 
 
                         PRINT #1, "            description = A dull rocky cratered planet. Probably not worth it, But if your desparate, Then this is your place."
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -883,7 +803,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -904,12 +824,12 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
 
 
                         PRINT #1, "            description = A small planet covered in ice plains and salt flats."
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "                     radius ="; INT(RND * 120000) + 80000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -919,7 +839,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -940,12 +860,12 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
 
 
                         PRINT #1, "            description = A red world. Quite uninviting to Kerbals due to it's red shade of ground."
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 700000) + 270000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -955,7 +875,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -976,12 +896,12 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
 
 
                         PRINT #1, "            description = A dull grey little planet covered in basic rocky plains."
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 250000) + 50000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -991,7 +911,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -1012,12 +932,12 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
 
 
                         PRINT #1, "            description = A dull grey little planet covered in basic rocky plains."
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 250000) + 50000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -1027,7 +947,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -1048,12 +968,12 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
 
 
                         PRINT #1, "            description = A beautiful ocean planet. Complete with drinkabla water, Breathable air, And plenty of unseen pathogens to prevent you from removing your helmet."
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 1000000) + 300000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -1063,7 +983,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -1084,12 +1004,12 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
 
 
                         PRINT #1, "            description = A small ice planet, May or may not have a subsurface ocean."
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -1099,7 +1019,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -1120,12 +1040,12 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
 
 
                         PRINT #1, "            description = A rather rocky planet with a dense iron core."
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 1500000) + 300000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -1135,7 +1055,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -1156,12 +1076,12 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 100000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -1171,7 +1091,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -1192,12 +1112,12 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 100000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -1207,7 +1127,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -1228,12 +1148,12 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
 
 
                         PRINT #1, "            description = A small ice planet, May or may not have a subsurface ocean."
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -1243,7 +1163,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -1262,7 +1182,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                         PRINT #1, "         {"
                         PRINT #1, "             Material"
                         PRINT #1, "             {"
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "                 texture = To_Boldly_Go/Coronae/gastextures/-"; INT(RND * 16); ".jpg"
                         PRINT #1, "             }"
                         PRINT #1, "         }"
@@ -1272,12 +1192,12 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
 
 
                         PRINT #1, "            description = In the starlight light, Floats a gas giant, "; aStarName$; ""; PNM$; " is a large planet with several moons."
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 10000000) + 700000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 1)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -1287,7 +1207,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -1298,7 +1218,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                         PRINT #1, "    }"
                         'PRINT #1, "}"
                     END IF
-                    'RANDOMIZE TIMER
+                    
                     MOON = INT(RND * 4)
                     MOONUMBER = 1
                     IF MOON > 0 THEN
@@ -1310,13 +1230,13 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "        Orbit"
                             PRINT #1, "        {"
                             PRINT #1, "            referenceBody = "; aStarName$; ""; PNM$; ""
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "            inclination ="; INT(RND * 360)
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "            semiMajorAxis ="; INT(RND * 50000000) + 11000000
                             PRINT #1, "        }"
                             IF PLANETTYPE$ = "Jool" THEN
-                                'RANDOMIZE TIMER
+                                
                                 MOONTYPE = INT(RND * 13)
                                 SELECT CASE MOONTYPE
                                     CASE 0
@@ -1382,7 +1302,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
         10 END IF
 
         IF ASTTOG$ = "y" THEN
-            'RANDOMIZE TIMER
+            
             AST = INT(RND * 2)
             ASTNUMBER = 1
             IF AST > 0 THEN
@@ -1403,7 +1323,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                     PRINT #1, "        {"
                     PRINT #1, "            description = When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy. "
                     PRINT #1, ""
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            radius ="; INT(RND * 80000) + 5000
                     PRINT #1, ""
                     'PRINT #1, "            sphereOfInfluence = 117915"
@@ -1412,9 +1332,9 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                     PRINT #1, "        Orbit"
                     PRINT #1, "        {"
                     PRINT #1, "            referenceBody = "; aStarName$; ""
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            inclination ="; INT(RND * 360)
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            semiMajorAxis ="; INT(RND * 10000000000) + 10000000
                     PRINT #1, "        }"
                     PRINT #1, "        PQS"
@@ -1423,13 +1343,13 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                     PRINT #1, "            {"
                     PRINT #1, "                VertexSimplexHeightAbsolute"
                     PRINT #1, "                {"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "                    seed ="; INT(RND * 100000)
                     PRINT #1, "                }"
                     PRINT #1, "                VertexHeightNoise"
                     PRINT #1, "                {"
                     'PRINT #1, "                    persistence = 0.5"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "                    seed ="; INT(RND * 100000)
                     PRINT #1, "                }"
                     PRINT #1, "            }"
@@ -1478,13 +1398,13 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
 
     DO
         IF PENABLE$ = "y" THEN
-            'RANDOMIZE TIMER
+            
             SPN = INT(RND * 3)
         ELSE
             SPN = 1
         END IF
         'generating radius
-        'RANDOMIZE TIMER
+        
         'PRINT INT(RND * 300000000) + 15000000;
         PRINT #1, "@Kopernicus"
         PRINT #1, "{"
@@ -1508,31 +1428,31 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
         PRINT #1, "        {"
 
         IF GTYPE = 3 THEN
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            referenceBody = "; INT(RND * CLUSTERNUM)
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 10000000000000) + 10000000000; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 360); ""
         END IF
 
         IF GTYPE = 1 THEN
             PRINT #1, "            referenceBody = Sun"
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 360); ""
         END IF
 
         IF GTYPE = 2 THEN
             PRINT #1, "            referenceBody = Sun"
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 50) - 25; ""
         END IF
 
-        'RANDOMIZE TIMER
+        
         'PRINT INT(RND * 1000);
         PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
 
@@ -1598,13 +1518,13 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
         PRINT #1, "    }"
         'PRINT #1, "}"
         IF SPN = 0 THEN
-            'RANDOMIZE TIMER
+            
             GAS = INT(RND * 5)
             GASNUMBER = 1
             IF GAS > 0 THEN
-                'RANDOMIZE TIMER
+                
                 SEMIMAJORAXIS = INT(RND * 10000000000) + 10000000
-                'RANDOMIZE TIMER
+                
                 INCLINATION = INT(RND * 360)
                 DO
                     'PRINT #1, "@Kopernicus"
@@ -1642,7 +1562,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                     SEMIMAJORAXIS = SEMIMAJORAXIS * 1.5
 
                     PRINT #1, "            longitudeOfAscendingNode = 0"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
                     PRINT #1, "            meanAnomalyAtEpoch = 0"
                     PRINT #1, "            meanAnomalyAtEpochD = 0"
@@ -1655,7 +1575,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                     PRINT #1, "         Template"
                     PRINT #1, "         {"
 
-                    'RANDOMIZE TIMER
+                    
                     PLANETTYPE = INT(RND * 13)
                     SELECT CASE PLANETTYPE
                         CASE 0
@@ -1697,12 +1617,12 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -1712,7 +1632,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -1733,12 +1653,12 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 1500000) + 300000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -1748,7 +1668,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -1769,12 +1689,12 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -1784,7 +1704,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -1805,12 +1725,12 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "                     radius ="; INT(RND * 120000) + 80000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -1820,7 +1740,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -1841,12 +1761,12 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 700000) + 270000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -1856,7 +1776,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -1877,12 +1797,12 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 250000) + 50000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -1892,7 +1812,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -1913,12 +1833,12 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 250000) + 50000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -1928,7 +1848,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -1949,12 +1869,12 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 1000000) + 300000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -1964,7 +1884,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -1985,12 +1905,12 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -2000,7 +1920,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -2021,12 +1941,12 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 1500000) + 300000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -2036,7 +1956,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -2057,12 +1977,12 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 100000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -2072,7 +1992,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -2093,12 +2013,12 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 100000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -2108,7 +2028,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -2129,12 +2049,12 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -2144,7 +2064,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -2163,7 +2083,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                         PRINT #1, "         {"
                         PRINT #1, "             Material"
                         PRINT #1, "             {"
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "                 texture = To_Boldly_Go/Coronae/gastextures/-"; INT(RND * 16); ".jpg"
                         PRINT #1, "             }"
                         PRINT #1, "         }"
@@ -2173,12 +2093,12 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 10000000) + 700000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 1)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -2188,7 +2108,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -2199,7 +2119,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                         PRINT #1, "    }"
                         'PRINT #1, "}"
                     END IF
-                    'RANDOMIZE TIMER
+                    
                     MOON = INT(RND * 4)
                     MOONUMBER = 1
                     IF MOON > 0 THEN
@@ -2213,13 +2133,13 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "        Orbit"
                             PRINT #1, "        {"
                             PRINT #1, "            referenceBody = "; aStarName$; ""; PNM$; ""
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "            inclination ="; INT(RND * 360)
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "            semiMajorAxis ="; INT(RND * 50000000) + 11000000
                             PRINT #1, "        }"
                             IF PLANETTYPE$ = "Jool" THEN
-                                'RANDOMIZE TIMER
+                                
                                 MOONTYPE = INT(RND * 13)
                                 SELECT CASE MOONTYPE
                                     CASE 0
@@ -2286,7 +2206,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
         102 END IF
 
         IF ASTTOG$ = "y" THEN
-            'RANDOMIZE TIMER
+            
             AST = INT(RND * 2)
             ASTNUMBER = 1
             IF AST > 0 THEN
@@ -2307,7 +2227,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                     PRINT #1, "        {"
                     PRINT #1, "            description = When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy. "
                     PRINT #1, ""
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            radius ="; INT(RND * 80000) + 5000
                     PRINT #1, ""
                     'PRINT #1, "            sphereOfInfluence = 117915"
@@ -2316,9 +2236,9 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                     PRINT #1, "        Orbit"
                     PRINT #1, "        {"
                     PRINT #1, "            referenceBody = "; aStarName$; ""
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            inclination ="; INT(RND * 360)
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            semiMajorAxis ="; INT(RND * 10000000000) + 10000000
                     PRINT #1, "        }"
                     PRINT #1, "        PQS"
@@ -2327,13 +2247,13 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                     PRINT #1, "            {"
                     PRINT #1, "                VertexSimplexHeightAbsolute"
                     PRINT #1, "                {"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "                    seed ="; INT(RND * 100000)
                     PRINT #1, "                }"
                     PRINT #1, "                VertexHeightNoise"
                     PRINT #1, "                {"
                     'PRINT #1, "                    persistence = 0.5"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "                    seed ="; INT(RND * 100000)
                     PRINT #1, "                }"
                     PRINT #1, "            }"
@@ -2375,7 +2295,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
     DO
         'generating radius
         IF PENABLE$ = "y" THEN
-            'RANDOMIZE TIMER
+            
             SPN = INT(RND * 3)
         ELSE
             SPN = 1
@@ -2384,7 +2304,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
         DIM E AS INTEGER
 
         FOR E = 1 TO 1
-            'RANDOMIZE TIMER
+            
             'PRINT INT(RND * 1000000000) + 400000000;
             PRINT #1, "@Kopernicus"
             PRINT #1, "{"
@@ -2408,32 +2328,32 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
         PRINT #1, "        {"
 
         IF GTYPE = 3 THEN
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            referenceBody = "; INT(RND * CLUSTERNUM)
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 10000000000000) + 10000000000; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 360); ""
         END IF
 
         IF GTYPE = 1 THEN
             PRINT #1, "            referenceBody = Sun"
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 360); ""
         END IF
 
         IF GTYPE = 2 THEN
             PRINT #1, "            referenceBody = Sun"
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 50) - 25; ""
         END IF
 
         FOR H = 1 TO 1
-            'RANDOMIZE TIMER
+            
             'PRINT INT(RND * 1000); ""
             PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
         NEXT H
@@ -2452,13 +2372,13 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
         PRINT #1, "    }"
 
         IF SPN = 0 THEN
-            'RANDOMIZE TIMER
+            
             GAS = INT(RND * 5)
             GASNUMBER = 1
             IF GAS > 0 THEN
-                'RANDOMIZE TIMER
+                
                 SEMIMAJORAXIS = INT(RND * 100000000000) + 100000000
-                'RANDOMIZE TIMER
+                
                 INCLINATION = INT(RND * 360)
                 DO
                     PRINT #1, "    Body"
@@ -2494,7 +2414,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                     SEMIMAJORAXIS = SEMIMAJORAXIS * 1.5
 
                     PRINT #1, "            longitudeOfAscendingNode = 0"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
                     PRINT #1, "            meanAnomalyAtEpoch = 0"
                     PRINT #1, "            meanAnomalyAtEpochD = 0"
@@ -2507,7 +2427,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                     PRINT #1, "         Template"
                     PRINT #1, "         {"
 
-                    'RANDOMIZE TIMER
+                    
                     PLANETTYPE = INT(RND * 13)
                     SELECT CASE PLANETTYPE
                         CASE 0
@@ -2549,12 +2469,12 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -2564,7 +2484,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -2585,12 +2505,12 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 1500000) + 300000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -2600,7 +2520,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -2621,12 +2541,12 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -2636,7 +2556,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -2657,12 +2577,12 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 120000) + 80000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -2672,7 +2592,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -2693,12 +2613,12 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 700000) + 270000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -2708,7 +2628,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -2729,12 +2649,12 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 250000) + 50000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -2744,7 +2664,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -2765,12 +2685,12 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 250000) + 50000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -2780,7 +2700,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -2801,12 +2721,12 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 1000000) + 300000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -2816,7 +2736,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -2837,12 +2757,12 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -2852,7 +2772,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -2873,12 +2793,12 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 1500000) + 300000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -2888,7 +2808,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -2909,12 +2829,12 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 100000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -2924,7 +2844,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -2945,12 +2865,12 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 100000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -2960,7 +2880,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -2981,12 +2901,12 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -2996,7 +2916,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -3015,7 +2935,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                         PRINT #1, "         {"
                         PRINT #1, "             Material"
                         PRINT #1, "             {"
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "                 texture = To_Boldly_Go/Coronae/gastextures/-"; INT(RND * 16); ".jpg"
                         PRINT #1, "             }"
                         PRINT #1, "         }"
@@ -3025,12 +2945,12 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 10000000) + 700000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 1)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -3040,7 +2960,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -3051,7 +2971,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                         PRINT #1, "    }"
                         'PRINT #1, "}"
                     END IF
-                    'RANDOMIZE TIMER
+                    
                     MOON = INT(RND * 4)
                     MOONUMBER = 1
                     IF MOON > 0 THEN
@@ -3064,7 +2984,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, ""
 
                             IF PLANETTYPE$ = "Jool" THEN
-                                'RANDOMIZE TIMER
+                                
                                 MOONTYPE = INT(RND * 13)
                                 SELECT CASE MOONTYPE
                                     CASE 0
@@ -3109,9 +3029,9 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "        Orbit"
                             PRINT #1, "        {"
                             PRINT #1, "            referenceBody = "; aStarName$; ""; PNM$; ""
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "            inclination ="; INT(RND * 360)
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "            semiMajorAxis ="; INT(RND * 50000000) + 10000000
                             PRINT #1, "        }"
 
@@ -3138,7 +3058,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
         20 END IF
 
         IF ASTTOG$ = "y" THEN
-            'RANDOMIZE TIMER
+            
             AST = INT(RND * 2)
             ASTNUMBER = 1
             IF AST > 0 THEN
@@ -3159,7 +3079,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                     PRINT #1, "        {"
                     PRINT #1, "            description = When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy. "
                     PRINT #1, ""
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            radius ="; INT(RND * 80000) + 5000
                     PRINT #1, ""
                     'PRINT #1, "            sphereOfInfluence = 117915"
@@ -3168,9 +3088,9 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                     PRINT #1, "        Orbit"
                     PRINT #1, "        {"
                     PRINT #1, "            referenceBody = "; aStarName$; ""
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            inclination ="; INT(RND * 360)
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            semiMajorAxis ="; INT(RND * 100000000000) + 100000000
                     PRINT #1, "        }"
                     PRINT #1, "        PQS"
@@ -3179,13 +3099,13 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                     PRINT #1, "            {"
                     PRINT #1, "                VertexSimplexHeightAbsolute"
                     PRINT #1, "                {"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "                    seed ="; INT(RND * 100000)
                     PRINT #1, "                }"
                     PRINT #1, "                VertexHeightNoise"
                     PRINT #1, "                {"
                     'PRINT #1, "                    persistence = 0.5"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "                    seed ="; INT(RND * 100000)
                     PRINT #1, "                }"
                     PRINT #1, "            }"
@@ -3231,7 +3151,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
     DO
         'generating radius
         IF PENABLE$ = "y" THEN
-            'RANDOMIZE TIMER
+            
             SPN = INT(RND * 8)
         ELSE
             SPN = 1
@@ -3239,7 +3159,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
         DIM I AS INTEGER
 
         FOR I = 1 TO 1
-            'RANDOMIZE TIMER
+            
             'PRINT INT(RND * 5000000000) + 2000000000;
             PRINT #1, "@Kopernicus"
             PRINT #1, "{"
@@ -3263,32 +3183,32 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
         PRINT #1, "        {"
 
         IF GTYPE = 3 THEN
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            referenceBody = "; INT(RND * CLUSTERNUM)
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 10000000000000) + 10000000000; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 360); ""
         END IF
 
         IF GTYPE = 1 THEN
             PRINT #1, "            referenceBody = Sun"
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 360); ""
         END IF
 
         IF GTYPE = 2 THEN
             PRINT #1, "            referenceBody = Sun"
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 50) - 25; ""
         END IF
 
         FOR L = 1 TO 1
-            'RANDOMIZE TIMER
+            
             'PRINT INT(RND * 1000); ""
             PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
         NEXT L
@@ -3356,13 +3276,13 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
         PRINT #1, "    }"
 
         IF SPN = 0 THEN
-            'RANDOMIZE TIMER
+            
             GAS = INT(RND * 5)
             GASNUMBER = 1
             IF GAS > 0 THEN
-                'RANDOMIZE TIMER
+                
                 SEMIMAJORAXIS = INT(RND * 1000000000000) + 400000000
-                'RANDOMIZE TIMER
+                
                 INCLINATION = INT(RND * 360)
                 DO
                     PRINT #1, "    Body"
@@ -3398,7 +3318,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                     SEMIMAJORAXIS = SEMIMAJORAXIS * 1.5
 
                     PRINT #1, "            longitudeOfAscendingNode = 0"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
                     PRINT #1, "            meanAnomalyAtEpoch = 0"
                     PRINT #1, "            meanAnomalyAtEpochD = 0"
@@ -3411,7 +3331,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                     PRINT #1, "         Template"
                     PRINT #1, "         {"
 
-                    'RANDOMIZE TIMER
+                    
                     PLANETTYPE = INT(RND * 13)
                     SELECT CASE PLANETTYPE
                         CASE 0
@@ -3453,12 +3373,12 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -3468,7 +3388,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -3489,12 +3409,12 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 1500000) + 300000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -3504,7 +3424,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -3525,12 +3445,12 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -3540,7 +3460,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -3561,12 +3481,12 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 120000) + 80000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -3576,7 +3496,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -3597,12 +3517,12 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 700000) + 270000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -3612,7 +3532,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -3633,12 +3553,12 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 250000) + 50000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -3648,7 +3568,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -3669,12 +3589,12 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 250000) + 50000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -3684,7 +3604,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -3705,12 +3625,12 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 1000000) + 300000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -3720,7 +3640,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -3741,12 +3661,12 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -3756,7 +3676,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -3777,12 +3697,12 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 1500000) + 300000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -3792,7 +3712,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -3813,12 +3733,12 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 100000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -3828,7 +3748,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -3849,12 +3769,12 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 100000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -3864,7 +3784,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -3885,12 +3805,12 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -3900,7 +3820,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -3919,7 +3839,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                         PRINT #1, "         {"
                         PRINT #1, "             Material"
                         PRINT #1, "             {"
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "                 texture = To_Boldly_Go/Coronae/gastextures/-"; INT(RND * 16); ".jpg"
                         PRINT #1, "             }"
                         PRINT #1, "         }"
@@ -3929,12 +3849,12 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 10000000) + 700000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 1)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -3944,7 +3864,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -3955,7 +3875,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                         PRINT #1, "    }"
                         'PRINT #1, "}"
                     END IF
-                    'RANDOMIZE TIMER
+                    
                     MOON = INT(RND * 4)
                     MOONUMBER = 1
                     IF MOON > 0 THEN
@@ -3969,13 +3889,13 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "        Orbit"
                             PRINT #1, "        {"
                             PRINT #1, "            referenceBody = "; aStarName$; ""; PNM$; ""
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "            inclination ="; INT(RND * 360)
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "            semiMajorAxis ="; INT(RND * 50000000) + 16000000
                             PRINT #1, "        }"
                             IF PLANETTYPE$ = "Jool" THEN
-                                'RANDOMIZE TIMER
+                                
                                 MOONTYPE = INT(RND * 13)
                                 SELECT CASE MOONTYPE
                                     CASE 0
@@ -4042,7 +3962,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
         30 END IF
 
         IF ASTTOG$ = "y" THEN
-            'RANDOMIZE TIMER
+            
             AST = INT(RND * 2)
             ASTNUMBER = 1
             IF AST > 0 THEN
@@ -4063,7 +3983,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                     PRINT #1, "        {"
                     PRINT #1, "            description = When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy. "
                     PRINT #1, ""
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            radius ="; INT(RND * 80000) + 5000
                     PRINT #1, ""
                     'PRINT #1, "            sphereOfInfluence = 117915"
@@ -4072,9 +3992,9 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                     PRINT #1, "        Orbit"
                     PRINT #1, "        {"
                     PRINT #1, "            referenceBody = "; aStarName$; ""
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            inclination ="; INT(RND * 360)
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            semiMajorAxis ="; INT(RND * 100000000000) + 100000000
                     PRINT #1, "        }"
                     PRINT #1, "        PQS"
@@ -4083,13 +4003,13 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                     PRINT #1, "            {"
                     PRINT #1, "                VertexSimplexHeightAbsolute"
                     PRINT #1, "                {"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "                    seed ="; INT(RND * 100000)
                     PRINT #1, "                }"
                     PRINT #1, "                VertexHeightNoise"
                     PRINT #1, "                {"
                     'PRINT #1, "                    persistence = 0.5"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "                    seed ="; INT(RND * 100000)
                     PRINT #1, "                }"
                     PRINT #1, "            }"
@@ -4131,7 +4051,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
     DO
         'generating radius
         IF PENABLE$ = "y" THEN
-            'RANDOMIZE TIMER
+            
             SPN = INT(RND * 8)
         ELSE
             SPN = 1
@@ -4139,7 +4059,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
         DIM M AS INTEGER
 
         FOR M = 1 TO 1
-            'RANDOMIZE TIMER
+            
             'PRINT INT(RND * 1500000000) + 1000000000;
             PRINT #1, "@Kopernicus"
             PRINT #1, "{"
@@ -4163,32 +4083,32 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
         PRINT #1, "        {"
 
         IF GTYPE = 3 THEN
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            referenceBody = "; INT(RND * CLUSTERNUM)
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 10000000000000) + 10000000000; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 360); ""
         END IF
 
         IF GTYPE = 1 THEN
             PRINT #1, "            referenceBody = Sun"
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 360); ""
         END IF
 
         IF GTYPE = 2 THEN
             PRINT #1, "            referenceBody = Sun"
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 50) - 25; ""
         END IF
 
         FOR P = 1 TO 1
-            'RANDOMIZE TIMER
+            
             'PRINT INT(RND * 1000); ""
             PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
         NEXT P
@@ -4254,13 +4174,13 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
         PRINT #1, "        }"
         PRINT #1, "    }"
         IF SPN = 0 THEN
-            'RANDOMIZE TIMER
+            
             GAS = INT(RND * 5)
             GASNUMBER = 1
             IF GAS > 0 THEN
-                'RANDOMIZE TIMER
+                
                 SEMIMAJORAXIS = INT(RND * 100000000000) + 150000000
-                'RANDOMIZE TIMER
+                
                 INCLINATION = INT(RND * 360)
                 DO
                     PRINT #1, "    Body"
@@ -4296,7 +4216,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
                     SEMIMAJORAXIS = SEMIMAJORAXIS * 1.5
 
                     PRINT #1, "            longitudeOfAscendingNode = 0"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
                     PRINT #1, "            meanAnomalyAtEpoch = 0"
                     PRINT #1, "            meanAnomalyAtEpochD = 0"
@@ -4309,7 +4229,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
                     PRINT #1, "         Template"
                     PRINT #1, "         {"
 
-                    'RANDOMIZE TIMER
+                    
                     PLANETTYPE = INT(RND * 13)
                     SELECT CASE PLANETTYPE
                         CASE 0
@@ -4351,7 +4271,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
@@ -4369,7 +4289,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 1500000) + 300000; ""
 
 
@@ -4387,7 +4307,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
@@ -4405,7 +4325,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 120000) + 80000; ""
 
 
@@ -4423,7 +4343,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 700000) + 270000; ""
 
 
@@ -4441,7 +4361,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 250000) + 50000; ""
 
 
@@ -4459,7 +4379,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 250000) + 50000; ""
 
 
@@ -4477,7 +4397,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 1000000) + 300000; ""
 
 
@@ -4495,7 +4415,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
@@ -4513,7 +4433,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 1500000) + 300000; ""
 
 
@@ -4531,7 +4451,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 100000) + 70000; ""
 
 
@@ -4549,7 +4469,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 100000) + 70000; ""
 
 
@@ -4567,7 +4487,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
@@ -4583,7 +4503,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
                         PRINT #1, "         {"
                         PRINT #1, "             Material"
                         PRINT #1, "             {"
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "                 texture = To_Boldly_Go/Coronae/gastextures/-"; INT(RND * 16); ".jpg"
                         PRINT #1, "             }"
                         PRINT #1, "         }"
@@ -4593,7 +4513,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 10000000) + 700000; ""
 
 
@@ -4601,7 +4521,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
                         PRINT #1, "    }"
                         'PRINT #1, "}"
                     END IF
-                    'RANDOMIZE TIMER
+                    
                     MOON = INT(RND * 4)
                     MOONUMBER = 1
                     IF MOON > 0 THEN
@@ -4613,13 +4533,13 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
                             PRINT #1, "        Orbit"
                             PRINT #1, "        {"
                             PRINT #1, "            referenceBody = "; aStarName$; ""; PNM$; ""
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "            inclination ="; INT(RND * 360)
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "            semiMajorAxis ="; INT(RND * 50000000) + 11000000
                             PRINT #1, "        }"
                             IF PLANETTYPE$ = "Jool" THEN
-                                'RANDOMIZE TIMER
+                                
                                 MOONTYPE = INT(RND * 13)
                                 SELECT CASE MOONTYPE
                                     CASE 0
@@ -4684,7 +4604,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
         40 END IF
 
         IF ASTTOG$ = "y" THEN
-            'RANDOMIZE TIMER
+            
             AST = INT(RND * 2)
             ASTNUMBER = 1
             IF AST > 0 THEN
@@ -4705,7 +4625,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
                     PRINT #1, "        {"
                     PRINT #1, "            description = When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy. "
                     PRINT #1, ""
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            radius ="; INT(RND * 80000) + 5000
                     PRINT #1, ""
                     'PRINT #1, "            sphereOfInfluence = 117915"
@@ -4714,9 +4634,9 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
                     PRINT #1, "        Orbit"
                     PRINT #1, "        {"
                     PRINT #1, "            referenceBody = "; aStarName$; ""
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            inclination ="; INT(RND * 360)
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            semiMajorAxis ="; INT(RND * 100000000000) + 100000000
                     PRINT #1, "        }"
                     PRINT #1, "        PQS"
@@ -4725,13 +4645,13 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
                     PRINT #1, "            {"
                     PRINT #1, "                VertexSimplexHeightAbsolute"
                     PRINT #1, "                {"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "                    seed ="; INT(RND * 100000)
                     PRINT #1, "                }"
                     PRINT #1, "                VertexHeightNoise"
                     PRINT #1, "                {"
                     'PRINT #1, "                    persistence = 0.5"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "                    seed ="; INT(RND * 100000)
                     PRINT #1, "                }"
                     PRINT #1, "            }"
@@ -4767,7 +4687,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
 
     DO
         IF PENABLE$ = "y" THEN
-            'RANDOMIZE TIMER
+            
             SPN = INT(RND * 8)
         ELSE
             SPN = 1
@@ -4776,7 +4696,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
         DIM Q AS INTEGER
 
         FOR Q = 1 TO 1
-            'RANDOMIZE TIMER
+            
             'PRINT INT(RND * 300000000) + 15000000;
             PRINT #1, "@Kopernicus"
             PRINT #1, "{"
@@ -4805,32 +4725,32 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
         PRINT #1, "        {"
 
         IF GTYPE = 3 THEN
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            referenceBody = "; INT(RND * CLUSTERNUM)
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 10000000000000) + 10000000000; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 360); ""
         END IF
 
         IF GTYPE = 1 THEN
             PRINT #1, "            referenceBody = Sun"
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 360); ""
         END IF
 
         IF GTYPE = 2 THEN
             PRINT #1, "            referenceBody = Sun"
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 50) - 25; ""
         END IF
 
         FOR V = 1 TO 1
-            'RANDOMIZE TIMER
+            
             'PRINT INT(RND * 1000);
             PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
         NEXT V
@@ -4895,13 +4815,13 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
         PRINT #1, "        }"
         PRINT #1, "    }"
         IF SPN = 0 THEN
-            'RANDOMIZE TIMER
+            
             GAS = INT(RND * 5)
             GASNUMBER = 1
             IF GAS > 0 THEN
-                'RANDOMIZE TIMER
+                
                 SEMIMAJORAXIS = INT(RND * 1000000000) + 25000000
-                'RANDOMIZE TIMER
+                
                 INCLINATION = INT(RND * 360)
                 DO
                     PRINT #1, "    Body"
@@ -4943,7 +4863,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                     PRINT #1, "         Template"
                     PRINT #1, "         {"
 
-                    'RANDOMIZE TIMER
+                    
                     PLANETTYPE = INT(RND * 9)
                     SELECT CASE PLANETTYPE
                         CASE 0
@@ -4977,12 +4897,12 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -4992,7 +4912,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -5013,12 +4933,12 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 1500000) + 300000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -5028,7 +4948,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -5049,12 +4969,12 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -5064,7 +4984,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -5085,12 +5005,12 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 120000) + 80000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -5100,7 +5020,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -5121,12 +5041,12 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 700000) + 270000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -5136,7 +5056,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -5157,12 +5077,12 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 250000) + 50000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -5172,7 +5092,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -5193,12 +5113,12 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 250000) + 50000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -5208,7 +5128,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -5229,12 +5149,12 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 1000000) + 300000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -5244,7 +5164,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -5265,12 +5185,12 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -5280,7 +5200,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -5301,12 +5221,12 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 1500000) + 300000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -5316,7 +5236,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -5337,12 +5257,12 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 100000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -5352,7 +5272,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -5373,12 +5293,12 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 100000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -5388,7 +5308,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -5409,12 +5329,12 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -5424,7 +5344,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -5443,7 +5363,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                         PRINT #1, "         {"
                         PRINT #1, "             Material"
                         PRINT #1, "             {"
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "                 texture = To_Boldly_Go/Coronae/gastextures/-"; INT(RND * 16); ".jpg"
                         PRINT #1, "             }"
                         PRINT #1, "         }"
@@ -5453,12 +5373,12 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
 
 
 
-                        'RANDOMIZE TIMER
+                        
                         PRINT #1, "            radius ="; INT(RND * 10000000) + 700000; ""
 
 
                         PRINT #1, "         }"
-                        'RANDOMIZE TIMER
+                        
                         RINGS = INT(RND * 3)
                         IF RINGS = 0 THEN
                             PRINT #1, "         Rings"
@@ -5468,7 +5388,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 angle = 0"
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
@@ -5479,7 +5399,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                         PRINT #1, "    }"
                         'PRINT #1, "}"
                     END IF
-                    'RANDOMIZE TIMER
+                    
                     MOON = INT(RND * 4)
                     MOONUMBER = 1
                     IF MOON > 0 THEN
@@ -5491,13 +5411,13 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "        Orbit"
                             PRINT #1, "        {"
                             PRINT #1, "            referenceBody = "; aStarName$; ""; PNM$; ""
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "            inclination ="; INT(RND * 360)
-                            'RANDOMIZE TIMER
+                            
                             PRINT #1, "            semiMajorAxis ="; INT(RND * 5000000) + 1500000
                             PRINT #1, "        }"
                             IF PLANETTYPE$ = "Jool" THEN
-                                'RANDOMIZE TIMER
+                                
                                 MOONTYPE = INT(RND * 13)
                                 SELECT CASE MOONTYPE
                                     CASE 0
@@ -5562,7 +5482,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
         200 END IF
 
         IF ASTTOG$ = "y" THEN
-            'RANDOMIZE TIMER
+            
             AST = INT(RND * 2)
             ASTNUMBER = 1
             IF AST > 0 THEN
@@ -5583,7 +5503,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                     PRINT #1, "        {"
                     PRINT #1, "            description = When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy. "
                     PRINT #1, ""
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            radius ="; INT(RND * 80000) + 5000
                     PRINT #1, ""
                     'PRINT #1, "            sphereOfInfluence = 117915"
@@ -5592,9 +5512,9 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                     PRINT #1, "        Orbit"
                     PRINT #1, "        {"
                     PRINT #1, "            referenceBody = "; aStarName$; ""
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            inclination ="; INT(RND * 360)
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            semiMajorAxis ="; INT(RND * 1000000000) + 25000000
                     PRINT #1, "        }"
                     PRINT #1, "        PQS"
@@ -5603,13 +5523,13 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                     PRINT #1, "            {"
                     PRINT #1, "                VertexSimplexHeightAbsolute"
                     PRINT #1, "                {"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "                    seed ="; INT(RND * 100000)
                     PRINT #1, "                }"
                     PRINT #1, "                VertexHeightNoise"
                     PRINT #1, "                {"
                     'PRINT #1, "                    persistence = 0.5"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "                    seed ="; INT(RND * 100000)
                     PRINT #1, "                }"
                     PRINT #1, "            }"
@@ -5648,7 +5568,7 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
         DIM W AS INTEGER
 
         FOR W = 1 TO 1
-            'RANDOMIZE TIMER
+            
             'PRINT INT(RND * 700000) + 300000;
             PRINT #1, "@Kopernicus"
             PRINT #1, "{"
@@ -5673,32 +5593,32 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
         PRINT #1, "        {"
 
         IF GTYPE = 3 THEN
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            referenceBody = "; INT(RND * CLUSTERNUM)
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 10000000000000) + 10000000000; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 360); ""
         END IF
 
         IF GTYPE = 1 THEN
             PRINT #1, "            referenceBody = Sun"
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 360); ""
         END IF
 
         IF GTYPE = 2 THEN
             PRINT #1, "            referenceBody = Sun"
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 50) - 25; ""
         END IF
 
         FOR Z = 1 TO 1
-            'RANDOMIZE TIMER
+            
             'PRINT INT(RND * 1000); ""
             PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
         NEXT Z
@@ -5764,7 +5684,7 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
         PRINT #1, "}"
 
         IF ASTTOG$ = "y" THEN
-            'RANDOMIZE TIMER
+            
             AST = INT(RND * 2)
             ASTNUMBER = 1
             IF AST > 0 THEN
@@ -5785,7 +5705,7 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
                     PRINT #1, "        {"
                     PRINT #1, "            description = When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy. "
                     PRINT #1, ""
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            radius ="; INT(RND * 80000) + 5000
                     PRINT #1, ""
                     'PRINT #1, "            sphereOfInfluence = 117915"
@@ -5794,9 +5714,9 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
                     PRINT #1, "        Orbit"
                     PRINT #1, "        {"
                     PRINT #1, "            referenceBody = "; aStarName$; ""
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            inclination ="; INT(RND * 360)
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            semiMajorAxis ="; INT(RND * 100000000000) + 100000000
                     PRINT #1, "        }"
                     PRINT #1, "        PQS"
@@ -5805,13 +5725,13 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
                     PRINT #1, "            {"
                     PRINT #1, "                VertexSimplexHeightAbsolute"
                     PRINT #1, "                {"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "                    seed ="; INT(RND * 100000)
                     PRINT #1, "                }"
                     PRINT #1, "                VertexHeightNoise"
                     PRINT #1, "                {"
                     'PRINT #1, "                    persistence = 0.5"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "                    seed ="; INT(RND * 100000)
                     PRINT #1, "                }"
                     PRINT #1, "            }"
@@ -5844,7 +5764,7 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
     DO
         'generating radius
 
-        'RANDOMIZE TIMER
+        
         'PRINT INT(RND * 700000) + 300000;
         PRINT #1, "@Kopernicus"
         PRINT #1, "{"
@@ -5869,31 +5789,31 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
         PRINT #1, "        {"
 
         IF GTYPE = 3 THEN
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            referenceBody = "; INT(RND * CLUSTERNUM)
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 10000000000000) + 10000000000; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 360); ""
         END IF
 
         IF GTYPE = 1 THEN
             PRINT #1, "            referenceBody = Sun"
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 360); ""
         END IF
 
         IF GTYPE = 2 THEN
             PRINT #1, "            referenceBody = Sun"
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 50) - 25; ""
         END IF
 
-        'RANDOMIZE TIMER
+        
         'PRINT INT(RND * 1000); ""
         PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
         PRINT #1, "            mode = 0"
@@ -5988,7 +5908,7 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
         PRINT #1, "}"
 
         IF ASTTOG$ = "y" THEN
-            'RANDOMIZE TIMER
+            
             AST = INT(RND * 2)
             ASTNUMBER = 1
             IF AST > 0 THEN
@@ -6009,7 +5929,7 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
                     PRINT #1, "        {"
                     PRINT #1, "            description = When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy. "
                     PRINT #1, ""
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            radius ="; INT(RND * 80000) + 5000
                     PRINT #1, ""
                     'PRINT #1, "            sphereOfInfluence = 117915"
@@ -6018,9 +5938,9 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
                     PRINT #1, "        Orbit"
                     PRINT #1, "        {"
                     PRINT #1, "            referenceBody = "; aStarName$; ""
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            inclination ="; INT(RND * 360)
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "            semiMajorAxis ="; INT(RND * 1000000000) + 1000000000
                     PRINT #1, "        }"
                     PRINT #1, "        PQS"
@@ -6029,13 +5949,13 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
                     PRINT #1, "            {"
                     PRINT #1, "                VertexSimplexHeightAbsolute"
                     PRINT #1, "                {"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "                    seed ="; INT(RND * 100000)
                     PRINT #1, "                }"
                     PRINT #1, "                VertexHeightNoise"
                     PRINT #1, "                {"
                     'PRINT #1, "                    persistence = 0.5"
-                    'RANDOMIZE TIMER
+                    
                     PRINT #1, "                    seed ="; INT(RND * 100000)
                     PRINT #1, "                }"
                     PRINT #1, "            }"
@@ -6068,7 +5988,7 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
 
 IF ROGUE > 0 THEN
     DO
-        'RANDOMIZE TIMER
+        
         aStarName$ = theStarName$ '#Calls the function "theStarName"
         PRINT #1, "@Kopernicus"
         PRINT #1, "{"
@@ -6078,27 +5998,27 @@ IF ROGUE > 0 THEN
         PRINT #1, "         Orbit"
         PRINT #1, "         {"
         IF GTYPE = 3 THEN
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            referenceBody = "; INT(RND * CLUSTERNUM)
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 10000000000000) + 10000000000; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 360); ""
         END IF
 
         IF GTYPE = 1 THEN
             PRINT #1, "            referenceBody = Sun"
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 360); ""
         END IF
 
         IF GTYPE = 2 THEN
             PRINT #1, "            referenceBody = Sun"
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            inclination ="; INT(RND * 50) - 25; ""
         END IF
         PRINT #1, "            mode = 0"
@@ -6106,7 +6026,7 @@ IF ROGUE > 0 THEN
         PRINT #1, "         Template"
         PRINT #1, "         {"
 
-        'RANDOMIZE TIMER
+        
         PLANETTYPE = INT(RND * 13)
         SELECT CASE PLANETTYPE
             CASE 0
@@ -6148,12 +6068,12 @@ IF ROGUE > 0 THEN
 
 
 
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
             PRINT #1, "            sphereOfInfluence = 50118820000"
 
             PRINT #1, "         }"
-            'RANDOMIZE TIMER
+            
             RINGS = INT(RND * 3)
             IF RINGS = 0 THEN
                 PRINT #1, "         Rings"
@@ -6163,7 +6083,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 angle = 0"
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
-                'RANDOMIZE TIMER
+                
                 PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
@@ -6184,12 +6104,12 @@ IF ROGUE > 0 THEN
 
 
 
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            radius ="; INT(RND * 1500000) + 300000; ""
             PRINT #1, "            sphereOfInfluence = 50118820000"
 
             PRINT #1, "         }"
-            'RANDOMIZE TIMER
+            
             RINGS = INT(RND * 3)
             IF RINGS = 0 THEN
                 PRINT #1, "         Rings"
@@ -6199,7 +6119,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 angle = 0"
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
-                'RANDOMIZE TIMER
+                
                 PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
@@ -6220,12 +6140,12 @@ IF ROGUE > 0 THEN
 
 
 
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
             PRINT #1, "            sphereOfInfluence = 50118820000"
 
             PRINT #1, "         }"
-            'RANDOMIZE TIMER
+            
             RINGS = INT(RND * 3)
             IF RINGS = 0 THEN
                 PRINT #1, "         Rings"
@@ -6235,7 +6155,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 angle = 0"
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
-                'RANDOMIZE TIMER
+                
                 PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
@@ -6256,12 +6176,12 @@ IF ROGUE > 0 THEN
 
 
 
-            'RANDOMIZE TIMER
+            
             PRINT #1, "                     radius ="; INT(RND * 120000) + 80000; ""
             PRINT #1, "            sphereOfInfluence = 50118820000"
 
             PRINT #1, "         }"
-            'RANDOMIZE TIMER
+            
             RINGS = INT(RND * 3)
             IF RINGS = 0 THEN
                 PRINT #1, "         Rings"
@@ -6271,7 +6191,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 angle = 0"
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
-                'RANDOMIZE TIMER
+                
                 PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
@@ -6292,12 +6212,12 @@ IF ROGUE > 0 THEN
 
 
 
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            radius ="; INT(RND * 700000) + 270000; ""
             PRINT #1, "            sphereOfInfluence = 50118820000"
 
             PRINT #1, "         }"
-            'RANDOMIZE TIMER
+            
             RINGS = INT(RND * 3)
             IF RINGS = 0 THEN
                 PRINT #1, "         Rings"
@@ -6307,7 +6227,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 angle = 0"
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
-                'RANDOMIZE TIMER
+                
                 PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
@@ -6328,12 +6248,12 @@ IF ROGUE > 0 THEN
 
 
 
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            radius ="; INT(RND * 250000) + 50000; ""
             PRINT #1, "            sphereOfInfluence = 50118820000"
 
             PRINT #1, "         }"
-            'RANDOMIZE TIMER
+            
             RINGS = INT(RND * 3)
             IF RINGS = 0 THEN
                 PRINT #1, "         Rings"
@@ -6343,7 +6263,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 angle = 0"
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
-                'RANDOMIZE TIMER
+                
                 PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
@@ -6364,12 +6284,12 @@ IF ROGUE > 0 THEN
 
 
 
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            radius ="; INT(RND * 250000) + 50000; ""
             PRINT #1, "            sphereOfInfluence = 50118820000"
 
             PRINT #1, "         }"
-            'RANDOMIZE TIMER
+            
             RINGS = INT(RND * 3)
             IF RINGS = 0 THEN
                 PRINT #1, "         Rings"
@@ -6379,7 +6299,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 angle = 0"
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
-                'RANDOMIZE TIMER
+                
                 PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
@@ -6400,12 +6320,12 @@ IF ROGUE > 0 THEN
 
 
 
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            radius ="; INT(RND * 1000000) + 300000; ""
             PRINT #1, "            sphereOfInfluence = 50118820000"
 
             PRINT #1, "         }"
-            'RANDOMIZE TIMER
+            
             RINGS = INT(RND * 3)
             IF RINGS = 0 THEN
                 PRINT #1, "         Rings"
@@ -6415,7 +6335,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 angle = 0"
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
-                'RANDOMIZE TIMER
+                
                 PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
@@ -6436,12 +6356,12 @@ IF ROGUE > 0 THEN
 
 
 
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
             PRINT #1, "            sphereOfInfluence = 50118820000"
 
             PRINT #1, "         }"
-            'RANDOMIZE TIMER
+            
             RINGS = INT(RND * 3)
             IF RINGS = 0 THEN
                 PRINT #1, "         Rings"
@@ -6451,7 +6371,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 angle = 0"
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
-                'RANDOMIZE TIMER
+                
                 PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
@@ -6472,12 +6392,12 @@ IF ROGUE > 0 THEN
 
 
 
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            radius ="; INT(RND * 1500000) + 300000; ""
             PRINT #1, "            sphereOfInfluence = 50118820000"
 
             PRINT #1, "         }"
-            'RANDOMIZE TIMER
+            
             RINGS = INT(RND * 3)
             IF RINGS = 0 THEN
                 PRINT #1, "         Rings"
@@ -6487,7 +6407,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 angle = 0"
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
-                'RANDOMIZE TIMER
+                
                 PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
@@ -6508,12 +6428,12 @@ IF ROGUE > 0 THEN
 
 
 
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            radius ="; INT(RND * 100000) + 70000; ""
             PRINT #1, "            sphereOfInfluence = 50118820000"
 
             PRINT #1, "         }"
-            'RANDOMIZE TIMER
+            
             RINGS = INT(RND * 3)
             IF RINGS = 0 THEN
                 PRINT #1, "         Rings"
@@ -6523,7 +6443,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 angle = 0"
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
-                'RANDOMIZE TIMER
+                
                 PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
@@ -6544,12 +6464,12 @@ IF ROGUE > 0 THEN
 
 
 
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            radius ="; INT(RND * 100000) + 70000; ""
             PRINT #1, "            sphereOfInfluence = 50118820000"
 
             PRINT #1, "         }"
-            'RANDOMIZE TIMER
+            
             RINGS = INT(RND * 3)
             IF RINGS = 0 THEN
                 PRINT #1, "         Rings"
@@ -6559,7 +6479,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 angle = 0"
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
-                'RANDOMIZE TIMER
+                
                 PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
@@ -6580,12 +6500,12 @@ IF ROGUE > 0 THEN
 
 
 
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
             PRINT #1, "            sphereOfInfluence = 50118820000"
 
             PRINT #1, "         }"
-            'RANDOMIZE TIMER
+            
             RINGS = INT(RND * 3)
             IF RINGS = 0 THEN
                 PRINT #1, "         Rings"
@@ -6595,7 +6515,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 angle = 0"
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
-                'RANDOMIZE TIMER
+                
                 PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
@@ -6614,7 +6534,7 @@ IF ROGUE > 0 THEN
             PRINT #1, "         {"
             PRINT #1, "             Material"
             PRINT #1, "             {"
-            'RANDOMIZE TIMER
+            
             PRINT #1, "                 texture = To_Boldly_Go/Coronae/gastextures/-"; INT(RND * 16); ".jpg"
             PRINT #1, "             }"
             PRINT #1, "         }"
@@ -6624,12 +6544,12 @@ IF ROGUE > 0 THEN
 
 
 
-            'RANDOMIZE TIMER
+            
             PRINT #1, "            radius ="; INT(RND * 10000000) + 700000; ""
             PRINT #1, "            sphereOfInfluence = 50118820000"
 
             PRINT #1, "         }"
-            'RANDOMIZE TIMER
+            
             RINGS = INT(RND * 1)
             IF RINGS = 0 THEN
                 PRINT #1, "         Rings"
@@ -6639,7 +6559,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 angle = 0"
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
-                'RANDOMIZE TIMER
+                
                 PRINT #1, "                 texture = To_Boldly_Go/Coronae/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
@@ -6947,50 +6867,50 @@ LOOP WHILE _MOUSEINPUT
 END SUB
 
 FUNCTION theStarName$
-'###########################
-'#read in star name prefixes
-REDIM arrayPrefixes$(0)
-theFileName$ = "Data_folder/GalaxyGen_Prefixes.txt"
-IF _FILEEXISTS(theFileName$) THEN
-    OPEN theFileName$ FOR INPUT AS #2
-    filecount% = 0
-    DO UNTIL EOF(2)
-        LINE INPUT #2, file$ 'read entire text file line
-        arrayPrefixes$(filecount%) = file$
-        filecount% = filecount% + 1
-        REDIM _PRESERVE arrayPrefixes$(filecount%)
-    LOOP
-    CLOSE #2
-END IF
-'###########################
-'#read in star name suffixes
-REDIM arraySuffixes$(0)
-theFileName$ = "Data_folder/GalaxyGen_Suffixes.txt"
-IF _FILEEXISTS(theFileName$) THEN
-    OPEN theFileName$ FOR INPUT AS #2
-    filecount% = 0
-    DO UNTIL EOF(2)
-        LINE INPUT #2, file$ 'read entire text file line
-        arraySuffixes$(filecount%) = file$
-        filecount% = filecount% + 1
-        REDIM _PRESERVE arraySuffixes$(filecount%)
-    LOOP
-    CLOSE #2
-END IF
-'########################################################
-'# pick a random index from the prefix and suffix arrays'
-'# the equiv in python would be:
-'# PREFIX = random.choice(thePrefixes)
-'# SUFFIX = random.choice(theSuffixes)
-lengArrayPrefixes% = UBOUND(arrayPrefixes$)
-lengArraySuffixes% = UBOUND(arraySuffixes$)
-indexPrefixes% = INT(RND * lengArrayPrefixes%)
-indexSuffixes% = INT(RND * lengArraySuffixes%)
-PREFIX$ = arrayPrefixes$(indexPrefixes%)
-SUFFIX$ = arraySuffixes$(indexSuffixes%)
-'##############################################
-'# combine the prefix and suffix to make a name
-theStarName$ = PREFIX$ + SUFFIX$
+    '###########################
+    '#read in star name prefixes
+    REDIM arrayPrefixes$(0)
+    theFileName$ = "Data_folder/GalaxyGen_Prefixes.txt"
+    IF _FILEEXISTS(theFileName$) THEN
+        OPEN theFileName$ FOR INPUT AS #2
+        filecount% = 0
+        DO UNTIL EOF(2)
+            LINE INPUT #2, file$ 'read entire text file line
+            arrayPrefixes$(filecount%) = file$
+            filecount% = filecount% + 1
+            REDIM _PRESERVE arrayPrefixes$(filecount%)
+        LOOP
+        CLOSE #2
+    END IF
+    '###########################
+    '#read in star name suffixes
+    REDIM arraySuffixes$(0)
+    theFileName$ = "Data_folder/GalaxyGen_Suffixes.txt"
+    IF _FILEEXISTS(theFileName$) THEN
+        OPEN theFileName$ FOR INPUT AS #2
+        filecount% = 0
+        DO UNTIL EOF(2)
+            LINE INPUT #2, file$ 'read entire text file line
+            arraySuffixes$(filecount%) = file$
+            filecount% = filecount% + 1
+            REDIM _PRESERVE arraySuffixes$(filecount%)
+        LOOP
+        CLOSE #2
+    END IF
+    '########################################################
+    '# pick a random index from the prefix and suffix arrays'
+    '# the equiv in python would be:
+    '# PREFIX = random.choice(thePrefixes)
+    '# SUFFIX = random.choice(theSuffixes)
+    lengArrayPrefixes% = UBOUND(arrayPrefixes$)
+    lengArraySuffixes% = UBOUND(arraySuffixes$)
+    indexPrefixes% = INT(RND * lengArrayPrefixes%)
+    indexSuffixes% = INT(RND * lengArraySuffixes%)
+    PREFIX$ = arrayPrefixes$(indexPrefixes%)
+    SUFFIX$ = arraySuffixes$(indexSuffixes%)
+    '##############################################
+    '# combine the prefix and suffix to make a name
+    theStarName$ = PREFIX$ + SUFFIX$
 END FUNCTION
 
 
