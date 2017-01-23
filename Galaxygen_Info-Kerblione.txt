@@ -1,0 +1,21 @@
+*****Kerblione***** v0.2.5.1
+Creation Date: 14:33:47 01-22-2017
+Generation Mode: a
+Seed: 1.234568E+08 
+Galaxy Type: 1 
+Cluster Number: 0 
+Planets: y
+Asteroids: y
+Red Dwarves: 12 
+Yellow Dwarves: 7 
+White Stars: 5 
+Blue Giants: 2 
+Brown Dwarves: 40 
+White Dwarves: 4 
+-----------------
+ 86 Stars
+ 34 Planets
+ 52 Moons
+ 41 Asteroids
+ 213  Total
+-----------------
