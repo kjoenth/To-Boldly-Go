@@ -17,7 +17,7 @@
 
 _TITLE "To Boldly Go"
 
-i& = _LOADIMAGE("Galaxy-icon.png", 32) '<<<<<<< use your image file name here
+i& = _LOADIMAGE("TBG_Data_Folder/Galaxy-icon.png", 32) '<<<<<<< use your image file name here
 IF i& < -1 THEN
     _ICON i&
     _FREEIMAGE i& ' release image handle after setting icon
@@ -51,22 +51,22 @@ OPEN "galaxy.cfg" FOR OUTPUT AS #1 'Creates the config file
 '*******************************************************************************
 DIM Backdrop AS LONG
 SCREEN _NEWIMAGE(700, 518, 32)
-Backdrop = _LOADIMAGE("Background.png")
+Backdrop = _LOADIMAGE("TBG_Data_Folder/Background.png")
 _PUTIMAGE (0, 0), Backdrop
 
 DIM Image AS LONG
-Image = _LOADIMAGE("Logo2.png")
+Image = _LOADIMAGE("TBG_Data_Folder/Logo2.png")
 _PUTIMAGE (0, 0), Image
 
 'DIM merrychristmas AS LONG
-'merrychristmas = _LOADIMAGE("merrychristmas.png")
+'merrychristmas = _LOADIMAGE("TBG_Data_Folder/merrychristmas.png")
 '_PUTIMAGE (411, 440), merrychristmas
 
 DIM Box AS LONG
-Box = _LOADIMAGE("Box.png")
+Box = _LOADIMAGE("TBG_Data_Folder/Box.png")
 _PUTIMAGE (10, 98), Box
 
-_FONT _LOADFONT("font.ttf", 15, "MONOSPACE") 'select monospace font
+_FONT _LOADFONT("TBG_Data_Folder/font.ttf", 15, "MONOSPACE") 'select monospace font
 _PRINTMODE _KEEPBACKGROUND
 '*******************************************************************************
 '*******************************************************************************
@@ -102,18 +102,18 @@ PRINT ""
 'SLEEP
 
 'CLS
-'Image = _LOADIMAGE("Logo.png")
+'Image = _LOADIMAGE("TBG_Data_Folder/Logo.png")
 'PALETTECOLOR 7, &HFFDAA520
 'CLS , _RGB(0, 128, 128)
 'COLOR _RGBA(1, 0, 0, 1)
 
 '_PUTIMAGE (0, 0), Backdrop
 '_PUTIMAGE (54, 0), Image
-_SNDPLAYFILE "beep.wav", .5
+_SNDPLAYFILE "TBG_Data_Folder/beep.wav", .5
 
 'GOTO 777
 778 PRINT
-_FONT _LOADFONT("font.ttf", 15, "MONOSPACE") 'select monospace font
+_FONT _LOADFONT("TBG_Data_Folder/font.ttf", 15, "MONOSPACE") 'select monospace font
 _PRINTMODE _KEEPBACKGROUND
 
 
@@ -152,14 +152,14 @@ DWARFSTAR = 0
 
 IF CUSTOM$ = "c" THEN
     INPUT " PLANETS (y/n):", PENABLE$ 'Asks the user whether they want to have planets or not
-    _SNDPLAYFILE "beep2.wav", .5
+    _SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
     '*******************************************************************************
     INPUT " ASTEROIDS (y/n):", ASTTOG$ 'Asks the user whether they want to have asteroids or not
-    _SNDPLAYFILE "beep2.wav", .5
+    _SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
     '*******************************************************************************
     PRINT " GALAXY TYPE:"
     999 INPUT " ELLIPSE, DISK (1,2):", GTYPE 'Asks the user what kind of galaxy they want.
-    '_SNDPLAYFILE "beep2.wav", .5
+    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
     IF GTYPE > 3 THEN
         GOTO 999
     END IF
@@ -168,52 +168,52 @@ IF CUSTOM$ = "c" THEN
         INPUT " CLUSTERS:", CLUSTER 'Asks the user how many star clusters they want
     END IF
     PRINT ""
-    '_SNDPLAYFILE "beep2.wav", .5
+    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
     '*******************************************************************************
     COLOR _RGB(255, 0, 0)
     INPUT " RED STARS:", REDSTAR 'Asks the user how many red stars they want to generate.
     REDSTAR = REDSTAR + 0
-    '_SNDPLAYFILE "beep2.wav", .5
+    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
     '*******************************************************************************
     COLOR _RGB(255, 127, 0)
     INPUT " ORANGE STARS:", KSTAR 'Asks the user how many orange stars they want to generate.
     KSTAR = KSTAR + 0
-    '_SNDPLAYFILE "beep2.wav", .5
+    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
     '*******************************************************************************
     COLOR _RGB(255, 255, 0)
     INPUT " YELLOW STARS:", YELLOWSTAR 'Asks the user how many yellow stars they want to generate.
     YELLOWSTAR = YELLOWSTAR + 0
-    '_SNDPLAYFILE "beep2.wav", .5
+    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
     '*******************************************************************************
     COLOR _RGB(255, 255, 255)
     INPUT " WHITE STARS:", WHITESTAR 'Asks the user how many white stars they want to generate.
     WHITESTAR = WHITESTAR + 0
-    '_SNDPLAYFILE "beep2.wav", .5
+    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
     '*******************************************************************************
     COLOR _RGB(0, 0, 255)
     INPUT " BLUE STARS:", BLUESTAR 'Asks the user how many blue stars they want to generate.
     BLUESTAR = BLUESTAR + 0
-    '_SNDPLAYFILE "beep2.wav", .5
+    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
     '*******************************************************************************
     COLOR _RGB(154, 76, 0)
     INPUT " BROWN STARS:", BROWNSTAR 'Asks the user how many brown stars they want to generate.
     BROWNSTAR = BROWNSTAR + 0
-    '_SNDPLAYFILE "beep2.wav", .5
+    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
     '*******************************************************************************
     COLOR _RGB(255, 255, 255)
     INPUT " DWARF STARS:", DWARFSTAR 'Asks the user how many white dwarves they want to generate.
     DWARFSTAR = DWARFSTAR + 0
-    '_SNDPLAYFILE "beep2.wav", .5
+    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
     '*******************************************************************************
     'COLOR _RGB(100, 100, 100)
     'INPUT " BLACK HOLES:", BLACKHOLE 'Asks the user how many black holes they want to generate.
     'BLACKHOLE = BLACKHOLE + 0
-    '_SNDPLAYFILE "beep2.wav", .5
+    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
     '*******************************************************************************
     'COLOR _RGB(100, 100, 100)
     'INPUT " ROGUE PLANETS:", ROGUE 'Asks the user how many rogue planets they want to generate.
     'ROGUE = ROGUE + 0
-    '_SNDPLAYFILE "beep2.wav", .5
+    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
     '*******************************************************************************
 ELSE
     IF CUSTOM$ = "a" THEN
@@ -242,26 +242,26 @@ END IF
 '################################
 '#Make the cfg header text
 '###Insert 10 empty lines
-for i = 1 to 10
+FOR i = 1 TO 10
     PRINT #1, ""
-next
+NEXT
 PRINT #1, "// WARNING! SPOILERS!"
 PRINT #1, "// This file contains spoilers. If you don't want to have your surprises ruined, you should stop reading now."
 '###Insert 34 empty lines'
-for i = 1 to 34
+FOR i = 1 TO 34
     PRINT #1, ""
-next
+NEXT
 PRINT #1, "// Seriously, it's a lot more fun to find this stuff out in the game."
 PRINT #1, "// Last chance to turn back."
 '###Insert 28 empty lines'
-for i = 1 to 28
+FOR i = 1 TO 28
     PRINT #1, ""
-next
+NEXT
 PRINT #1, "// I did warn you."
 '###Insert 6 empty lines'
-for i = 1 to 6
+FOR i = 1 TO 6
     PRINT #1, ""
-next
+NEXT
 '#End the cfg header text'
 '################################
 IF GTYPE = 3 THEN
@@ -6947,50 +6947,50 @@ LOOP WHILE _MOUSEINPUT
 END SUB
 
 FUNCTION theStarName$
-    '###########################
-    '#read in star name prefixes
-    REDIM arrayPrefixes$(0)
-    theFileName$="Data_folder/GalaxyGen_Prefixes.txt"
-    IF _FILEEXISTS(theFileName$) THEN
-        OPEN theFileName$ FOR INPUT AS #2
-        filecount% = 0
-        DO UNTIL EOF(2)
-            LINE INPUT #2, file$ 'read entire text file line
-            arrayPrefixes$(filecount%) = file$
-            filecount% = filecount% + 1
-            REDIM _PRESERVE arrayPrefixes$(filecount%)
-        LOOP
-        CLOSE #2
-    END IF
-    '###########################
-    '#read in star name suffixes
-    REDIM arraySuffixes$(0)
-    theFileName$="Data_folder/GalaxyGen_Suffixes.txt"
-    IF _FILEEXISTS(theFileName$) THEN
-        OPEN theFileName$ FOR INPUT AS #2
-        filecount% = 0
-        DO UNTIL EOF(2)
-            LINE INPUT #2, file$ 'read entire text file line
-            arraySuffixes$(filecount%) = file$
-            filecount% = filecount% + 1
-            REDIM _PRESERVE arraySuffixes$(filecount%)
-        LOOP
-        CLOSE #2
-    END IF
-    '########################################################
-    '# pick a random index from the prefix and suffix arrays'
-    '# the equiv in python would be:
-    '# PREFIX = random.choice(thePrefixes)
-    '# SUFFIX = random.choice(theSuffixes)
-    lengArrayPrefixes% = UBOUND(arrayPrefixes$)
-    lengArraySuffixes% = UBOUND(arraySuffixes$)
-    indexPrefixes% = INT(RND * lengArrayPrefixes%)
-    indexSuffixes% = INT(RND * lengArraySuffixes%)
-    PREFIX$ = arrayPrefixes$(indexPrefixes%)
-    SUFFIX$ = arraySuffixes$(indexSuffixes%)
-    '##############################################
-    '# combine the prefix and suffix to make a name
-    theStarName$ = PREFIX$+SUFFIX$
+'###########################
+'#read in star name prefixes
+REDIM arrayPrefixes$(0)
+theFileName$ = "Data_folder/GalaxyGen_Prefixes.txt"
+IF _FILEEXISTS(theFileName$) THEN
+    OPEN theFileName$ FOR INPUT AS #2
+    filecount% = 0
+    DO UNTIL EOF(2)
+        LINE INPUT #2, file$ 'read entire text file line
+        arrayPrefixes$(filecount%) = file$
+        filecount% = filecount% + 1
+        REDIM _PRESERVE arrayPrefixes$(filecount%)
+    LOOP
+    CLOSE #2
+END IF
+'###########################
+'#read in star name suffixes
+REDIM arraySuffixes$(0)
+theFileName$ = "Data_folder/GalaxyGen_Suffixes.txt"
+IF _FILEEXISTS(theFileName$) THEN
+    OPEN theFileName$ FOR INPUT AS #2
+    filecount% = 0
+    DO UNTIL EOF(2)
+        LINE INPUT #2, file$ 'read entire text file line
+        arraySuffixes$(filecount%) = file$
+        filecount% = filecount% + 1
+        REDIM _PRESERVE arraySuffixes$(filecount%)
+    LOOP
+    CLOSE #2
+END IF
+'########################################################
+'# pick a random index from the prefix and suffix arrays'
+'# the equiv in python would be:
+'# PREFIX = random.choice(thePrefixes)
+'# SUFFIX = random.choice(theSuffixes)
+lengArrayPrefixes% = UBOUND(arrayPrefixes$)
+lengArraySuffixes% = UBOUND(arraySuffixes$)
+indexPrefixes% = INT(RND * lengArrayPrefixes%)
+indexSuffixes% = INT(RND * lengArraySuffixes%)
+PREFIX$ = arrayPrefixes$(indexPrefixes%)
+SUFFIX$ = arraySuffixes$(indexSuffixes%)
+'##############################################
+'# combine the prefix and suffix to make a name
+theStarName$ = PREFIX$ + SUFFIX$
 END FUNCTION
 
 
