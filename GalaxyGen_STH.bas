@@ -1,4 +1,4 @@
-_TITLE "To Boldly Go"
+_TITLE "To Boldly Go version 0.2.6"
 
 i& = _LOADIMAGE("Galaxy-icon.png", 32) '<<<<<<< use your image file name here
 IF i& < -1 THEN
@@ -6,10 +6,9 @@ IF i& < -1 THEN
     _FREEIMAGE i& ' release image handle after setting icon
 END IF
 
-
-
 888 PRINT
 CLS
+
 'PRINT "To Boldly Go v0.1 - Kopernicus Procedural Galaxy Generator!"
 'PRINT "Copyright (C) 2016  Daniel L."
 'PRINT ""
@@ -48,22 +47,22 @@ OPEN "galaxy.cfg" FOR OUTPUT AS #1 'Creates the config file
 '*******************************************************************************
 DIM Backdrop AS LONG
 SCREEN _NEWIMAGE(700, 518, 32)
-Backdrop = _LOADIMAGE("Background.png")
+Backdrop = _LOADIMAGE("Background2.png")
 _PUTIMAGE (0, 0), Backdrop
 
-DIM Image AS LONG
-Image = _LOADIMAGE("Logo2.png")
-_PUTIMAGE (0, 0), Image
+'DIM Image AS LONG
+'Image = _LOADIMAGE("Logo2.png")
+'_PUTIMAGE (0, 0), Image
 
 'DIM merrychristmas AS LONG
 'merrychristmas = _LOADIMAGE("merrychristmas.png")
 '_PUTIMAGE (411, 440), merrychristmas
 
-DIM Box AS LONG
-Box = _LOADIMAGE("Box.png")
-_PUTIMAGE (10, 98), Box
+'DIM Box AS LONG
+'Box = _LOADIMAGE("Box.png")
+'_PUTIMAGE (10, 98), Box
 
-_FONT _LOADFONT("font.ttf", 15, "MONOSPACE") 'select monospace font
+_FONT _LOADFONT("DejaVuSans.ttf", 15, "MONOSPACE") 'select monospace font
 _PRINTMODE _KEEPBACKGROUND
 '*******************************************************************************
 '*******************************************************************************
@@ -76,9 +75,9 @@ _PRINTMODE _KEEPBACKGROUND
 'PRINT ""
 'PRINT ""
 'PRINT ""
-'PRINT ""
-'PRINT ""
-'PRINT ""
+PRINT ""
+PRINT ""
+PRINT ""
 'PRINT "To Boldly Go v0.1 - Kopernicus Procedural Galaxy Generator!"
 'PRINT "Copyright (C) 2016  Daniel L."
 'PRINT ""
@@ -106,11 +105,11 @@ PRINT ""
 
 '_PUTIMAGE (0, 0), Backdrop
 '_PUTIMAGE (54, 0), Image
-_SNDPLAYFILE "beep.wav", .5
-
+'_SNDPLAYFILE "beep.wav", .5
+'BEEP
 'GOTO 777
 778 PRINT
-_FONT _LOADFONT("font.ttf", 15, "MONOSPACE") 'select monospace font
+_FONT _LOADFONT("DejaVuSans.ttf", 15, "MONOSPACE") 'select monospace font
 _PRINTMODE _KEEPBACKGROUND
 
 
@@ -131,13 +130,18 @@ PRINT ""
 PRINT ""
 PRINT ""
 PRINT ""
-'PRINT ""
-'PRINT ""
-'PRINT ""
-INPUT " GALAXY NAME:", GNAME$
-2222 INPUT " (CUSTOM/AUTO)(c/a):", CUSTOM$
+PRINT ""
+PRINT ""
+PRINT ""
+PRINT ""
+COLOR _RGB(0, 0, 0), _RGB(255, 255, 255)
+PRINT "Please do not use capitalization"
+PRINT "for anything other than the Galaxy name."
+PRINT ""
+INPUT "Name your Galaxy:", GNAME$
+2222 INPUT "(Custom/Auto)(c/a):", CUSTOM$
 
-INPUT " Input Seed:", SEED 'asks the user for a random seed.
+INPUT "Input Seed:", SEED 'asks the user for a random seed.
 RANDOMIZE SEED
 
 REDSTAR = 0
@@ -148,375 +152,228 @@ BROWNSTAR = 0
 DWARFSTAR = 0
 
 IF CUSTOM$ = "c" THEN
-    INPUT " PLANETS (y/n):", PENABLE$ 'Asks the user whether they want to have planets or not
-    _SNDPLAYFILE "beep2.wav", .5
+    INPUT "Galaxy Age (0-5. 1 is recommended):", AGE
+    INPUT "Planets? (y/n):", PENABLE$ 'Asks the user whether they want to have planets or not
+    '_SNDPLAYFILE "beep2.wav", .5
     '*******************************************************************************
-    INPUT " ASTEROIDS (y/n):", ASTTOG$ 'Asks the user whether they want to have asteroids or not
-    _SNDPLAYFILE "beep2.wav", .5
+    INPUT "Asteroids? (y/n):", ASTTOG$ 'Asks the user whether they want to have asteroids or not
+    '_SNDPLAYFILE "beep2.wav", .5
     '*******************************************************************************
-    PRINT " GALAXY TYPE:"
-    999 INPUT " ELLIPSE, DISK (1,2):", GTYPE 'Asks the user what kind of galaxy they want.
+    PRINT "What Galaxy type do you want?:"
+    999 INPUT "Ellipse-0, Disk-1, Cluster-2:", GTYPE 'Asks the user what kind of galaxy they want.
     '_SNDPLAYFILE "beep2.wav", .5
     IF GTYPE > 3 THEN
         GOTO 999
     END IF
     '*******************************************************************************
-    IF GTYPE = 3 THEN
-        INPUT " CLUSTERS:", CLUSTER 'Asks the user how many star clusters they want
+    INPUT "advanced settings? (y/n):", ADVANCED$
+
+    IF ADVANCED$ = "y" THEN
+        '*******************************************************************************
+        IF GTYPE = 3 THEN
+            INPUT "Clusters:", CLUSTER 'Asks the user how many star clusters they want
+        END IF
+        PRINT ""
+        '_SNDPLAYFILE "beep2.wav", .5
+        '*******************************************************************************
+        'COLOR _RGB(255, 0, 0)
+        INPUT "Red Dwarves:", REDSTAR 'Asks the user how many red stars they want to generate.
+        REDSTAR = REDSTAR + 0
+        '_SNDPLAYFILE "beep2.wav", .5
+        '*******************************************************************************
+        'COLOR _RGB(255, 127, 0)
+        INPUT "Orange Dwarves:", KSTAR 'Asks the user how many orange stars they want to generate.
+        KSTAR = KSTAR + 0
+        '_SNDPLAYFILE "beep2.wav", .5
+        '*******************************************************************************
+        'COLOR _RGB(255, 255, 0)
+        INPUT "Yellow Dwarves:", YELLOWSTAR 'Asks the user how many yellow stars they want to generate.
+        YELLOWSTAR = YELLOWSTAR + 0
+        '_SNDPLAYFILE "beep2.wav", .5
+        '*******************************************************************************
+        'COLOR _RGB(255, 255, 255)
+        INPUT "White Stars:", WHITESTAR 'Asks the user how many white stars they want to generate.
+        WHITESTAR = WHITESTAR + 0
+        '_SNDPLAYFILE "beep2.wav", .5
+        '*******************************************************************************
+        'COLOR _RGB(0, 0, 255)
+        INPUT "Blue Giants:", BLUESTAR 'Asks the user how many blue stars they want to generate.
+        BLUESTAR = BLUESTAR + 0
+        '_SNDPLAYFILE "beep2.wav", .5
+        '*******************************************************************************
+        'COLOR _RGB(154, 76, 0)
+        INPUT "Brown Dwarves:", BROWNSTAR 'Asks the user how many brown stars they want to generate.
+        BROWNSTAR = BROWNSTAR + 0
+        '_SNDPLAYFILE "beep2.wav", .5
+        '*******************************************************************************
+        'COLOR _RGB(255, 255, 255)
+        INPUT "White Dwarves:", DWARFSTAR 'Asks the user how many white dwarves they want to generate.
+        DWARFSTAR = DWARFSTAR + 0
+        '_SNDPLAYFILE "beep2.wav", .5
+        '*******************************************************************************
+        'COLOR _RGB(100, 100, 100)
+        'INPUT " BLACK HOLES:", BLACKHOLE 'Asks the user how many black holes they want to generate.
+        'BLACKHOLE = BLACKHOLE + 0
+        '_SNDPLAYFILE "beep2.wav", .5
+        '*******************************************************************************
+        'COLOR _RGB(100, 100, 100)
+        'INPUT " ROGUE PLANETS:", ROGUE 'Asks the user how many rogue planets they want to generate.
+        'ROGUE = ROGUE + 0
+        '_SNDPLAYFILE "beep2.wav", .5
+        '*******************************************************************************
+        CLS
+        _PUTIMAGE (0, 0), Backdrop
+        PRINT ""
+        PRINT ""
+        PRINT ""
+        PRINT ""
+        PRINT ""
+        PRINT ""
+        PRINT ""
+        PRINT ""
+        PRINT ""
+        PRINT ""
+        PRINT ""
+    ELSE
+        'AGE = INT(RND * 5)
+        'GTYPE = INT(RND * 2)
+        IF GTYPE = 2 THEN
+            CLUSTER = INT(RND * 4) + 1
+            GTYPE = GTYPE + 1
+        ELSE
+            GTYPE = GTYPE + 1
+        END IF
+        SELECT CASE AGE
+            CASE 0
+                REDSTAR = INT(RND * 20) + 10
+                KSTAR = INT(RND * 15) + 20
+                YELLOWSTAR = INT(RND * 20) + 5
+                WHITESTAR = INT(RND * 15) + 4
+                BLUESTAR = INT(RND * 10) + 1
+                BROWNSTAR = INT(RND * 40) + 5
+            CASE 1
+                REDSTAR = INT(RND * 20) + 10
+                KSTAR = INT(RND * 15) + 7
+                YELLOWSTAR = INT(RND * 10) + 5
+                WHITESTAR = INT(RND * 7) + 4
+                BLUESTAR = INT(RND * 4) + 1
+                BROWNSTAR = INT(RND * 40) + 5
+                DWARFSTAR = INT(RND * 5)
+            CASE 2
+                REDSTAR = INT(RND * 20) + 10
+                KSTAR = INT(RND * 12) + 7
+                YELLOWSTAR = INT(RND * 3) + 1
+                BROWNSTAR = INT(RND * 40) + 5
+                DWARFSTAR = INT(RND * 10) + 5
+            CASE 3
+                REDSTAR = INT(RND * 10) + 10
+                KSTAR = INT(RND * 7) + 3
+                BROWNSTAR = INT(RND * 30) + 5
+                DWARFSTAR = INT(RND * 30) + 10
+            CASE 4
+                REDSTAR = INT(RND * 3)
+                BROWNSTAR = INT(RND * 20) + 5
+                DWARFSTAR = INT(RND * 40) + 10
+            CASE 5
+                BROWNSTAR = INT(RND * 15)
+                DWARFSTAR = INT(RND * 60) + 10
+        END SELECT
     END IF
-    PRINT ""
-    '_SNDPLAYFILE "beep2.wav", .5
-    '*******************************************************************************
-    COLOR _RGB(255, 0, 0)
-    INPUT " RED STARS:", REDSTAR 'Asks the user how many red stars they want to generate.
-    REDSTAR = REDSTAR + 0
-    '_SNDPLAYFILE "beep2.wav", .5
-    '*******************************************************************************
-    COLOR _RGB(255, 127, 0)
-    INPUT " ORANGE STARS:", KSTAR 'Asks the user how many orange stars they want to generate.
-    KSTAR = KSTAR + 0
-    '_SNDPLAYFILE "beep2.wav", .5
-    '*******************************************************************************
-    COLOR _RGB(255, 255, 0)
-    INPUT " YELLOW STARS:", YELLOWSTAR 'Asks the user how many yellow stars they want to generate.
-    YELLOWSTAR = YELLOWSTAR + 0
-    '_SNDPLAYFILE "beep2.wav", .5
-    '*******************************************************************************
-    COLOR _RGB(255, 255, 255)
-    INPUT " WHITE STARS:", WHITESTAR 'Asks the user how many white stars they want to generate.
-    WHITESTAR = WHITESTAR + 0
-    '_SNDPLAYFILE "beep2.wav", .5
-    '*******************************************************************************
-    COLOR _RGB(0, 0, 255)
-    INPUT " BLUE STARS:", BLUESTAR 'Asks the user how many blue stars they want to generate.
-    BLUESTAR = BLUESTAR + 0
-    '_SNDPLAYFILE "beep2.wav", .5
-    '*******************************************************************************
-    COLOR _RGB(154, 76, 0)
-    INPUT " BROWN STARS:", BROWNSTAR 'Asks the user how many brown stars they want to generate.
-    BROWNSTAR = BROWNSTAR + 0
-    '_SNDPLAYFILE "beep2.wav", .5
-    '*******************************************************************************
-    COLOR _RGB(255, 255, 255)
-    INPUT " DWARF STARS:", DWARFSTAR 'Asks the user how many white dwarves they want to generate.
-    DWARFSTAR = DWARFSTAR + 0
-    '_SNDPLAYFILE "beep2.wav", .5
-    '*******************************************************************************
-    'COLOR _RGB(100, 100, 100)
-    'INPUT " BLACK HOLES:", BLACKHOLE 'Asks the user how many black holes they want to generate.
-    'BLACKHOLE = BLACKHOLE + 0
-    '_SNDPLAYFILE "beep2.wav", .5
-    '*******************************************************************************
-    'COLOR _RGB(100, 100, 100)
-    'INPUT " ROGUE PLANETS:", ROGUE 'Asks the user how many rogue planets they want to generate.
-    'ROGUE = ROGUE + 0
-    '_SNDPLAYFILE "beep2.wav", .5
-    '*******************************************************************************
 ELSE
     IF CUSTOM$ = "a" THEN
-        'GTYPE = INT(RND * 2)
-        'IF GTYPE = 3 THEN
-        '    CLUSTER = INT(RND * 4) + 1
-        'END IF
+        AGE = INT(RND * 5)
+        GTYPE = INT(RND * 2)
+        IF GTYPE = 2 THEN
+            CLUSTER = INT(RND * 4) + 1
+            GTYPE = GTYPE + 1
+        ELSE
+            GTYPE = GTYPE + 1
+        END IF
         'IF GTYPE = 0 THEN
         GTYPE = 1
         'END IF
         PENABLE$ = "y"
         ASTTOG$ = "y"
-        REDSTAR = INT(RND * 20) + 10
-        KSTAR = INT(RND * 15) + 7
-        YELLOWSTAR = INT(RND * 10) + 5
-        WHITESTAR = INT(RND * 7) + 4
-        BLUESTAR = INT(RND * 4) + 1
-        BROWNSTAR = INT(RND * 40) + 5
-        DWARFSTAR = INT(RND * 5)
+
+        SELECT CASE AGE
+            CASE 0
+                REDSTAR = INT(RND * 20) + 10
+                KSTAR = INT(RND * 15) + 20
+                YELLOWSTAR = INT(RND * 20) + 5
+                WHITESTAR = INT(RND * 15) + 4
+                BLUESTAR = INT(RND * 10) + 1
+                BROWNSTAR = INT(RND * 40) + 5
+            CASE 1
+                REDSTAR = INT(RND * 20) + 10
+                KSTAR = INT(RND * 15) + 7
+                YELLOWSTAR = INT(RND * 10) + 5
+                WHITESTAR = INT(RND * 7) + 4
+                BLUESTAR = INT(RND * 4) + 1
+                BROWNSTAR = INT(RND * 40) + 5
+                DWARFSTAR = INT(RND * 5)
+            CASE 2
+                REDSTAR = INT(RND * 20) + 10
+                KSTAR = INT(RND * 15) + 7
+                YELLOWSTAR = INT(RND * 3) + 1
+                BROWNSTAR = INT(RND * 40) + 5
+                DWARFSTAR = INT(RND * 25) + 5
+            CASE 3
+                REDSTAR = INT(RND * 20) + 10
+                KSTAR = INT(RND * 7) + 3
+                BROWNSTAR = INT(RND * 40) + 5
+                DWARFSTAR = INT(RND * 30) + 10
+            CASE 4
+                REDSTAR = INT(RND * 3)
+                BROWNSTAR = INT(RND * 40) + 5
+                DWARFSTAR = INT(RND * 40) + 10
+            CASE 5
+                BROWNSTAR = INT(RND * 15)
+                DWARFSTAR = INT(RND * 60) + 10
+        END SELECT
         'BLACKHOLE = INT(RND * 3)
         'ROGUE = INT(RND * 10)
     ELSE
         GOTO 2222
     END IF
 END IF
-
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
+'################################
+'#Make the cfg header text
+'###Insert 10 empty lines
+FOR i = 1 TO 10
+    PRINT #1, ""
+NEXT
 PRINT #1, "// WARNING! SPOILERS!"
 PRINT #1, "// This file contains spoilers. If you don't want to have your surprises ruined, you should stop reading now."
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
+'###Insert 34 empty lines'
+FOR i = 1 TO 34
+    PRINT #1, ""
+NEXT
 PRINT #1, "// Seriously, it's a lot more fun to find this stuff out in the game."
 PRINT #1, "// Last chance to turn back."
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
+'###Insert 28 empty lines'
+FOR i = 1 TO 28
+    PRINT #1, ""
+NEXT
 PRINT #1, "// I did warn you."
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
-PRINT #1, ""
+'###Insert 6 empty lines'
+FOR i = 1 TO 6
+    PRINT #1, ""
+NEXT
+'#End the cfg header text'
+'################################
 IF GTYPE = 3 THEN
     CLUSTERNUM = 0
     IF CLUSTER > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carries out an action.
-
-
-
         DO
             PRINT #1, "@Kopernicus"
             PRINT #1, "{"
             PRINT #1, "    Body"
             PRINT #1, "    {"
             'CLS
-            PREFIXNUMBER = INT(RND * 43)
-            SELECT CASE PREFIXNUMBER
-                CASE 1
-                    PREFIX$ = "Ker"
-                CASE 2
-                    PREFIX$ = "Jo"
-                CASE 3
-                    PREFIX$ = "Ear"
-                CASE 4
-                    PREFIX$ = "Ju"
-                CASE 5
-                    PREFIX$ = "Jeb"
-                CASE 6
-                    PREFIX$ = "Plu"
-                CASE 7
-                    PREFIX$ = "Nep"
-                CASE 8
-                    PREFIX$ = "Bes"
-                CASE 9
-                    PREFIX$ = "Tat"
-                CASE 10
-                    PREFIX$ = "Dego"
-                CASE 11
-                    PREFIX$ = "Ho"
-                CASE 12
-                    PREFIX$ = "Geo"
-                CASE 13
-                    PREFIX$ = "Mu"
-                CASE 14
-                    PREFIX$ = "Usta"
-                CASE 15
-                    PREFIX$ = "Pla"
-                CASE 16
-                    PREFIX$ = "Gal"
-                CASE 17
-                    PREFIX$ = "Rea"
-                CASE 18
-                    PREFIX$ = "Olym"
-                CASE 19
-                    PREFIX$ = "Mor"
-                CASE 20
-                    PREFIX$ = "Mar"
-                CASE 21
-                    PREFIX$ = "Jup"
-                CASE 22
-                    PREFIX$ = "Sa"
-                CASE 23
-                    PREFIX$ = "Sat"
-                CASE 24
-                    PREFIX$ = "Kry"
-                CASE 25
-                    PREFIX$ = "Ee"
-                CASE 26
-                    PREFIX$ = "Su"
-                CASE 27
-                    PREFIX$ = "Spar"
-                CASE 28
-                    PREFIX$ = "He"
-                CASE 29
-                    PREFIX$ = "Xa"
-                CASE 30
-                    PREFIX$ = "Sak"
-                CASE 31
-                    PREFIX$ = "So"
-                CASE 32
-                    PREFIX$ = "Ha"
-                CASE 33
-                    PREFIX$ = "Kor"
-                CASE 34
-                    PREFIX$ = "Ath"
-                CASE 35
-                    PREFIX$ = "Chand"
-                CASE 36
-                    PREFIX$ = "Rig"
-                CASE 37
-                    PREFIX$ = "Ven"
-                CASE 38
-                    PREFIX$ = "Den"
-                CASE 39
-                    PREFIX$ = "C"
-                CASE 40
-                    PREFIX$ = "Holo"
-                CASE 41
-                    PREFIX$ = "Korr"
-                CASE 43
-                    PREFIX$ = "Ran"
-                CASE ELSE
-                    PREFIX$ = "Lon"
-            END SELECT
-            SUFFIXNUMBER = INT(RND * 43)
-            SELECT CASE SUFFIXNUMBER
-                CASE 1
-                    SUFFIX$ = "bin"
-                CASE 2
-                    SUFFIX$ = "ol"
-                CASE 3
-                    SUFFIX$ = "th"
-                CASE 4
-                    SUFFIX$ = "to"
-                CASE 5
-                    SUFFIX$ = "ne"
-                CASE 6
-                    SUFFIX$ = "in"
-                CASE 7
-                    SUFFIX$ = "ant"
-                CASE 8
-                    SUFFIX$ = "bah"
-                CASE 9
-                    SUFFIX$ = "sis"
-                CASE 10
-                    SUFFIX$ = "n"
-                CASE 11
-                    SUFFIX$ = "os"
-                CASE 12
-                    SUFFIX$ = "ch"
-                CASE 13
-                    SUFFIX$ = "dor"
-                CASE 14
-                    SUFFIX$ = "vin"
-                CASE 15
-                    SUFFIX$ = "s"
-                CASE 16
-                    SUFFIX$ = "ury"
-                CASE 17
-                    SUFFIX$ = "us"
-                CASE 18
-                    SUFFIX$ = "it"
-                CASE 19
-                    SUFFIX$ = "er"
-                CASE 20
-                    SUFFIX$ = "urn"
-                CASE 21
-                    SUFFIX$ = "une"
-                CASE 22
-                    SUFFIX$ = "pau"
-                CASE 23
-                    SUFFIX$ = "far"
-                CASE 24
-                    SUFFIX$ = "ton"
-                CASE 25
-                    SUFFIX$ = "lou"
-                CASE 26
-                    SUFFIX$ = "vin"
-                CASE 27
-                    SUFFIX$ = "tax"
-                CASE 28
-                    SUFFIX$ = "dar"
-                CASE 29
-                    SUFFIX$ = "aar"
-                CASE 30
-                    SUFFIX$ = "l"
-                CASE 31
-                    SUFFIX$ = "la"
-                CASE 32
-                    SUFFIX$ = "nth"
-                CASE 33
-                    SUFFIX$ = "il"
-                CASE 34
-                    SUFFIX$ = "ifrey"
-                CASE 35
-                    SUFFIX$ = "nus"
-                CASE 36
-                    SUFFIX$ = "neb"
-                CASE 37
-                    SUFFIX$ = "ron"
-                CASE 38
-                    SUFFIX$ = "ii"
-                CASE 39
-                    SUFFIX$ = "iban"
-                CASE 40
-                    SUFFIX$ = "trax"
-                CASE 41
-                    SUFFIX$ = "turus"
-                CASE 42
-                    SUFFIX$ = "clos"
-                CASE 43
-                    SUFFIX$ = "daa"
-                CASE ELSE
-                    SUFFIX$ = "Lon"
-            END SELECT
+            aName$ = theStarName$ '#Calls the function "theStarName"
             PRINT #1, "        name = "; CLUSTERNUM; ""
             PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
-            PRINT #1, "        cbNameLater = "; PREFIX$; SUFFIX$; " Galaxy"
+            PRINT #1, "        cbNameLater = "; aName$; " Cluster"
             PRINT #1, "        Template"
             PRINT #1, "        {"
             PRINT #1, "            name = Sun"
@@ -525,6 +382,7 @@ IF GTYPE = 3 THEN
             PRINT #1, "        {"
             PRINT #1, "            description = "
             PRINT #1, "            radius = 10000"
+            PRINT #1, "            selectable = False"
             PRINT #1, "        }"
             PRINT #1, "        Orbit"
             PRINT #1, "        {"
@@ -534,7 +392,7 @@ IF GTYPE = 3 THEN
             PRINT #1, "            inclination ="; INT(RND * 50) - 25; ""
             'RANDOMIZE TIMER
             PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
-            PRINT #1, "            mode = 0"
+            PRINT #1, "            cameraSmaRatioBounds = 0 0 "
             PRINT #1, "        }"
             PRINT #1, "        ScaledVersion"
             PRINT #1, "        {"
@@ -571,7 +429,7 @@ IF GTYPE = 3 THEN
             PRINT #1, ""
             PRINT #1, "                Material"
             PRINT #1, "                {"
-            PRINT #1, "                    texture = To_Boldly_Go/Black"
+            PRINT #1, "                    texture = To_Boldly_Go/Coronae/Black"
             PRINT #1, "                    inverseFade = 2.553731"
             PRINT #1, "                }"
             PRINT #1, "            }"
@@ -586,7 +444,7 @@ IF GTYPE = 3 THEN
             PRINT #1, ""
             PRINT #1, "                Material"
             PRINT #1, "                {"
-            PRINT #1, "                      texture = To_Boldly_Go/Black"
+            PRINT #1, "                      texture = To_Boldly_Go/Coronae/Black"
             PRINT #1, "                      inverseFade = 2.553731"
             PRINT #1, "                }"
             PRINT #1, "            }"
@@ -610,8 +468,8 @@ PRINT #1, "{"
 PRINT #1, "    Body"
 PRINT #1, "    {"
 PRINT #1, "        name = Kerbol"
-PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
 PRINT #1, "        cbNameLater = Sun"
+PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
 PRINT #1, "        Template"
 PRINT #1, "        {"
 PRINT #1, "            name = Sun"
@@ -626,7 +484,7 @@ PRINT #1, "        {"
 IF GTYPE = 3 THEN
 
     'RANDOMIZE TIMER
-    PRINT #1, "            referenceBody = "; INT(RND * CLUSTERNUM)
+    PRINT #1, "            referenceBody = 0"
     'RANDOMIZE TIMER
     PRINT #1, "            semiMajorAxis ="; INT(RND * 10000000000000) + 10000000000; ""
     'RANDOMIZE TIMER
@@ -716,7 +574,7 @@ PRINT #1, "                scaleSpeed = 0.007"
 PRINT #1, ""
 PRINT #1, "                Material"
 PRINT #1, "                {"
-PRINT #1, "                    texture = To_Boldly_Go/Black"
+PRINT #1, "                    texture = To_Boldly_Go/Coronae/Black"
 PRINT #1, "                    inverseFade = 2.553731"
 PRINT #1, "                }"
 PRINT #1, "            }"
@@ -731,7 +589,7 @@ PRINT #1, "                scaleSpeed = 0.009"
 PRINT #1, ""
 PRINT #1, "                Material"
 PRINT #1, "                {"
-PRINT #1, "                      texture = To_Boldly_Go/Black"
+PRINT #1, "                      texture = To_Boldly_Go/Coronae/Black"
 PRINT #1, "                      inverseFade = 2.553731"
 PRINT #1, "                }"
 PRINT #1, "            }"
@@ -821,207 +679,25 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
             SPN = 1
         END IF
         'generating radius
-        DIM a AS INTEGER
+        'RANDOMIZE TIMER
+        'PRINT INT(RND * 300000000) + 15000000;
+        PRINT #1, "@Kopernicus"
+        PRINT #1, "{"
+        PRINT #1, "    Body"
+        PRINT #1, "    {"
+        'CLS
+        aStarName$ = theStarName$ '#Calls the function "theStarName"
+        PRINT #1, "        name = "; aStarName$
+        PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
+        PRINT #1, "        Template"
+        PRINT #1, "        {"
+        PRINT #1, "            name = Sun"
+        PRINT #1, "        }"
+        PRINT #1, "        Properties"
+        PRINT #1, "        {"
+        PRINT #1, "            description ="
+        PRINT #1, "            radius ="; INT(RND * 30000000) + 15000000; ""
 
-        FOR a = 1 TO 1
-            'RANDOMIZE TIMER
-            'PRINT INT(RND * 300000000) + 15000000;
-            PRINT #1, "@Kopernicus"
-            PRINT #1, "{"
-            PRINT #1, "    Body"
-            PRINT #1, "    {"
-            'CLS
-            PREFIXNUMBER = INT(RND * 43)
-            SELECT CASE PREFIXNUMBER
-                CASE 1
-                    PREFIX$ = "Ker"
-                CASE 2
-                    PREFIX$ = "Jo"
-                CASE 3
-                    PREFIX$ = "Ear"
-                CASE 4
-                    PREFIX$ = "Ju"
-                CASE 5
-                    PREFIX$ = "Jeb"
-                CASE 6
-                    PREFIX$ = "Plu"
-                CASE 7
-                    PREFIX$ = "Nep"
-                CASE 8
-                    PREFIX$ = "Bes"
-                CASE 9
-                    PREFIX$ = "Tat"
-                CASE 10
-                    PREFIX$ = "Dego"
-                CASE 11
-                    PREFIX$ = "Ho"
-                CASE 12
-                    PREFIX$ = "Geo"
-                CASE 13
-                    PREFIX$ = "Mu"
-                CASE 14
-                    PREFIX$ = "Usta"
-                CASE 15
-                    PREFIX$ = "Pla"
-                CASE 16
-                    PREFIX$ = "Gal"
-                CASE 17
-                    PREFIX$ = "Rea"
-                CASE 18
-                    PREFIX$ = "Olym"
-                CASE 19
-                    PREFIX$ = "Mor"
-                CASE 20
-                    PREFIX$ = "Mar"
-                CASE 21
-                    PREFIX$ = "Jup"
-                CASE 22
-                    PREFIX$ = "Sa"
-                CASE 23
-                    PREFIX$ = "Sat"
-                CASE 24
-                    PREFIX$ = "Kry"
-                CASE 25
-                    PREFIX$ = "Ee"
-                CASE 26
-                    PREFIX$ = "Su"
-                CASE 27
-                    PREFIX$ = "Spar"
-                CASE 28
-                    PREFIX$ = "He"
-                CASE 29
-                    PREFIX$ = "Xa"
-                CASE 30
-                    PREFIX$ = "Sak"
-                CASE 31
-                    PREFIX$ = "So"
-                CASE 32
-                    PREFIX$ = "Ha"
-                CASE 33
-                    PREFIX$ = "Kor"
-                CASE 34
-                    PREFIX$ = "Ath"
-                CASE 35
-                    PREFIX$ = "Chand"
-                CASE 36
-                    PREFIX$ = "Rig"
-                CASE 37
-                    PREFIX$ = "Ven"
-                CASE 38
-                    PREFIX$ = "Den"
-                CASE 39
-                    PREFIX$ = "C"
-                CASE 40
-                    PREFIX$ = "Holo"
-                CASE 41
-                    PREFIX$ = "Korr"
-                CASE 43
-                    PREFIX$ = "Ran"
-                CASE ELSE
-                    PREFIX$ = "Lon"
-            END SELECT
-            SUFFIXNUMBER = INT(RND * 43)
-            SELECT CASE SUFFIXNUMBER
-                CASE 1
-                    SUFFIX$ = "bin"
-                CASE 2
-                    SUFFIX$ = "ol"
-                CASE 3
-                    SUFFIX$ = "th"
-                CASE 4
-                    SUFFIX$ = "to"
-                CASE 5
-                    SUFFIX$ = "ne"
-                CASE 6
-                    SUFFIX$ = "in"
-                CASE 7
-                    SUFFIX$ = "ant"
-                CASE 8
-                    SUFFIX$ = "bah"
-                CASE 9
-                    SUFFIX$ = "sis"
-                CASE 10
-                    SUFFIX$ = "n"
-                CASE 11
-                    SUFFIX$ = "os"
-                CASE 12
-                    SUFFIX$ = "ch"
-                CASE 13
-                    SUFFIX$ = "dor"
-                CASE 14
-                    SUFFIX$ = "vin"
-                CASE 15
-                    SUFFIX$ = "s"
-                CASE 16
-                    SUFFIX$ = "ury"
-                CASE 17
-                    SUFFIX$ = "us"
-                CASE 18
-                    SUFFIX$ = "it"
-                CASE 19
-                    SUFFIX$ = "er"
-                CASE 20
-                    SUFFIX$ = "urn"
-                CASE 21
-                    SUFFIX$ = "une"
-                CASE 22
-                    SUFFIX$ = "pau"
-                CASE 23
-                    SUFFIX$ = "far"
-                CASE 24
-                    SUFFIX$ = "ton"
-                CASE 25
-                    SUFFIX$ = "lou"
-                CASE 26
-                    SUFFIX$ = "vin"
-                CASE 27
-                    SUFFIX$ = "tax"
-                CASE 28
-                    SUFFIX$ = "dar"
-                CASE 29
-                    SUFFIX$ = "aar"
-                CASE 30
-                    SUFFIX$ = "l"
-                CASE 31
-                    SUFFIX$ = "la"
-                CASE 32
-                    SUFFIX$ = "nth"
-                CASE 33
-                    SUFFIX$ = "il"
-                CASE 34
-                    SUFFIX$ = "ifrey"
-                CASE 35
-                    SUFFIX$ = "nus"
-                CASE 36
-                    SUFFIX$ = "neb"
-                CASE 37
-                    SUFFIX$ = "ron"
-                CASE 38
-                    SUFFIX$ = "ii"
-                CASE 39
-                    SUFFIX$ = "iban"
-                CASE 40
-                    SUFFIX$ = "trax"
-                CASE 41
-                    SUFFIX$ = "turus"
-                CASE 42
-                    SUFFIX$ = "clos"
-                CASE 43
-                    SUFFIX$ = "daa"
-                CASE ELSE
-                    SUFFIX$ = "Lon"
-            END SELECT
-            PRINT #1, "        name = "; PREFIX$; SUFFIX$; ""
-            PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
-            PRINT #1, "        Template"
-            PRINT #1, "        {"
-            PRINT #1, "            name = Sun"
-            PRINT #1, "        }"
-            PRINT #1, "        Properties"
-            PRINT #1, "        {"
-            PRINT #1, "            description = Dim light, Yet so bright. A lonely outpost in the deep dark night. Travelers come far shall know where they are. A new land, A new star, How much pain and suffering it must have took to go this far. For at "; PREFIX$; SUFFIX$; " your journey might be done. And you will be free."
-            PRINT #1, "            radius ="; INT(RND * 30000000) + 15000000; ""
-        NEXT a
         PRINT #1, "            sphereOfInfluence = 90118820000"
         PRINT #1, "        }"
         PRINT #1, "        Orbit"
@@ -1096,7 +772,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
         PRINT #1, ""
         PRINT #1, "                Material"
         PRINT #1, "                {"
-        PRINT #1, "                    texture = To_Boldly_Go/RedCorona"
+        PRINT #1, "                    texture = To_Boldly_Go/Coronae/RedCorona"
         PRINT #1, "                    inverseFade = 2.553731"
         PRINT #1, "                }"
         PRINT #1, "            }"
@@ -1111,7 +787,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
         PRINT #1, ""
         PRINT #1, "                Material"
         PRINT #1, "                {"
-        PRINT #1, "                      texture = To_Boldly_Go/RedCorona"
+        PRINT #1, "                      texture = To_Boldly_Go/Coronae/RedCorona"
         PRINT #1, "                      inverseFade = 2.553731"
         PRINT #1, "                }"
         PRINT #1, "            }"
@@ -1134,30 +810,29 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                     PRINT #1, "    Body"
                     PRINT #1, "    {"
                     IF GASNUMBER = 1 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " I"
+                        PRINT #1, "         name = "; aStarName$; " I"
                         PNM$ = " I"
                     END IF
                     IF GASNUMBER = 2 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " II"
+                        PRINT #1, "         name = "; aStarName$; " II"
                         PNM$ = " II"
                     END IF
                     IF GASNUMBER = 3 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " III"
+                        PRINT #1, "         name = "; aStarName$; " III"
                         PNM$ = " III"
                     END IF
                     IF GASNUMBER = 4 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " IV"
+                        PRINT #1, "         name = "; aStarName$; " IV"
                         PNM$ = " IV"
                     END IF
                     IF GASNUMBER = 5 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " V"
+                        PRINT #1, "         name = "; aStarName$; " V"
                         PNM$ = " V"
                     END IF
                     PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
-
                     PRINT #1, "         Orbit"
                     PRINT #1, "         {"
-                    PRINT #1, "             referenceBody = "; PREFIX$; SUFFIX$; ""
+                    PRINT #1, "             referenceBody = "; aStarName$; ""
 
 
 
@@ -1695,7 +1370,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
 
 
 
-                        PRINT #1, "            description = In the starlight light, Floats a gas giant, "; PREFIX$; SUFFIX$; ""; PNM$; " is a large planet with several moons."
+                        PRINT #1, "            description = In the dim starlight, Floats a gas giant, "; aStarName$; ""; PNM$; " is a large planet with several moons."
                         'RANDOMIZE TIMER
                         PRINT #1, "            radius ="; INT(RND * 10000000) + 700000; ""
 
@@ -1729,13 +1404,11 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                         DO
                             PRINT #1, "    Body"
                             PRINT #1, "    {"
-                            PRINT #1, "        name = "; PREFIX$; SUFFIX$; ""; PNM$; " "; MOONNUMBER; ""
+                            PRINT #1, "        name = "; aStarName$; ""; PNM$; " "; MOONNUMBER; ""
                             PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
-
-                            PRINT #1, ""
                             PRINT #1, "        Orbit"
                             PRINT #1, "        {"
-                            PRINT #1, "            referenceBody = "; PREFIX$; SUFFIX$; ""; PNM$; ""
+                            PRINT #1, "            referenceBody = "; aStarName$; ""; PNM$; ""
                             'RANDOMIZE TIMER
                             PRINT #1, "            inclination ="; INT(RND * 360)
                             'RANDOMIZE TIMER
@@ -1817,7 +1490,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                     'PRINT #1, "{"
                     PRINT #1, "    Body"
                     PRINT #1, "    {"
-                    PRINT #1, "        name = "; PREFIX$; SUFFIX$; ASTNUMBER; ""
+                    PRINT #1, "        name = "; aStarName$; ASTNUMBER; ""
                     PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
                     PRINT #1, "        Template"
                     PRINT #1, "        {"
@@ -1837,7 +1510,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                     PRINT #1, ""
                     PRINT #1, "        Orbit"
                     PRINT #1, "        {"
-                    PRINT #1, "            referenceBody = "; PREFIX$; SUFFIX$; ""
+                    PRINT #1, "            referenceBody = "; aStarName$; ""
                     'RANDOMIZE TIMER
                     PRINT #1, "            inclination ="; INT(RND * 360)
                     'RANDOMIZE TIMER
@@ -1917,187 +1590,8 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
         PRINT #1, "    Body"
         PRINT #1, "    {"
         'CLS
-        PREFIXNUMBER = INT(RND * 43)
-        SELECT CASE PREFIXNUMBER
-            CASE 1
-                PREFIX$ = "Ker"
-            CASE 2
-                PREFIX$ = "Jo"
-            CASE 3
-                PREFIX$ = "Ear"
-            CASE 4
-                PREFIX$ = "Ju"
-            CASE 5
-                PREFIX$ = "Jeb"
-            CASE 6
-                PREFIX$ = "Plu"
-            CASE 7
-                PREFIX$ = "Nep"
-            CASE 8
-                PREFIX$ = "Bes"
-            CASE 9
-                PREFIX$ = "Tat"
-            CASE 10
-                PREFIX$ = "Dego"
-            CASE 11
-                PREFIX$ = "Ho"
-            CASE 12
-                PREFIX$ = "Geo"
-            CASE 13
-                PREFIX$ = "Mu"
-            CASE 14
-                PREFIX$ = "Usta"
-            CASE 15
-                PREFIX$ = "Pla"
-            CASE 16
-                PREFIX$ = "Gal"
-            CASE 17
-                PREFIX$ = "Rea"
-            CASE 18
-                PREFIX$ = "Olym"
-            CASE 19
-                PREFIX$ = "Mor"
-            CASE 20
-                PREFIX$ = "Mar"
-            CASE 21
-                PREFIX$ = "Jup"
-            CASE 22
-                PREFIX$ = "Sa"
-            CASE 23
-                PREFIX$ = "Sat"
-            CASE 24
-                PREFIX$ = "Kry"
-            CASE 25
-                PREFIX$ = "Ee"
-            CASE 26
-                PREFIX$ = "Su"
-            CASE 27
-                PREFIX$ = "Spar"
-            CASE 28
-                PREFIX$ = "He"
-            CASE 29
-                PREFIX$ = "Xa"
-            CASE 30
-                PREFIX$ = "Sak"
-            CASE 31
-                PREFIX$ = "So"
-            CASE 32
-                PREFIX$ = "Ha"
-            CASE 33
-                PREFIX$ = "Kor"
-            CASE 34
-                PREFIX$ = "Ath"
-            CASE 35
-                PREFIX$ = "Chand"
-            CASE 36
-                PREFIX$ = "Rig"
-            CASE 37
-                PREFIX$ = "Ven"
-            CASE 38
-                PREFIX$ = "Den"
-            CASE 39
-                PREFIX$ = "C"
-            CASE 40
-                PREFIX$ = "Holo"
-            CASE 41
-                PREFIX$ = "Korr"
-            CASE 43
-                PREFIX$ = "Ran"
-            CASE ELSE
-                PREFIX$ = "Lon"
-        END SELECT
-        SUFFIXNUMBER = INT(RND * 43)
-        SELECT CASE SUFFIXNUMBER
-            CASE 1
-                SUFFIX$ = "bin"
-            CASE 2
-                SUFFIX$ = "ol"
-            CASE 3
-                SUFFIX$ = "th"
-            CASE 4
-                SUFFIX$ = "to"
-            CASE 5
-                SUFFIX$ = "ne"
-            CASE 6
-                SUFFIX$ = "in"
-            CASE 7
-                SUFFIX$ = "ant"
-            CASE 8
-                SUFFIX$ = "bah"
-            CASE 9
-                SUFFIX$ = "sis"
-            CASE 10
-                SUFFIX$ = "n"
-            CASE 11
-                SUFFIX$ = "os"
-            CASE 12
-                SUFFIX$ = "ch"
-            CASE 13
-                SUFFIX$ = "dor"
-            CASE 14
-                SUFFIX$ = "vin"
-            CASE 15
-                SUFFIX$ = "s"
-            CASE 16
-                SUFFIX$ = "ury"
-            CASE 17
-                SUFFIX$ = "us"
-            CASE 18
-                SUFFIX$ = "it"
-            CASE 19
-                SUFFIX$ = "er"
-            CASE 20
-                SUFFIX$ = "urn"
-            CASE 21
-                SUFFIX$ = "une"
-            CASE 22
-                SUFFIX$ = "pau"
-            CASE 23
-                SUFFIX$ = "far"
-            CASE 24
-                SUFFIX$ = "ton"
-            CASE 25
-                SUFFIX$ = "lou"
-            CASE 26
-                SUFFIX$ = "vin"
-            CASE 27
-                SUFFIX$ = "tax"
-            CASE 28
-                SUFFIX$ = "dar"
-            CASE 29
-                SUFFIX$ = "aar"
-            CASE 30
-                SUFFIX$ = "l"
-            CASE 31
-                SUFFIX$ = "la"
-            CASE 32
-                SUFFIX$ = "nth"
-            CASE 33
-                SUFFIX$ = "il"
-            CASE 34
-                SUFFIX$ = "ifrey"
-            CASE 35
-                SUFFIX$ = "nus"
-            CASE 36
-                SUFFIX$ = "neb"
-            CASE 37
-                SUFFIX$ = "ron"
-            CASE 38
-                SUFFIX$ = "ii"
-            CASE 39
-                SUFFIX$ = "iban"
-            CASE 40
-                SUFFIX$ = "trax"
-            CASE 41
-                SUFFIX$ = "turus"
-            CASE 42
-                SUFFIX$ = "clos"
-            CASE 43
-                SUFFIX$ = "daa"
-            CASE ELSE
-                SUFFIX$ = "Lon"
-        END SELECT
-        PRINT #1, "        name = "; PREFIX$; SUFFIX$; ""
+        aStarName$ = theStarName$ '#Calls the function "theStarName"
+        PRINT #1, "        name = "; aStarName$; ""
         PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
         PRINT #1, "        Template"
         PRINT #1, "        {"
@@ -2180,7 +1674,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
         PRINT #1, ""
         PRINT #1, "                Material"
         PRINT #1, "                {"
-        PRINT #1, "                    texture = To_Boldly_Go/KCorona"
+        PRINT #1, "                    texture = To_Boldly_Go/Coronae/KCorona"
         PRINT #1, "                    inverseFade = 2.553731"
         PRINT #1, "                }"
         PRINT #1, "            }"
@@ -2195,7 +1689,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
         PRINT #1, ""
         PRINT #1, "                Material"
         PRINT #1, "                {"
-        PRINT #1, "                      texture = To_Boldly_Go/KCorona"
+        PRINT #1, "                      texture = To_Boldly_Go/Coronae/KCorona"
         PRINT #1, "                      inverseFade = 2.553731"
         PRINT #1, "                }"
         PRINT #1, "            }"
@@ -2218,29 +1712,29 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                     PRINT #1, "    Body"
                     PRINT #1, "    {"
                     IF GASNUMBER = 1 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " I"
+                        PRINT #1, "         name = "; aStarName$; " I"
                         PNM$ = " I"
                     END IF
                     IF GASNUMBER = 2 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " II"
+                        PRINT #1, "         name = "; aStarName$; " II"
                         PNM$ = " II"
                     END IF
                     IF GASNUMBER = 3 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " III"
+                        PRINT #1, "         name = "; aStarName$; " III"
                         PNM$ = " III"
                     END IF
                     IF GASNUMBER = 4 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " IV"
+                        PRINT #1, "         name = "; aStarName$; " IV"
                         PNM$ = " IV"
                     END IF
                     IF GASNUMBER = 5 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " V"
+                        PRINT #1, "         name = "; aStarName$; " V"
                         PNM$ = " V"
                     END IF
                     PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
                     PRINT #1, "         Orbit"
                     PRINT #1, "         {"
-                    PRINT #1, "             referenceBody = "; PREFIX$; SUFFIX$; ""
+                    PRINT #1, "             referenceBody = "; aStarName$; ""
 
 
 
@@ -2263,7 +1757,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                     PRINT #1, "         {"
 
                     'RANDOMIZE TIMER
-                    PLANETTYPE = INT(RND * 13)
+                    PLANETTYPE = INT(RND * 20)
                     SELECT CASE PLANETTYPE
                         CASE 0
                             PLANETTYPE$ = "Moho"
@@ -2293,6 +1787,20 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PLANETTYPE$ = "Jool"
                         CASE 13
                             PLANETTYPE$ = "Eeloo"
+                        CASE 14
+                            PLANETTYPE$ = "Jool"
+                        CASE 15
+                            PLANETTYPE$ = "Jool"
+                        CASE 16
+                            PLANETTYPE$ = "Jool"
+                        CASE 17
+                            PLANETTYPE$ = "Jool"
+                        CASE 18
+                            PLANETTYPE$ = "Jool"
+                        CASE 19
+                            PLANETTYPE$ = "Jool"
+                        CASE 20
+                            PLANETTYPE$ = "Jool"
                     END SELECT
                     IF PLANETTYPE$ = "Moho" THEN
                         PRINT #1, "             name = "; PLANETTYPE$
@@ -2815,11 +2323,11 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             'PRINT #1, "{"
                             PRINT #1, "    Body"
                             PRINT #1, "    {"
-                            PRINT #1, "        name = "; PREFIX$; SUFFIX$; ""; PNM$; " "; MOONNUMBER; ""
+                            PRINT #1, "        name = "; aStarName$; ""; PNM$; " "; MOONNUMBER; ""
                             PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
                             PRINT #1, "        Orbit"
                             PRINT #1, "        {"
-                            PRINT #1, "            referenceBody = "; PREFIX$; SUFFIX$; ""; PNM$; ""
+                            PRINT #1, "            referenceBody = "; aStarName$; ""; PNM$; ""
                             'RANDOMIZE TIMER
                             PRINT #1, "            inclination ="; INT(RND * 360)
                             'RANDOMIZE TIMER
@@ -2902,7 +2410,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                     'PRINT #1, "{"
                     PRINT #1, "    Body"
                     PRINT #1, "    {"
-                    PRINT #1, "        name = "; PREFIX$; SUFFIX$; ASTNUMBER; ""
+                    PRINT #1, "        name = "; aStarName$; ASTNUMBER; ""
                     PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
                     PRINT #1, "        Template"
                     PRINT #1, "        {"
@@ -2922,7 +2430,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                     PRINT #1, ""
                     PRINT #1, "        Orbit"
                     PRINT #1, "        {"
-                    PRINT #1, "            referenceBody = "; PREFIX$; SUFFIX$; ""
+                    PRINT #1, "            referenceBody = "; aStarName$; ""
                     'RANDOMIZE TIMER
                     PRINT #1, "            inclination ="; INT(RND * 360)
                     'RANDOMIZE TIMER
@@ -2998,187 +2506,8 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
 
             PRINT #1, "    Body"
             PRINT #1, "    {"
-            PREFIXNUMBER = INT(RND * 43)
-            SELECT CASE PREFIXNUMBER
-                CASE 1
-                    PREFIX$ = "Ker"
-                CASE 2
-                    PREFIX$ = "Jo"
-                CASE 3
-                    PREFIX$ = "Ear"
-                CASE 4
-                    PREFIX$ = "Ju"
-                CASE 5
-                    PREFIX$ = "Jeb"
-                CASE 6
-                    PREFIX$ = "Plu"
-                CASE 7
-                    PREFIX$ = "Nep"
-                CASE 8
-                    PREFIX$ = "Bes"
-                CASE 9
-                    PREFIX$ = "Tat"
-                CASE 10
-                    PREFIX$ = "Dego"
-                CASE 11
-                    PREFIX$ = "Ho"
-                CASE 12
-                    PREFIX$ = "Geo"
-                CASE 13
-                    PREFIX$ = "Mu"
-                CASE 14
-                    PREFIX$ = "Usta"
-                CASE 15
-                    PREFIX$ = "Pla"
-                CASE 16
-                    PREFIX$ = "Gal"
-                CASE 17
-                    PREFIX$ = "Rea"
-                CASE 18
-                    PREFIX$ = "Olym"
-                CASE 19
-                    PREFIX$ = "Mor"
-                CASE 20
-                    PREFIX$ = "Mar"
-                CASE 21
-                    PREFIX$ = "Jup"
-                CASE 22
-                    PREFIX$ = "Sa"
-                CASE 23
-                    PREFIX$ = "Sat"
-                CASE 24
-                    PREFIX$ = "Kry"
-                CASE 25
-                    PREFIX$ = "Ee"
-                CASE 26
-                    PREFIX$ = "Su"
-                CASE 27
-                    PREFIX$ = "Spar"
-                CASE 28
-                    PREFIX$ = "He"
-                CASE 29
-                    PREFIX$ = "Xa"
-                CASE 30
-                    PREFIX$ = "Sak"
-                CASE 31
-                    PREFIX$ = "So"
-                CASE 32
-                    PREFIX$ = "Ha"
-                CASE 33
-                    PREFIX$ = "Kor"
-                CASE 34
-                    PREFIX$ = "Ath"
-                CASE 35
-                    PREFIX$ = "Chand"
-                CASE 36
-                    PREFIX$ = "Rig"
-                CASE 37
-                    PREFIX$ = "Ven"
-                CASE 38
-                    PREFIX$ = "Den"
-                CASE 39
-                    PREFIX$ = "C"
-                CASE 40
-                    PREFIX$ = "Holo"
-                CASE 41
-                    PREFIX$ = "Korr"
-                CASE 43
-                    PREFIX$ = "Ran"
-                CASE ELSE
-                    PREFIX$ = "Lon"
-            END SELECT
-            SUFFIXNUMBER = INT(RND * 43)
-            SELECT CASE SUFFIXNUMBER
-                CASE 1
-                    SUFFIX$ = "bin"
-                CASE 2
-                    SUFFIX$ = "ol"
-                CASE 3
-                    SUFFIX$ = "th"
-                CASE 4
-                    SUFFIX$ = "to"
-                CASE 5
-                    SUFFIX$ = "ne"
-                CASE 6
-                    SUFFIX$ = "in"
-                CASE 7
-                    SUFFIX$ = "ant"
-                CASE 8
-                    SUFFIX$ = "bah"
-                CASE 9
-                    SUFFIX$ = "sis"
-                CASE 10
-                    SUFFIX$ = "n"
-                CASE 11
-                    SUFFIX$ = "os"
-                CASE 12
-                    SUFFIX$ = "ch"
-                CASE 13
-                    SUFFIX$ = "dor"
-                CASE 14
-                    SUFFIX$ = "vin"
-                CASE 15
-                    SUFFIX$ = "s"
-                CASE 16
-                    SUFFIX$ = "ury"
-                CASE 17
-                    SUFFIX$ = "us"
-                CASE 18
-                    SUFFIX$ = "it"
-                CASE 19
-                    SUFFIX$ = "er"
-                CASE 20
-                    SUFFIX$ = "urn"
-                CASE 21
-                    SUFFIX$ = "une"
-                CASE 22
-                    SUFFIX$ = "pau"
-                CASE 23
-                    SUFFIX$ = "far"
-                CASE 24
-                    SUFFIX$ = "ton"
-                CASE 25
-                    SUFFIX$ = "lou"
-                CASE 26
-                    SUFFIX$ = "vin"
-                CASE 27
-                    SUFFIX$ = "tax"
-                CASE 28
-                    SUFFIX$ = "dar"
-                CASE 29
-                    SUFFIX$ = "aar"
-                CASE 30
-                    SUFFIX$ = "l"
-                CASE 31
-                    SUFFIX$ = "la"
-                CASE 32
-                    SUFFIX$ = "nth"
-                CASE 33
-                    SUFFIX$ = "il"
-                CASE 34
-                    SUFFIX$ = "ifrey"
-                CASE 35
-                    SUFFIX$ = "nus"
-                CASE 36
-                    SUFFIX$ = "neb"
-                CASE 37
-                    SUFFIX$ = "ron"
-                CASE 38
-                    SUFFIX$ = "ii"
-                CASE 39
-                    SUFFIX$ = "iban"
-                CASE 40
-                    SUFFIX$ = "trax"
-                CASE 41
-                    SUFFIX$ = "turus"
-                CASE 42
-                    SUFFIX$ = "clos"
-                CASE 43
-                    SUFFIX$ = "daa"
-                CASE ELSE
-                    SUFFIX$ = "Lon"
-            END SELECT
-            PRINT #1, "        name = "; PREFIX$; SUFFIX$; ""
+            aStarName$ = theStarName$ '#Calls the function "theStarName"
+            PRINT #1, "        name = "; aStarName$; ""
             PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
             PRINT #1, "        Template"
             PRINT #1, "        {"
@@ -3251,29 +2580,29 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                     PRINT #1, "    Body"
                     PRINT #1, "    {"
                     IF GASNUMBER = 1 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " I"
+                        PRINT #1, "         name = "; aStarName$; " I"
                         PNM$ = " I"
                     END IF
                     IF GASNUMBER = 2 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " II"
+                        PRINT #1, "         name = "; aStarName$; " II"
                         PNM$ = " II"
                     END IF
                     IF GASNUMBER = 3 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " III"
+                        PRINT #1, "         name = "; aStarName$; " III"
                         PNM$ = " III"
                     END IF
                     IF GASNUMBER = 4 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " IV"
+                        PRINT #1, "         name = "; aStarName$; " IV"
                         PNM$ = " IV"
                     END IF
                     IF GASNUMBER = 5 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " V"
+                        PRINT #1, "         name = "; aStarName$; " V"
                         PNM$ = " V"
                     END IF
                     PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
                     PRINT #1, "         Orbit"
                     PRINT #1, "         {"
-                    PRINT #1, "             referenceBody = "; PREFIX$; SUFFIX$; ""
+                    PRINT #1, "             referenceBody = "; aStarName$; ""
 
 
 
@@ -3296,7 +2625,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                     PRINT #1, "         {"
 
                     'RANDOMIZE TIMER
-                    PLANETTYPE = INT(RND * 13)
+                    PLANETTYPE = INT(RND * 20)
                     SELECT CASE PLANETTYPE
                         CASE 0
                             PLANETTYPE$ = "Moho"
@@ -3326,6 +2655,20 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PLANETTYPE$ = "Jool"
                         CASE 13
                             PLANETTYPE$ = "Eeloo"
+                        CASE 14
+                            PLANETTYPE$ = "Jool"
+                        CASE 15
+                            PLANETTYPE$ = "Jool"
+                        CASE 16
+                            PLANETTYPE$ = "Jool"
+                        CASE 17
+                            PLANETTYPE$ = "Jool"
+                        CASE 18
+                            PLANETTYPE$ = "Jool"
+                        CASE 19
+                            PLANETTYPE$ = "Jool"
+                        CASE 20
+                            PLANETTYPE$ = "Jool"
                     END SELECT
                     IF PLANETTYPE$ = "Moho" THEN
                         PRINT #1, "             name = "; PLANETTYPE$
@@ -3848,9 +3191,8 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             'PRINT #1, "{"
                             PRINT #1, "    Body"
                             PRINT #1, "    {"
-                            PRINT #1, "        name = "; PREFIX$; SUFFIX$; ""; PNM$; " "; MOONNUMBER; ""
+                            PRINT #1, "        name = "; aStarName$; ""; PNM$; " "; MOONNUMBER; ""
                             PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
-                            PRINT #1, ""
 
                             IF PLANETTYPE$ = "Jool" THEN
                                 'RANDOMIZE TIMER
@@ -3897,7 +3239,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             END IF
                             PRINT #1, "        Orbit"
                             PRINT #1, "        {"
-                            PRINT #1, "            referenceBody = "; PREFIX$; SUFFIX$; ""; PNM$; ""
+                            PRINT #1, "            referenceBody = "; aStarName$; ""; PNM$; ""
                             'RANDOMIZE TIMER
                             PRINT #1, "            inclination ="; INT(RND * 360)
                             'RANDOMIZE TIMER
@@ -3936,7 +3278,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                     'PRINT #1, "{"
                     PRINT #1, "    Body"
                     PRINT #1, "    {"
-                    PRINT #1, "        name = "; PREFIX$; SUFFIX$; ASTNUMBER; ""
+                    PRINT #1, "        name = "; aStarName$; ASTNUMBER; ""
                     PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
                     PRINT #1, "        Template"
                     PRINT #1, "        {"
@@ -3956,7 +3298,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                     PRINT #1, ""
                     PRINT #1, "        Orbit"
                     PRINT #1, "        {"
-                    PRINT #1, "            referenceBody = "; PREFIX$; SUFFIX$; ""
+                    PRINT #1, "            referenceBody = "; aStarName$; ""
                     'RANDOMIZE TIMER
                     PRINT #1, "            inclination ="; INT(RND * 360)
                     'RANDOMIZE TIMER
@@ -4035,187 +3377,8 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
 
             PRINT #1, "    Body"
             PRINT #1, "    {"
-            PREFIXNUMBER = INT(RND * 43)
-            SELECT CASE PREFIXNUMBER
-                CASE 1
-                    PREFIX$ = "Ker"
-                CASE 2
-                    PREFIX$ = "Jo"
-                CASE 3
-                    PREFIX$ = "Ear"
-                CASE 4
-                    PREFIX$ = "Ju"
-                CASE 5
-                    PREFIX$ = "Jeb"
-                CASE 6
-                    PREFIX$ = "Plu"
-                CASE 7
-                    PREFIX$ = "Nep"
-                CASE 8
-                    PREFIX$ = "Bes"
-                CASE 9
-                    PREFIX$ = "Tat"
-                CASE 10
-                    PREFIX$ = "Dego"
-                CASE 11
-                    PREFIX$ = "Ho"
-                CASE 12
-                    PREFIX$ = "Geo"
-                CASE 13
-                    PREFIX$ = "Mu"
-                CASE 14
-                    PREFIX$ = "Usta"
-                CASE 15
-                    PREFIX$ = "Pla"
-                CASE 16
-                    PREFIX$ = "Gal"
-                CASE 17
-                    PREFIX$ = "Rea"
-                CASE 18
-                    PREFIX$ = "Olym"
-                CASE 19
-                    PREFIX$ = "Mor"
-                CASE 20
-                    PREFIX$ = "Mar"
-                CASE 21
-                    PREFIX$ = "Jup"
-                CASE 22
-                    PREFIX$ = "Sa"
-                CASE 23
-                    PREFIX$ = "Sat"
-                CASE 24
-                    PREFIX$ = "Kry"
-                CASE 25
-                    PREFIX$ = "Ee"
-                CASE 26
-                    PREFIX$ = "Su"
-                CASE 27
-                    PREFIX$ = "Spar"
-                CASE 28
-                    PREFIX$ = "He"
-                CASE 29
-                    PREFIX$ = "Xa"
-                CASE 30
-                    PREFIX$ = "Sak"
-                CASE 31
-                    PREFIX$ = "So"
-                CASE 32
-                    PREFIX$ = "Ha"
-                CASE 33
-                    PREFIX$ = "Kor"
-                CASE 34
-                    PREFIX$ = "Ath"
-                CASE 35
-                    PREFIX$ = "Chand"
-                CASE 36
-                    PREFIX$ = "Rig"
-                CASE 37
-                    PREFIX$ = "Ven"
-                CASE 38
-                    PREFIX$ = "Den"
-                CASE 39
-                    PREFIX$ = "C"
-                CASE 40
-                    PREFIX$ = "Holo"
-                CASE 41
-                    PREFIX$ = "Korr"
-                CASE 43
-                    PREFIX$ = "Ran"
-                CASE ELSE
-                    PREFIX$ = "Lon"
-            END SELECT
-            SUFFIXNUMBER = INT(RND * 43)
-            SELECT CASE SUFFIXNUMBER
-                CASE 1
-                    SUFFIX$ = "bin"
-                CASE 2
-                    SUFFIX$ = "ol"
-                CASE 3
-                    SUFFIX$ = "th"
-                CASE 4
-                    SUFFIX$ = "to"
-                CASE 5
-                    SUFFIX$ = "ne"
-                CASE 6
-                    SUFFIX$ = "in"
-                CASE 7
-                    SUFFIX$ = "ant"
-                CASE 8
-                    SUFFIX$ = "bah"
-                CASE 9
-                    SUFFIX$ = "sis"
-                CASE 10
-                    SUFFIX$ = "n"
-                CASE 11
-                    SUFFIX$ = "os"
-                CASE 12
-                    SUFFIX$ = "ch"
-                CASE 13
-                    SUFFIX$ = "dor"
-                CASE 14
-                    SUFFIX$ = "vin"
-                CASE 15
-                    SUFFIX$ = "s"
-                CASE 16
-                    SUFFIX$ = "ury"
-                CASE 17
-                    SUFFIX$ = "us"
-                CASE 18
-                    SUFFIX$ = "it"
-                CASE 19
-                    SUFFIX$ = "er"
-                CASE 20
-                    SUFFIX$ = "urn"
-                CASE 21
-                    SUFFIX$ = "une"
-                CASE 22
-                    SUFFIX$ = "pau"
-                CASE 23
-                    SUFFIX$ = "far"
-                CASE 24
-                    SUFFIX$ = "ton"
-                CASE 25
-                    SUFFIX$ = "lou"
-                CASE 26
-                    SUFFIX$ = "vin"
-                CASE 27
-                    SUFFIX$ = "tax"
-                CASE 28
-                    SUFFIX$ = "dar"
-                CASE 29
-                    SUFFIX$ = "aar"
-                CASE 30
-                    SUFFIX$ = "l"
-                CASE 31
-                    SUFFIX$ = "la"
-                CASE 32
-                    SUFFIX$ = "nth"
-                CASE 33
-                    SUFFIX$ = "il"
-                CASE 34
-                    SUFFIX$ = "ifrey"
-                CASE 35
-                    SUFFIX$ = "nus"
-                CASE 36
-                    SUFFIX$ = "neb"
-                CASE 37
-                    SUFFIX$ = "ron"
-                CASE 38
-                    SUFFIX$ = "ii"
-                CASE 39
-                    SUFFIX$ = "iban"
-                CASE 40
-                    SUFFIX$ = "trax"
-                CASE 41
-                    SUFFIX$ = "turus"
-                CASE 42
-                    SUFFIX$ = "clos"
-                CASE 43
-                    SUFFIX$ = "daa"
-                CASE ELSE
-                    SUFFIX$ = "Lon"
-            END SELECT
-            PRINT #1, "        name = "; PREFIX$; SUFFIX$; ""
+            aStarName$ = theStarName$ '#Calls the function "theStarName"
+            PRINT #1, "        name = "; aStarName$; ""
             PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
             PRINT #1, "        Template"
             PRINT #1, "        {"
@@ -4301,7 +3464,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
         PRINT #1, ""
         PRINT #1, "                Material"
         PRINT #1, "                {"
-        PRINT #1, "                    texture = To_Boldly_Go/BlueCorona"
+        PRINT #1, "                    texture = To_Boldly_Go/Coronae/BlueCorona"
         PRINT #1, "                    inverseFade = 2.553731"
         PRINT #1, "                }"
         PRINT #1, "            }"
@@ -4316,7 +3479,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
         PRINT #1, ""
         PRINT #1, "                Material"
         PRINT #1, "                {"
-        PRINT #1, "                      texture = To_Boldly_Go/BlueCorona"
+        PRINT #1, "                      texture = To_Boldly_Go/Coronae/BlueCorona"
         PRINT #1, "                      inverseFade = 2.553731"
         PRINT #1, "                }"
         PRINT #1, "            }"
@@ -4337,29 +3500,29 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                     PRINT #1, "    Body"
                     PRINT #1, "    {"
                     IF GASNUMBER = 1 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " I"
+                        PRINT #1, "         name = "; aStarName$; " I"
                         PNM$ = " I"
                     END IF
                     IF GASNUMBER = 2 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " II"
+                        PRINT #1, "         name = "; aStarName$; " II"
                         PNM$ = " II"
                     END IF
                     IF GASNUMBER = 3 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " III"
+                        PRINT #1, "         name = "; aStarName$; " III"
                         PNM$ = " III"
                     END IF
                     IF GASNUMBER = 4 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " IV"
+                        PRINT #1, "         name = "; aStarName$; " IV"
                         PNM$ = " IV"
                     END IF
                     IF GASNUMBER = 5 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " V"
+                        PRINT #1, "         name = "; aStarName$; " V"
                         PNM$ = " V"
                     END IF
                     PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
                     PRINT #1, "         Orbit"
                     PRINT #1, "         {"
-                    PRINT #1, "             referenceBody = "; PREFIX$; SUFFIX$; ""
+                    PRINT #1, "             referenceBody = "; aStarName$; ""
 
 
 
@@ -4934,11 +4097,11 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             'PRINT #1, "{"
                             PRINT #1, "    Body"
                             PRINT #1, "    {"
-                            PRINT #1, "        name = "; PREFIX$; SUFFIX$; ""; PNM$; " "; MOONNUMBER; ""
+                            PRINT #1, "        name = "; aStarName$; ""; PNM$; " "; MOONNUMBER; ""
                             PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
                             PRINT #1, "        Orbit"
                             PRINT #1, "        {"
-                            PRINT #1, "            referenceBody = "; PREFIX$; SUFFIX$; ""; PNM$; ""
+                            PRINT #1, "            referenceBody = "; aStarName$; ""; PNM$; ""
                             'RANDOMIZE TIMER
                             PRINT #1, "            inclination ="; INT(RND * 360)
                             'RANDOMIZE TIMER
@@ -5021,7 +4184,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                     'PRINT #1, "{"
                     PRINT #1, "    Body"
                     PRINT #1, "    {"
-                    PRINT #1, "        name = "; PREFIX$; SUFFIX$; ASTNUMBER; ""
+                    PRINT #1, "        name = "; aStarName$; ASTNUMBER; ""
                     PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
                     PRINT #1, "        Template"
                     PRINT #1, "        {"
@@ -5041,7 +4204,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                     PRINT #1, ""
                     PRINT #1, "        Orbit"
                     PRINT #1, "        {"
-                    PRINT #1, "            referenceBody = "; PREFIX$; SUFFIX$; ""
+                    PRINT #1, "            referenceBody = "; aStarName$; ""
                     'RANDOMIZE TIMER
                     PRINT #1, "            inclination ="; INT(RND * 360)
                     'RANDOMIZE TIMER
@@ -5116,187 +4279,8 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
 
             PRINT #1, "    Body"
             PRINT #1, "    {"
-            PREFIXNUMBER = INT(RND * 43)
-            SELECT CASE PREFIXNUMBER
-                CASE 1
-                    PREFIX$ = "Ker"
-                CASE 2
-                    PREFIX$ = "Jo"
-                CASE 3
-                    PREFIX$ = "Ear"
-                CASE 4
-                    PREFIX$ = "Ju"
-                CASE 5
-                    PREFIX$ = "Jeb"
-                CASE 6
-                    PREFIX$ = "Plu"
-                CASE 7
-                    PREFIX$ = "Nep"
-                CASE 8
-                    PREFIX$ = "Bes"
-                CASE 9
-                    PREFIX$ = "Tat"
-                CASE 10
-                    PREFIX$ = "Dego"
-                CASE 11
-                    PREFIX$ = "Ho"
-                CASE 12
-                    PREFIX$ = "Geo"
-                CASE 13
-                    PREFIX$ = "Mu"
-                CASE 14
-                    PREFIX$ = "Usta"
-                CASE 15
-                    PREFIX$ = "Pla"
-                CASE 16
-                    PREFIX$ = "Gal"
-                CASE 17
-                    PREFIX$ = "Rea"
-                CASE 18
-                    PREFIX$ = "Olym"
-                CASE 19
-                    PREFIX$ = "Mor"
-                CASE 20
-                    PREFIX$ = "Mar"
-                CASE 21
-                    PREFIX$ = "Jup"
-                CASE 22
-                    PREFIX$ = "Sa"
-                CASE 23
-                    PREFIX$ = "Sat"
-                CASE 24
-                    PREFIX$ = "Kry"
-                CASE 25
-                    PREFIX$ = "Ee"
-                CASE 26
-                    PREFIX$ = "Su"
-                CASE 27
-                    PREFIX$ = "Spar"
-                CASE 28
-                    PREFIX$ = "He"
-                CASE 29
-                    PREFIX$ = "Xa"
-                CASE 30
-                    PREFIX$ = "Sak"
-                CASE 31
-                    PREFIX$ = "So"
-                CASE 32
-                    PREFIX$ = "Ha"
-                CASE 33
-                    PREFIX$ = "Kor"
-                CASE 34
-                    PREFIX$ = "Ath"
-                CASE 35
-                    PREFIX$ = "Chand"
-                CASE 36
-                    PREFIX$ = "Rig"
-                CASE 37
-                    PREFIX$ = "Ven"
-                CASE 38
-                    PREFIX$ = "Den"
-                CASE 39
-                    PREFIX$ = "C"
-                CASE 40
-                    PREFIX$ = "Holo"
-                CASE 41
-                    PREFIX$ = "Korr"
-                CASE 43
-                    PREFIX$ = "Ran"
-                CASE ELSE
-                    PREFIX$ = "Lon"
-            END SELECT
-            SUFFIXNUMBER = INT(RND * 43)
-            SELECT CASE SUFFIXNUMBER
-                CASE 1
-                    SUFFIX$ = "bin"
-                CASE 2
-                    SUFFIX$ = "ol"
-                CASE 3
-                    SUFFIX$ = "th"
-                CASE 4
-                    SUFFIX$ = "to"
-                CASE 5
-                    SUFFIX$ = "ne"
-                CASE 6
-                    SUFFIX$ = "in"
-                CASE 7
-                    SUFFIX$ = "ant"
-                CASE 8
-                    SUFFIX$ = "bah"
-                CASE 9
-                    SUFFIX$ = "sis"
-                CASE 10
-                    SUFFIX$ = "n"
-                CASE 11
-                    SUFFIX$ = "os"
-                CASE 12
-                    SUFFIX$ = "ch"
-                CASE 13
-                    SUFFIX$ = "dor"
-                CASE 14
-                    SUFFIX$ = "vin"
-                CASE 15
-                    SUFFIX$ = "s"
-                CASE 16
-                    SUFFIX$ = "ury"
-                CASE 17
-                    SUFFIX$ = "us"
-                CASE 18
-                    SUFFIX$ = "it"
-                CASE 19
-                    SUFFIX$ = "er"
-                CASE 20
-                    SUFFIX$ = "urn"
-                CASE 21
-                    SUFFIX$ = "une"
-                CASE 22
-                    SUFFIX$ = "pau"
-                CASE 23
-                    SUFFIX$ = "far"
-                CASE 24
-                    SUFFIX$ = "ton"
-                CASE 25
-                    SUFFIX$ = "lou"
-                CASE 26
-                    SUFFIX$ = "vin"
-                CASE 27
-                    SUFFIX$ = "tax"
-                CASE 28
-                    SUFFIX$ = "dar"
-                CASE 29
-                    SUFFIX$ = "aar"
-                CASE 30
-                    SUFFIX$ = "l"
-                CASE 31
-                    SUFFIX$ = "la"
-                CASE 32
-                    SUFFIX$ = "nth"
-                CASE 33
-                    SUFFIX$ = "il"
-                CASE 34
-                    SUFFIX$ = "ifrey"
-                CASE 35
-                    SUFFIX$ = "nus"
-                CASE 36
-                    SUFFIX$ = "neb"
-                CASE 37
-                    SUFFIX$ = "ron"
-                CASE 38
-                    SUFFIX$ = "ii"
-                CASE 39
-                    SUFFIX$ = "iban"
-                CASE 40
-                    SUFFIX$ = "trax"
-                CASE 41
-                    SUFFIX$ = "turus"
-                CASE 42
-                    SUFFIX$ = "clos"
-                CASE 43
-                    SUFFIX$ = "daa"
-                CASE ELSE
-                    SUFFIX$ = "Lon"
-            END SELECT
-            PRINT #1, "        name = "; PREFIX$; SUFFIX$; ""
+            aStarName$ = theStarName$ '#Calls the function "theStarName"
+            PRINT #1, "        name = "; aStarName$; ""
             PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
             PRINT #1, "        Template"
             PRINT #1, "        {"
@@ -5381,7 +4365,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
         PRINT #1, ""
         PRINT #1, "                Material"
         PRINT #1, "                {"
-        PRINT #1, "                    texture = To_Boldly_Go/WhiteCorona"
+        PRINT #1, "                    texture = To_Boldly_Go/Coronae/WhiteCorona"
         PRINT #1, "                    inverseFade = 2.553731"
         PRINT #1, "                }"
         PRINT #1, "            }"
@@ -5396,7 +4380,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
         PRINT #1, ""
         PRINT #1, "                Material"
         PRINT #1, "                {"
-        PRINT #1, "                      texture = To_Boldly_Go/WhiteCorona"
+        PRINT #1, "                      texture = To_Boldly_Go/Coronae/WhiteCorona"
         PRINT #1, "                      inverseFade = 2.553731"
         PRINT #1, "                }"
         PRINT #1, "            }"
@@ -5416,29 +4400,29 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
                     PRINT #1, "    Body"
                     PRINT #1, "    {"
                     IF GASNUMBER = 1 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " I"
+                        PRINT #1, "         name = "; aStarName$; " I"
                         PNM$ = " I"
                     END IF
                     IF GASNUMBER = 2 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " II"
+                        PRINT #1, "         name = "; aStarName$; " II"
                         PNM$ = " II"
                     END IF
                     IF GASNUMBER = 3 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " III"
+                        PRINT #1, "         name = "; aStarName$; " III"
                         PNM$ = " III"
                     END IF
                     IF GASNUMBER = 4 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " IV"
+                        PRINT #1, "         name = "; aStarName$; " IV"
                         PNM$ = " IV"
                     END IF
                     IF GASNUMBER = 5 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " V"
+                        PRINT #1, "         name = "; aStarName$; " V"
                         PNM$ = " V"
                     END IF
                     PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
                     PRINT #1, "         Orbit"
                     PRINT #1, "         {"
-                    PRINT #1, "             referenceBody = "; PREFIX$; SUFFIX$; ""
+                    PRINT #1, "             referenceBody = "; aStarName$; ""
 
 
 
@@ -5461,7 +4445,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
                     PRINT #1, "         {"
 
                     'RANDOMIZE TIMER
-                    PLANETTYPE = INT(RND * 13)
+                    PLANETTYPE = INT(RND * 20)
                     SELECT CASE PLANETTYPE
                         CASE 0
                             PLANETTYPE$ = "Moho"
@@ -5490,6 +4474,20 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
                         CASE 12
                             PLANETTYPE$ = "Jool"
                         CASE 13
+                            PLANETTYPE$ = "Jool"
+                        CASE 14
+                            PLANETTYPE$ = "Jool"
+                        CASE 15
+                            PLANETTYPE$ = "Jool"
+                        CASE 16
+                            PLANETTYPE$ = "Jool"
+                        CASE 17
+                            PLANETTYPE$ = "Jool"
+                        CASE 18
+                            PLANETTYPE$ = "Jool"
+                        CASE 19
+                            PLANETTYPE$ = "Jool"
+                        CASE 20
                             PLANETTYPE$ = "Jool"
                     END SELECT
                     IF PLANETTYPE$ = "Moho" THEN
@@ -5759,11 +4757,11 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
                         DO
                             PRINT #1, "    Body"
                             PRINT #1, "    {"
-                            PRINT #1, "        name = "; PREFIX$; SUFFIX$; ""; PNM$; " "; MOONNUMBER; ""
+                            PRINT #1, "        name = "; aStarName$; ""; PNM$; " "; MOONNUMBER; ""
                             PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
                             PRINT #1, "        Orbit"
                             PRINT #1, "        {"
-                            PRINT #1, "            referenceBody = "; PREFIX$; SUFFIX$; ""; PNM$; ""
+                            PRINT #1, "            referenceBody = "; aStarName$; ""; PNM$; ""
                             'RANDOMIZE TIMER
                             PRINT #1, "            inclination ="; INT(RND * 360)
                             'RANDOMIZE TIMER
@@ -5844,9 +4842,8 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
                     'PRINT #1, "{"
                     PRINT #1, "    Body"
                     PRINT #1, "    {"
-                    PRINT #1, "        name = "; PREFIX$; SUFFIX$; ASTNUMBER; ""
+                    PRINT #1, "        name = "; aStarName$; ASTNUMBER; ""
                     PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
-                    PRINT #1, ""
                     PRINT #1, "        Template"
                     PRINT #1, "        {"
                     PRINT #1, "            name = Gilly"
@@ -5865,7 +4862,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
                     PRINT #1, ""
                     PRINT #1, "        Orbit"
                     PRINT #1, "        {"
-                    PRINT #1, "            referenceBody = "; PREFIX$; SUFFIX$; ""
+                    PRINT #1, "            referenceBody = "; aStarName$; ""
                     'RANDOMIZE TIMER
                     PRINT #1, "            inclination ="; INT(RND * 360)
                     'RANDOMIZE TIMER
@@ -5935,187 +4932,8 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
 
             PRINT #1, "    Body"
             PRINT #1, "    {"
-            PREFIXNUMBER = INT(RND * 43)
-            SELECT CASE PREFIXNUMBER
-                CASE 1
-                    PREFIX$ = "Ker"
-                CASE 2
-                    PREFIX$ = "Jo"
-                CASE 3
-                    PREFIX$ = "Ear"
-                CASE 4
-                    PREFIX$ = "Ju"
-                CASE 5
-                    PREFIX$ = "Jeb"
-                CASE 6
-                    PREFIX$ = "Plu"
-                CASE 7
-                    PREFIX$ = "Nep"
-                CASE 8
-                    PREFIX$ = "Bes"
-                CASE 9
-                    PREFIX$ = "Tat"
-                CASE 10
-                    PREFIX$ = "Dego"
-                CASE 11
-                    PREFIX$ = "Ho"
-                CASE 12
-                    PREFIX$ = "Geo"
-                CASE 13
-                    PREFIX$ = "Mu"
-                CASE 14
-                    PREFIX$ = "Usta"
-                CASE 15
-                    PREFIX$ = "Pla"
-                CASE 16
-                    PREFIX$ = "Gal"
-                CASE 17
-                    PREFIX$ = "Rea"
-                CASE 18
-                    PREFIX$ = "Olym"
-                CASE 19
-                    PREFIX$ = "Mor"
-                CASE 20
-                    PREFIX$ = "Mar"
-                CASE 21
-                    PREFIX$ = "Jup"
-                CASE 22
-                    PREFIX$ = "Sa"
-                CASE 23
-                    PREFIX$ = "Sat"
-                CASE 24
-                    PREFIX$ = "Kry"
-                CASE 25
-                    PREFIX$ = "Ee"
-                CASE 26
-                    PREFIX$ = "Su"
-                CASE 27
-                    PREFIX$ = "Spar"
-                CASE 28
-                    PREFIX$ = "He"
-                CASE 29
-                    PREFIX$ = "Xa"
-                CASE 30
-                    PREFIX$ = "Sak"
-                CASE 31
-                    PREFIX$ = "So"
-                CASE 32
-                    PREFIX$ = "Ha"
-                CASE 33
-                    PREFIX$ = "Kor"
-                CASE 34
-                    PREFIX$ = "Ath"
-                CASE 35
-                    PREFIX$ = "Chand"
-                CASE 36
-                    PREFIX$ = "Rig"
-                CASE 37
-                    PREFIX$ = "Ven"
-                CASE 38
-                    PREFIX$ = "Den"
-                CASE 39
-                    PREFIX$ = "C"
-                CASE 40
-                    PREFIX$ = "Holo"
-                CASE 41
-                    PREFIX$ = "Korr"
-                CASE 43
-                    PREFIX$ = "Ran"
-                CASE ELSE
-                    PREFIX$ = "Lon"
-            END SELECT
-            SUFFIXNUMBER = INT(RND * 43)
-            SELECT CASE SUFFIXNUMBER
-                CASE 1
-                    SUFFIX$ = "bin"
-                CASE 2
-                    SUFFIX$ = "ol"
-                CASE 3
-                    SUFFIX$ = "th"
-                CASE 4
-                    SUFFIX$ = "to"
-                CASE 5
-                    SUFFIX$ = "ne"
-                CASE 6
-                    SUFFIX$ = "in"
-                CASE 7
-                    SUFFIX$ = "ant"
-                CASE 8
-                    SUFFIX$ = "bah"
-                CASE 9
-                    SUFFIX$ = "sis"
-                CASE 10
-                    SUFFIX$ = "n"
-                CASE 11
-                    SUFFIX$ = "os"
-                CASE 12
-                    SUFFIX$ = "ch"
-                CASE 13
-                    SUFFIX$ = "dor"
-                CASE 14
-                    SUFFIX$ = "vin"
-                CASE 15
-                    SUFFIX$ = "s"
-                CASE 16
-                    SUFFIX$ = "ury"
-                CASE 17
-                    SUFFIX$ = "us"
-                CASE 18
-                    SUFFIX$ = "it"
-                CASE 19
-                    SUFFIX$ = "er"
-                CASE 20
-                    SUFFIX$ = "urn"
-                CASE 21
-                    SUFFIX$ = "une"
-                CASE 22
-                    SUFFIX$ = "pau"
-                CASE 23
-                    SUFFIX$ = "far"
-                CASE 24
-                    SUFFIX$ = "ton"
-                CASE 25
-                    SUFFIX$ = "lou"
-                CASE 26
-                    SUFFIX$ = "vin"
-                CASE 27
-                    SUFFIX$ = "tax"
-                CASE 28
-                    SUFFIX$ = "dar"
-                CASE 29
-                    SUFFIX$ = "aar"
-                CASE 30
-                    SUFFIX$ = "l"
-                CASE 31
-                    SUFFIX$ = "la"
-                CASE 32
-                    SUFFIX$ = "nth"
-                CASE 33
-                    SUFFIX$ = "il"
-                CASE 34
-                    SUFFIX$ = "ifrey"
-                CASE 35
-                    SUFFIX$ = "nus"
-                CASE 36
-                    SUFFIX$ = "neb"
-                CASE 37
-                    SUFFIX$ = "ron"
-                CASE 38
-                    SUFFIX$ = "ii"
-                CASE 39
-                    SUFFIX$ = "iban"
-                CASE 40
-                    SUFFIX$ = "trax"
-                CASE 41
-                    SUFFIX$ = "turus"
-                CASE 42
-                    SUFFIX$ = "clos"
-                CASE 43
-                    SUFFIX$ = "daa"
-                CASE ELSE
-                    SUFFIX$ = "Lon"
-            END SELECT
-            PRINT #1, "        name = "; PREFIX$; SUFFIX$; ""
+            aStarName$ = theStarName$ '#Calls the function "theStarName"
+            PRINT #1, "        name = "; aStarName$; ""
             PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
             PRINT #1, "        Template"
             PRINT #1, "        {"
@@ -6204,7 +5022,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
         PRINT #1, ""
         PRINT #1, "                Material"
         PRINT #1, "                {"
-        PRINT #1, "                    texture = To_Boldly_Go/Black"
+        PRINT #1, "                    texture = To_Boldly_Go/Coronae/Black"
         PRINT #1, "                    inverseFade = 2.553731"
         PRINT #1, "                }"
         PRINT #1, "            }"
@@ -6219,7 +5037,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
         PRINT #1, ""
         PRINT #1, "                Material"
         PRINT #1, "                {"
-        PRINT #1, "                      texture = To_Boldly_Go/Black"
+        PRINT #1, "                      texture = To_Boldly_Go/Coronae/Black"
         PRINT #1, "                      inverseFade = 2.553731"
         PRINT #1, "                }"
         PRINT #1, "            }"
@@ -6239,29 +5057,29 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                     PRINT #1, "    Body"
                     PRINT #1, "    {"
                     IF GASNUMBER = 1 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " I"
+                        PRINT #1, "         name = "; aStarName$; " I"
                         PNM$ = " I"
                     END IF
                     IF GASNUMBER = 2 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " II"
+                        PRINT #1, "         name = "; aStarName$; " II"
                         PNM$ = " II"
                     END IF
                     IF GASNUMBER = 3 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " III"
+                        PRINT #1, "         name = "; aStarName$; " III"
                         PNM$ = " III"
                     END IF
                     IF GASNUMBER = 4 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " IV"
+                        PRINT #1, "         name = "; aStarName$; " IV"
                         PNM$ = " IV"
                     END IF
                     IF GASNUMBER = 5 THEN
-                        PRINT #1, "         name = "; PREFIX$; SUFFIX$; " V"
+                        PRINT #1, "         name = "; aStarName$; " V"
                         PNM$ = " V"
                     END IF
                     PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
                     PRINT #1, "         Orbit"
                     PRINT #1, "         {"
-                    PRINT #1, "             referenceBody = "; PREFIX$; SUFFIX$; ""
+                    PRINT #1, "             referenceBody = "; aStarName$; ""
 
 
 
@@ -6819,11 +5637,11 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                         DO
                             PRINT #1, "    Body"
                             PRINT #1, "    {"
-                            PRINT #1, "        name = "; PREFIX$; SUFFIX$; ""; PNM$; " "; MOONNUMBER; ""
+                            PRINT #1, "        name = "; aStarName$; ""; PNM$; " "; MOONNUMBER; ""
                             PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
                             PRINT #1, "        Orbit"
                             PRINT #1, "        {"
-                            PRINT #1, "            referenceBody = "; PREFIX$; SUFFIX$; ""; PNM$; ""
+                            PRINT #1, "            referenceBody = "; aStarName$; ""; PNM$; ""
                             'RANDOMIZE TIMER
                             PRINT #1, "            inclination ="; INT(RND * 360)
                             'RANDOMIZE TIMER
@@ -6904,7 +5722,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                     'PRINT #1, "{"
                     PRINT #1, "    Body"
                     PRINT #1, "    {"
-                    PRINT #1, "        name = "; PREFIX$; SUFFIX$; ASTNUMBER; ""
+                    PRINT #1, "        name = "; aStarName$; ASTNUMBER; ""
                     PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
                     PRINT #1, "        Template"
                     PRINT #1, "        {"
@@ -6924,7 +5742,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                     PRINT #1, ""
                     PRINT #1, "        Orbit"
                     PRINT #1, "        {"
-                    PRINT #1, "            referenceBody = "; PREFIX$; SUFFIX$; ""
+                    PRINT #1, "            referenceBody = "; aStarName$; ""
                     'RANDOMIZE TIMER
                     PRINT #1, "            inclination ="; INT(RND * 360)
                     'RANDOMIZE TIMER
@@ -6989,187 +5807,8 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
             PRINT #1, "    Body"
             OBJECTNUMBER = OBJECTNUMBER + 1
             PRINT #1, "    {"
-            PREFIXNUMBER = INT(RND * 43)
-            SELECT CASE PREFIXNUMBER
-                CASE 1
-                    PREFIX$ = "Ker"
-                CASE 2
-                    PREFIX$ = "Jo"
-                CASE 3
-                    PREFIX$ = "Ear"
-                CASE 4
-                    PREFIX$ = "Ju"
-                CASE 5
-                    PREFIX$ = "Jeb"
-                CASE 6
-                    PREFIX$ = "Plu"
-                CASE 7
-                    PREFIX$ = "Nep"
-                CASE 8
-                    PREFIX$ = "Bes"
-                CASE 9
-                    PREFIX$ = "Tat"
-                CASE 10
-                    PREFIX$ = "Dego"
-                CASE 11
-                    PREFIX$ = "Ho"
-                CASE 12
-                    PREFIX$ = "Geo"
-                CASE 13
-                    PREFIX$ = "Mu"
-                CASE 14
-                    PREFIX$ = "Usta"
-                CASE 15
-                    PREFIX$ = "Pla"
-                CASE 16
-                    PREFIX$ = "Gal"
-                CASE 17
-                    PREFIX$ = "Rea"
-                CASE 18
-                    PREFIX$ = "Olym"
-                CASE 19
-                    PREFIX$ = "Mor"
-                CASE 20
-                    PREFIX$ = "Mar"
-                CASE 21
-                    PREFIX$ = "Jup"
-                CASE 22
-                    PREFIX$ = "Sa"
-                CASE 23
-                    PREFIX$ = "Sat"
-                CASE 24
-                    PREFIX$ = "Kry"
-                CASE 25
-                    PREFIX$ = "Ee"
-                CASE 26
-                    PREFIX$ = "Su"
-                CASE 27
-                    PREFIX$ = "Spar"
-                CASE 28
-                    PREFIX$ = "He"
-                CASE 29
-                    PREFIX$ = "Xa"
-                CASE 30
-                    PREFIX$ = "Sak"
-                CASE 31
-                    PREFIX$ = "So"
-                CASE 32
-                    PREFIX$ = "Ha"
-                CASE 33
-                    PREFIX$ = "Kor"
-                CASE 34
-                    PREFIX$ = "Ath"
-                CASE 35
-                    PREFIX$ = "Chand"
-                CASE 36
-                    PREFIX$ = "Rig"
-                CASE 37
-                    PREFIX$ = "Ven"
-                CASE 38
-                    PREFIX$ = "Den"
-                CASE 39
-                    PREFIX$ = "C"
-                CASE 40
-                    PREFIX$ = "Holo"
-                CASE 41
-                    PREFIX$ = "Korr"
-                CASE 43
-                    PREFIX$ = "Ran"
-                CASE ELSE
-                    PREFIX$ = "Lon"
-            END SELECT
-            SUFFIXNUMBER = INT(RND * 43)
-            SELECT CASE SUFFIXNUMBER
-                CASE 1
-                    SUFFIX$ = "bin"
-                CASE 2
-                    SUFFIX$ = "ol"
-                CASE 3
-                    SUFFIX$ = "th"
-                CASE 4
-                    SUFFIX$ = "to"
-                CASE 5
-                    SUFFIX$ = "ne"
-                CASE 6
-                    SUFFIX$ = "in"
-                CASE 7
-                    SUFFIX$ = "ant"
-                CASE 8
-                    SUFFIX$ = "bah"
-                CASE 9
-                    SUFFIX$ = "sis"
-                CASE 10
-                    SUFFIX$ = "n"
-                CASE 11
-                    SUFFIX$ = "os"
-                CASE 12
-                    SUFFIX$ = "ch"
-                CASE 13
-                    SUFFIX$ = "dor"
-                CASE 14
-                    SUFFIX$ = "vin"
-                CASE 15
-                    SUFFIX$ = "s"
-                CASE 16
-                    SUFFIX$ = "ury"
-                CASE 17
-                    SUFFIX$ = "us"
-                CASE 18
-                    SUFFIX$ = "it"
-                CASE 19
-                    SUFFIX$ = "er"
-                CASE 20
-                    SUFFIX$ = "urn"
-                CASE 21
-                    SUFFIX$ = "une"
-                CASE 22
-                    SUFFIX$ = "pau"
-                CASE 23
-                    SUFFIX$ = "far"
-                CASE 24
-                    SUFFIX$ = "ton"
-                CASE 25
-                    SUFFIX$ = "lou"
-                CASE 26
-                    SUFFIX$ = "vin"
-                CASE 27
-                    SUFFIX$ = "tax"
-                CASE 28
-                    SUFFIX$ = "dar"
-                CASE 29
-                    SUFFIX$ = "aar"
-                CASE 30
-                    SUFFIX$ = "l"
-                CASE 31
-                    SUFFIX$ = "la"
-                CASE 32
-                    SUFFIX$ = "nth"
-                CASE 33
-                    SUFFIX$ = "il"
-                CASE 34
-                    SUFFIX$ = "ifrey"
-                CASE 35
-                    SUFFIX$ = "nus"
-                CASE 36
-                    SUFFIX$ = "neb"
-                CASE 37
-                    SUFFIX$ = "ron"
-                CASE 38
-                    SUFFIX$ = "ii"
-                CASE 39
-                    SUFFIX$ = "iban"
-                CASE 40
-                    SUFFIX$ = "trax"
-                CASE 41
-                    SUFFIX$ = "turus"
-                CASE 42
-                    SUFFIX$ = "clos"
-                CASE 43
-                    SUFFIX$ = "daa"
-                CASE ELSE
-                    SUFFIX$ = "Lon"
-            END SELECT
-            PRINT #1, "        name = "; PREFIX$; SUFFIX$; ""
+            aStarName$ = theStarName$ '#Calls the function "theStarName"
+            PRINT #1, "        name = "; aStarName$; ""
             PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
             PRINT #1, "        Template"
             PRINT #1, "        {"
@@ -7252,7 +5891,7 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
         PRINT #1, ""
         PRINT #1, "                Material"
         PRINT #1, "                {"
-        PRINT #1, "                    texture = To_Boldly_Go/Black"
+        PRINT #1, "                    texture = To_Boldly_Go/Coronae/Black"
         PRINT #1, "                    inverseFade = 2.553731"
         PRINT #1, "                }"
         PRINT #1, "            }"
@@ -7267,7 +5906,7 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
         PRINT #1, ""
         PRINT #1, "                Material"
         PRINT #1, "                {"
-        PRINT #1, "                      texture = To_Boldly_Go/Black"
+        PRINT #1, "                      texture = To_Boldly_Go/Coronae/Black"
         PRINT #1, "                      inverseFade = 2.553731"
         PRINT #1, "                }"
         PRINT #1, "            }"
@@ -7286,7 +5925,7 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
                     PRINT #1, "{"
                     PRINT #1, "    Body"
                     PRINT #1, "    {"
-                    PRINT #1, "        name = "; PREFIX$; SUFFIX$; ASTNUMBER; ""
+                    PRINT #1, "        name = "; aStarName$; ASTNUMBER; ""
                     PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
                     PRINT #1, "        Template"
                     PRINT #1, "        {"
@@ -7306,7 +5945,7 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
                     PRINT #1, ""
                     PRINT #1, "        Orbit"
                     PRINT #1, "        {"
-                    PRINT #1, "            referenceBody = "; PREFIX$; SUFFIX$; ""
+                    PRINT #1, "            referenceBody = "; aStarName$; ""
                     'RANDOMIZE TIMER
                     PRINT #1, "            inclination ="; INT(RND * 360)
                     'RANDOMIZE TIMER
@@ -7365,188 +6004,8 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
         PRINT #1, "    Body"
         OBJECTNUMBER = OBJECTNUMBER + 1
         PRINT #1, "    {"
-        PREFIXNUMBER = INT(RND * 43)
-        SELECT CASE PREFIXNUMBER
-            CASE 1
-                PREFIX$ = "Ker"
-            CASE 2
-                PREFIX$ = "Jo"
-            CASE 3
-                PREFIX$ = "Ear"
-            CASE 4
-                PREFIX$ = "Ju"
-            CASE 5
-                PREFIX$ = "Jeb"
-            CASE 6
-                PREFIX$ = "Plu"
-            CASE 7
-                PREFIX$ = "Nep"
-            CASE 8
-                PREFIX$ = "Bes"
-            CASE 9
-                PREFIX$ = "Tat"
-            CASE 10
-                PREFIX$ = "Dego"
-            CASE 11
-                PREFIX$ = "Ho"
-            CASE 12
-                PREFIX$ = "Geo"
-            CASE 13
-                PREFIX$ = "Mu"
-            CASE 14
-                PREFIX$ = "Usta"
-            CASE 15
-                PREFIX$ = "Pla"
-            CASE 16
-                PREFIX$ = "Gal"
-            CASE 17
-                PREFIX$ = "Rea"
-            CASE 18
-                PREFIX$ = "Olym"
-            CASE 19
-                PREFIX$ = "Mor"
-            CASE 20
-                PREFIX$ = "Mar"
-            CASE 21
-                PREFIX$ = "Jup"
-            CASE 22
-                PREFIX$ = "Sa"
-            CASE 23
-                PREFIX$ = "Sat"
-            CASE 24
-                PREFIX$ = "Kry"
-            CASE 25
-                PREFIX$ = "Ee"
-            CASE 26
-                PREFIX$ = "Su"
-            CASE 27
-                PREFIX$ = "Spar"
-            CASE 28
-                PREFIX$ = "He"
-            CASE 29
-                PREFIX$ = "Xa"
-            CASE 30
-                PREFIX$ = "Sak"
-            CASE 31
-                PREFIX$ = "So"
-            CASE 32
-                PREFIX$ = "Ha"
-            CASE 33
-                PREFIX$ = "Kor"
-            CASE 34
-                PREFIX$ = "Ath"
-            CASE 35
-                PREFIX$ = "Chand"
-            CASE 36
-                PREFIX$ = "Rig"
-            CASE 37
-                PREFIX$ = "Ven"
-            CASE 38
-                PREFIX$ = "Den"
-            CASE 39
-                PREFIX$ = "C"
-            CASE 40
-                PREFIX$ = "Holo"
-            CASE 41
-                PREFIX$ = "Korr"
-            CASE 43
-                PREFIX$ = "Ran"
-            CASE ELSE
-                PREFIX$ = "Lon"
-        END SELECT
-        SUFFIXNUMBER = INT(RND * 43)
-        SELECT CASE SUFFIXNUMBER
-            CASE 1
-                SUFFIX$ = "bin"
-            CASE 2
-                SUFFIX$ = "ol"
-            CASE 3
-                SUFFIX$ = "th"
-            CASE 4
-                SUFFIX$ = "to"
-            CASE 5
-                SUFFIX$ = "ne"
-            CASE 6
-                SUFFIX$ = "in"
-            CASE 7
-                SUFFIX$ = "ant"
-            CASE 8
-                SUFFIX$ = "bah"
-            CASE 9
-                SUFFIX$ = "sis"
-            CASE 10
-                SUFFIX$ = "n"
-            CASE 11
-                SUFFIX$ = "os"
-            CASE 12
-                SUFFIX$ = "ch"
-            CASE 13
-                SUFFIX$ = "dor"
-            CASE 14
-                SUFFIX$ = "vin"
-            CASE 15
-                SUFFIX$ = "s"
-            CASE 16
-                SUFFIX$ = "ury"
-            CASE 17
-                SUFFIX$ = "us"
-            CASE 18
-                SUFFIX$ = "it"
-            CASE 19
-                SUFFIX$ = "er"
-            CASE 20
-                SUFFIX$ = "urn"
-            CASE 21
-                SUFFIX$ = "une"
-            CASE 22
-                SUFFIX$ = "pau"
-            CASE 23
-                SUFFIX$ = "far"
-            CASE 24
-                SUFFIX$ = "ton"
-            CASE 25
-                SUFFIX$ = "lou"
-            CASE 26
-                SUFFIX$ = "vin"
-            CASE 27
-                SUFFIX$ = "tax"
-            CASE 28
-                SUFFIX$ = "dar"
-            CASE 29
-                SUFFIX$ = "aar"
-            CASE 30
-                SUFFIX$ = "l"
-            CASE 31
-                SUFFIX$ = "la"
-            CASE 32
-                SUFFIX$ = "nth"
-            CASE 33
-                SUFFIX$ = "il"
-            CASE 34
-                SUFFIX$ = "ifrey"
-            CASE 35
-                SUFFIX$ = "nus"
-            CASE 36
-                SUFFIX$ = "neb"
-            CASE 37
-                SUFFIX$ = "ron"
-            CASE 38
-                SUFFIX$ = "ii"
-            CASE 39
-                SUFFIX$ = "iban"
-            CASE 40
-                SUFFIX$ = "trax"
-            CASE 41
-                SUFFIX$ = "turus"
-            CASE 42
-                SUFFIX$ = "clos"
-            CASE 43
-                SUFFIX$ = "daa"
-            CASE ELSE
-                SUFFIX$ = "Lon"
-        END SELECT
-        PRINT #1, "        name = "; PREFIX$; SUFFIX$; ""
-        PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
+        aStarName$ = theStarName$ '#Calls the function "theStarName"
+        PRINT #1, "        name = "; aStarName$; ""
         PRINT #1, "        Template"
         PRINT #1, "        {"
         PRINT #1, "            name = Sun"
@@ -7599,7 +6058,7 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
         PRINT #1, "             angle = 0"
         PRINT #1, "             outerRadius = 72000"
         PRINT #1, "             innerRadius = 200"
-        PRINT #1, "             texture = To_Boldly_Go/BH_ring"
+        PRINT #1, "             texture = To_Boldly_Go/Coronae/BH_ring"
         PRINT #1, "             colour = RGBA(0.100, 1.000, 1.000, 1.000)"
         PRINT #1, "             lockRotation = True"
         PRINT #1, "             unlit = True"
@@ -7648,7 +6107,7 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
 
         PRINT #1, "                    Material"
         PRINT #1, "                    {"
-        PRINT #1, "                        texture = To_Boldly_Go/corona"
+        PRINT #1, "                        texture = To_Boldly_Go/Coronae/corona"
         PRINT #1, "                        inverseFade = 2.553731"
         PRINT #1, "                    }"
         PRINT #1, "                }"
@@ -7664,7 +6123,7 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
 
         PRINT #1, "                    Material"
         PRINT #1, "                    {"
-        PRINT #1, "                        texture = To_Boldly_Go/corona"
+        PRINT #1, "                        texture = To_Boldly_Go/Coronae/corona"
         PRINT #1, "                        inverseFade = 2.553731"
         PRINT #1, "                    }"
         PRINT #1, "                }"
@@ -7690,8 +6149,7 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
                     PRINT #1, "{"
                     PRINT #1, "    Body"
                     PRINT #1, "    {"
-                    PRINT #1, "        name = "; PREFIX$; SUFFIX$; ASTNUMBER; ""
-                    PRINT #1, "        flightGlobalsIndex = "; INT(RND * 10000) + 1000
+                    PRINT #1, "        name = "; aStarName$; ASTNUMBER; ""
                     PRINT #1, ""
                     PRINT #1, "        Template"
                     PRINT #1, "        {"
@@ -7711,7 +6169,7 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
                     PRINT #1, ""
                     PRINT #1, "        Orbit"
                     PRINT #1, "        {"
-                    PRINT #1, "            referenceBody = "; PREFIX$; SUFFIX$; ""
+                    PRINT #1, "            referenceBody = "; aStarName$; ""
                     'RANDOMIZE TIMER
                     PRINT #1, "            inclination ="; INT(RND * 360)
                     'RANDOMIZE TIMER
@@ -7763,193 +6221,12 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
 IF ROGUE > 0 THEN
     DO
         'RANDOMIZE TIMER
-        PREFIXNUMBER = INT(RND * 43)
-        SELECT CASE PREFIXNUMBER
-            CASE 1
-                PREFIX$ = "Ker"
-            CASE 2
-                PREFIX$ = "Jo"
-            CASE 3
-                PREFIX$ = "Ear"
-            CASE 4
-                PREFIX$ = "Ju"
-            CASE 5
-                PREFIX$ = "Jeb"
-            CASE 6
-                PREFIX$ = "Plu"
-            CASE 7
-                PREFIX$ = "Nep"
-            CASE 8
-                PREFIX$ = "Bes"
-            CASE 9
-                PREFIX$ = "Tat"
-            CASE 10
-                PREFIX$ = "Dego"
-            CASE 11
-                PREFIX$ = "Ho"
-            CASE 12
-                PREFIX$ = "Geo"
-            CASE 13
-                PREFIX$ = "Mu"
-            CASE 14
-                PREFIX$ = "Usta"
-            CASE 15
-                PREFIX$ = "Pla"
-            CASE 16
-                PREFIX$ = "Gal"
-            CASE 17
-                PREFIX$ = "Rea"
-            CASE 18
-                PREFIX$ = "Olym"
-            CASE 19
-                PREFIX$ = "Mor"
-            CASE 20
-                PREFIX$ = "Mar"
-            CASE 21
-                PREFIX$ = "Jup"
-            CASE 22
-                PREFIX$ = "Sa"
-            CASE 23
-                PREFIX$ = "Sat"
-            CASE 24
-                PREFIX$ = "Kry"
-            CASE 25
-                PREFIX$ = "Ee"
-            CASE 26
-                PREFIX$ = "Su"
-            CASE 27
-                PREFIX$ = "Spar"
-            CASE 28
-                PREFIX$ = "He"
-            CASE 29
-                PREFIX$ = "Xa"
-            CASE 30
-                PREFIX$ = "Sak"
-            CASE 31
-                PREFIX$ = "So"
-            CASE 32
-                PREFIX$ = "Ha"
-            CASE 33
-                PREFIX$ = "Kor"
-            CASE 34
-                PREFIX$ = "Ath"
-            CASE 35
-                PREFIX$ = "Chand"
-            CASE 36
-                PREFIX$ = "Rig"
-            CASE 37
-                PREFIX$ = "Ven"
-            CASE 38
-                PREFIX$ = "Den"
-            CASE 39
-                PREFIX$ = "C"
-            CASE 40
-                PREFIX$ = "Holo"
-            CASE 41
-                PREFIX$ = "Korr"
-            CASE 43
-                PREFIX$ = "Ran"
-            CASE ELSE
-                PREFIX$ = "Lon"
-        END SELECT
-        'RANDOMIZE TIMER
-        SUFFIXNUMBER = INT(RND * 43)
-        SELECT CASE SUFFIXNUMBER
-            CASE 1
-                SUFFIX$ = "bin"
-            CASE 2
-                SUFFIX$ = "ol"
-            CASE 3
-                SUFFIX$ = "th"
-            CASE 4
-                SUFFIX$ = "to"
-            CASE 5
-                SUFFIX$ = "ne"
-            CASE 6
-                SUFFIX$ = "in"
-            CASE 7
-                SUFFIX$ = "ant"
-            CASE 8
-                SUFFIX$ = "bah"
-            CASE 9
-                SUFFIX$ = "sis"
-            CASE 10
-                SUFFIX$ = "n"
-            CASE 11
-                SUFFIX$ = "os"
-            CASE 12
-                SUFFIX$ = "ch"
-            CASE 13
-                SUFFIX$ = "dor"
-            CASE 14
-                SUFFIX$ = "vin"
-            CASE 15
-                SUFFIX$ = "s"
-            CASE 16
-                SUFFIX$ = "ury"
-            CASE 17
-                SUFFIX$ = "us"
-            CASE 18
-                SUFFIX$ = "it"
-            CASE 19
-                SUFFIX$ = "er"
-            CASE 20
-                SUFFIX$ = "urn"
-            CASE 21
-                SUFFIX$ = "une"
-            CASE 22
-                SUFFIX$ = "pau"
-            CASE 23
-                SUFFIX$ = "far"
-            CASE 24
-                SUFFIX$ = "ton"
-            CASE 25
-                SUFFIX$ = "lou"
-            CASE 26
-                SUFFIX$ = "vin"
-            CASE 27
-                SUFFIX$ = "tax"
-            CASE 28
-                SUFFIX$ = "dar"
-            CASE 29
-                SUFFIX$ = "aar"
-            CASE 30
-                SUFFIX$ = "l"
-            CASE 31
-                SUFFIX$ = "la"
-            CASE 32
-                SUFFIX$ = "nth"
-            CASE 33
-                SUFFIX$ = "il"
-            CASE 34
-                SUFFIX$ = "ifrey"
-            CASE 35
-                SUFFIX$ = "nus"
-            CASE 36
-                SUFFIX$ = "neb"
-            CASE 37
-                SUFFIX$ = "ron"
-            CASE 38
-                SUFFIX$ = "ii"
-            CASE 39
-                SUFFIX$ = "iban"
-            CASE 40
-                SUFFIX$ = "trax"
-            CASE 41
-                SUFFIX$ = "turus"
-            CASE 42
-                SUFFIX$ = "clos"
-            CASE 43
-                SUFFIX$ = "daa"
-            CASE ELSE
-                SUFFIX$ = "Lon"
-        END SELECT
+        aStarName$ = theStarName$ '#Calls the function "theStarName"
         PRINT #1, "@Kopernicus"
         PRINT #1, "{"
         PRINT #1, "    Body"
         PRINT #1, "    {"
-        PRINT #1, "         name = "; PREFIX$; SUFFIX$
-        PRINT #1, "         flightGlobalsIndex = "; INT(RND * 10000) + 1000
+        PRINT #1, "         name = "; aStarName$
         PRINT #1, "         Orbit"
         PRINT #1, "         {"
         IF GTYPE = 3 THEN
@@ -8535,38 +6812,39 @@ IF ROGUE > 0 THEN
 '80 END IF
 
 PRINT ""
-COLOR _RGB(255, 255, 255)
-PRINT " "; SOBJECTNUMBER; "Stars"
-PRINT " "; POBJECTNUMBER; "Planets"
-PRINT " "; MOBJECTNUMBER; "Moons"
-PRINT " "; AOBJECTNUMBER; "Asteroids"
+'COLOR _RGB(255, 255, 255)
+PRINT ""; SOBJECTNUMBER; "Stars"
+PRINT ""; POBJECTNUMBER; "Planets"
+PRINT ""; MOBJECTNUMBER; "Moons"
+PRINT ""; AOBJECTNUMBER; "Asteroids"
 TOTAL = SOBJECTNUMBER + POBJECTNUMBER + MOBJECTNUMBER + AOBJECTNUMBER
-PRINT " "; SOBJECTNUMBER + POBJECTNUMBER + MOBJECTNUMBER + AOBJECTNUMBER; " Total"
+PRINT ""; SOBJECTNUMBER + POBJECTNUMBER + MOBJECTNUMBER + AOBJECTNUMBER; " Total"
 PRINT ""
-INPUT " SATISFIED? (Y/N):", AGAIN$
-
-PRINT " Press any key to"
-PRINT " Terminate"
-
-SLEEP
-
-
-
-
+INPUT "Are you satisfied with these results? (y/n):", AGAIN$
 
 'PRINT #1, "}"
 CLOSE #1
 FILENAME$ = "Galaxygen_Info-" + GNAME$ + ".txt"
 OPEN FILENAME$ FOR OUTPUT AS #1
-PRINT #1, "*****"; GNAME$; "***** v0.2.5.1"
+PRINT #1, "  _______      ____        _     _ _          _____"
+PRINT #1, " |__   __|    |  _ \      | |   | | |        / ____|"
+PRINT #1, "    | | ___   | |_) | ___ | | __| | |_   _  | |  __  ___"
+PRINT #1, "    | |/ _ \  |  _ < / _ \| |/ _` | | | | | | | |_ |/ _ \"
+PRINT #1, "    | | (_) | | |_) | (_) | | (_| | | |_| | | |__| | (_) |"
+PRINT #1, "    |_|\___/  |____/ \___/|_|\__,_|_|\__, |  \_____|\___/"
+PRINT #1, "                                      __/ |"
+PRINT #1, "                                     |___/"
+PRINT #1, "*****"; GNAME$; "***** v0.2.6"
 PRINT #1, "Creation Date: "; TIME$; " "; DATE$
 PRINT #1, "Generation Mode: "; CUSTOM$
 PRINT #1, "Seed:"; SEED
 PRINT #1, "Galaxy Type:"; GTYPE
+PRINT #1, "Galaxy Age:"; AGE
 PRINT #1, "Cluster Number:"; CLUSTERNUM
 PRINT #1, "Planets: "; PENABLE$
 PRINT #1, "Asteroids: "; ASTTOG$
 PRINT #1, "Red Dwarves:"; REDSTARNUMBER
+PRINT #1, "Orange Dwarves:"; KSTARNUMBER
 PRINT #1, "Yellow Dwarves:"; YELLOWSTARNUMBER
 PRINT #1, "White Stars:"; WHITESTARNUMBER
 PRINT #1, "Blue Giants:"; BLUESTARNUMBER
@@ -8584,6 +6862,7 @@ CLOSE #1
 'PRINT ""
 'PRINT "DONE! Remember to place this config file into a folder"
 'PRINT "within /Gamedata labeled 'To_Boldly_Go'"
+
 IF AGAIN$ = "n" THEN
     GOTO 888
 END IF
@@ -8820,5 +7099,52 @@ DO
     Mouse.Y = _MOUSEY
 LOOP WHILE _MOUSEINPUT
 END SUB
+
+FUNCTION theStarName$
+'###########################
+'#read in star name prefixes
+REDIM arrayPrefixes$(0)
+theFileName$ = "Data_folder/GalaxyGen_Prefixes.txt"
+IF _FILEEXISTS(theFileName$) THEN
+    OPEN theFileName$ FOR INPUT AS #2
+    filecount% = 0
+    DO UNTIL EOF(2)
+        LINE INPUT #2, file$ 'read entire text file line
+        arrayPrefixes$(filecount%) = file$
+        filecount% = filecount% + 1
+        REDIM _PRESERVE arrayPrefixes$(filecount%)
+    LOOP
+    CLOSE #2
+END IF
+'###########################
+'#read in star name suffixes
+REDIM arraySuffixes$(0)
+theFileName$ = "Data_folder/GalaxyGen_Suffixes.txt"
+IF _FILEEXISTS(theFileName$) THEN
+    OPEN theFileName$ FOR INPUT AS #2
+    filecount% = 0
+    DO UNTIL EOF(2)
+        LINE INPUT #2, file$ 'read entire text file line
+        arraySuffixes$(filecount%) = file$
+        filecount% = filecount% + 1
+        REDIM _PRESERVE arraySuffixes$(filecount%)
+    LOOP
+    CLOSE #2
+END IF
+'########################################################
+'# pick a random index from the prefix and suffix arrays'
+'# the equiv in python would be:
+'# PREFIX = random.choice(thePrefixes)
+'# SUFFIX = random.choice(theSuffixes)
+lengArrayPrefixes% = UBOUND(arrayPrefixes$)
+lengArraySuffixes% = UBOUND(arraySuffixes$)
+indexPrefixes% = INT(RND * lengArrayPrefixes%)
+indexSuffixes% = INT(RND * lengArraySuffixes%)
+PREFIX$ = arrayPrefixes$(indexPrefixes%)
+SUFFIX$ = arraySuffixes$(indexSuffixes%)
+'##############################################
+'# combine the prefix and suffix to make a name
+theStarName$ = PREFIX$ + SUFFIX$
+END FUNCTION
 
 

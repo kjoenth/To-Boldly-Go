@@ -1,0 +1,31 @@
+  _______      ____        _     _ _          _____
+ |__   __|    |  _ \      | |   | | |        / ____|
+    | | ___   | |_) | ___ | | __| | |_   _  | |  __  ___
+    | |/ _ \  |  _ < / _ \| |/ _` | | | | | | | |_ |/ _ \
+    | | (_) | | |_) | (_) | | (_| | | |_| | | |__| | (_) |
+    |_|\___/  |____/ \___/|_|\__,_|_|\__, |  \_____|\___/
+                                      __/ |
+                                     |___/
+*****Perseus***** v0.2.6
+Creation Date: 01:28:32 01-25-2017
+Generation Mode: a
+Seed: 336824 
+Galaxy Type: 1 
+Galaxy Age: 0 
+Cluster Number: 0 
+Planets: y
+Asteroids: y
+Red Dwarves: 12 
+Orange Dwarves: 30 
+Yellow Dwarves: 19 
+White Stars: 5 
+Blue Giants: 4 
+Brown Dwarves: 34 
+White Dwarves: 1 
+-----------------
+ 105 Stars
+ 45 Planets
+ 64 Moons
+ 51 Asteroids
+ 265  Total
+-----------------
