@@ -1,0 +1,150 @@
+@Kopernicus 
+{
+    Body
+    {
+        name = Nemesis
+        Debug
+        {
+                //http://forum.kerbalspaceprogram.com/index.php?/topic/142520-making-planets-with-kopernicus-video-guides/
+                exportMesh = false
+                update = true
+        }
+        //The template determins what your body is based on. 
+        //Choose Jool for gas planets, Laythe for ocean planets and 
+        //Moho, Tylo, Gilly, Bop and Pol for usual rocky planets.
+        Template
+        {
+            name = Sun
+        }
+        Properties
+        {
+            description = Known since the time of the ancients, Nemesis is known to confuse a lot of Kerbals because they can't see any difference between Nemesis and their Sun. Nemesis is a good place for SolarPanels, because of the high-energetic light there.       
+            radius = 461600000 //radius in meters. 
+            mass = 8.782835e+27 //mass in kg.
+            gravParameter = //?in m/s2?
+            geeASL = 0.873 //Surface gravity in G's. For reference 1 is on Kerbin and 0.5 on Gilly.
+            rotates = //A true/false statement that determines if the body rotates or not.
+            rotationPeriod = 39000 //The period in seconds that the body needs to rotate around its axis one time.
+            initialRotation = //The rotation in degrees (0-359) that the body starts at (clockwise).
+            tidallyLocked = //A true/false statement that determines if the body is tidally locked to its parent. 
+                            //This means that it takes as long to rotate arounds its own axis as it does to make a 
+                            //full orbit around its parent. In real-life and KSP most (large) moons are tidally locked.
+            isHomeWorld =   //A true/false statement that determines if this is the body that houses KSC. 
+                            //For stability's sake It's recommended to keep this at false for any bodies you add.
+            timewarpAltitudeLimits = //An array of numbers that determines at which altitude above sealevel 
+                                    //certain timewarp altitudes become available. 
+                                    //0 30000 30000 60000 100000 300000 600000 800000 means that 1x timewarp is 
+                                    //available at 0 meters, 5x timewarp at 30000 meters all the way up to the 
+                                    //max timewarp starting at 800000 meters.
+            sphereOfInfluence =     //In meters the sphere of influence of the body. 
+                                    //This is generally determined by the GeeASL/Mass of the body, but in case 
+                                    //you need it to be unrealistically big or small you can change it here.
+
+            ScienceValues //Scientific expiriments value multiplier
+            {
+                landedDataValue = 130 //For expiriments taken on the surface
+                splashedDataValue = 1 //For expiriments taken while splashed down
+                flyingLowDataValue = 56 //For expiriments taken while flying in the lower atmosphere
+                flyingHighDataValue = 45 //For expiriments taken while flying in the upper atmosphere
+                inSpaceLowDataValue = 92 //For expiriments taken in space, close to your planet
+                inSpaceHighDataValue = 79 //For expiriments taken in space, far away from your planet
+                recoveryValue = 7 //Science multiplier for expiriment data taken from recovered vessels
+                flyingAltitudeThreshold =
+                spaceAltitudeThreshold = 
+            }
+        }
+        ScaledVersion
+        {
+            Light
+            {
+                sunlightColor = 0.0,0.15,0.6,1.0 //sRGB, ?opacity?. Light cast in-game
+                sunlightIntensity = 0.55
+                sunlightShadowStrength =
+                scaledSunlightColor = 0.0,0.15,0.6,1.0 //sRGB, ?opacity?. Applied to ScaledSpace mech of celestials
+                scaledSunlightIntensity = 0.55
+                IVASunColor = 0.0,0.15,0.6,1.0 //sRGB, ?opacity?. scaledSunlightColor inside cockpits
+                IVASunIntensity = 0.55
+                ambientLightColor = 
+                sunLensFlareColor = 0.0,0.15,0.6,1.0 //sRGB, ?opacity?
+                givesOffLight = //true/false
+                luminosity =  //impacts solar panels?
+                insolation = //
+                sunAU = //distance from home start to home planet in km. why? what is it used for?
+                brightnessCurve
+                {
+                    key = -0.01573471 0.217353 1.706627 1.706627
+                    key = 5.084181 3.997075 -0.001802375 -0.001802375
+                    key = 38.56295 1.82142 0.0001713 0.0001713
+                }
+            }
+
+            Material
+            {
+                emitColor0 = 0.357,0.588,0.405,1.0 //sRGB, ?opacity?. colour of star's mesh
+                emitColor1 = 0.139,0.061,1.0,1.0 //sRGB, ?opacity?. colour of star's mesh
+                sunspotPower = 
+                sunspotColor = 1.0,1.0,1.0,1.0 //sRGB, ?opacity?
+                rimColor = 0.388,0.636,1.0,1.0 //sRGB, ?opacity?. colour of star's mesh
+                rimPower = //adds glowing rim to body
+                rimBlend = //adds glowing rim to body
+            }
+
+            Coronas
+            {
+                Corona
+                {
+                    rotation = 0
+                    speed = -1
+                    updateInterval = 5
+                    scaleLimitX = 5
+                    scaleLimitY = 5
+                    scaleSpeed = 0.007
+
+                    Material
+                    {
+                        texture = KopernicusExamples/Creating New Bodies/Star/corona //path to corona file
+                        inverseFade = 2.553731
+                    }
+                }
+
+                Corona
+                {
+                    rotation = 0
+                    speed = 1
+                    updateInterval = 5
+                    scaleLimitX = 5
+                    scaleLimitY = 5
+                    scaleSpeed = 0.009
+
+                    Material
+                    {
+                        texture = KopernicusExamples/Creating New Bodies/Star/corona //path to corona file
+                        inverseFade = 2.553731
+                    }
+                }
+            }
+        }
+        Orbit
+        {
+            referenceBody = Sun //What body the planet orbits. 
+            //Note that this body needs to be in referenceBody's SOI to orbit correctly
+            color = 0.7,0.7,0.7,1 //Orbit's color is specified in RGB numbers. The last "1" is the opacity. Allways set it to 1.
+            mode = //0, 1. Show orbital track?
+            inclination = 1 //Orbit inclination relative to referenceBody's equator
+            eccentricity = 0 //Orbit eccentricity, how elliptical is the orbit?
+            semiMajorAxis = 2620000000000 //Distance from parent body in meters.
+            longitudeOfAscendingNode = 40 //Position of ascending node relative to the surface of the reference body
+            argumentOfPeriapsis = 10 //angle from the body's ascending node to its periapsis, measured in the direction of motion. 
+            meanAnomalyAtEpoch = 0  //angular distance from the pericenter which a fictitious body would have if it 
+                                    //moved in a circular orbit, with constant speed, in the same orbital period as 
+                                    //the actual body in its elliptical orbit
+            epoch = 30000000000000  //Position of your planet when it is first loaded. 
+                                    //Not nessecary to give a number unless your planet shares it's orbit, 
+                                    //can be used to create laplace resonances
+        }
+        SolarPowerCurve 
+        {
+            
+        }
+    }
+}

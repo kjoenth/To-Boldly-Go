@@ -1,0 +1,20 @@
+@Kopernicus
+{
+    Body
+    {
+        name = %(theStarName)s
+        Template
+        {
+            name = Sun
+        }
+        %(theProperties)s
+        %(theOrbitData)s
+        ScaledVersion
+        {
+            %(theLightData)s
+            %(theMaterialData)s
+            %(theCoronasData)s
+        }
+    }
+    %%(planetBodies)s
+}
