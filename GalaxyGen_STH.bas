@@ -45,10 +45,10 @@ OPEN "galaxy.cfg" FOR OUTPUT AS #1 'Creates the config file
 '*******************************************************************************
 DIM Backdrop AS LONG
 SCREEN _NEWIMAGE(700, 518, 32)
-Backdrop = _LOADIMAGE("Background2.png")
+Backdrop = _LOADIMAGE("Data_folder/Background2.png")
 _PUTIMAGE (0, 0), Backdrop
 
-_FONT _LOADFONT("DejaVuSans.ttf", 15, "MONOSPACE") 'select monospace font
+_FONT _LOADFONT("Data_folder/DejaVuSans.ttf", 15, "MONOSPACE") 'select monospace font
 _PRINTMODE _KEEPBACKGROUND
 '*******************************************************************************
 '*******************************************************************************
@@ -56,7 +56,7 @@ _PRINTMODE _KEEPBACKGROUND
 PRINT ""
 
 778 PRINT
-_FONT _LOADFONT("DejaVuSans.ttf", 15, "MONOSPACE") 'select monospace font
+_FONT _LOADFONT("Data_folder/DejaVuSans.ttf", 15, "MONOSPACE") 'select monospace font
 _PRINTMODE _KEEPBACKGROUND
 
 
@@ -69,7 +69,7 @@ IF ATOGGLE = 1 THEN
 END IF
 
 FOR i = 1 TO 11
-    PRINT #1, ""
+    PRINT ""
 NEXT
 COLOR _RGB(0, 0, 0), _RGB(255, 255, 255)
 PRINT "Please do not use capitalization"
@@ -139,7 +139,7 @@ IF CUSTOM$ = "c" THEN
         CLS
         _PUTIMAGE (0, 0), Backdrop
         FOR i = 1 TO 11
-            PRINT #1, ""
+            PRINT ""
         NEXT
     ELSE
         'AGE = INT(RND * 5)
