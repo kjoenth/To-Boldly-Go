@@ -553,9 +553,8 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
         '###Fill in orbit data'
         theMode$ = str$(0)
         theColor$ = "1,0,0,1"
-        aOrbitNode$ = orbitNode$(theOrbitTemplate$, GTYPE, theColor$, theMode$)
-        print #1, aOrbitNode$
-        aOrbitNode$ = ""
+        aOrbitTemp$ = theOrbitTemplate$
+        aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
         '###End property data'
         '########################'
         PRINT #1, "        ScaledVersion"
@@ -1423,7 +1422,8 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
         '###Fill in orbit data'
         theMode$ = str$(0)
         theColor$ = "1,0.5,0,1"
-        aOrbitNode$ = orbitNode$(theOrbitTemplate$, GTYPE, theColor$, theMode$)
+        aOrbitTemp$ = theOrbitTemplate$
+        aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
         print #1, aOrbitNode$
         '###End property data'
         '########################'
@@ -2294,7 +2294,8 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
         '###Fill in orbit data'
         theMode$ = str$(0)
         theColor$ = "1,1,0,1"
-        aOrbitNode$ = orbitNode$(theOrbitTemplate$, GTYPE, theColor$, theMode$)
+        aOrbitTemp$ = theOrbitTemplate$
+        aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
         print #1, aOrbitNode$
         '###End property data'
         '########################'
@@ -3118,7 +3119,8 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
         '###Fill in orbit data'
         theMode$ = str$(0)
         theColor$ = "0,0,1,1"
-        aOrbitNode$ = orbitNode$(theOrbitTemplate$, GTYPE, theColor$, theMode$)
+        aOrbitTemp$ = theOrbitTemplate$
+        aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
         print #1, aOrbitNode$
         '###End property data'
         '########################'
@@ -3989,7 +3991,8 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
         '###Fill in orbit data'
         theMode$ = str$(0)
         theColor$ = "0,0,1,1"
-        aOrbitNode$ = orbitNode$(theOrbitTemplate$, GTYPE, theColor$, theMode$)
+        aOrbitTemp$ = theOrbitTemplate$
+        aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
         print #1, aOrbitNode$
         '###End property data'
         '########################'
@@ -4596,7 +4599,8 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
         '###Fill in orbit data'
         theMode$ = str$(0)
         theColor$ = "1,0,1,1"
-        aOrbitNode$ = orbitNode$(theOrbitTemplate$, GTYPE, theColor$, theMode$)
+        aOrbitTemp$ = theOrbitTemplate$
+        aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
         print #1, aOrbitNode$
         '###End orbit data'
         '########################'
@@ -5440,7 +5444,8 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
         '###Fill in orbit data'
         theMode$ = str$(0)
         theColor$ = "1,1,1,1"
-        aOrbitNode$ = orbitNode$(theOrbitTemplate$, GTYPE, theColor$, theMode$)
+        aOrbitTemp$ = theOrbitTemplate$
+        aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
         print #1, aOrbitNode$
         '###End property data'
         '########################'
@@ -5633,7 +5638,8 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
         '###Fill in orbit data'
         theMode$ = str$(0)
         theColor$ = "0.2,0.2,0.2,1"
-        aOrbitNode$ = orbitNode$(theOrbitTemplate$, GTYPE, theColor$, theMode$)
+        aOrbitTemp$ = theOrbitTemplate$
+        aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
         print #1, aOrbitNode$
         '###End property data'
         '########################'
@@ -5818,7 +5824,8 @@ IF ROGUE > 0 THEN
         '###Fill in orbit data'
         theMode$ = str$(0)
         theColor$ = "1,1,0,1"
-        aOrbitNode$ = orbitNode$(theOrbitTemplate$, GTYPE, theColor$, theMode$)
+        aOrbitTemp$ = theOrbitTemplate$
+        aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
         print #1, aOrbitNode$
         '###End property data'
         '########################'
@@ -6791,5 +6798,4 @@ FUNCTION orbitNode$ (aTemplate$, GTYPE, theColor$, theMode$)
     aTemplate$ = ReplaceStr(aTemplate$,"%(theMeanAnomalyAtEpoch)s",theMeanAnomalyAtEpoch$)
     aTemplate$ = ReplaceStr(aTemplate$,"%(theEpoch)s",theEpoch$)
     orbitNode$ = aTemplate$
-    aTemplate$ = ""
 END FUNCTION
