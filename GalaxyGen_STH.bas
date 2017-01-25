@@ -1,4 +1,4 @@
-'To Boldly Go v0.1 - Kopernicus Procedural Galaxy Generator!"
+'To Boldly Go v0.2.6 - Kopernicus Procedural Galaxy Generator!"
 'Copyright (C) 2016  Daniel L."
 '
 'This program is free software; you can redistribute it and/or modify"
@@ -15,23 +15,16 @@
 'along with this program; if not, write to the Free Software"
 'Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 
-_TITLE "To Boldly Go"
+_TITLE "To Boldly Go version 0.2.6"
 
-i& = _LOADIMAGE("TBG_Data_Folder/Galaxy-icon.png", 32) '<<<<<<< use your image file name here
+i& = _LOADIMAGE("Data_Folder/Galaxy-icon.png", 32) '<<<<<<< use your image file name here
 IF i& < -1 THEN
     _ICON i&
     _FREEIMAGE i& ' release image handle after setting icon
 END IF
 
-
-'SYSTEM
-
 888 PRINT
 CLS
-
-
-
-
 
 BROWNSTARNUMBER = 1
 REDSTARNUMBER = 1
@@ -52,32 +45,18 @@ OPEN "galaxy.cfg" FOR OUTPUT AS #1 'Creates the config file
 '*******************************************************************************
 DIM Backdrop AS LONG
 SCREEN _NEWIMAGE(700, 518, 32)
-Backdrop = _LOADIMAGE("TBG_Data_Folder/Background.png")
+Backdrop = _LOADIMAGE("Background2.png")
 _PUTIMAGE (0, 0), Backdrop
 
-DIM Image AS LONG
-Image = _LOADIMAGE("TBG_Data_Folder/Logo2.png")
-_PUTIMAGE (0, 0), Image
-
-'DIM merrychristmas AS LONG
-'merrychristmas = _LOADIMAGE("TBG_Data_Folder/merrychristmas.png")
-'_PUTIMAGE (411, 440), merrychristmas
-
-DIM Box AS LONG
-Box = _LOADIMAGE("TBG_Data_Folder/Box.png")
-_PUTIMAGE (10, 98), Box
-
-_FONT _LOADFONT("TBG_Data_Folder/font.ttf", 15, "MONOSPACE") 'select monospace font
+_FONT _LOADFONT("DejaVuSans.ttf", 15, "MONOSPACE") 'select monospace font
 _PRINTMODE _KEEPBACKGROUND
 '*******************************************************************************
 '*******************************************************************************
 
 PRINT ""
 
-_SNDPLAYFILE "TBG_Data_Folder/beep.wav", .5
-
 778 PRINT
-_FONT _LOADFONT("TBG_Data_Folder/font.ttf", 15, "MONOSPACE") 'select monospace font
+_FONT _LOADFONT("DejaVuSans.ttf", 15, "MONOSPACE") 'select monospace font
 _PRINTMODE _KEEPBACKGROUND
 
 
@@ -89,16 +68,14 @@ IF ATOGGLE = 1 THEN
     ASTTOG$ = "y"
 END IF
 
-
+FOR i = 1 TO 11
+    PRINT #1, ""
+NEXT
+COLOR _RGB(0, 0, 0), _RGB(255, 255, 255)
+PRINT "Please do not use capitalization"
+PRINT "for anything other than the Galaxy name."
 PRINT ""
-PRINT ""
-PRINT ""
-PRINT ""
-PRINT ""
-PRINT ""
-PRINT ""
-
-INPUT " GALAXY NAME:", GNAME$
+INPUT "Name your Galaxy:", GNAME$
 2222 INPUT " (CUSTOM/AUTO)(c/a):", CUSTOM$
 
 INPUT " Input Seed:", SEED 'asks the user for a random seed.
@@ -112,88 +89,154 @@ BROWNSTAR = 0
 DWARFSTAR = 0
 
 IF CUSTOM$ = "c" THEN
-    INPUT " PLANETS (y/n):", PENABLE$ 'Asks the user whether they want to have planets or not
-    _SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
+    INPUT "Galaxy Age (0-5. 1 is recommended):", AGE
+    INPUT "Planets? (y/n):", PENABLE$ 'Asks the user whether they want to have planets or not
     '*******************************************************************************
-    INPUT " ASTEROIDS (y/n):", ASTTOG$ 'Asks the user whether they want to have asteroids or not
-    _SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
+    INPUT "Asteroids? (y/n):", ASTTOG$ 'Asks the user whether they want to have asteroids or not
     '*******************************************************************************
-    PRINT " GALAXY TYPE:"
-    999 INPUT " ELLIPSE, DISK (1,2):", GTYPE 'Asks the user what kind of galaxy they want.
-    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
+    PRINT "What Galaxy type do you want?:"
+    999 INPUT "Ellipse-0, Disk-1, Cluster-2:", GTYPE 'Asks the user what kind of galaxy they want.
     IF GTYPE > 3 THEN
         GOTO 999
     END IF
     '*******************************************************************************
-    IF GTYPE = 3 THEN
-        INPUT " CLUSTERS:", CLUSTER 'Asks the user how many star clusters they want
-    END IF
-    PRINT ""
-    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
-    '*******************************************************************************
-    COLOR _RGB(255, 0, 0)
-    INPUT " RED STARS:", REDSTAR 'Asks the user how many red stars they want to generate.
-    REDSTAR = REDSTAR + 0
-    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
-    '*******************************************************************************
-    COLOR _RGB(255, 127, 0)
-    INPUT " ORANGE STARS:", KSTAR 'Asks the user how many orange stars they want to generate.
-    KSTAR = KSTAR + 0
-    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
-    '*******************************************************************************
-    COLOR _RGB(255, 255, 0)
-    INPUT " YELLOW STARS:", YELLOWSTAR 'Asks the user how many yellow stars they want to generate.
-    YELLOWSTAR = YELLOWSTAR + 0
-    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
-    '*******************************************************************************
-    COLOR _RGB(255, 255, 255)
-    INPUT " WHITE STARS:", WHITESTAR 'Asks the user how many white stars they want to generate.
-    WHITESTAR = WHITESTAR + 0
-    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
-    '*******************************************************************************
-    COLOR _RGB(0, 0, 255)
-    INPUT " BLUE STARS:", BLUESTAR 'Asks the user how many blue stars they want to generate.
-    BLUESTAR = BLUESTAR + 0
-    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
-    '*******************************************************************************
-    COLOR _RGB(154, 76, 0)
-    INPUT " BROWN STARS:", BROWNSTAR 'Asks the user how many brown stars they want to generate.
-    BROWNSTAR = BROWNSTAR + 0
-    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
-    '*******************************************************************************
-    COLOR _RGB(255, 255, 255)
-    INPUT " DWARF STARS:", DWARFSTAR 'Asks the user how many white dwarves they want to generate.
-    DWARFSTAR = DWARFSTAR + 0
-    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
-    '*******************************************************************************
-    'COLOR _RGB(100, 100, 100)
-    'INPUT " BLACK HOLES:", BLACKHOLE 'Asks the user how many black holes they want to generate.
-    'BLACKHOLE = BLACKHOLE + 0
-    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
-    '*******************************************************************************
-    'COLOR _RGB(100, 100, 100)
-    'INPUT " ROGUE PLANETS:", ROGUE 'Asks the user how many rogue planets they want to generate.
-    'ROGUE = ROGUE + 0
-    '_SNDPLAYFILE "TBG_Data_Folder/beep2.wav", .5
-    '*******************************************************************************
+    INPUT "advanced settings? (y/n):", ADVANCED$
+
+    IF ADVANCED$ = "y" THEN
+        '*******************************************************************************
+        IF GTYPE = 3 THEN
+            INPUT "Clusters:", CLUSTER 'Asks the user how many star clusters they want
+        END IF
+        PRINT ""
+        '*******************************************************************************
+        INPUT "Red Dwarves:", REDSTAR 'Asks the user how many red stars they want to generate.
+        REDSTAR = REDSTAR + 0
+        '*******************************************************************************
+        INPUT "Orange Dwarves:", KSTAR 'Asks the user how many orange stars they want to generate.
+        KSTAR = KSTAR + 0
+        '*******************************************************************************
+        INPUT "Yellow Dwarves:", YELLOWSTAR 'Asks the user how many yellow stars they want to generate.
+        YELLOWSTAR = YELLOWSTAR + 0
+        '*******************************************************************************
+        INPUT "White Stars:", WHITESTAR 'Asks the user how many white stars they want to generate.
+        WHITESTAR = WHITESTAR + 0
+        '*******************************************************************************
+        INPUT "Blue Giants:", BLUESTAR 'Asks the user how many blue stars they want to generate.
+        BLUESTAR = BLUESTAR + 0
+        '*******************************************************************************
+        INPUT "Brown Dwarves:", BROWNSTAR 'Asks the user how many brown stars they want to generate.
+        BROWNSTAR = BROWNSTAR + 0
+        '*******************************************************************************
+        INPUT "White Dwarves:", DWARFSTAR 'Asks the user how many white dwarves they want to generate.
+        DWARFSTAR = DWARFSTAR + 0
+        '*******************************************************************************
+        'INPUT " BLACK HOLES:", BLACKHOLE 'Asks the user how many black holes they want to generate.
+        'BLACKHOLE = BLACKHOLE + 0
+        '*******************************************************************************
+        'INPUT " ROGUE PLANETS:", ROGUE 'Asks the user how many rogue planets they want to generate.
+        'ROGUE = ROGUE + 0
+        '*******************************************************************************
+        CLS
+        _PUTIMAGE (0, 0), Backdrop
+        FOR i = 1 TO 11
+            PRINT #1, ""
+        NEXT
+    ELSE
+        'AGE = INT(RND * 5)
+        'GTYPE = INT(RND * 2)
+        IF GTYPE = 2 THEN
+            CLUSTER = INT(RND * 4) + 1
+            GTYPE = GTYPE + 1
+        ELSE
+            GTYPE = GTYPE + 1
+        END IF
+        SELECT CASE AGE
+            CASE 0
+                REDSTAR = INT(RND * 20) + 10
+                KSTAR = INT(RND * 15) + 20
+                YELLOWSTAR = INT(RND * 20) + 5
+                WHITESTAR = INT(RND * 15) + 4
+                BLUESTAR = INT(RND * 10) + 1
+                BROWNSTAR = INT(RND * 40) + 5
+            CASE 1
+                REDSTAR = INT(RND * 20) + 10
+                KSTAR = INT(RND * 15) + 7
+                YELLOWSTAR = INT(RND * 10) + 5
+                WHITESTAR = INT(RND * 7) + 4
+                BLUESTAR = INT(RND * 4) + 1
+                BROWNSTAR = INT(RND * 40) + 5
+                DWARFSTAR = INT(RND * 5)
+            CASE 2
+                REDSTAR = INT(RND * 20) + 10
+                KSTAR = INT(RND * 12) + 7
+                YELLOWSTAR = INT(RND * 3) + 1
+                BROWNSTAR = INT(RND * 40) + 5
+                DWARFSTAR = INT(RND * 10) + 5
+            CASE 3
+                REDSTAR = INT(RND * 10) + 10
+                KSTAR = INT(RND * 7) + 3
+                BROWNSTAR = INT(RND * 30) + 5
+                DWARFSTAR = INT(RND * 30) + 10
+            CASE 4
+                REDSTAR = INT(RND * 3)
+                BROWNSTAR = INT(RND * 20) + 5
+                DWARFSTAR = INT(RND * 40) + 10
+            CASE 5
+                BROWNSTAR = INT(RND * 15)
+                DWARFSTAR = INT(RND * 60) + 10
+        END SELECT
+    END IF        
 ELSE
     IF CUSTOM$ = "a" THEN
-        'GTYPE = INT(RND * 2)
-        'IF GTYPE = 3 THEN
-        '    CLUSTER = INT(RND * 4) + 1
-        'END IF
+        AGE = INT(RND * 5)
+        GTYPE = INT(RND * 2)
+        IF GTYPE = 2 THEN
+            CLUSTER = INT(RND * 4) + 1
+            GTYPE = GTYPE + 1
+        ELSE
+            GTYPE = GTYPE + 1
+        END IF
         'IF GTYPE = 0 THEN
         GTYPE = 1
         'END IF
         PENABLE$ = "y"
         ASTTOG$ = "y"
-        REDSTAR = INT(RND * 20) + 10
-        KSTAR = INT(RND * 15) + 7
-        YELLOWSTAR = INT(RND * 10) + 5
-        WHITESTAR = INT(RND * 7) + 4
-        BLUESTAR = INT(RND * 4) + 1
-        BROWNSTAR = INT(RND * 40) + 5
-        DWARFSTAR = INT(RND * 5)
+
+        SELECT CASE AGE
+            CASE 0
+                REDSTAR = INT(RND * 20) + 10
+                KSTAR = INT(RND * 15) + 20
+                YELLOWSTAR = INT(RND * 20) + 5
+                WHITESTAR = INT(RND * 15) + 4
+                BLUESTAR = INT(RND * 10) + 1
+                BROWNSTAR = INT(RND * 40) + 5
+            CASE 1
+                REDSTAR = INT(RND * 20) + 10
+                KSTAR = INT(RND * 15) + 7
+                YELLOWSTAR = INT(RND * 10) + 5
+                WHITESTAR = INT(RND * 7) + 4
+                BLUESTAR = INT(RND * 4) + 1
+                BROWNSTAR = INT(RND * 40) + 5
+                DWARFSTAR = INT(RND * 5)
+            CASE 2
+                REDSTAR = INT(RND * 20) + 10
+                KSTAR = INT(RND * 15) + 7
+                YELLOWSTAR = INT(RND * 3) + 1
+                BROWNSTAR = INT(RND * 40) + 5
+                DWARFSTAR = INT(RND * 25) + 5
+            CASE 3
+                REDSTAR = INT(RND * 20) + 10
+                KSTAR = INT(RND * 7) + 3
+                BROWNSTAR = INT(RND * 40) + 5
+                DWARFSTAR = INT(RND * 30) + 10
+            CASE 4
+                REDSTAR = INT(RND * 3)
+                BROWNSTAR = INT(RND * 40) + 5
+                DWARFSTAR = INT(RND * 40) + 10
+            CASE 5
+                BROWNSTAR = INT(RND * 15)
+                DWARFSTAR = INT(RND * 60) + 10
+        END SELECT
         'BLACKHOLE = INT(RND * 3)
         'ROGUE = INT(RND * 10)
     ELSE
@@ -545,7 +588,8 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
         theDescription$ = "Dim light, Yet so bright. A lonely outpost in the deep dark night. Travelers come far shall know where they are. A new land, A new star, How much pain and suffering it must have took to go this far. For at "+aStarName$+" your journey might be done. And you will be free."
         theRadius$ = STR$(INT(RND * 30000000) + 15000000)
         theSphereOfInfluence$ = STR$(90118820000)
-        aPropertiesNode$ = propertyNode$(thePropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
+        aPropertiesTemplate$ = thePropertiesTemplate$
+        aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
         print #1, aPropertiesNode$
         '###End property data'
         '########################'
@@ -555,7 +599,8 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
         theColor$ = "1,0,0,1"
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
-        '###End property data'
+        print #1, aOrbitNode$
+        '###End orbit data'
         '########################'
         PRINT #1, "        ScaledVersion"
         PRINT #1, "        {"
@@ -724,7 +769,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -760,7 +805,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -796,7 +841,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -832,7 +877,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -868,7 +913,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -904,7 +949,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -940,7 +985,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -976,7 +1021,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -1012,7 +1057,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -1048,7 +1093,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -1084,7 +1129,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -1120,7 +1165,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -1156,7 +1201,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -1175,7 +1220,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                         PRINT #1, "             Material"
                         PRINT #1, "             {"
                         
-                        PRINT #1, "                 texture = To_Boldly_Go/coronae/gastextures/-"; INT(RND * 16); ".jpg"
+                        PRINT #1, "                 texture = To_Boldly_Go/gastextures/-"; INT(RND * 16); ".jpg"
                         PRINT #1, "             }"
                         PRINT #1, "         }"
                         PRINT #1, "         Properties"
@@ -1200,7 +1245,7 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -1414,7 +1459,8 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
         theDescription$ = "BILL -"+ STR$(KSTARNUMBER)+" is a main sequence red dwarf star."
         theRadius$ = STR$(INT(RND * 30000000) + 15000000)
         theSphereOfInfluence$ = STR$(90118820000)
-        aPropertiesNode$ = propertyNode$(thePropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
+        aPropertiesTemplate$ = thePropertiesTemplate$
+        aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
         print #1, aPropertiesNode$
         '###End property data'
         '########################'
@@ -1425,7 +1471,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
         print #1, aOrbitNode$
-        '###End property data'
+        '###End orbit data'
         '########################'
 
         PRINT #1, "        ScaledVersion"
@@ -1545,7 +1591,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                     PRINT #1, "         {"
 
                     
-                    PLANETTYPE = INT(RND * 13)
+                    PLANETTYPE = INT(RND * 20)
                     SELECT CASE PLANETTYPE
                         CASE 0
                             PLANETTYPE$ = "Moho"
@@ -1575,6 +1621,20 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PLANETTYPE$ = "Jool"
                         CASE 13
                             PLANETTYPE$ = "Eeloo"
+                        CASE 14
+                            PLANETTYPE$ = "Jool"
+                        CASE 15
+                            PLANETTYPE$ = "Jool"
+                        CASE 16
+                            PLANETTYPE$ = "Jool"
+                        CASE 17
+                            PLANETTYPE$ = "Jool"
+                        CASE 18
+                            PLANETTYPE$ = "Jool"
+                        CASE 19
+                            PLANETTYPE$ = "Jool"
+                        CASE 20
+                            PLANETTYPE$ = "Jool"
                     END SELECT
                     IF PLANETTYPE$ = "Moho" THEN
                         PRINT #1, "             name = "; PLANETTYPE$
@@ -1602,7 +1662,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -1638,7 +1698,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -1674,7 +1734,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -1710,7 +1770,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -1746,7 +1806,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -1782,7 +1842,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -1818,7 +1878,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -1854,7 +1914,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -1890,7 +1950,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -1926,7 +1986,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -1962,7 +2022,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -1998,7 +2058,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -2034,7 +2094,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -2053,7 +2113,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                         PRINT #1, "             Material"
                         PRINT #1, "             {"
                         
-                        PRINT #1, "                 texture = To_Boldly_Go/coronae/gastextures/-"; INT(RND * 16); ".jpg"
+                        PRINT #1, "                 texture = To_Boldly_Go/gastextures/-"; INT(RND * 16); ".jpg"
                         PRINT #1, "             }"
                         PRINT #1, "         }"
                         PRINT #1, "         Properties"
@@ -2078,7 +2138,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.5,0.1,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -2286,7 +2346,8 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
         theDescription$ = "KERMAN -"+str$(YELLOWSTARNUMBER)+" is a main sequence yellow dwarf star."
         theRadius$ = STR$(INT(RND * 300000000) + 100000000)
         theSphereOfInfluence$ = STR$(220118820000)
-        aPropertiesNode$ = propertyNode$(thePropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
+        aPropertiesTemplate$ = thePropertiesTemplate$
+        aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
         print #1, aPropertiesNode$
         '###End property data'
         '########################'
@@ -2297,7 +2358,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
         print #1, aOrbitNode$
-        '###End property data'
+        '###End orbit data'
         '########################'
         PRINT #1, "        ScaledVersion"
         PRINT #1, "        {"
@@ -2367,7 +2428,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                     PRINT #1, "         {"
 
                     
-                    PLANETTYPE = INT(RND * 13)
+                    PLANETTYPE = INT(RND * 20)
                     SELECT CASE PLANETTYPE
                         CASE 0
                             PLANETTYPE$ = "Moho"
@@ -2397,6 +2458,20 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PLANETTYPE$ = "Jool"
                         CASE 13
                             PLANETTYPE$ = "Eeloo"
+                        CASE 14
+                            PLANETTYPE$ = "Jool"
+                        CASE 15
+                            PLANETTYPE$ = "Jool"
+                        CASE 16
+                            PLANETTYPE$ = "Jool"
+                        CASE 17
+                            PLANETTYPE$ = "Jool"
+                        CASE 18
+                            PLANETTYPE$ = "Jool"
+                        CASE 19
+                            PLANETTYPE$ = "Jool"
+                        CASE 20
+                            PLANETTYPE$ = "Jool"
                     END SELECT
                     IF PLANETTYPE$ = "Moho" THEN
                         PRINT #1, "             name = "; PLANETTYPE$
@@ -2424,7 +2499,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -2460,7 +2535,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -2496,7 +2571,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -2532,7 +2607,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -2568,7 +2643,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -2604,7 +2679,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -2640,7 +2715,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -2676,7 +2751,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -2712,7 +2787,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -2748,7 +2823,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -2784,7 +2859,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -2820,7 +2895,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -2856,7 +2931,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -2875,7 +2950,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                         PRINT #1, "             Material"
                         PRINT #1, "             {"
                         
-                        PRINT #1, "                 texture = To_Boldly_Go/coronae/gastextures/-"; INT(RND * 16); ".jpg"
+                        PRINT #1, "                 texture = To_Boldly_Go/gastextures/-"; INT(RND * 16); ".jpg"
                         PRINT #1, "             }"
                         PRINT #1, "         }"
                         PRINT #1, "         Properties"
@@ -2900,7 +2975,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,1.0,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -3111,7 +3186,8 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
         theDescription$ = "VAL -"+str$(BLUESTARNUMBER)+ " is a main sequence blue giant star."
         theRadius$ = STR$(INT(RND * 5000000000) + 2000000000)
         theSphereOfInfluence$ = STR$(500118820000)
-        aPropertiesNode$ = propertyNode$(thePropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
+        aPropertiesTemplate$ = thePropertiesTemplate$
+        aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
         print #1, aPropertiesNode$
         '###End property data'
         '########################'
@@ -3122,7 +3198,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
         print #1, aOrbitNode$
-        '###End property data'
+        '###End orbit data'
         '########################'
 
         PRINT #1, "        ScaledVersion"
@@ -3299,7 +3375,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -3335,7 +3411,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -3371,7 +3447,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -3407,7 +3483,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -3443,7 +3519,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -3479,7 +3555,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -3515,7 +3591,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -3551,7 +3627,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -3587,7 +3663,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -3623,7 +3699,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -3659,7 +3735,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -3695,7 +3771,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -3731,7 +3807,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -3750,7 +3826,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                         PRINT #1, "             Material"
                         PRINT #1, "             {"
                         
-                        PRINT #1, "                 texture = To_Boldly_Go/coronae/gastextures/-"; INT(RND * 16); ".jpg"
+                        PRINT #1, "                 texture = To_Boldly_Go/gastextures/-"; INT(RND * 16); ".jpg"
                         PRINT #1, "             }"
                         PRINT #1, "         }"
                         PRINT #1, "         Properties"
@@ -3775,7 +3851,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 0.1,0.1,1.0,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -3983,7 +4059,8 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
         theDescription$ = "KIRRIM -"+str$(WHITESTARNUMBER)+" is a main sequence blue giant star."
         theRadius$ = STR$(INT(RND * 1500000000) + 1000000000)
         theSphereOfInfluence$ = STR$(330118820000)
-        aPropertiesNode$ = propertyNode$(thePropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
+        aPropertiesTemplate$ = thePropertiesTemplate$
+        aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
         print #1, aPropertiesNode$
         '###End property data'
         '########################'
@@ -3994,7 +4071,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
         print #1, aOrbitNode$
-        '###End property data'
+        '###End orbit data'
         '########################'
  
         PRINT #1, "        ScaledVersion"
@@ -4112,7 +4189,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
                     PRINT #1, "         {"
 
                     
-                    PLANETTYPE = INT(RND * 13)
+                    PLANETTYPE = INT(RND * 20)
                     SELECT CASE PLANETTYPE
                         CASE 0
                             PLANETTYPE$ = "Moho"
@@ -4141,6 +4218,20 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
                         CASE 12
                             PLANETTYPE$ = "Jool"
                         CASE 13
+                            PLANETTYPE$ = "Jool"
+                        CASE 14
+                            PLANETTYPE$ = "Jool"
+                        CASE 15
+                            PLANETTYPE$ = "Jool"
+                        CASE 16
+                            PLANETTYPE$ = "Jool"
+                        CASE 17
+                            PLANETTYPE$ = "Jool"
+                        CASE 18
+                            PLANETTYPE$ = "Jool"
+                        CASE 19
+                            PLANETTYPE$ = "Jool"
+                        CASE 20
                             PLANETTYPE$ = "Jool"
                     END SELECT
                     IF PLANETTYPE$ = "Moho" THEN
@@ -4386,7 +4477,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
                         PRINT #1, "             Material"
                         PRINT #1, "             {"
                         
-                        PRINT #1, "                 texture = To_Boldly_Go/coronae/gastextures/-"; INT(RND * 16); ".jpg"
+                        PRINT #1, "                 texture = To_Boldly_Go/gastextures/-"; INT(RND * 16); ".jpg"
                         PRINT #1, "             }"
                         PRINT #1, "         }"
                         PRINT #1, "         Properties"
@@ -4591,7 +4682,8 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
         theDescription$ = ""
         theRadius$ = STR$(INT(RND * 30000000) + 1500000)
         theSphereOfInfluence$ = STR$(50118820000)
-        aPropertiesNode$ = propertyNode$(thePropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
+        aPropertiesTemplate$ = thePropertiesTemplate$
+        aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
         print #1, aPropertiesNode$
         '###End property data'
         '########################'
@@ -4767,7 +4859,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -4803,7 +4895,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -4839,7 +4931,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -4875,7 +4967,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -4911,7 +5003,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -4947,7 +5039,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -4983,7 +5075,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -5019,7 +5111,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -5055,7 +5147,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -5091,7 +5183,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -5127,7 +5219,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -5163,7 +5255,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -5199,7 +5291,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -5218,7 +5310,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                         PRINT #1, "             Material"
                         PRINT #1, "             {"
                         
-                        PRINT #1, "                 texture = To_Boldly_Go/coronae/gastextures/-"; INT(RND * 16); ".jpg"
+                        PRINT #1, "                 texture = To_Boldly_Go/gastextures/-"; INT(RND * 16); ".jpg"
                         PRINT #1, "             }"
                         PRINT #1, "         }"
                         PRINT #1, "         Properties"
@@ -5243,7 +5335,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
                             PRINT #1, "                 outerRadius = 3000"
                             PRINT #1, "                 innerRadius = 2000"
                             
-                            PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                             PRINT #1, "                 color = 1.0,0.0,0.6,1.0"
                             PRINT #1, "                 lockRotation = false"
                             PRINT #1, "                 unlit = false"
@@ -5436,7 +5528,8 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
         theDescription$ = "NEIL -"+str$(DWARFSTARNUMBER)+"is a main sequence blue giant star."
         theRadius$ = STR$(INT(RND * 700000) + 300000)
         theSphereOfInfluence$ = STR$(90118820000.5)
-        aPropertiesNode$ = propertyNode$(thePropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
+        aPropertiesTemplate$ = thePropertiesTemplate$
+        aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
         print #1, aPropertiesNode$
         '###End property data'
         '########################'
@@ -5447,7 +5540,7 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
         print #1, aOrbitNode$
-        '###End property data'
+        '###End orbit data'
         '########################'
 
         PRINT #1, "        ScaledVersion"
@@ -5630,7 +5723,8 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
         theRadius$ = STR$(INT(RND * 700000) + 300000)
         theSphereOfInfluence$ = STR$(90118820000.5)
         theGeeASL$ = str$(1000000)
-        aPropertiesNode$ = propertyNode$(thePropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, theGeeASL$)
+        aPropertiesTemplate$ = thePropertiesTemplate$
+        aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
         print #1, aPropertiesNode$
         '###End property data'
         '########################'
@@ -5641,7 +5735,7 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
         print #1, aOrbitNode$
-        '###End property data'
+        '###End orbit data'
         '########################'
 
         PRINT #1, "        Rings"
@@ -5891,7 +5985,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
                 
-                PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
                 PRINT #1, "                 unlit = false"
@@ -5927,7 +6021,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
                 
-                PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
                 PRINT #1, "                 unlit = false"
@@ -5963,7 +6057,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
                 
-                PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
                 PRINT #1, "                 unlit = false"
@@ -5999,7 +6093,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
                 
-                PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
                 PRINT #1, "                 unlit = false"
@@ -6035,7 +6129,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
                 
-                PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
                 PRINT #1, "                 unlit = false"
@@ -6071,7 +6165,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
                 
-                PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
                 PRINT #1, "                 unlit = false"
@@ -6107,7 +6201,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
                 
-                PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
                 PRINT #1, "                 unlit = false"
@@ -6143,7 +6237,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
                 
-                PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
                 PRINT #1, "                 unlit = false"
@@ -6179,7 +6273,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
                 
-                PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
                 PRINT #1, "                 unlit = false"
@@ -6215,7 +6309,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
                 
-                PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
                 PRINT #1, "                 unlit = false"
@@ -6251,7 +6345,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
                 
-                PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
                 PRINT #1, "                 unlit = false"
@@ -6287,7 +6381,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
                 
-                PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
                 PRINT #1, "                 unlit = false"
@@ -6323,7 +6417,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
                 
-                PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
                 PRINT #1, "                 unlit = false"
@@ -6342,7 +6436,7 @@ IF ROGUE > 0 THEN
             PRINT #1, "             Material"
             PRINT #1, "             {"
             
-            PRINT #1, "                 texture = To_Boldly_Go/coronae/gastextures/-"; INT(RND * 16); ".jpg"
+            PRINT #1, "                 texture = To_Boldly_Go/gastextures/-"; INT(RND * 16); ".jpg"
             PRINT #1, "             }"
             PRINT #1, "         }"
             PRINT #1, "         Properties"
@@ -6367,7 +6461,7 @@ IF ROGUE > 0 THEN
                 PRINT #1, "                 outerRadius = 3000"
                 PRINT #1, "                 innerRadius = 2000"
                 
-                PRINT #1, "                 texture = To_Boldly_Go/coronae/ringtextures/-"; INT(RND * 3); "-.png"
+                PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
                 PRINT #1, "                 color = 1.0,1,1,1.0"
                 PRINT #1, "                 lockRotation = false"
                 PRINT #1, "                 unlit = false"
@@ -6384,41 +6478,39 @@ IF ROGUE > 0 THEN
         END IF
     LOOP
 80 END IF
-'80 END IF
 
 PRINT ""
-COLOR _RGB(255, 255, 255)
-PRINT " "; SOBJECTNUMBER; "Stars"
-PRINT " "; POBJECTNUMBER; "Planets"
-PRINT " "; MOBJECTNUMBER; "Moons"
-PRINT " "; AOBJECTNUMBER; "Asteroids"
+PRINT ""; SOBJECTNUMBER; "Stars"
+PRINT ""; POBJECTNUMBER; "Planets"
+PRINT ""; MOBJECTNUMBER; "Moons"
+PRINT ""; AOBJECTNUMBER; "Asteroids"
 TOTAL = SOBJECTNUMBER + POBJECTNUMBER + MOBJECTNUMBER + AOBJECTNUMBER
-PRINT " "; SOBJECTNUMBER + POBJECTNUMBER + MOBJECTNUMBER + AOBJECTNUMBER; " Total"
+PRINT ""; SOBJECTNUMBER + POBJECTNUMBER + MOBJECTNUMBER + AOBJECTNUMBER; " Total"
 PRINT ""
-INPUT " SATISFIED? (Y/N):", AGAIN$
+INPUT "Are you satisfied with these results? (y/n):", AGAIN$
 
-PRINT " Press any key to"
-PRINT " Terminate"
-
-SLEEP
-
-
-
-
-
-'PRINT #1, "}"
 CLOSE #1
 FILENAME$ = "Galaxygen_Info-" + GNAME$ + ".txt"
 OPEN FILENAME$ FOR OUTPUT AS #1
-PRINT #1, "*****"; GNAME$; "*****"
+PRINT #1, "  _______      ____        _     _ _          _____"
+PRINT #1, " |__   __|    |  _ \      | |   | | |        / ____|"
+PRINT #1, "    | | ___   | |_) | ___ | | __| | |_   _  | |  __  ___"
+PRINT #1, "    | |/ _ \  |  _ < / _ \| |/ _` | | | | | | | |_ |/ _ \"
+PRINT #1, "    | | (_) | | |_) | (_) | | (_| | | |_| | | |__| | (_) |"
+PRINT #1, "    |_|\___/  |____/ \___/|_|\__,_|_|\__, |  \_____|\___/"
+PRINT #1, "                                      __/ |"
+PRINT #1, "                                     |___/"
+PRINT #1, "*****"; GNAME$; "***** v0.2.6"
 PRINT #1, "Creation Date: "; TIME$; " "; DATE$
 PRINT #1, "Generation Mode: "; CUSTOM$
 PRINT #1, "Seed:"; SEED
 PRINT #1, "Galaxy Type:"; GTYPE
+PRINT #1, "Galaxy Age:"; AGE
 PRINT #1, "Cluster Number:"; CLUSTERNUM
 PRINT #1, "Planets: "; PENABLE$
 PRINT #1, "Asteroids: "; ASTTOG$
 PRINT #1, "Red Dwarves:"; REDSTARNUMBER
+PRINT #1, "Orange Dwarves:"; KSTARNUMBER
 PRINT #1, "Yellow Dwarves:"; YELLOWSTARNUMBER
 PRINT #1, "White Stars:"; WHITESTARNUMBER
 PRINT #1, "Blue Giants:"; BLUESTARNUMBER
@@ -6436,6 +6528,7 @@ CLOSE #1
 'PRINT ""
 'PRINT "DONE! Remember to place this config file into a folder"
 'PRINT "within /Gamedata labeled 'To_Boldly_Go'"
+
 IF AGAIN$ = "n" THEN
     GOTO 888
 END IF
@@ -6677,7 +6770,7 @@ FUNCTION theStarName$
 '###########################
 '#read in star name prefixes
 REDIM arrayPrefixes$(0)
-theFileName$ = "TBG_Data_Folder/TBG_Prefixes.txt"
+theFileName$ = "Data_Folder/TBG_Prefixes.txt"
 IF _FILEEXISTS(theFileName$) THEN
     OPEN theFileName$ FOR INPUT AS #2
     filecount% = 0
@@ -6692,7 +6785,7 @@ END IF
 '###########################
 '#read in star name suffixes
 REDIM arraySuffixes$(0)
-theFileName$ = "TBG_Data_Folder/TBG_Suffixes.txt"
+theFileName$ = "Data_Folder/TBG_Suffixes.txt"
 IF _FILEEXISTS(theFileName$) THEN
     OPEN theFileName$ FOR INPUT AS #2
     filecount% = 0
@@ -6723,7 +6816,7 @@ END FUNCTION
 FUNCTION fileAsString$ (fileName$)
 '###########################
 '#read in string template
-theFileName$ = "TBG_Data_Folder/templates/" + fileName$
+theFileName$ = "Data_Folder/templates/" + fileName$
 wholeTxt$ = ""
 IF _FILEEXISTS(theFileName$) THEN
     OPEN theFileName$ FOR INPUT AS #3
