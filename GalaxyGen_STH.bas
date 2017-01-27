@@ -559,7 +559,11 @@ PRINT #1, "}"
 '#############################
 '###Read in the string templates
 thePropertiesTemplate$ = fileAsString("propertiesTmp.txt")
-theOrbitTemplate$ = fileAsString("OrbitTmp.txt")
+theOrbitTemplate$ = fileAsString("orbitTmp.txt")
+theLightTemplate$ = fileAsString("lightTmp.txt")
+theMaterialTemplate$ = fileAsString("materialTmp.txt")
+theCoronasTemplate$ = fileAsString("coronaTmp.txt")
+
 
 
 IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carries out an action.
@@ -604,19 +608,25 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
         '########################'
         PRINT #1, "        ScaledVersion"
         PRINT #1, "        {"
-        PRINT #1, "            Light"
-        PRINT #1, "            {"
-        PRINT #1, "                sunlightColor = 1.0,0.188,0.00,1.0"
-        PRINT #1, "                sunlightIntensity = 0.50"
-        PRINT #1, "                scaledSunlightColor = 1.0,0.188,0.00,1.0"
-        PRINT #1, "                scaledSunlightIntensity = 0.30"
-        PRINT #1, "                IVASuncolor = 1.0,0.188,0.00,1.0"
-        PRINT #1, "                IVASunIntensity = 1"
-        PRINT #1, "                sunLensFlareColor = 0.3,0,0,1.0"
-        PRINT #1, "                ambientLightColor = 0,0,0,1"
-        PRINT #1, "                sunAU = 13599840"
-        PRINT #1, "                luminosity = 0"
-        PRINT #1, "            }"
+        '########################'
+        '###Fill in light data'
+        sunlightColor$ = "1.0,0.188,0.00,1.0"
+        sunlightIntensity$ = "0.50"
+        scaledSunlightColor$ = "1.0,0.188,0.00,1.0"
+        scaledSunlightIntensity$ = "0.30"
+        IVASuncolor$ = "1.0,0.188,0.00,1.0"
+        IVASunIntensity$ = "1"
+        sunLensFlareColor$ = "0.3,0,0,1.0"
+        ambientLightColor$ = "0,0,0,1"
+        sunAU$ = "13599840"
+        luminosity$ = "0"
+        givesOffLight$ = "True"
+        aLightTemp$ = theLightTemplate$
+        aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
+        '###End light data'
+        '########################'
+        '########################'
+        '###Fill in material data'
         PRINT #1, "            Material"
         PRINT #1, "            {"
         PRINT #1, "                emitColor0 = 0.6,0.3,0.0,1.0"
@@ -624,6 +634,10 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
         PRINT #1, "                sunspotColor = 1.0,0,0,1.0"
         PRINT #1, "                rimColor = 0.68,0.05,0.05,1.0"
         PRINT #1, "            }"
+        '###End material data'
+        '########################'
+        '########################'
+        '###Fill in coronas data'
         PRINT #1, "            Coronas"
         PRINT #1, "            {"
         PRINT #1, "            Corona"
@@ -657,6 +671,8 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
         PRINT #1, "                }"
         PRINT #1, "            }"
         PRINT #1, "            }"
+        '###End coronas data'
+        '########################'
         PRINT #1, "        }"
         PRINT #1, "    }"
         IF SPN = 0 THEN
@@ -6891,4 +6907,21 @@ FUNCTION orbitNode$ (aTemplate$, GTYPE, theColor$, theMode$)
     aTemplate$ = ReplaceStr(aTemplate$,"%(theMeanAnomalyAtEpoch)s",theMeanAnomalyAtEpoch$)
     aTemplate$ = ReplaceStr(aTemplate$,"%(theEpoch)s",theEpoch$)
     orbitNode$ = aTemplate$
+END FUNCTION
+
+FUNCTION lightNode$(aTemplate$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
+        '#####STH 2017-0124. QBasic doesn't have string formatting like python. 
+        '#####Replicated that function with string replacement function.
+        aTemplate$ = ReplaceStr(aTemplate$, %(theSunlightColor)s, sunlightColor$)
+        aTemplate$ = ReplaceStr(aTemplate$, %(theSunlightIntensity)s, sunlightIntensity$)
+        aTemplate$ = ReplaceStr(aTemplate$, %(theScaledSunlightIntensity)s, scaledSunlightColor$)
+        aTemplate$ = ReplaceStr(aTemplate$, %(theIVASuncolor)s, scaledSunlightIntensity$)
+        aTemplate$ = ReplaceStr(aTemplate$, %(theIVASunIntensity)s, IVASuncolor$)
+        aTemplate$ = ReplaceStr(aTemplate$, %(theIVASunIntensity)s, IVASunIntensity$)
+        aTemplate$ = ReplaceStr(aTemplate$, %(theSunLensFlareColor)s, sunLensFlareColor$)
+        aTemplate$ = ReplaceStr(aTemplate$, %(theAmbientLightColor)s, ambientLightColor$)
+        aTemplate$ = ReplaceStr(aTemplate$, %(theSunAU)s,sunAU$)
+        aTemplate$ = ReplaceStr(aTemplate$, %(theLuminosity)s, luminosity$)
+        aTemplate$ = ReplaceStr(aTemplate$, %(theGivesOffLight)s, givesOffLight$)
+        lightNode$ = aTemplate$
 END FUNCTION
