@@ -563,7 +563,10 @@ theOrbitTemplate$ = fileAsString("orbitTmp.txt")
 theLightTemplate$ = fileAsString("lightTmp.txt")
 theMaterialTemplate$ = fileAsString("materialTmp.txt")
 theCoronasTemplate$ = fileAsString("coronaTmp.txt")
-
+theGasGiantTemplate$ = fileAsString("gasGiantScaledVersionTmp.txt")
+theRingsTemplate$ = fileAsString("ringsTmp.txt")
+thePlanetTemplate$ = fileAsString("planetTmp.txt")
+theStarTmp$ = fileAsString("starTmp.txt")
 
 
 IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carries out an action.
@@ -574,9 +577,9 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
         ELSE
             SPN = 1
         END IF
-        'generating radius
-        DIM a AS INTEGER
-
+        '###These print statements can go away once the starTemplate can be used
+        '###Need to get planet and moon template generation working in basic first
+        '###STH 2017-0127
         PRINT #1, "@Kopernicus"
         PRINT #1, "{"
         PRINT #1, "    Body"
@@ -623,54 +626,28 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
         givesOffLight$ = "True"
         aLightTemp$ = theLightTemplate$
         aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
+        print #1, aLightNode$
         '###End light data'
         '########################'
         '########################'
         '###Fill in material data'
-        PRINT #1, "            Material"
-        PRINT #1, "            {"
-        PRINT #1, "                emitColor0 = 0.6,0.3,0.0,1.0"
-        PRINT #1, "                emitColor1 = 0.9,0.1,0.0,1.0"
-        PRINT #1, "                sunspotColor = 1.0,0,0,1.0"
-        PRINT #1, "                rimColor = 0.68,0.05,0.05,1.0"
-        PRINT #1, "            }"
+        emitColorZero$ = "0.6,0.3,0.0,1.0"
+        emitColorOne$ = "0.9,0.1,0.0,1.0"
+        sunspotColor$ = "1.0,0,0,1.0"
+        rimColor$ = "0.68,0.05,0.05,1.0"
+        rimPower$ = "1"
+        rimBlend$ = "1"
+        aMaterialTemp$ = theMaterialTemplate$
+        aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
+        print #1, aMaterialNode$
         '###End material data'
         '########################'
         '########################'
         '###Fill in coronas data'
-        PRINT #1, "            Coronas"
-        PRINT #1, "            {"
-        PRINT #1, "            Corona"
-        PRINT #1, "            {"
-        PRINT #1, "                rotation = 0"
-        PRINT #1, "                speed = -1"
-        PRINT #1, "                updateInterval = 5"
-        PRINT #1, "                scaleLimitX = 5"
-        PRINT #1, "                scaleLimitY = 5"
-        PRINT #1, "                scaleSpeed = 0.007"
-        PRINT #1, ""
-        PRINT #1, "                Material"
-        PRINT #1, "                {"
-        PRINT #1, "                    texture = To_Boldly_Go/coronae/RedCorona"
-        PRINT #1, "                    inverseFade = 2.553731"
-        PRINT #1, "                }"
-        PRINT #1, "            }"
-        PRINT #1, "            Corona"
-        PRINT #1, "            {"
-        PRINT #1, "                rotation = 0"
-        PRINT #1, "                speed = 1"
-        PRINT #1, "                updateInterval = 5"
-        PRINT #1, "                scaleLimitX = 5"
-        PRINT #1, "                scaleLimitY = 5"
-        PRINT #1, "                scaleSpeed = 0.009"
-        PRINT #1, ""
-        PRINT #1, "                Material"
-        PRINT #1, "                {"
-        PRINT #1, "                      texture = To_Boldly_Go/coronae/RedCorona"
-        PRINT #1, "                      inverseFade = 2.553731"
-        PRINT #1, "                }"
-        PRINT #1, "            }"
-        PRINT #1, "            }"
+        starColour$ = "Red"
+        aCoronaTemp$ = theCoronasTemplate$
+        aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
+        print #1, aCoronaNode$
         '###End coronas data'
         '########################'
         PRINT #1, "        }"
@@ -1430,18 +1407,12 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
         REDSTARNUMBER = REDSTARNUMBER + 1
     LOOP
 1 END IF
-'2
-
-
-
 
 '******************************************************************************
 '******************************************************************************
 '******************************************************************************
 '******************************************************************************
 '******************************************************************************
-
-
 
 
 
@@ -1452,20 +1423,19 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
     DO
         IF PENABLE$ = "y" THEN
             
-            SPN = INT(RND * 3)
+            SPN = INT(RND * 4)
         ELSE
             SPN = 1
         END IF
-        'generating radius
-        
-        'PRINT INT(RND * 300000000) + 15000000;
+        '###These print statements can go away once the starTemplate can be used
+        '###Need to get planet and moon template generation working in basic first
+        '###STH 2017-0127
         PRINT #1, "@Kopernicus"
         PRINT #1, "{"
         PRINT #1, "    Body"
         PRINT #1, "    {"
-        'CLS
         aStarName$ = theStarName$ '#Calls the function "theStarName"
-        PRINT #1, "        name = "; aStarName$; ""
+        PRINT #1, "        name = "; aStarName$
         PRINT #1, "        Template"
         PRINT #1, "        {"
         PRINT #1, "            name = Sun"
@@ -1489,65 +1459,50 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
         print #1, aOrbitNode$
         '###End orbit data'
         '########################'
-
         PRINT #1, "        ScaledVersion"
         PRINT #1, "        {"
-        PRINT #1, "            Light"
-        PRINT #1, "            {"
-        PRINT #1, "                sunlightColor = 1.0,0.7,0.00,1.0"
-        PRINT #1, "                sunlightIntensity = 0.50"
-        PRINT #1, "                scaledSunlightColor = 1.0,0.7,0.00,1.0"
-        PRINT #1, "                scaledSunlightIntensity = 1"
-        PRINT #1, "                IVASuncolor = 1.0,0.7,0.00,1.0"
-        PRINT #1, "                IVASunIntensity = 1"
-        PRINT #1, "                sunLensFlareColor = 1,0.5,0,1.0"
-        PRINT #1, "                ambientLightColor = 0,0,0,1"
-        PRINT #1, "                sunAU = 113599840"
-        'PRINT #1, "                luminosity = 0"
-        PRINT #1, "            }"
-        PRINT #1, "            Material"
-        PRINT #1, "            {"
-        PRINT #1, "                emitColor0 = 1,1,0.0,1.0"
-        PRINT #1, "                emitColor1 = 1,0.5,0.0,1.0"
-        PRINT #1, "                sunspotColor = 1.0,0,0,1.0"
-        PRINT #1, "                rimColor = 0.9833707,0.6516854,0.05,1.0"
-        PRINT #1, "            }"
-        PRINT #1, "            Coronas"
-        PRINT #1, "            {"
-        PRINT #1, "            Corona"
-        PRINT #1, "            {"
-        PRINT #1, "                rotation = 0"
-        PRINT #1, "                speed = -1"
-        PRINT #1, "                updateInterval = 5"
-        PRINT #1, "                scaleLimitX = 5"
-        PRINT #1, "                scaleLimitY = 5"
-        PRINT #1, "                scaleSpeed = 0.007"
-        PRINT #1, ""
-        PRINT #1, "                Material"
-        PRINT #1, "                {"
-        PRINT #1, "                    texture = To_Boldly_Go/coronae/KCorona"
-        PRINT #1, "                    inverseFade = 2.553731"
-        PRINT #1, "                }"
-        PRINT #1, "            }"
-        PRINT #1, "            Corona"
-        PRINT #1, "            {"
-        PRINT #1, "                rotation = 0"
-        PRINT #1, "                speed = 1"
-        PRINT #1, "                updateInterval = 5"
-        PRINT #1, "                scaleLimitX = 5"
-        PRINT #1, "                scaleLimitY = 5"
-        PRINT #1, "                scaleSpeed = 0.009"
-        PRINT #1, ""
-        PRINT #1, "                Material"
-        PRINT #1, "                {"
-        PRINT #1, "                      texture = To_Boldly_Go/coronae/KCorona"
-        PRINT #1, "                      inverseFade = 2.553731"
-        PRINT #1, "                }"
-        PRINT #1, "            }"
-        PRINT #1, "            }"
+        '########################'
+        '###Fill in light data'
+        sunlightColor$ = "1.0,0.7,0.00,1.0"
+        sunlightIntensity$ = "0.50"
+        scaledSunlightColor$ = "1.0,0.7,0.00,1.0"
+        scaledSunlightIntensity$ = "1.0"
+        IVASuncolor$ = "1.0,0.7,0.00,1.0"
+        IVASunIntensity$ = "1"
+        sunLensFlareColor$ = "1,0.5,0,1.0"
+        ambientLightColor$ = "0,0,0,1"
+        sunAU$ = "113599840"
+        luminosity$ = "0"
+        givesOffLight$ = "True"
+        aLightTemp$ = theLightTemplate$
+        aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
+        print #1, aLightNode$
+        '###End light data'
+        '########################'
+        '########################'
+        '###Fill in material data'
+        emitColorZero$ = "1,1,0.0,1.0"
+        emitColorOne$ = "1,0.5,0.0,1.0"
+        sunspotColor$ = "1.0,0,0,1.0"
+        rimColor$ = "0.9833707,0.6516854,0.05,1.0"
+        rimPower$ = "1"
+        rimBlend$ = "1"
+        aMaterialTemp$ = theMaterialTemplate$
+        aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
+        print #1, aMaterialNode$
+        '###End material data'
+        '########################'
+        '########################'
+        '###Fill in coronas data'
+        starColour$ = "KCorona"
+        aCoronaTemp$ = theCoronasTemplate$
+        aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
+        print #1, aCoronaNode$
+        '###End coronas data'
+        '########################'
         PRINT #1, "        }"
         PRINT #1, "    }"
-        'PRINT #1, "}"
+
         IF SPN = 0 THEN
             
             GAS = INT(RND * 5)
@@ -2325,34 +2280,33 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
         KSTARNUMBER = KSTARNUMBER + 1
     LOOP
 101 END IF
-'COLOR 14 'Sets the inquiry to yellow
+
 '******************************************************************************
 '******************************************************************************
 '******************************************************************************
 '******************************************************************************
 '******************************************************************************
 
-'PRINT ""
 
 
 IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then carries out an action.
 
     DO
-        'generating radius
         IF PENABLE$ = "y" THEN
             
-            SPN = INT(RND * 3)
+            SPN = INT(RND * 4)
         ELSE
             SPN = 1
         END IF
-
+        '###These print statements can go away once the starTemplate can be used
+        '###Need to get planet and moon template generation working in basic first
+        '###STH 2017-0127
         PRINT #1, "@Kopernicus"
         PRINT #1, "{"
-
         PRINT #1, "    Body"
         PRINT #1, "    {"
         aStarName$ = theStarName$ '#Calls the function "theStarName"
-        PRINT #1, "        name = "; aStarName$; ""
+        PRINT #1, "        name = "; aStarName$
         PRINT #1, "        Template"
         PRINT #1, "        {"
         PRINT #1, "            name = Sun"
@@ -2378,12 +2332,44 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
         '########################'
         PRINT #1, "        ScaledVersion"
         PRINT #1, "        {"
-        PRINT #1, "            Light"
-        PRINT #1, "            {"
-        PRINT #1, "                sunLensFlareColor = 1,1,1,1.0"
-        PRINT #1, "                luminosity = 0"
-        PRINT #1, "                ambientLightColor = 0,0,0,1"
-        PRINT #1, "            }"
+        '########################'
+        '###Fill in light data'
+        sunlightColor$ = "1,1,1,1.0"
+        sunlightIntensity$ = "0.55"
+        scaledSunlightColor$ = "1,1,1,1.0"
+        scaledSunlightIntensity$ = "0.55"
+        IVASuncolor$ = "1,1,1,1.0"
+        IVASunIntensity$ = "0.55"
+        sunLensFlareColor$ = "1,1,1,1.0"
+        ambientLightColor$ = "0,0,0,1"
+        sunAU$ = "113599840"
+        luminosity$ = "0"
+        givesOffLight$ = "True"
+        aLightTemp$ = theLightTemplate$
+        aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
+        print #1, aLightNode$
+        '###End light data'
+        '########################'
+        '########################'
+        '###Fill in material data'
+        emitColorZero$ = "1,1,0.0,1.0"
+        emitColorOne$ = "1,0.5,0.0,1.0"
+        sunspotColor$ = "1.0,0,0,1.0"
+        rimColor$ = "0.9833707,0.6516854,0.05,1.0"
+        rimPower$ = "1"
+        rimBlend$ = "1"
+        aMaterialTemp$ = theMaterialTemplate$
+        aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
+        print #1, aMaterialNode$
+        '###End material data'
+        '########################'
+        '###Fill in coronas data'
+        starColour$ = "Yellow"
+        aCoronaTemp$ = theCoronasTemplate$
+        aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
+        print #1, aCoronaNode$
+        '###End coronas data'
+        '########################'
         PRINT #1, "        }"
         PRINT #1, "    }"
 
@@ -3164,8 +3150,6 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
     LOOP
 2 END IF
 
-'2
-'COLOR 11 'Sets the inquiry to yellow
 '******************************************************************************
 '******************************************************************************
 '******************************************************************************
@@ -3173,26 +3157,25 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
 '******************************************************************************
 
 COLOR _RGB(0, 0, 255)
-'PRINT ""
-
 
 IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carries out an action.
 
     DO
-        'generating radius
         IF PENABLE$ = "y" THEN
             
-            SPN = INT(RND * 8)
+            SPN = INT(RND * 4)
         ELSE
             SPN = 1
-        END IF            
+        END IF
+        '###These print statements can go away once the starTemplate can be used
+        '###Need to get planet and moon template generation working in basic first
+        '###STH 2017-0127
         PRINT #1, "@Kopernicus"
         PRINT #1, "{"
-
         PRINT #1, "    Body"
         PRINT #1, "    {"
         aStarName$ = theStarName$ '#Calls the function "theStarName"
-        PRINT #1, "        name = "; aStarName$; ""
+        PRINT #1, "        name = "; aStarName$
         PRINT #1, "        Template"
         PRINT #1, "        {"
         PRINT #1, "            name = Sun"
@@ -3216,64 +3199,47 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
         print #1, aOrbitNode$
         '###End orbit data'
         '########################'
-
         PRINT #1, "        ScaledVersion"
         PRINT #1, "        {"
-        PRINT #1, "            Light"
-        PRINT #1, "            {"
-        PRINT #1, "                sunlightColor = 0.0,0.15,0.6,1.0"
-        PRINT #1, "                sunlightIntensity = 3.0"
-        PRINT #1, "                scaledSunlightColor = 0.0,0.15,0.6,1.0"
-        PRINT #1, "                scaledSunlightIntensity = 3.0"
-        PRINT #1, "                IVASunColor = 0.0,0.15,0.6,1.0"
-        PRINT #1, "                IVASunIntensity = 3.0"
-        PRINT #1, "                sunLensFlareColor = 0,0.5,1,1.0"
-        'PRINT #1, "                luminosity = 0"
-        PRINT #1, "                ambientLightColor = 0,0,0,1"
-        PRINT #1, "                sunAU = 1359984025666"
-        PRINT #1, "            }"
-        PRINT #1, "            Material"
-        PRINT #1, "            {"
-        PRINT #1, "             emitColor0 = 0.2,0.99,0.99,1.0"
-        PRINT #1, "             emitColor1 = 0.139,0.061,1.0,1.0"
-        PRINT #1, "             sunspotColor = 0,0,0,1.0"
-        PRINT #1, "             rimColor = 0.0,0.636,1.0,1.0"
-        PRINT #1, "             rimPower = 3"
-        PRINT #1, "             rimBlend = 3"
-        PRINT #1, "            }"
-        PRINT #1, "            Coronas"
-        PRINT #1, "            {"
-        PRINT #1, "            Corona"
-        PRINT #1, "            {"
-        PRINT #1, "                rotation = 0"
-        PRINT #1, "                speed = -1"
-        PRINT #1, "                updateInterval = 5"
-        PRINT #1, "                scaleLimitX = 5"
-        PRINT #1, "                scaleLimitY = 5"
-        PRINT #1, "                scaleSpeed = 0.007"
-        PRINT #1, ""
-        PRINT #1, "                Material"
-        PRINT #1, "                {"
-        PRINT #1, "                    texture = To_Boldly_Go/coronae/BlueCorona"
-        PRINT #1, "                    inverseFade = 2.553731"
-        PRINT #1, "                }"
-        PRINT #1, "            }"
-        PRINT #1, "            Corona"
-        PRINT #1, "            {"
-        PRINT #1, "                rotation = 0"
-        PRINT #1, "                speed = 1"
-        PRINT #1, "                updateInterval = 5"
-        PRINT #1, "                scaleLimitX = 5"
-        PRINT #1, "                scaleLimitY = 5"
-        PRINT #1, "                scaleSpeed = 0.009"
-        PRINT #1, ""
-        PRINT #1, "                Material"
-        PRINT #1, "                {"
-        PRINT #1, "                      texture = To_Boldly_Go/coronae/BlueCorona"
-        PRINT #1, "                      inverseFade = 2.553731"
-        PRINT #1, "                }"
-        PRINT #1, "            }"
-        PRINT #1, "            }"
+        '########################'
+        '###Fill in light data'
+        sunlightColor$ = "0.0,0.15,0.6,1.0"
+        sunlightIntensity$ = "3.0"
+        scaledSunlightColor$ = "0.0,0.15,0.6,1.0"
+        scaledSunlightIntensity$ = "3.0"
+        IVASuncolor$ = "0.0,0.15,0.6,1.0"
+        IVASunIntensity$ = "3.0"
+        sunLensFlareColor$ = "0,0.5,1,1.0"
+        ambientLightColor$ = "0,0,0,1"
+        sunAU$ = "1359984025666"
+        luminosity$ = "0"
+        givesOffLight$ = "True"
+        aLightTemp$ = theLightTemplate$
+        aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
+        print #1, aLightNode$
+        '###End light data'
+        '########################'
+        '########################'
+        '###Fill in material data'
+        emitColorZero$ = "0.2,0.99,0.99,1.0"
+        emitColorOne$ = "0.139,0.061,1.0,1.0"
+        sunspotColor$ = "0,0,0,1.0"
+        rimColor$ = "0.0,0.636,1.0,1.0"
+        rimPower$ = "3"
+        rimBlend$ = "3"
+        aMaterialTemp$ = theMaterialTemplate$
+        aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
+        print #1, aMaterialNode$
+        '###End material data'
+        '########################'
+        '########################'
+        '###Fill in coronas data'
+        starColour$ = "Blue"
+        aCoronaTemp$ = theCoronasTemplate$
+        aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
+        print #1, aCoronaNode$
+        '###End coronas data'
+        '########################'
         PRINT #1, "        }"
         PRINT #1, "    }"
 
@@ -4040,7 +4006,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
         BLUESTARNUMBER = BLUESTARNUMBER + 1
     LOOP
 3 END IF
-'COLOR 15 'Sets the inquiry to white
+
 
 '******************************************************************************
 '******************************************************************************
@@ -4051,21 +4017,21 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
 IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then carries out an action.
 
     DO
-        'generating radius
         IF PENABLE$ = "y" THEN
             
-            SPN = INT(RND * 8)
+            SPN = INT(RND * 4)
         ELSE
             SPN = 1
         END IF
-
+        '###These print statements can go away once the starTemplate can be used
+        '###Need to get planet and moon template generation working in basic first
+        '###STH 2017-0127
         PRINT #1, "@Kopernicus"
         PRINT #1, "{"
-
         PRINT #1, "    Body"
         PRINT #1, "    {"
         aStarName$ = theStarName$ '#Calls the function "theStarName"
-        PRINT #1, "        name = "; aStarName$; ""
+        PRINT #1, "        name = "; aStarName$
         PRINT #1, "        Template"
         PRINT #1, "        {"
         PRINT #1, "            name = Sun"
@@ -4089,65 +4055,52 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
         print #1, aOrbitNode$
         '###End orbit data'
         '########################'
- 
         PRINT #1, "        ScaledVersion"
         PRINT #1, "        {"
-        PRINT #1, "            Light"
-        PRINT #1, "            {"
-        PRINT #1, "                sunlightColor = 1.0,1.0,1.0,1.0"
-        PRINT #1, "                sunlightIntensity = 1.8"
-        PRINT #1, "                scaledSunlightColor = 1.0,1.0,1.0,1.0"
-        PRINT #1, "                scaledSunlightIntensity = 0.8"
-        PRINT #1, "                IVASunColor = 1.0,1.0,1.0,1.0"
-        PRINT #1, "                IVASunIntensity = 2.0"
-        PRINT #1, "                sunLensFlareColor = 0.2303371,0.4494382,1,1.0"
-        'PRINT #1, "                luminosity = 0"
-        PRINT #1, "                ambientLightColor = 0,0,0,1"
-        PRINT #1, "                sunAU = 135998402566"
-        ' "
-        PRINT #1, "            }"
-        PRINT #1, "            Material"
-        PRINT #1, "            {"
-        PRINT #1, "                emitColor0 = 0.2640449,0.258427,0.2752809,1.0"
-        PRINT #1, "                emitColor1 = 0.6516854,0.6460674,0.6573034,1.0"
-        PRINT #1, "                sunspotColor = 0,0,0,1.0"
-        PRINT #1, "                rimColor = 0.6011236,0.5955056,0.6292135,1.0"
-        PRINT #1, "            }"
-        PRINT #1, "            Coronas"
-        PRINT #1, "            {"
-        PRINT #1, "            Corona"
-        PRINT #1, "            {"
-        PRINT #1, "                rotation = 0"
-        PRINT #1, "                speed = -1"
-        PRINT #1, "                updateInterval = 5"
-        PRINT #1, "                scaleLimitX = 5"
-        PRINT #1, "                scaleLimitY = 5"
-        PRINT #1, "                scaleSpeed = 0.007"
-        PRINT #1, ""
-        PRINT #1, "                Material"
-        PRINT #1, "                {"
-        PRINT #1, "                    texture = To_Boldly_Go/coronae/WhiteCorona"
-        PRINT #1, "                    inverseFade = 2.553731"
-        PRINT #1, "                }"
-        PRINT #1, "            }"
-        PRINT #1, "            Corona"
-        PRINT #1, "            {"
-        PRINT #1, "                rotation = 0"
-        PRINT #1, "                speed = 1"
-        PRINT #1, "                updateInterval = 5"
-        PRINT #1, "                scaleLimitX = 5"
-        PRINT #1, "                scaleLimitY = 5"
-        PRINT #1, "                scaleSpeed = 0.009"
-        PRINT #1, ""
-        PRINT #1, "                Material"
-        PRINT #1, "                {"
-        PRINT #1, "                      texture = To_Boldly_Go/coronae/WhiteCorona"
-        PRINT #1, "                      inverseFade = 2.553731"
-        PRINT #1, "                }"
-        PRINT #1, "            }"
-        PRINT #1, "            }"
+        '########################'
+        '###Fill in light data'
+        sunlightColor$ = "1.0,1.0,1.0,1.0"
+        sunlightIntensity$ = "1.8"
+        scaledSunlightColor$ = "1.0,1.0,1.0,1.0"
+        scaledSunlightIntensity$ = "1.8"
+        IVASuncolor$ = "1.0,1.0,1.0,1.0"
+        IVASunIntensity$ = "2.0"
+        sunLensFlareColor$ = "0.2303371,0.4494382,1,1.0"
+        ambientLightColor$ = "0,0,0,1"
+        sunAU$ = "135998402566"
+        luminosity$ = "0"
+        givesOffLight$ = "True"
+        aLightTemp$ = theLightTemplate$
+        aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
+        print #1, aLightNode$
+        '###End light data'
+        '########################'
+        '########################'
+        '###Fill in material data'
+        emitColorZero$ = "0.2640449,0.258427,0.2752809,1.0"
+        emitColorOne$ = "0.6516854,0.6460674,0.6573034,1.0"
+        sunspotColor$ = "0,0,0,1.0"
+        rimColor$ = "0.6011236,0.5955056,0.6292135,1.0"
+        rimPower$ = "1"
+        rimBlend$ = "1"
+        aMaterialTemp$ = theMaterialTemplate$
+        aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
+        print #1, aMaterialNode$
+        '###End material data'
+        '########################'
+        '########################'
+        '###Fill in coronas data'
+        starColour$ = "White"
+        aCoronaTemp$ = theCoronasTemplate$
+        aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
+        print #1, aCoronaNode$
+        '###End coronas data'
+        '########################'
         PRINT #1, "        }"
         PRINT #1, "    }"
+
+
+
         IF SPN = 0 THEN
             
             GAS = INT(RND * 5)
@@ -4669,26 +4622,26 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
         WHITESTARNUMBER = WHITESTARNUMBER + 1
     LOOP
 4 END IF
-'PRINT ""
-'COLOR 12 'Sets the inquiry to brown
+
 
 IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then carries out an action.
 
     DO
         IF PENABLE$ = "y" THEN
             
-            SPN = INT(RND * 8)
+            SPN = INT(RND * 4)
         ELSE
             SPN = 1
         END IF
-
+        '###These print statements can go away once the starTemplate can be used
+        '###Need to get planet and moon template generation working in basic first
+        '###STH 2017-0127
         PRINT #1, "@Kopernicus"
         PRINT #1, "{"
-
         PRINT #1, "    Body"
         PRINT #1, "    {"
         aStarName$ = theStarName$ '#Calls the function "theStarName"
-        PRINT #1, "        name = "; aStarName$; ""
+        PRINT #1, "        name = "; aStarName$
         PRINT #1, "        Template"
         PRINT #1, "        {"
         PRINT #1, "            name = Sun"
@@ -4712,70 +4665,50 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
         print #1, aOrbitNode$
         '###End orbit data'
         '########################'
-
-        PRINT #1, "        Atmosphere"
-        PRINT #1, "        {"
-        PRINT #1, "            maxAltitude = 60000"
-        PRINT #1, "            altitude = 60000"
-        PRINT #1, "        }"
-
         PRINT #1, "        ScaledVersion"
         PRINT #1, "        {"
-        PRINT #1, "            Light"
-        PRINT #1, "            {"
-        PRINT #1, "                sunlightColor = 0.7,0.0,0.5,1.0"
-        PRINT #1, "                sunlightIntensity = 0.10"
-        PRINT #1, "                scaledSunlightColor = 0.7,0.0,0.5,1.0"
-        PRINT #1, "                scaledSunlightIntensity = 0.20"
-        PRINT #1, "                IVASunColor = 0.7,0.0,0.5,1.0"
-        PRINT #1, "                IVASunIntensity = 0.10"
-        PRINT #1, "                sunLensFlareColor = 0.6,0,1,1.0"
-        PRINT #1, "                luminosity = 0"
-        PRINT #1, "                ambientLightColor = 0,0,0,1"
-        PRINT #1, "                sunAU = 135998402"
-        PRINT #1, "            }"
-        PRINT #1, "            Material"
-        PRINT #1, "            {"
-        PRINT #1, "                emitColor0 = 0.7,0.0,0.5,1.0"
-        PRINT #1, "                emitColor1 = 0.7,0.0,0.5,1.0"
-        PRINT #1, "                sunspotColor = 0.0,0,0,1.0"
-        PRINT #1, "                rimColor = 0.7,0.0,0.5,1.0"
-        PRINT #1, "            }"
-        PRINT #1, "            Coronas"
-        PRINT #1, "            {"
-        PRINT #1, "            Corona"
-        PRINT #1, "            {"
-        PRINT #1, "                rotation = 0"
-        PRINT #1, "                speed = -1"
-        PRINT #1, "                updateInterval = 5"
-        PRINT #1, "                scaleLimitX = 5"
-        PRINT #1, "                scaleLimitY = 5"
-        PRINT #1, "                scaleSpeed = 0.007"
-        PRINT #1, ""
-        PRINT #1, "                Material"
-        PRINT #1, "                {"
-        PRINT #1, "                    texture = To_Boldly_Go/coronae/Black"
-        PRINT #1, "                    inverseFade = 2.553731"
-        PRINT #1, "                }"
-        PRINT #1, "            }"
-        PRINT #1, "            Corona"
-        PRINT #1, "            {"
-        PRINT #1, "                rotation = 0"
-        PRINT #1, "                speed = 1"
-        PRINT #1, "                updateInterval = 5"
-        PRINT #1, "                scaleLimitX = 5"
-        PRINT #1, "                scaleLimitY = 5"
-        PRINT #1, "                scaleSpeed = 0.009"
-        PRINT #1, ""
-        PRINT #1, "                Material"
-        PRINT #1, "                {"
-        PRINT #1, "                      texture = To_Boldly_Go/coronae/Black"
-        PRINT #1, "                      inverseFade = 2.553731"
-        PRINT #1, "                }"
-        PRINT #1, "            }"
-        PRINT #1, "            }"
+        '########################'
+        '###Fill in light data'
+        sunlightColor$ = "0.7,0.0,0.5,1.0"
+        sunlightIntensity$ = "0.10"
+        scaledSunlightColor$ = "0.7,0.0,0.5,1.0"
+        scaledSunlightIntensity$ = "0.20"
+        IVASuncolor$ = "0.7,0.0,0.5,1.0"
+        IVASunIntensity$ = "0.10"
+        sunLensFlareColor$ = "0.6,0,1,1.0"
+        ambientLightColor$ = "0,0,0,1"
+        sunAU$ = "135998402"
+        luminosity$ = "0"
+        givesOffLight$ = "True"
+        aLightTemp$ = theLightTemplate$
+        aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
+        print #1, aLightNode$
+        '###End light data'
+        '########################'
+        '########################'
+        '###Fill in material data'
+        emitColorZero$ = "0.7,0.0,0.5,1.0"
+        emitColorOne$ = "0.7,0.0,0.5,1.0"
+        sunspotColor$ = "0.0,0,0,1.0"
+        rimColor$ = "0.7,0.0,0.5,1.0"
+        rimPower$ = "1"
+        rimBlend$ = "1"
+        aMaterialTemp$ = theMaterialTemplate$
+        aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
+        print #1, aMaterialNode$
+        '###End material data'
+        '########################'
+        '########################'
+        '###Fill in coronas data'
+        starColour$ = "Black"
+        aCoronaTemp$ = theCoronasTemplate$
+        aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
+        print #1, aCoronaNode$
+        '###End coronas data'
+        '########################'
         PRINT #1, "        }"
         PRINT #1, "    }"
+
         IF SPN = 0 THEN
             
             GAS = INT(RND * 5)
@@ -5520,21 +5453,25 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
     LOOP
 5 END IF
 
-'COLOR 15 'Sets the inquiry to white
-'PRINT ""
 
 IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then carries out an action.
 
     DO
-
+        IF PENABLE$ = "y" THEN
+            
+            SPN = INT(RND * 4)
+        ELSE
+            SPN = 1
+        END IF
+        '###These print statements can go away once the starTemplate can be used
+        '###Need to get planet and moon template generation working in basic first
+        '###STH 2017-0127
         PRINT #1, "@Kopernicus"
         PRINT #1, "{"
-
         PRINT #1, "    Body"
-        OBJECTNUMBER = OBJECTNUMBER + 1
         PRINT #1, "    {"
         aStarName$ = theStarName$ '#Calls the function "theStarName"
-        PRINT #1, "        name = "; aStarName$; ""
+        PRINT #1, "        name = "; aStarName$
         PRINT #1, "        Template"
         PRINT #1, "        {"
         PRINT #1, "            name = Sun"
@@ -5558,64 +5495,49 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
         print #1, aOrbitNode$
         '###End orbit data'
         '########################'
-
         PRINT #1, "        ScaledVersion"
         PRINT #1, "        {"
-        PRINT #1, "            Light"
-        PRINT #1, "            {"
-        PRINT #1, "                sunlightColor = 1.0,1.0,1.0,1.0"
-        PRINT #1, "                sunlightIntensity = 0.5"
-        PRINT #1, "                scaledSunlightColor = 1.0,1.0,1.0,1.0"
-        PRINT #1, "                scaledSunlightIntensity = 0.2"
-        PRINT #1, "                IVASunColor = 1.0,1.0,1.0,1.0"
-        PRINT #1, "                IVASunIntensity = 0.5"
-        PRINT #1, "                sunLensFlareColor = 0,0,0,1.0"
-        PRINT #1, "                luminosity = 0"
-        PRINT #1, "                ambientLightColor = 0,0,0,1"
-        PRINT #1, "            }"
-        PRINT #1, "            Material"
-        PRINT #1, "            {"
-        PRINT #1, "                emitColor0 = 1.0,1.0,1.0,1.0"
-        PRINT #1, "                emitColor1 = 1.0,1.0,1.0,1.0"
-        PRINT #1, "                sunspotColor = 1.0,1.0,1.0,1.0"
-        PRINT #1, "                rimColor = 0.7,0.7,0.7,1.0"
-        PRINT #1, "            }"
-        PRINT #1, "            Coronas"
-        PRINT #1, "            {"
-        PRINT #1, "            Corona"
-        PRINT #1, "            {"
-        PRINT #1, "                rotation = 0"
-        PRINT #1, "                speed = -1"
-        PRINT #1, "                updateInterval = 5"
-        PRINT #1, "                scaleLimitX = 5"
-        PRINT #1, "                scaleLimitY = 5"
-        PRINT #1, "                scaleSpeed = 0.007"
-        PRINT #1, ""
-        PRINT #1, "                Material"
-        PRINT #1, "                {"
-        PRINT #1, "                    texture = To_Boldly_Go/coronae/Black"
-        PRINT #1, "                    inverseFade = 2.553731"
-        PRINT #1, "                }"
-        PRINT #1, "            }"
-        PRINT #1, "            Corona"
-        PRINT #1, "            {"
-        PRINT #1, "                rotation = 0"
-        PRINT #1, "                speed = 1"
-        PRINT #1, "                updateInterval = 5"
-        PRINT #1, "                scaleLimitX = 5"
-        PRINT #1, "                scaleLimitY = 5"
-        PRINT #1, "                scaleSpeed = 0.009"
-        PRINT #1, ""
-        PRINT #1, "                Material"
-        PRINT #1, "                {"
-        PRINT #1, "                      texture = To_Boldly_Go/coronae/Black"
-        PRINT #1, "                      inverseFade = 2.553731"
-        PRINT #1, "                }"
-        PRINT #1, "            }"
-        PRINT #1, "            }"
+        '########################'
+        '###Fill in light data'
+        sunlightColor$ = "1.0,1.0,1.0,1.0"
+        sunlightIntensity$ = "0.5"
+        scaledSunlightColor$ = "1.0,1.0,1.0,1.0"
+        scaledSunlightIntensity$ = "0.20"
+        IVASuncolor$ = "1.0,1.0,1.0,1.0"
+        IVASunIntensity$ = "0.5"
+        sunLensFlareColor$ = "0,0,0,1.0"
+        ambientLightColor$ = "0,0,0,1"
+        sunAU$ = "135998402"
+        luminosity$ = "0"
+        givesOffLight$ = "True"
+        aLightTemp$ = theLightTemplate$
+        aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
+        print #1, aLightNode$
+        '###End light data'
+        '########################'
+        '########################'
+        '###Fill in material data'
+        emitColorZero$ = "1.0,1.0,1.0,1.0"
+        emitColorOne$ = "1.0,1.0,1.0,1.0"
+        sunspotColor$ = "1.0,1.0,1.0,1.0"
+        rimColor$ = "0.7,0.7,0.7,1.0"
+        rimPower$ = "1"
+        rimBlend$ = "1"
+        aMaterialTemp$ = theMaterialTemplate$
+        aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
+        print #1, aMaterialNode$
+        '###End material data'
+        '########################'
+        '########################'
+        '###Fill in coronas data'
+        starColour$ = "Black"
+        aCoronaTemp$ = theCoronasTemplate$
+        aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
+        print #1, aCoronaNode$
+        '###End coronas data'
+        '########################'
         PRINT #1, "        }"
         PRINT #1, "    }"
-        PRINT #1, "}"
 
         IF ASTTOG$ = "y" THEN
             
@@ -5696,18 +5618,21 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
 IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then carries out an action.
 
     DO
-        'generating radius
-
-        
-        'PRINT INT(RND * 700000) + 300000;
+        IF PENABLE$ = "y" THEN
+            
+            SPN = INT(RND * 4)
+        ELSE
+            SPN = 1
+        END IF
+        '###These print statements can go away once the starTemplate can be used
+        '###Need to get planet and moon template generation working in basic first
+        '###STH 2017-0127
         PRINT #1, "@Kopernicus"
         PRINT #1, "{"
-
         PRINT #1, "    Body"
-        OBJECTNUMBER = OBJECTNUMBER + 1
         PRINT #1, "    {"
         aStarName$ = theStarName$ '#Calls the function "theStarName"
-        PRINT #1, "        name = "; aStarName$; ""
+        PRINT #1, "        name = "; aStarName$
         PRINT #1, "        Template"
         PRINT #1, "        {"
         PRINT #1, "            name = Sun"
@@ -5719,28 +5644,7 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
         theSphereOfInfluence$ = STR$(90118820000.5)
         theGeeASL$ = str$(1000000)
         aPropertiesTemplate$ = thePropertiesTemplate$
-        '#####STH 2017-0124. QBasic doesn't have string formatting like python. 
-        '#####Replicated that function with string replacement function.
-        aPropertiesTemplate$ = ReplaceStr(aPropertiesTemplate$,"%(theDescription)s",theDescription$)
-        aPropertiesTemplate$ = ReplaceStr(aPropertiesTemplate$,"%(theRadius)s",theRadius$)
-        '###########################'
-        '##Uncomment geeASL property'
-        aPropertiesTemplate$ = ReplaceStr(aPropertiesTemplate$,"//geeASL","geeASL")
-        '###########################'
-        aPropertiesTemplate$ = ReplaceStr(aPropertiesTemplate$,"%(theGeeASL)s",theGeeASL$)
-        aPropertiesTemplate$ = ReplaceStr(aPropertiesTemplate$,"%(theSphereOfInfluence)s",theSphereOfInfluence$)
-        print #1, aPropertiesTemplate$
-        '###End property data'
-        '########################'
-
-        '########################'
-        '###Fill in property data'
-        theDescription$ = "BILLYBOB -"+str$(BLACKHOLENUMBER)+ "is a black hole. An infinitely dense singularity encapsulated by the event horizon."
-        theRadius$ = STR$(INT(RND * 700000) + 300000)
-        theSphereOfInfluence$ = STR$(90118820000.5)
-        theGeeASL$ = str$(1000000)
-        aPropertiesTemplate$ = thePropertiesTemplate$
-        aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
+        aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, theGeeASL$)
         print #1, aPropertiesNode$
         '###End property data'
         '########################'
@@ -5753,94 +5657,62 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
         print #1, aOrbitNode$
         '###End orbit data'
         '########################'
-
-        PRINT #1, "        Rings"
-        PRINT #1, "        {"
-        PRINT #1, "         Ring"
-        PRINT #1, "         {"
-        PRINT #1, "             angle = 0"
-        PRINT #1, "             outerRadius = 72000"
-        PRINT #1, "             innerRadius = 200"
-        PRINT #1, "             texture = To_Boldly_Go/coronae/BH_ring"
-        PRINT #1, "             colour = RGBA(0.100, 1.000, 1.000, 1.000)"
-        PRINT #1, "             lockRotation = True"
-        PRINT #1, "             unlit = True"
-        PRINT #1, "         }"
-        PRINT #1, "        }"
+        '###Fill in Ring Data'
+        theAngle$ = "0"
+        theOuterRadius$ = "72000"
+        theInnerRadius$ = "200"
+        theRingTexture$ = "BH_ring"
+        theColour$ = "0.100, 1.000, 1.000, 1.000"
+        theLockRotation$ = "True"
+        theUnlit$ = "True"
+        aRingsTemp$ = theRingsTemplate$
+        aRingsNode$ = ringNode$(aRingsTemp$, theAngle$, theOuterRadius$, theInnerRadius$, theRingTexture$, theColour$, theLockRotation$, theUnlit$)
+        print #1, aRingsNode$
+        '###End ring data'
+        '########################'
         PRINT #1, "        ScaledVersion"
         PRINT #1, "        {"
-        PRINT #1, "         Light"
-        PRINT #1, "         {"
-        PRINT #1, "             sunlightColor = 1.0, 1.0, 1.0, 1.0"
-        PRINT #1, "             sunlightIntensity = 0.45"
-        PRINT #1, "             scaledSunlightColor = 1.0, 1.0, 1.0, 1.0"
-        PRINT #1, "             scaledSunlightIntensity = 0.45"
-        PRINT #1, "             IVASunColor = 1.0, 0.977, 0.896, 1.0"
-        PRINT #1, "             IVASunIntensity = 0.34"
-        PRINT #1, "             sunLensFlareColor = 0.0, 0.0, 0.0, 1.0"
-        PRINT #1, "             sunAU = 13599840256"
-        PRINT #1, "             brightnessCurve"
-        PRINT #1, "             {"
-        PRINT #1, "                 key = -0.01573471 0.217353 1.706627 1.706627"
-        PRINT #1, "                 key = 5.084181 3.997075 -0.001802375 -0.001802375"
-        PRINT #1, "                 key = 38.56295 1.82142 0.0001713 0.0001713"
-        PRINT #1, "             }"
-        PRINT #1, "         }"
-        PRINT #1, ""
-        PRINT #1, "         Material"
-        PRINT #1, "            {"
-        PRINT #1, "                emitColor0 = 0.0,0.0,0.0,1.0"
-        PRINT #1, "                emitColor1 = 0.0,0.0,0.0,1.0"
-        PRINT #1, "                sunspotColor = 0.0,0.0,0.0,1.0"
-        PRINT #1, "                rimColor = 0.0,0.0,0.0,1.0"
-        PRINT #1, "             rimPower = 1.5"
-        PRINT #1, "             rimBlend = 1.8"
-        PRINT #1, "            }"
-
-        PRINT #1, "            Coronas"
-        PRINT #1, "            {"
-        PRINT #1, "                Corona"
-        PRINT #1, "                {"
-        PRINT #1, "                    rotation = 0"
-        PRINT #1, "                    speed = -1"
-        PRINT #1, "                    updateInterval = 5"
-        PRINT #1, "                    scaleLimitX = 5"
-        PRINT #1, "                    scaleLimitY = 5"
-        PRINT #1, "                    scaleSpeed = 0.007"
-
-        PRINT #1, "                    Material"
-        PRINT #1, "                    {"
-        PRINT #1, "                        texture = To_Boldly_Go/coronae/corona"
-        PRINT #1, "                        inverseFade = 2.553731"
-        PRINT #1, "                    }"
-        PRINT #1, "                }"
-
-        PRINT #1, "                Corona"
-        PRINT #1, "                {"
-        PRINT #1, "                    rotation = 0"
-        PRINT #1, "                    speed = 1"
-        PRINT #1, "                    updateInterval = 5"
-        PRINT #1, "                    scaleLimitX = 5"
-        PRINT #1, "                    scaleLimitY = 5"
-        PRINT #1, "                    scaleSpeed = 0.009"
-
-        PRINT #1, "                    Material"
-        PRINT #1, "                    {"
-        PRINT #1, "                        texture = To_Boldly_Go/coronae/corona"
-        PRINT #1, "                        inverseFade = 2.553731"
-        PRINT #1, "                    }"
-        PRINT #1, "                }"
-        PRINT #1, "            }"
-        PRINT #1, "        }"
-        PRINT #1, "        SolarPowerCurve"
-        PRINT #1, "        {"
-        PRINT #1, "            key = 0 0 0 0"
-        PRINT #1, "            key = 0 0 0 0"
-        PRINT #1, "            key = 0 0 0 0"
-        PRINT #1, "            key = 0 0 0 0"
+        '########################'
+        '###Fill in light data'
+        sunlightColor$ = "1.0,1.0,1.0,1.0"
+        sunlightIntensity$ = "0.45"
+        scaledSunlightColor$ = "1.0,1.0,1.0,1.0"
+        scaledSunlightIntensity$ = "0.45"
+        IVASuncolor$ = "1.0, 0.977, 0.896, 1.0"
+        IVASunIntensity$ = "0.34"
+        sunLensFlareColor$ = "0.0, 0.0, 0.0, 1.0"
+        ambientLightColor$ = "0,0,0,1"
+        sunAU$ = "13599840256"
+        luminosity$ = "0"
+        givesOffLight$ = "False"
+        aLightTemp$ = theLightTemplate$
+        aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
+        print #1, aLightNode$
+        '###End light data'
+        '########################'
+        '########################'
+        '###Fill in material data'
+        emitColorZero$ = "0.0,0.0,0.0,1.0"
+        emitColorOne$ = "0.0,0.0,0.0,1.0"
+        sunspotColor$ = "0.0,0.0,0.0,1.0"
+        rimColor$ = "0.0,0.0,0.0,1.0"
+        rimPower$ = "1.5"
+        rimBlend$ = "1.8"
+        aMaterialTemp$ = theMaterialTemplate$
+        aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
+        print #1, aMaterialNode$
+        '###End material data'
+        '########################'
+        '########################'
+        '###Fill in coronas data'
+        starColour$ = "BlackHoleCorona"
+        aCoronaTemp$ = theCoronasTemplate$
+        aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
+        print #1, aCoronaNode$
+        '###End coronas data'
+        '########################'
         PRINT #1, "        }"
         PRINT #1, "    }"
-        PRINT #1, "}"
 
         IF ASTTOG$ = "y" THEN
             
@@ -6912,16 +6784,48 @@ END FUNCTION
 FUNCTION lightNode$(aTemplate$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
         '#####STH 2017-0124. QBasic doesn't have string formatting like python. 
         '#####Replicated that function with string replacement function.
-        aTemplate$ = ReplaceStr(aTemplate$, %(theSunlightColor)s, sunlightColor$)
-        aTemplate$ = ReplaceStr(aTemplate$, %(theSunlightIntensity)s, sunlightIntensity$)
-        aTemplate$ = ReplaceStr(aTemplate$, %(theScaledSunlightIntensity)s, scaledSunlightColor$)
-        aTemplate$ = ReplaceStr(aTemplate$, %(theIVASuncolor)s, scaledSunlightIntensity$)
-        aTemplate$ = ReplaceStr(aTemplate$, %(theIVASunIntensity)s, IVASuncolor$)
-        aTemplate$ = ReplaceStr(aTemplate$, %(theIVASunIntensity)s, IVASunIntensity$)
-        aTemplate$ = ReplaceStr(aTemplate$, %(theSunLensFlareColor)s, sunLensFlareColor$)
-        aTemplate$ = ReplaceStr(aTemplate$, %(theAmbientLightColor)s, ambientLightColor$)
-        aTemplate$ = ReplaceStr(aTemplate$, %(theSunAU)s,sunAU$)
-        aTemplate$ = ReplaceStr(aTemplate$, %(theLuminosity)s, luminosity$)
-        aTemplate$ = ReplaceStr(aTemplate$, %(theGivesOffLight)s, givesOffLight$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theSunlightColor)s", sunlightColor$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theSunlightIntensity)s", sunlightIntensity$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theScaledSunlightColor)s", scaledSunlightColor$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theScaledSunlightIntensity)s", scaledSunlightIntensity$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theIVASuncolor)s", IVASuncolor$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theIVASunIntensity)s", IVASunIntensity$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theSunLensFlareColor)s", sunLensFlareColor$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theAmbientLightColor)s", ambientLightColor$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theSunAU)s",sunAU$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theLuminosity)s", luminosity$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theGivesOffLight)s", givesOffLight$)
         lightNode$ = aTemplate$
+END FUNCTION
+
+FUNCTION materialNode$(aTemplate$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
+        '#####STH 2017-0124. QBasic doesn't have string formatting like python. 
+        '#####Replicated that function with string replacement function.
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theEmitColor0)s", emitColorZero$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theEmitColor1)s", emitColorOne$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theSunspotColor)s", sunspotColor$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theRimColor)s", rimColor$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theRimPower)s", rimPower$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theRimBlend)s", rimBlend$)
+        materialNode$ = aTemplate$
+END FUNCTION
+
+FUNCTION coronaNode$(aTemplate$, starColour$)
+        '#####STH 2017-0124. QBasic doesn't have string formatting like python. 
+        '#####Replicated that function with string replacement function.
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theTexture)s", starColour$)
+        coronaNode$ = aTemplate$
+END FUNCTION
+
+FUNCTION ringNode$(aTemplate$, theAngle$, theOuterRadius$, theInnerRadius$, theRingTexture$, theColour$, theLockRotation$, theUnlit$)
+        '#####STH 2017-0124. QBasic doesn't have string formatting like python. 
+        '#####Replicated that function with string replacement function.
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theAngle)s", theAngle$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theOuterRadius)s", theOuterRadius$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theInnerRadius)s", theInnerRadius$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theRingTexture)s", theRingTexture$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theColour)s", theColour$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theLockRotation)s", theLockRotation$)
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theUnlit)s", theUnlit$)
+        ringNode$ = aTemplate$
 END FUNCTION
