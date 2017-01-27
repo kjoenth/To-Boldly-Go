@@ -1,13 +1,14 @@
         Orbit
         {
+            //https://github.com/Kopernicus/Kopernicus/wiki/Orbit
             referenceBody = %(theReferenceBody)s
             color = %(theColor)s
             mode = %(theMode)s
-            inclination = %(theInclination)s //Orbit inclination relative to referenceBody's equator
-            //eccentricity = %(theEccentricity)s //Orbit eccentricity, how elliptical is the orbit
-            semiMajorAxis = %(theSemiMajorAxis)s //Average distance to reference body
-            //longitudeOfAscendingNode = %(theLongitudeOfAscendingNode)s //Position of ascending node relative to the surface of the reference body
+            inclination = %(theInclination)s 
+            //eccentricity = %(theEccentricity)s 
+            semiMajorAxis = %(theSemiMajorAxis)s 
+            //longitudeOfAscendingNode = %(theLongitudeOfAscendingNode)s 
             argumentOfPeriapsis = %(theArgumentOfPeriapsis)s
             meanAnomalyAtEpoch = %(theMeanAnomalyAtEpoch)s
-            epoch = %(theEpoch)s //Position of your planet when it is first loaded. Can be used to make trojans          
+            epoch = %(theEpoch)s       
         }

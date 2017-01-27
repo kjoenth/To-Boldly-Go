@@ -1,5 +1,6 @@
     Body
     {
+        //https://github.com/Kopernicus/Kopernicus/wiki/Syntax-for-planets
         name = %s %s
         Template
         {

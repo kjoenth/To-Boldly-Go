@@ -1,5 +1,6 @@
             Light
             {
+                //https://github.com/Kopernicus/Kopernicus/wiki/Light
                 sunlightColor = %(theSunlightColor)s
                 sunlightIntensity = %(theSunlightIntensity)s
                 scaledSunlightColor = %(theScaledSunlightColor)s
@@ -10,5 +11,5 @@
                 ambientLightColor = %(theAmbientLightColor)s
                 sunAU = %(theSunAU)s
                 luminosity = %(theLuminosity)s
-                givesOffLight =%(theGivesOffLight)s
+                givesOffLight = %(theGivesOffLight)s
             }
