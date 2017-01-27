@@ -1,0 +1,7 @@
+            Material
+            {
+                emitColor0 = %(theEmitColor0)s
+                emitColor1 = %(theEmitColor1)s
+                sunspotColor = %(theSunspotColor)s
+                rimColor = %(theRimColor)s
+            }

@@ -1,0 +1,12 @@
+    Body
+    {
+        name = %s %s
+        Template
+        {
+            name = %s
+        }
+        %(theProperties)s
+        %(theOrbitalData)s
+        %(ScaledVersion)s
+        %(theRings)s
+    }

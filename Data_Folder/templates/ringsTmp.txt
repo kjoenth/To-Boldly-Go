@@ -1,0 +1,13 @@
+         Rings
+         {
+             Ring
+             {
+                 angle = 0
+                 outerRadius = 3000
+                 innerRadius = 2000
+                 texture = To_Boldly_Go/ringtextures/%s.png
+                 color = 1.0,0.1,0.1,1.0
+                 lockRotation = false
+                 unlit = false
+             }
+          }

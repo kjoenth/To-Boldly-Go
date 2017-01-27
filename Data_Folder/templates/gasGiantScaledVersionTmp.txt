@@ -1,0 +1,7 @@
+        ScaledVersion
+        {
+            Material
+            {
+                texture = To_Boldly_Go/gastextures/- %s .jpg
+            }
+        }

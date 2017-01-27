@@ -1,0 +1,14 @@
+            Light
+            {
+                sunlightColor = %(theSunlightColor)s
+                sunlightIntensity = %(theSunlightIntensity)s
+                scaledSunlightColor = %(theScaledSunlightColor)s
+                scaledSunlightIntensity = %(theScaledSunlightIntensity)s
+                IVASuncolor = %(theIVASuncolor)s
+                IVASunIntensity = %(theIVASunIntensity)s
+                sunLensFlareColor = %(theSunLensFlareColor)s
+                ambientLightColor = %(theAmbientLightColor)s
+                sunAU = %(theSunAU)s
+                luminosity = %(theLuminosity)s
+                givesOffLight =%(theGivesOffLight)s
+            }
