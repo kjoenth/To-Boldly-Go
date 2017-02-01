@@ -571,12 +571,6 @@ theStarTmp$ = fileAsString("starTmp.txt")
 
 IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carries out an action.
     DO
-        IF PENABLE$ = "y" THEN
-            
-            SPN = INT(RND * 4)
-        ELSE
-            SPN = 1
-        END IF
         '###These print statements can go away once the starTemplate can be used
         '###Need to get planet and moon template generation working in basic first
         '###STH 2017-0127
@@ -652,6 +646,13 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
         '########################'
         PRINT #1, "        }"
         PRINT #1, "    }"
+
+        IF PENABLE$ = "y" THEN    
+            thePlanetBodiesData$=
+        ELSE
+            thePlanetBodiesData$=""
+        END IF
+
         IF SPN = 0 THEN
             GAS = INT(RND * 5)
             GASNUMBER = 1
@@ -6701,6 +6702,23 @@ SUFFIX$ = arraySuffixes$(indexSuffixes%)
 theStarName$ = PREFIX$ + SUFFIX$
 END FUNCTION
 
+FUNCTION
+def readPlanetTemplates():
+    #this is an embarassing mess
+    #the idea is to read in planet radius AND 1 or more descriptions
+    #if more than one description, random choose in later implementation
+    f = open("Data_folder/TBG_Planet_Templates.txt")
+    thePlanetTemplates = f.read().splitlines()
+    f.close()
+    planetDict={}
+    for x in thePlanetTemplates:
+        theListItems= x.split('\t')
+        planetDict[theListItems[0]]=[int(theListItems[1]), int(theListItems[2]), theListItems[3:]]
+    #print sorted(planetDict, key=lambda k: planetDict[k][0])
+    #print planetDict.keys().index("Jool")
+    return planetDict
+END FUNCTION
+
 FUNCTION fileAsString$ (fileName$)
 '###########################
 '#read in string template
@@ -6828,4 +6846,64 @@ FUNCTION ringNode$(aTemplate$, theAngle$, theOuterRadius$, theInnerRadius$, theR
         aTemplate$ = ReplaceStr(aTemplate$, "%(theLockRotation)s", theLockRotation$)
         aTemplate$ = ReplaceStr(aTemplate$, "%(theUnlit)s", theUnlit$)
         ringNode$ = aTemplate$
+END FUNCTION
+
+FUNCTION makeABody$(theRadius$, theSphereOfInfluence$)
+    planetTxt=""
+    maxPlanets = INT(RND * 5) #how many planets in this system? Max of 5
+    PlanetNumb = 1
+    for aPlanet = 1 to maxPlanets 
+        if PlanetNumb = 1 then PNM = "I"
+        if PlanetNumb == 2 then PNM = "II"
+        if PlanetNumb == 3 then PNM = "III"
+        if PlanetNumb == 4 then PNM = "IV"
+        if PlanetNumb == 5 then PNM = "V"
+        planetTemplateName = random.choice(thePlanetDict.keys())
+        planetRadius = thePlanetDict[planetTemplateName][0]
+        planetSOI = thePlanetDict[planetTemplateName][1]
+        planetDescription = thePlanetDict[planetTemplateName][2][0]    
+        planetBody=makeABody(theStarName, PNM, planetTemplateName, planetDescription, planetRadius, parentRadius, parentSOI) #this will be the same routine used to make both planets and moons
+        #print planetBody
+        planetTxt=planetTxt+planetBody
+        if planetTemplateName!="Gilly":
+            maxMoons=random.randint(1,4)
+            moonNumb=1
+            theParentName=theStarName+" "+PNM
+            for aMoon in range(maxMoons):
+                # if moonNumb == 1: PNM = "a"
+                # if moonNumb == 2: PNM = "b"
+                # if moonNumb == 3: PNM = "c"
+                # if moonNumb == 4: PNM = "d"
+                # if moonNumb == 5: PNM = "e"
+                PNM=str(moonNumb)
+                sortedPlanetKeys=sorted(thePlanetDict, key=lambda k: thePlanetDict[k][0])
+                if planetTemplateName=="Jool":
+                    del sortedPlanetKeys[-1]
+                else:
+                    sortedPlanetKeys=['Gilly']
+                #we can be way smarter about this
+                #can sort the planet templates my radius
+                #and then pick only bodies 40% size of parent
+                #as potential moons
+                moonTemplateName=random.choice(sortedPlanetKeys)
+                moonRadius = thePlanetDict[moonTemplateName][0]
+                moonDescription = thePlanetDict[moonTemplateName][2][0]
+
+                #print theParentName
+                #print PNM
+
+                moonBody=makeABody(theParentName, PNM, moonTemplateName, moonDescription, moonRadius, planetRadius, planetSOI) #this will be the same routine used to make both planets and moons
+                #print moonBody
+                planetTxt=planetTxt+moonBody
+                moonNumb=moonNumb+1
+                totNumbMoons=totNumbMoons+1
+        PlanetNumb=PlanetNumb+1
+        totNumbPlanets=totNumbPlanets+1
+    NEXT
+
+END FUNCTION
+
+FUNCTION populateBody$()
+
+
 END FUNCTION
