@@ -1490,7 +1490,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
         '########################'
         '########################'
         '###Fill in coronas data'
-        starColour$ = "KCorona"
+        starColour$ = "K"
         aCoronaTemp$ = theCoronasTemplate$
         aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
         PRINT #1, aCoronaNode$
