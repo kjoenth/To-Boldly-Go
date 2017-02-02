@@ -6,8 +6,8 @@
     |_|\___/  |____/ \___/|_|\__,_|_|\__, |  \_____|\___/
                                       __/ |
                                      |___/
-*****discExample***** v0.2.6
-Creation Date: 12:56:19 02-02-2017
+*****exampleDisc***** v0.2.6
+Creation Date: 13:08:07 02-02-2017
 Generation Mode: c
 Seed: 1234 
 Galaxy Type: 1 
