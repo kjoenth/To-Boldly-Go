@@ -26,6 +26,17 @@ END IF
 888 PRINT
 CLS
 
+'################'
+'#2017-0201 STH
+'#Call a subroutine that reads in planet template names, radii, SOI, and descriptions
+'#Will be used in the functions that make planets
+REDIM SHARED planetKey$(-1)
+REDIM SHARED thePlanetRadius(-1)
+REDIM SHARED thePlanetSOI(-1)
+REDIM SHARED thePlanetDesc$(-1)
+readPlanetTemplates
+'###################
+
 BROWNSTARNUMBER = 1
 REDSTARNUMBER = 1
 KSTARNUMBER = 1
@@ -40,6 +51,7 @@ CORESTARNUMBER = 1
 
 CLS 'clears the screen
 OPEN "galaxy.cfg" FOR OUTPUT AS #1 'Creates the config file
+print #1, planetKey$(0)
 
 '*******************************************************************************
 '*******************************************************************************
@@ -578,7 +590,10 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
         PRINT #1, "{"
         PRINT #1, "    Body"
         PRINT #1, "    {"
+        '########'
+        '#Needs to be an array'
         aStarName$ = theStarName$ '#Calls the function "theStarName"
+        '#########'
         PRINT #1, "        name = "; aStarName$
         PRINT #1, "        Template"
         PRINT #1, "        {"
@@ -647,690 +662,148 @@ IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carrie
         PRINT #1, "        }"
         PRINT #1, "    }"
 
-        IF PENABLE$ = "y" THEN    
-            thePlanetBodiesData$=
-        ELSE
-            thePlanetBodiesData$=""
+        maxPlanets = 0
+        IF PENABLE$ = "y" THEN            
+            maxPlanets = INT(RND * 5) '#how many planets in this system? Max of 5
         END IF
 
-        IF SPN = 0 THEN
-            GAS = INT(RND * 5)
-            GASNUMBER = 1
-            IF GAS > 0 THEN
-                SEMIMAJORAXIS = INT(RND * 10000000000) + 10000000
-                INCLINATION = INT(RND * 360)
+        planetNumb = 1
+        for aPlanet = 1 to maxPlanets
+            '#2017-0201 STH This could be turned into a CSV file of roman numerals read into an array
+            if planetNumb = 1 then PNM$ = "I"
+            if planetNumb = 2 then PNM$ = "II"
+            if planetNumb = 3 then PNM$ = "III"
+            if planetNumb = 4 then PNM$ = "IV"
+            if planetNumb = 5 then PNM$ = "V"
+            thePlanetName$ = aStarName$ +" "+ PNM$
+            SEMIMAJORAXIS = INT(RND * 10000000000) + 10000000
+            INCLINATION = INT(RND * 360)
+            PRINT #1, "    Body"
+            PRINT #1, "    {"
+            PRINT #1, "         name = "+ thePlanetName$
+            PRINT #1, "         Orbit"
+            PRINT #1, "         {"
+            PRINT #1, "            referenceBody = "; aStarName$; ""
+            PRINT #1, "            semiMajorAxis ="; SEMIMAJORAXIS; ""
+            SEMIMAJORAXIS = SEMIMAJORAXIS * 1.5
+            '##############
+            '#the next semimajor axis should be beyond the present planet's SOI
+            '#2017-0201 STH'
+            '##############'
+            PRINT #1, "            longitudeOfAscendingNode = 0"
+            PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
+            PRINT #1, "            meanAnomalyAtEpoch = 0"
+            PRINT #1, "            meanAnomalyAtEpochD = 0"
+            PRINT #1, "            epoch = 0"
+            PRINT #1, "            inclination ="; INCLINATION; ""
+            PRINT #1, "         }"
+            PRINT #1, "         Template"
+            PRINT #1, "         {"                
+            keyIndex = INT(RND * ubound(planetKey$))
+            PLANETTYPE$ = planetKey$(keyIndex)
+            PLANETDESC$ = thePlanetDesc$(keyIndex)
+            PLANETRADI = thePlanetRadius(keyIndex)
+            PRINT #1, "             name = "; PLANETTYPE$
+            PRINT #1, "         }"
+            PRINT #1, "         Properties"
+            PRINT #1, "         {"
+            PRINT #1, "            description =" + PLANETDESC$            
+            PRINT #1, "            radius ="; INT(RND * PLANETRADI) + 70000; ""
+            PRINT #1, "         }"
+            
+            RINGS = INT(RND * 3)
+            IF RINGS = 0 THEN
+                PRINT #1, "         Rings"
+                PRINT #1, "         {"
+                PRINT #1, "             Ring"
+                PRINT #1, "             {"
+                PRINT #1, "                 angle = 0"
+                PRINT #1, "                 outerRadius = 3000"
+                PRINT #1, "                 innerRadius = 2000"
+                
+                PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
+                PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
+                PRINT #1, "                 lockRotation = false"
+                PRINT #1, "                 unlit = false"
+                PRINT #1, "             }"
+                PRINT #1, "          }"
+            END IF
+            PRINT #1, "    }"
+            
+            MOON = INT(RND * 4)
+            MOONUMBER = 1
+            IF MOON > 0 THEN
                 DO
                     PRINT #1, "    Body"
                     PRINT #1, "    {"
-                    IF GASNUMBER = 1 THEN
-                        PRINT #1, "         name = "; aStarName$; " I"
-                        PNM$ = " I"
-                    END IF
-                    IF GASNUMBER = 2 THEN
-                        PRINT #1, "         name = "; aStarName$; " II"
-                        PNM$ = " II"
-                    END IF
-                    IF GASNUMBER = 3 THEN
-                        PRINT #1, "         name = "; aStarName$; " III"
-                        PNM$ = " III"
-                    END IF
-                    IF GASNUMBER = 4 THEN
-                        PRINT #1, "         name = "; aStarName$; " IV"
-                        PNM$ = " IV"
-                    END IF
-                    IF GASNUMBER = 5 THEN
-                        PRINT #1, "         name = "; aStarName$; " V"
-                        PNM$ = " V"
-                    END IF
-                    PRINT #1, "         Orbit"
-                    PRINT #1, "         {"
-                    PRINT #1, "             referenceBody = "; aStarName$; ""
-
-
-
-
-                    PRINT #1, "            semiMajorAxis ="; SEMIMAJORAXIS; ""
-                    SEMIMAJORAXIS = SEMIMAJORAXIS * 1.5
-
-                    PRINT #1, "            longitudeOfAscendingNode = 0"
+                    PRINT #1, "        name = "+thePlanetName$+" "+str$(MOONNUMBER)
+                    PRINT #1, ""
+                    PRINT #1, "        Orbit"
+                    PRINT #1, "        {"
+                    PRINT #1, "            referenceBody = "+thePlanetName$
                     
-                    PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
-                    PRINT #1, "            meanAnomalyAtEpoch = 0"
-                    PRINT #1, "            meanAnomalyAtEpochD = 0"
-                    PRINT #1, "            epoch = 0"
-
-                    PRINT #1, "            inclination ="; INCLINATION; ""
-
-                    PRINT #1, "         }"
-                    PRINT #1, "         Template"
-                    PRINT #1, "         {"
-
+                    PRINT #1, "            inclination ="; INT(RND * 360)
                     
-                    PLANETTYPE = INT(RND * 13)
-                    SELECT CASE PLANETTYPE
-                        CASE 0
-                            PLANETTYPE$ = "Moho"
-                        CASE 1
-                            PLANETTYPE$ = "Eve"
-                        CASE 2
-                            PLANETTYPE$ = "Mun"
-                        CASE 3
-                            PLANETTYPE$ = "Minmus"
-                        CASE 4
-                            PLANETTYPE$ = "Duna"
-                        CASE 5
-                            PLANETTYPE$ = "Ike"
-                        CASE 6
-                            PLANETTYPE$ = "Dres"
-                        CASE 7
-                            PLANETTYPE$ = "Jool"
-                        CASE 8
-                            PLANETTYPE$ = "Laythe"
-                        CASE 9
-                            PLANETTYPE$ = "Vall"
-                        CASE 10
-                            PLANETTYPE$ = "Tylo"
-                        CASE 11
-                            PLANETTYPE$ = "Jool"
-                        CASE 12
-                            PLANETTYPE$ = "Jool"
-                        CASE 13
-                            PLANETTYPE$ = "Eeloo"
-                    END SELECT
-                    IF PLANETTYPE$ = "Moho" THEN
-                        PRINT #1, "             name = "; PLANETTYPE$
-                        PRINT #1, "         }"
-
-                        PRINT #1, "         Properties"
-                        PRINT #1, "         {"
-
-
-
-                        PRINT #1, "            description = A red rocky world. Dull and barren, But here in the void. It is all a blessing just to find this world."
-                        
-                        PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
-
-
-                        PRINT #1, "         }"
-                        
-                        RINGS = INT(RND * 3)
-                        IF RINGS = 0 THEN
-                            PRINT #1, "         Rings"
-                            PRINT #1, "         {"
-                            PRINT #1, "             Ring"
-                            PRINT #1, "             {"
-                            PRINT #1, "                 angle = 0"
-                            PRINT #1, "                 outerRadius = 3000"
-                            PRINT #1, "                 innerRadius = 2000"
-                            
-                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-                            PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
-                            PRINT #1, "                 lockRotation = false"
-                            PRINT #1, "                 unlit = false"
-                            PRINT #1, "             }"
-                            PRINT #1, "          }"
-                        END IF
-                        PRINT #1, "    }"
-                        'PRINT #1, "}"
-                    END IF
-                    IF PLANETTYPE$ = "Eve" THEN
-                        PRINT #1, "             name = "; PLANETTYPE$
-                        PRINT #1, "         }"
-
-                        PRINT #1, "         Properties"
-                        PRINT #1, "         {"
-
-
-
-                        PRINT #1, "            description = A world with a thick purple sky. And a great ocean. Vast rocky plains. And great winds."
-                        
-                        PRINT #1, "            radius ="; INT(RND * 1500000) + 300000; ""
-
-
-                        PRINT #1, "         }"
-                        
-                        RINGS = INT(RND * 3)
-                        IF RINGS = 0 THEN
-                            PRINT #1, "         Rings"
-                            PRINT #1, "         {"
-                            PRINT #1, "             Ring"
-                            PRINT #1, "             {"
-                            PRINT #1, "                 angle = 0"
-                            PRINT #1, "                 outerRadius = 3000"
-                            PRINT #1, "                 innerRadius = 2000"
-                            
-                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-                            PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
-                            PRINT #1, "                 lockRotation = false"
-                            PRINT #1, "                 unlit = false"
-                            PRINT #1, "             }"
-                            PRINT #1, "          }"
-                        END IF
-                        PRINT #1, "    }"
-                        'PRINT #1, "}"
-                    END IF
-                    IF PLANETTYPE$ = "Mun" THEN
-                        PRINT #1, "             name = "; PLANETTYPE$
-                        PRINT #1, "         }"
-
-                        PRINT #1, "         Properties"
-                        PRINT #1, "         {"
-
-
-
-                        PRINT #1, "            description = A dull rocky cratered planet. Probably not worth it, But if your desparate, Then this is your place."
-                        
-                        PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
-
-
-                        PRINT #1, "         }"
-                        
-                        RINGS = INT(RND * 3)
-                        IF RINGS = 0 THEN
-                            PRINT #1, "         Rings"
-                            PRINT #1, "         {"
-                            PRINT #1, "             Ring"
-                            PRINT #1, "             {"
-                            PRINT #1, "                 angle = 0"
-                            PRINT #1, "                 outerRadius = 3000"
-                            PRINT #1, "                 innerRadius = 2000"
-                            
-                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-                            PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
-                            PRINT #1, "                 lockRotation = false"
-                            PRINT #1, "                 unlit = false"
-                            PRINT #1, "             }"
-                            PRINT #1, "          }"
-                        END IF
-                        PRINT #1, "    }"
-                        'PRINT #1, "}"
-                    END IF
-                    IF PLANETTYPE$ = "Minmus" THEN
-                        PRINT #1, "             name = "; PLANETTYPE$
-                        PRINT #1, "         }"
-
-                        PRINT #1, "         Properties"
-                        PRINT #1, "         {"
-
-
-
-                        PRINT #1, "            description = A small planet covered in ice plains and salt flats."
-                        
-                        PRINT #1, "                     radius ="; INT(RND * 120000) + 80000; ""
-
-
-                        PRINT #1, "         }"
-                        
-                        RINGS = INT(RND * 3)
-                        IF RINGS = 0 THEN
-                            PRINT #1, "         Rings"
-                            PRINT #1, "         {"
-                            PRINT #1, "             Ring"
-                            PRINT #1, "             {"
-                            PRINT #1, "                 angle = 0"
-                            PRINT #1, "                 outerRadius = 3000"
-                            PRINT #1, "                 innerRadius = 2000"
-                            
-                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-                            PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
-                            PRINT #1, "                 lockRotation = false"
-                            PRINT #1, "                 unlit = false"
-                            PRINT #1, "             }"
-                            PRINT #1, "          }"
-                        END IF
-                        PRINT #1, "    }"
-                        'PRINT #1, "}"
-                    END IF
-                    IF PLANETTYPE$ = "Duna" THEN
-                        PRINT #1, "             name = "; PLANETTYPE$
-                        PRINT #1, "         }"
-
-                        PRINT #1, "         Properties"
-                        PRINT #1, "         {"
-
-
-
-                        PRINT #1, "            description = A red world. Quite uninviting to Kerbals due to it's red shade of ground."
-                        
-                        PRINT #1, "            radius ="; INT(RND * 700000) + 270000; ""
-
-
-                        PRINT #1, "         }"
-                        
-                        RINGS = INT(RND * 3)
-                        IF RINGS = 0 THEN
-                            PRINT #1, "         Rings"
-                            PRINT #1, "         {"
-                            PRINT #1, "             Ring"
-                            PRINT #1, "             {"
-                            PRINT #1, "                 angle = 0"
-                            PRINT #1, "                 outerRadius = 3000"
-                            PRINT #1, "                 innerRadius = 2000"
-                            
-                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-                            PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
-                            PRINT #1, "                 lockRotation = false"
-                            PRINT #1, "                 unlit = false"
-                            PRINT #1, "             }"
-                            PRINT #1, "          }"
-                        END IF
-                        PRINT #1, "    }"
-                        'PRINT #1, "}"
-                    END IF
-                    IF PLANETTYPE$ = "Ike" THEN
-                        PRINT #1, "             name = "; PLANETTYPE$
-                        PRINT #1, "         }"
-
-                        PRINT #1, "         Properties"
-                        PRINT #1, "         {"
-
-
-
-                        PRINT #1, "            description = A dull grey little planet covered in basic rocky plains."
-                        
-                        PRINT #1, "            radius ="; INT(RND * 250000) + 50000; ""
-
-
-                        PRINT #1, "         }"
-                        
-                        RINGS = INT(RND * 3)
-                        IF RINGS = 0 THEN
-                            PRINT #1, "         Rings"
-                            PRINT #1, "         {"
-                            PRINT #1, "             Ring"
-                            PRINT #1, "             {"
-                            PRINT #1, "                 angle = 0"
-                            PRINT #1, "                 outerRadius = 3000"
-                            PRINT #1, "                 innerRadius = 2000"
-                            
-                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-                            PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
-                            PRINT #1, "                 lockRotation = false"
-                            PRINT #1, "                 unlit = false"
-                            PRINT #1, "             }"
-                            PRINT #1, "          }"
-                        END IF
-                        PRINT #1, "    }"
-                        'PRINT #1, "}"
-                    END IF
-                    IF PLANETTYPE$ = "Dres" THEN
-                        PRINT #1, "             name = "; PLANETTYPE$
-                        PRINT #1, "         }"
-
-                        PRINT #1, "         Properties"
-                        PRINT #1, "         {"
-
-
-
-                        PRINT #1, "            description = A dull grey little planet covered in basic rocky plains."
-                        
-                        PRINT #1, "            radius ="; INT(RND * 250000) + 50000; ""
-
-
-                        PRINT #1, "         }"
-                        
-                        RINGS = INT(RND * 3)
-                        IF RINGS = 0 THEN
-                            PRINT #1, "         Rings"
-                            PRINT #1, "         {"
-                            PRINT #1, "             Ring"
-                            PRINT #1, "             {"
-                            PRINT #1, "                 angle = 0"
-                            PRINT #1, "                 outerRadius = 3000"
-                            PRINT #1, "                 innerRadius = 2000"
-                            
-                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-                            PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
-                            PRINT #1, "                 lockRotation = false"
-                            PRINT #1, "                 unlit = false"
-                            PRINT #1, "             }"
-                            PRINT #1, "          }"
-                        END IF
-                        PRINT #1, "    }"
-                        'PRINT #1, "}"
-                    END IF
-                    IF PLANETTYPE$ = "Laythe" THEN
-                        PRINT #1, "             name = "; PLANETTYPE$
-                        PRINT #1, "         }"
-
-                        PRINT #1, "         Properties"
-                        PRINT #1, "         {"
-
-
-
-                        PRINT #1, "            description = A beautiful ocean planet. Complete with drinkabla water, Breathable air, And plenty of unseen pathogens to prevent you from removing your helmet."
-                        
-                        PRINT #1, "            radius ="; INT(RND * 1000000) + 300000; ""
-
-
-                        PRINT #1, "         }"
-                        
-                        RINGS = INT(RND * 3)
-                        IF RINGS = 0 THEN
-                            PRINT #1, "         Rings"
-                            PRINT #1, "         {"
-                            PRINT #1, "             Ring"
-                            PRINT #1, "             {"
-                            PRINT #1, "                 angle = 0"
-                            PRINT #1, "                 outerRadius = 3000"
-                            PRINT #1, "                 innerRadius = 2000"
-                            
-                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-                            PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
-                            PRINT #1, "                 lockRotation = false"
-                            PRINT #1, "                 unlit = false"
-                            PRINT #1, "             }"
-                            PRINT #1, "          }"
-                        END IF
-                        PRINT #1, "    }"
-                        'PRINT #1, "}"
-                    END IF
-                    IF PLANETTYPE$ = "Vall" THEN
-                        PRINT #1, "             name = "; PLANETTYPE$
-                        PRINT #1, "         }"
-
-                        PRINT #1, "         Properties"
-                        PRINT #1, "         {"
-
-
-
-                        PRINT #1, "            description = A small ice planet, May or may not have a subsurface ocean."
-                        
-                        PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
-
-
-                        PRINT #1, "         }"
-                        
-                        RINGS = INT(RND * 3)
-                        IF RINGS = 0 THEN
-                            PRINT #1, "         Rings"
-                            PRINT #1, "         {"
-                            PRINT #1, "             Ring"
-                            PRINT #1, "             {"
-                            PRINT #1, "                 angle = 0"
-                            PRINT #1, "                 outerRadius = 3000"
-                            PRINT #1, "                 innerRadius = 2000"
-                            
-                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-                            PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
-                            PRINT #1, "                 lockRotation = false"
-                            PRINT #1, "                 unlit = false"
-                            PRINT #1, "             }"
-                            PRINT #1, "          }"
-                        END IF
-                        PRINT #1, "    }"
-                        'PRINT #1, "}"
-                    END IF
-                    IF PLANETTYPE$ = "Tylo" THEN
-                        PRINT #1, "             name = "; PLANETTYPE$
-                        PRINT #1, "         }"
-
-                        PRINT #1, "         Properties"
-                        PRINT #1, "         {"
-
-
-
-                        PRINT #1, "            description = A rather rocky planet with a dense iron core."
-                        
-                        PRINT #1, "            radius ="; INT(RND * 1500000) + 300000; ""
-
-
-                        PRINT #1, "         }"
-                        
-                        RINGS = INT(RND * 3)
-                        IF RINGS = 0 THEN
-                            PRINT #1, "         Rings"
-                            PRINT #1, "         {"
-                            PRINT #1, "             Ring"
-                            PRINT #1, "             {"
-                            PRINT #1, "                 angle = 0"
-                            PRINT #1, "                 outerRadius = 3000"
-                            PRINT #1, "                 innerRadius = 2000"
-                            
-                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-                            PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
-                            PRINT #1, "                 lockRotation = false"
-                            PRINT #1, "                 unlit = false"
-                            PRINT #1, "             }"
-                            PRINT #1, "          }"
-                        END IF
-                        PRINT #1, "    }"
-                        'PRINT #1, "}"
-                    END IF
-                    IF PLANETTYPE$ = "Bop" THEN
-                        PRINT #1, "             name = "; PLANETTYPE$
-                        PRINT #1, "         }"
-
-                        PRINT #1, "         Properties"
-                        PRINT #1, "         {"
-
-
-
-
-                        
-                        PRINT #1, "            radius ="; INT(RND * 100000) + 70000; ""
-
-
-                        PRINT #1, "         }"
-                        
-                        RINGS = INT(RND * 3)
-                        IF RINGS = 0 THEN
-                            PRINT #1, "         Rings"
-                            PRINT #1, "         {"
-                            PRINT #1, "             Ring"
-                            PRINT #1, "             {"
-                            PRINT #1, "                 angle = 0"
-                            PRINT #1, "                 outerRadius = 3000"
-                            PRINT #1, "                 innerRadius = 2000"
-                            
-                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-                            PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
-                            PRINT #1, "                 lockRotation = false"
-                            PRINT #1, "                 unlit = false"
-                            PRINT #1, "             }"
-                            PRINT #1, "          }"
-                        END IF
-                        PRINT #1, "    }"
-                        'PRINT #1, "}"
-                    END IF
-                    IF PLANETTYPE$ = "Pol" THEN
-                        PRINT #1, "             name = "; PLANETTYPE$
-                        PRINT #1, "         }"
-
-                        PRINT #1, "         Properties"
-                        PRINT #1, "         {"
-
-
-
-
-                        
-                        PRINT #1, "            radius ="; INT(RND * 100000) + 70000; ""
-
-
-                        PRINT #1, "         }"
-                        
-                        RINGS = INT(RND * 3)
-                        IF RINGS = 0 THEN
-                            PRINT #1, "         Rings"
-                            PRINT #1, "         {"
-                            PRINT #1, "             Ring"
-                            PRINT #1, "             {"
-                            PRINT #1, "                 angle = 0"
-                            PRINT #1, "                 outerRadius = 3000"
-                            PRINT #1, "                 innerRadius = 2000"
-                            
-                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-                            PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
-                            PRINT #1, "                 lockRotation = false"
-                            PRINT #1, "                 unlit = false"
-                            PRINT #1, "             }"
-                            PRINT #1, "          }"
-                        END IF
-                        PRINT #1, "    }"
-                        'PRINT #1, "}"
-                    END IF
-                    IF PLANETTYPE$ = "Eeloo" THEN
-                        PRINT #1, "             name = "; PLANETTYPE$
-                        PRINT #1, "         }"
-
-                        PRINT #1, "         Properties"
-                        PRINT #1, "         {"
-
-
-
-                        PRINT #1, "            description = A small ice planet, May or may not have a subsurface ocean."
-                        
-                        PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
-
-
-                        PRINT #1, "         }"
-                        
-                        RINGS = INT(RND * 3)
-                        IF RINGS = 0 THEN
-                            PRINT #1, "         Rings"
-                            PRINT #1, "         {"
-                            PRINT #1, "             Ring"
-                            PRINT #1, "             {"
-                            PRINT #1, "                 angle = 0"
-                            PRINT #1, "                 outerRadius = 3000"
-                            PRINT #1, "                 innerRadius = 2000"
-                            
-                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-                            PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
-                            PRINT #1, "                 lockRotation = false"
-                            PRINT #1, "                 unlit = false"
-                            PRINT #1, "             }"
-                            PRINT #1, "          }"
-                        END IF
-                        PRINT #1, "    }"
-                        'PRINT #1, "}"
-                    END IF
+                    PRINT #1, "            semiMajorAxis ="; INT(RND * 50000000) + 11000000
+                    PRINT #1, "        }"
                     IF PLANETTYPE$ = "Jool" THEN
-                        PRINT #1, "             name = "; PLANETTYPE$
-                        PRINT #1, "         }"
-
-                        PRINT #1, "         ScaledVersion"
-                        PRINT #1, "         {"
-                        PRINT #1, "             Material"
-                        PRINT #1, "             {"
                         
-                        PRINT #1, "                 texture = To_Boldly_Go/gastextures/-"; INT(RND * 16); ".jpg"
-                        PRINT #1, "             }"
-                        PRINT #1, "         }"
-                        PRINT #1, "         Properties"
-                        PRINT #1, "         {"
-
-
-
-                        PRINT #1, "            description = In the starlight light, Floats a gas giant, "; aStarName$; ""; PNM$; " is a large planet with several moons."
-                        
-                        PRINT #1, "            radius ="; INT(RND * 10000000) + 700000; ""
-
-
-                        PRINT #1, "         }"
-                        
-                        RINGS = INT(RND * 1)
-                        IF RINGS = 0 THEN
-                            PRINT #1, "         Rings"
-                            PRINT #1, "         {"
-                            PRINT #1, "             Ring"
-                            PRINT #1, "             {"
-                            PRINT #1, "                 angle = 0"
-                            PRINT #1, "                 outerRadius = 3000"
-                            PRINT #1, "                 innerRadius = 2000"
-                            
-                            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-                            PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
-                            PRINT #1, "                 lockRotation = false"
-                            PRINT #1, "                 unlit = false"
-                            PRINT #1, "             }"
-                            PRINT #1, "          }"
-                        END IF
-                        PRINT #1, "    }"
-                        'PRINT #1, "}"
+                        MOONTYPE = INT(RND * 13)
+                        SELECT CASE MOONTYPE
+                            CASE 0
+                                MOONTYPE$ = "Moho"
+                            CASE 1
+                                MOONTYPE$ = "Eve"
+                            CASE 2
+                                MOONTYPE$ = "Mun"
+                            CASE 3
+                                MOONTYPE$ = "Minmus"
+                            CASE 4
+                                MOONTYPE$ = "Duna"
+                            CASE 5
+                                MOONTYPE$ = "Ike"
+                            CASE 6
+                                MOONTYPE$ = "Dres"
+                            CASE 7
+                                MOONTYPE$ = "Gilly"
+                            CASE 8
+                                MOONTYPE$ = "Laythe"
+                            CASE 9
+                                MOONTYPE$ = "Vall"
+                            CASE 10
+                                MOONTYPE$ = "Tylo"
+                            CASE 11
+                                MOONTYPE$ = "Bop"
+                            CASE 12
+                                MOONTYPE$ = "Pol"
+                            CASE 13
+                                MOONTYPE$ = "Eeloo"
+                        END SELECT
+                        PRINT #1, "        Template"
+                        PRINT #1, "        {"
+                        PRINT #1, "            name = "; MOONTYPE$
+                        PRINT #1, "        }"
+                    ELSE
+                        PRINT #1, "        Template"
+                        PRINT #1, "        {"
+                        PRINT #1, "            name = Gilly"
+                        PRINT #1, "        }"
                     END IF
-                    
-                    MOON = INT(RND * 4)
-                    MOONUMBER = 1
-                    IF MOON > 0 THEN
-                        DO
-                            PRINT #1, "    Body"
-                            PRINT #1, "    {"
-                            PRINT #1, "        name = "; aStarName$; ""; PNM$; " "; MOONNUMBER; ""
-                            PRINT #1, ""
-                            PRINT #1, "        Orbit"
-                            PRINT #1, "        {"
-                            PRINT #1, "            referenceBody = "; aStarName$; ""; PNM$; ""
-                            
-                            PRINT #1, "            inclination ="; INT(RND * 360)
-                            
-                            PRINT #1, "            semiMajorAxis ="; INT(RND * 50000000) + 11000000
-                            PRINT #1, "        }"
-                            IF PLANETTYPE$ = "Jool" THEN
-                                
-                                MOONTYPE = INT(RND * 13)
-                                SELECT CASE MOONTYPE
-                                    CASE 0
-                                        MOONTYPE$ = "Moho"
-                                    CASE 1
-                                        MOONTYPE$ = "Eve"
-                                    CASE 2
-                                        MOONTYPE$ = "Mun"
-                                    CASE 3
-                                        MOONTYPE$ = "Minmus"
-                                    CASE 4
-                                        MOONTYPE$ = "Duna"
-                                    CASE 5
-                                        MOONTYPE$ = "Ike"
-                                    CASE 6
-                                        MOONTYPE$ = "Dres"
-                                    CASE 7
-                                        MOONTYPE$ = "Gilly"
-                                    CASE 8
-                                        MOONTYPE$ = "Laythe"
-                                    CASE 9
-                                        MOONTYPE$ = "Vall"
-                                    CASE 10
-                                        MOONTYPE$ = "Tylo"
-                                    CASE 11
-                                        MOONTYPE$ = "Bop"
-                                    CASE 12
-                                        MOONTYPE$ = "Pol"
-                                    CASE 13
-                                        MOONTYPE$ = "Eeloo"
-                                END SELECT
-                                PRINT #1, "        Template"
-                                PRINT #1, "        {"
-                                PRINT #1, "            name = "; MOONTYPE$
-                                PRINT #1, "        }"
-                            ELSE
-                                PRINT #1, "        Template"
-                                PRINT #1, "        {"
-                                PRINT #1, "            name = Gilly"
-                                PRINT #1, "        }"
-                            END IF
-                            PRINT #1, "    }"
-                            'PRINT #1, "}"
-                            'PRINT #1, "}"
-                            MOON = MOON - 1
-                            MOONNUMBER = MOONNUMBER + 1
-                            MOBJECTNUMBER = MOBJECTNUMBER + 1
-                            IF MOON = 0 THEN
-                                GOTO 14
-                            END IF
-                        LOOP
-                    14 END IF
-
-                    GAS = GAS - 1
-                    GASNUMBER = GASNUMBER + 1
-                    POBJECTNUMBER = POBJECTNUMBER + 1
-                    IF GAS = 0 THEN
-                        GOTO 10
+                    PRINT #1, "    }"
+                    'PRINT #1, "}"
+                    'PRINT #1, "}"
+                    MOON = MOON - 1
+                    MOONNUMBER = MOONNUMBER + 1
+                    MOBJECTNUMBER = MOBJECTNUMBER + 1
+                    IF MOON = 0 THEN
+                        GOTO 14
                     END IF
-
                 LOOP
-            END IF
-        10 END IF
+            14 END IF
+
+            planetNumb = planetNumb +1
+            POBJECTNUMBER = POBJECTNUMBER + 1
+        next
 
         IF ASTTOG$ = "y" THEN
             
@@ -6702,23 +6175,6 @@ SUFFIX$ = arraySuffixes$(indexSuffixes%)
 theStarName$ = PREFIX$ + SUFFIX$
 END FUNCTION
 
-FUNCTION
-def readPlanetTemplates():
-    #this is an embarassing mess
-    #the idea is to read in planet radius AND 1 or more descriptions
-    #if more than one description, random choose in later implementation
-    f = open("Data_folder/TBG_Planet_Templates.txt")
-    thePlanetTemplates = f.read().splitlines()
-    f.close()
-    planetDict={}
-    for x in thePlanetTemplates:
-        theListItems= x.split('\t')
-        planetDict[theListItems[0]]=[int(theListItems[1]), int(theListItems[2]), theListItems[3:]]
-    #print sorted(planetDict, key=lambda k: planetDict[k][0])
-    #print planetDict.keys().index("Jool")
-    return planetDict
-END FUNCTION
-
 FUNCTION fileAsString$ (fileName$)
 '###########################
 '#read in string template
@@ -6848,62 +6304,90 @@ FUNCTION ringNode$(aTemplate$, theAngle$, theOuterRadius$, theInnerRadius$, theR
         ringNode$ = aTemplate$
 END FUNCTION
 
-FUNCTION makeABody$(theRadius$, theSphereOfInfluence$)
-    planetTxt=""
-    maxPlanets = INT(RND * 5) #how many planets in this system? Max of 5
-    PlanetNumb = 1
-    for aPlanet = 1 to maxPlanets 
-        if PlanetNumb = 1 then PNM = "I"
-        if PlanetNumb == 2 then PNM = "II"
-        if PlanetNumb == 3 then PNM = "III"
-        if PlanetNumb == 4 then PNM = "IV"
-        if PlanetNumb == 5 then PNM = "V"
-        planetTemplateName = random.choice(thePlanetDict.keys())
-        planetRadius = thePlanetDict[planetTemplateName][0]
-        planetSOI = thePlanetDict[planetTemplateName][1]
-        planetDescription = thePlanetDict[planetTemplateName][2][0]    
-        planetBody=makeABody(theStarName, PNM, planetTemplateName, planetDescription, planetRadius, parentRadius, parentSOI) #this will be the same routine used to make both planets and moons
-        #print planetBody
-        planetTxt=planetTxt+planetBody
-        if planetTemplateName!="Gilly":
-            maxMoons=random.randint(1,4)
-            moonNumb=1
-            theParentName=theStarName+" "+PNM
-            for aMoon in range(maxMoons):
-                # if moonNumb == 1: PNM = "a"
-                # if moonNumb == 2: PNM = "b"
-                # if moonNumb == 3: PNM = "c"
-                # if moonNumb == 4: PNM = "d"
-                # if moonNumb == 5: PNM = "e"
-                PNM=str(moonNumb)
-                sortedPlanetKeys=sorted(thePlanetDict, key=lambda k: thePlanetDict[k][0])
-                if planetTemplateName=="Jool":
-                    del sortedPlanetKeys[-1]
-                else:
-                    sortedPlanetKeys=['Gilly']
-                #we can be way smarter about this
-                #can sort the planet templates my radius
-                #and then pick only bodies 40% size of parent
-                #as potential moons
-                moonTemplateName=random.choice(sortedPlanetKeys)
-                moonRadius = thePlanetDict[moonTemplateName][0]
-                moonDescription = thePlanetDict[moonTemplateName][2][0]
+SUB readPlanetTemplates ()
+    '####2017.0201--STH
+    '#This is a mess. I want something like python's dictionary
+    '#Played with a multidimensional array, but can't redim it?
+    '#Ended up using an array for each colum read in from the CSV
+    '#Terrible technique, but I just want it to work at this point
+    '###################'
+    theFileName$ = "Data_Folder/TBG_Planet_Templates.csv"
+    theIndex = 0
+    IF _FILEEXISTS(theFileName$) THEN
+        OPEN theFileName$ FOR INPUT AS #1
+        'read through the file and get the number of lines'
+        DO UNTIL EOF(1)
+            REDIM _PRESERVE planetKey$(theIndex)
+            REDIM _PRESERVE thePlanetRadius(theIndex)
+            REDIM _PRESERVE thePlanetSOI(theIndex)
+            REDIM _PRESERVE thePlanetDesc$(theIndex)
+            INPUT #1, aPlanetName$, aPlanetRadius, aPlanetSOI, aDescription$
+            PRINT aPlanetRadius
+            planetKey$(theIndex) = aPlanetName$
+            thePlanetRadius(theIndex) = aPlanetRadius
+            thePlanetSOI(theIndex) = aPlanetSOI
+            thePlanetDesc$(theIndex) = aDescription$
+            theIndex = theIndex + 1
+        LOOP
+        CLOSE #1
+    END IF
+END SUB
 
-                #print theParentName
-                #print PNM
+'FUNCTION makeABody$(theRadius$, theSphereOfInfluence$)
+''    planetTxt=""
+''    maxPlanets = INT(RND * 5) #how many planets in this system? Max of 5
+''    PlanetNumb = 1
+''    for aPlanet = 1 to maxPlanets 
+''        if PlanetNumb = 1 then PNM = "I"
+''        if PlanetNumb == 2 then PNM = "II"
+''        if PlanetNumb == 3 then PNM = "III"
+''        if PlanetNumb == 4 then PNM = "IV"
+''        if PlanetNumb == 5 then PNM = "V"
+''        planetTemplateName = random.choice(thePlanetDict.keys())
+''        planetRadius = thePlanetDict[planetTemplateName][0]
+''        planetSOI = thePlanetDict[planetTemplateName][1]
+''        planetDescription = thePlanetDict[planetTemplateName][2][0]    
+''        planetBody=makeABody(theStarName, PNM, planetTemplateName, planetDescription, planetRadius, parentRadius, parentSOI) #this will be the same routine used to make both planets and moons
+''        #print planetBody
+''        planetTxt=planetTxt+planetBody
+''        if planetTemplateName!="Gilly":
+''            maxMoons=random.randint(1,4)
+''            moonNumb=1
+''            theParentName=theStarName+" "+PNM
+''            for aMoon in range(maxMoons):
+''                # if moonNumb == 1: PNM = "a"
+''                # if moonNumb == 2: PNM = "b"
+''                # if moonNumb == 3: PNM = "c"
+''                # if moonNumb == 4: PNM = "d"
+''                # if moonNumb == 5: PNM = "e"
+''                PNM=str(moonNumb)
+''                sortedPlanetKeys=sorted(thePlanetDict, key=lambda k: thePlanetDict[k][0])
+''                if planetTemplateName=="Jool":
+''                    del sortedPlanetKeys[-1]
+''                else:
+''                    sortedPlanetKeys=['Gilly']
+''                #we can be way smarter about this
+''                #can sort the planet templates my radius
+''                #and then pick only bodies 40% size of parent
+''                #as potential moons
+''                moonTemplateName=random.choice(sortedPlanetKeys)
+''                moonRadius = thePlanetDict[moonTemplateName][0]
+''                moonDescription = thePlanetDict[moonTemplateName][2][0]''
+''
+''                #print theParentName
+''                #print PNM
+''
+''               moonBody=makeABody(theParentName, PNM, moonTemplateName, moonDescription, moonRadius, planetRadius, planetSOI) #this will be the same routine used to make both planets and moons
+''                #print moonBody
+''                planetTxt=planetTxt+moonBody
+''                moonNumb=moonNumb+1
+''                totNumbMoons=totNumbMoons+1
+''        PlanetNumb=PlanetNumb+1
+''        totNumbPlanets=totNumbPlanets+1
+''    NEXT
+'END FUNCTION
 
-                moonBody=makeABody(theParentName, PNM, moonTemplateName, moonDescription, moonRadius, planetRadius, planetSOI) #this will be the same routine used to make both planets and moons
-                #print moonBody
-                planetTxt=planetTxt+moonBody
-                moonNumb=moonNumb+1
-                totNumbMoons=totNumbMoons+1
-        PlanetNumb=PlanetNumb+1
-        totNumbPlanets=totNumbPlanets+1
-    NEXT
-
-END FUNCTION
-
-FUNCTION populateBody$()
-
-
-END FUNCTION
+'FUNCTION populateBody$()
+''
+''
+'END FUNCTION
