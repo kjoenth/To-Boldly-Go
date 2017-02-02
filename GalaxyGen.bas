@@ -108,7 +108,7 @@ IF CUSTOM$ = "c" THEN
     '*******************************************************************************
     PRINT "What Galaxy type do you want?:"
     999 INPUT "Ellipse-0, Disk-1, Cluster-2:", GTYPE 'Asks the user what kind of galaxy they want.
-    IF GTYPE > 3 THEN
+    IF GTYPE > 2 THEN
         GOTO 999
     END IF
     '*******************************************************************************
@@ -116,7 +116,7 @@ IF CUSTOM$ = "c" THEN
 
     IF ADVANCED$ = "y" THEN
         '*******************************************************************************
-        IF GTYPE = 3 THEN
+        IF GTYPE = 2 THEN
             INPUT "Clusters:", CLUSTER 'Asks the user how many star clusters they want
         END IF
         PRINT ""
@@ -280,7 +280,7 @@ FOR i = 1 TO 6
 NEXT
 '#End the cfg header text'
 '################################
-IF GTYPE = 3 THEN
+IF GTYPE = 2 THEN
     CLUSTERNUM = 0
     IF CLUSTER > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carries out an action.
         DO
@@ -351,7 +351,7 @@ IF GTYPE = 3 THEN
             PRINT #1, ""
             PRINT #1, "                Material"
             PRINT #1, "                {"
-            PRINT #1, "                    texture = To_Boldly_Go/coronae/Black"
+            PRINT #1, "                    texture = To_Boldly_Go/coronae/BlackCorona"
             PRINT #1, "                    inverseFade = 2.553731"
             PRINT #1, "                }"
             PRINT #1, "            }"
@@ -366,7 +366,7 @@ IF GTYPE = 3 THEN
             PRINT #1, ""
             PRINT #1, "                Material"
             PRINT #1, "                {"
-            PRINT #1, "                      texture = To_Boldly_Go/coronae/Black"
+            PRINT #1, "                      texture = To_Boldly_Go/coronae/BlackCorona"
             PRINT #1, "                      inverseFade = 2.553731"
             PRINT #1, "                }"
             PRINT #1, "            }"
@@ -402,29 +402,21 @@ PRINT #1, "        }"
 PRINT #1, "        Orbit"
 PRINT #1, "        {"
 
-IF GTYPE = 3 THEN
-
-    
+IF GTYPE = 2 THEN  
     PRINT #1, "            referenceBody = "; INT(RND * CLUSTERNUM)
-    
     PRINT #1, "            semiMajorAxis ="; INT(RND * 10000000000000) + 10000000000; ""
-    
+    PRINT #1, "            inclination ="; INT(RND * 360); ""
+END IF
+
+IF GTYPE = 0 THEN
+    PRINT #1, "            referenceBody = Sun"
+    PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
     PRINT #1, "            inclination ="; INT(RND * 360); ""
 END IF
 
 IF GTYPE = 1 THEN
     PRINT #1, "            referenceBody = Sun"
-    
     PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-    
-    PRINT #1, "            inclination ="; INT(RND * 360); ""
-END IF
-
-IF GTYPE = 2 THEN
-    PRINT #1, "            referenceBody = Sun"
-    
-    PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-    
     PRINT #1, "            inclination ="; INT(RND * 50) - 25; ""
 END IF
 
@@ -495,7 +487,7 @@ PRINT #1, "                scaleSpeed = 0.007"
 PRINT #1, ""
 PRINT #1, "                Material"
 PRINT #1, "                {"
-PRINT #1, "                    texture = To_Boldly_Go/coronae/Black"
+PRINT #1, "                    texture = To_Boldly_Go/coronae/BlackCorona"
 PRINT #1, "                    inverseFade = 2.553731"
 PRINT #1, "                }"
 PRINT #1, "            }"
@@ -510,7 +502,7 @@ PRINT #1, "                scaleSpeed = 0.009"
 PRINT #1, ""
 PRINT #1, "                Material"
 PRINT #1, "                {"
-PRINT #1, "                      texture = To_Boldly_Go/coronae/Black"
+PRINT #1, "                      texture = To_Boldly_Go/coronae/BlackCorona"
 PRINT #1, "                      inverseFade = 2.553731"
 PRINT #1, "                }"
 PRINT #1, "            }"
@@ -916,7 +908,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
         PRINT #1, "        }"
         '########################'
         '###Fill in property data'
-        theDescription$ = "BILL -"+ STR$(KSTARNUMBER)+" is a main sequence red dwarf star."
+        theDescription$ = "BILL -"+ STR$(KSTARNUMBER)+" is a main sequence orange dwarf star."
         theRadius$ = STR$(INT(RND * 30000000) + 15000000)
         theSphereOfInfluence$ = STR$(90118820000)
         aPropertiesTemplate$ = thePropertiesTemplate$
@@ -968,7 +960,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
         '########################'
         '########################'
         '###Fill in coronas data'
-        starColour$ = "KCorona"
+        starColour$ = "K"
         aCoronaTemp$ = theCoronasTemplate$
         aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
         print #1, aCoronaNode$
@@ -3512,7 +3504,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
         PRINT #1, "        }"
         '########################'
         '###Fill in property data'
-        theDescription$ = "KIRRIM -"+str$(WHITESTARNUMBER)+" is a main sequence blue giant star."
+        theDescription$ = "KIRRIM -"+str$(WHITESTARNUMBER)+" is a yellow-white dwarf star."
         theRadius$ = STR$(INT(RND * 1500000000) + 1000000000)
         theSphereOfInfluence$ = STR$(330118820000)
         aPropertiesTemplate$ = thePropertiesTemplate$
@@ -3523,7 +3515,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
         '########################'
         '###Fill in orbit data'
         theMode$ = str$(0)
-        theColor$ = "0,0,1,1"
+        theColor$ = "1.0,1.0,0.67,1.0"
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
         print #1, aOrbitNode$
@@ -3533,13 +3525,13 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
         PRINT #1, "        {"
         '########################'
         '###Fill in light data'
-        sunlightColor$ = "1.0,1.0,1.0,1.0"
+        sunlightColor$ = "1.0,1.0,0.67,1.0"
         sunlightIntensity$ = "1.8"
-        scaledSunlightColor$ = "1.0,1.0,1.0,1.0"
+        scaledSunlightColor$ = "1.0,1.0,0.67,1.0"
         scaledSunlightIntensity$ = "1.8"
-        IVASuncolor$ = "1.0,1.0,1.0,1.0"
+        IVASuncolor$ = "1.0,1.0,0.67,1.0"
         IVASunIntensity$ = "2.0"
-        sunLensFlareColor$ = "0.2303371,0.4494382,1,1.0"
+        sunLensFlareColor$ = "1.0,1.0,0.67,1.0"
         ambientLightColor$ = "0,0,0,1"
         sunAU$ = "135998402566"
         luminosity$ = "0"
@@ -4122,7 +4114,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
         PRINT #1, "        }"
         '########################'
         '###Fill in property data'
-        theDescription$ = ""
+        theDescription$ = "A brown dwarf stellar object"
         theRadius$ = STR$(INT(RND * 30000000) + 1500000)
         theSphereOfInfluence$ = STR$(50118820000)
         aPropertiesTemplate$ = thePropertiesTemplate$
@@ -4952,7 +4944,7 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
         PRINT #1, "        }"
         '########################'
         '###Fill in property data'
-        theDescription$ = "NEIL -"+str$(DWARFSTARNUMBER)+"is a main sequence blue giant star."
+        theDescription$ = "NEIL -"+str$(DWARFSTARNUMBER)+" is a white dwarf stellar core remnant."
         theRadius$ = STR$(INT(RND * 700000) + 300000)
         theSphereOfInfluence$ = STR$(90118820000.5)
         aPropertiesTemplate$ = thePropertiesTemplate$
@@ -4979,7 +4971,7 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
         scaledSunlightIntensity$ = "0.20"
         IVASuncolor$ = "1.0,1.0,1.0,1.0"
         IVASunIntensity$ = "0.5"
-        sunLensFlareColor$ = "0,0,0,1.0"
+        sunLensFlareColor$ = "0.2303371,0.4494382,1,1.0"
         ambientLightColor$ = "0,0,0,1"
         sunAU$ = "135998402"
         luminosity$ = "0"
@@ -5004,7 +4996,7 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
         '########################'
         '########################'
         '###Fill in coronas data'
-        starColour$ = "Black"
+        starColour$ = "White"
         aCoronaTemp$ = theCoronasTemplate$
         aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
         print #1, aCoronaNode$
@@ -5079,7 +5071,7 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
 
             158 END IF
         END IF
-
+        PRINT #1, "}"
         DWARFSTAR = DWARFSTAR - 1
         SOBJECTNUMBER = SOBJECTNUMBER + 1
         IF DWARFSTAR = 0 THEN
@@ -6226,12 +6218,10 @@ FUNCTION propertyNode$ (aTemplate$, theDescription$, theRadius$, theSphereOfInfl
 END FUNCTION
 
 FUNCTION orbitNode$ (aTemplate$, GTYPE, theColor$, theMode$)
-    if (GTYPE = 1 or GType = 2) then
+    if (GTYPE = 0 or GType = 1) then
         theReferenceBody$ = "Sun"
-        if GType = 1 then
-            theInclination$ = str$(INT(RND * 360))
-        else
-            theInclination$ = str$(INT(RND * 50) - 25)
+        if GType = 0 then theInclination$ = str$(INT(RND * 360))
+        if GType = 1 then theInclination$ = str$(INT(RND * 25) +1)
         end if
         theSemiMajorAxis$ = str$(INT(RND * 1D+16) + 100000000000000#)
     else
