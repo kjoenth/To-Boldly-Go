@@ -6762,7 +6762,7 @@ ELSE
 END IF
 theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
 theMeanAnomalyAtEpoch$ = STR$(0)
-theEpoch$ = STR$(0)
+theEpoch$ = STR$(INT(RND * 360)) 'STR$(0)
 '#####STH 2017-0124. QBasic doesn't have string formatting like python.
 '#####Replicated that function with string replacement function.
 aTemplate$ = ReplaceStr(aTemplate$, "%(theReferenceBody)s", theReferenceBody$)
