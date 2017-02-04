@@ -51,7 +51,7 @@ CORESTARNUMBER = 1
 
 CLS 'clears the screen
 OPEN "galaxy.cfg" FOR OUTPUT AS #1 'Creates the config file
-print #1, planetKey$(0)
+PRINT #1, planetKey$(0)
 
 '*******************************************************************************
 '*******************************************************************************
@@ -197,7 +197,7 @@ IF CUSTOM$ = "c" THEN
                 BROWNSTAR = INT(RND * 15)
                 DWARFSTAR = INT(RND * 60) + 10
         END SELECT
-    END IF        
+    END IF
 ELSE
     IF CUSTOM$ = "a" THEN
         AGE = INT(RND * 5)
@@ -402,7 +402,7 @@ PRINT #1, "        }"
 PRINT #1, "        Orbit"
 PRINT #1, "        {"
 
-IF GTYPE = 2 THEN  
+IF GTYPE = 2 THEN
     PRINT #1, "            referenceBody = "; INT(RND * CLUSTERNUM)
     PRINT #1, "            semiMajorAxis ="; INT(RND * 10000000000000) + 10000000000; ""
     PRINT #1, "            inclination ="; INT(RND * 360); ""
@@ -573,320 +573,258 @@ thePlanetTemplate$ = fileAsString("planetTmp.txt")
 theStarTmp$ = fileAsString("starTmp.txt")
 
 
-IF REDSTAR > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carries out an action.
-    DO
-        '###These print statements can go away once the starTemplate can be used
-        '###Need to get planet and moon template generation working in basic first
-        '###STH 2017-0127
-        PRINT #1, "@Kopernicus"
-        PRINT #1, "{"
+FOR aStar = 1 TO REDSTAR
+    '###These print statements can go away once the starTemplate can be used
+    '###Need to get planet and moon template generation working in basic first
+    '###STH 2017-0127
+    PRINT #1, "@Kopernicus"
+    PRINT #1, "{"
+    PRINT #1, "    Body"
+    PRINT #1, "    {"
+    '########'
+    '#Needs to be an array'
+    aStarName$ = theStarName$ '#Calls the function "theStarName"
+    '#########'
+    PRINT #1, "        name = "; aStarName$
+    PRINT #1, "        Template"
+    PRINT #1, "        {"
+    PRINT #1, "            name = Sun"
+    PRINT #1, "        }"
+    '########################'
+    '###Fill in property data'
+    theDescription$ = "Dim light, Yet so bright. A lonely outpost in the deep dark night. Travelers come far shall know where they are. A new land, A new star, How much pain and suffering it must have took to go this far. For at " + aStarName$ + " your journey might be done. And you will be free."
+    theRadius$ = STR$(INT(RND * 30000000) + 15000000)
+    theSphereOfInfluence$ = STR$(90118820000)
+    aPropertiesTemplate$ = thePropertiesTemplate$
+    aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
+    PRINT #1, aPropertiesNode$
+    '###End property data'
+    '########################'
+    '########################'
+    '###Fill in orbit data'
+    theMode$ = STR$(0)
+    theColor$ = "1,0,0,1"
+    aOrbitTemp$ = theOrbitTemplate$
+    aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
+    PRINT #1, aOrbitNode$
+    '###End orbit data'
+    '########################'
+    PRINT #1, "        ScaledVersion"
+    PRINT #1, "        {"
+    '########################'
+    '###Fill in light data'
+    sunlightColor$ = "1.0,0.188,0.00,1.0"
+    sunlightIntensity$ = "0.50"
+    scaledSunlightColor$ = "1.0,0.188,0.00,1.0"
+    scaledSunlightIntensity$ = "0.30"
+    IVASuncolor$ = "1.0,0.188,0.00,1.0"
+    IVASunIntensity$ = "1"
+    sunLensFlareColor$ = "0.3,0,0,1.0"
+    ambientLightColor$ = "0,0,0,1"
+    sunAU$ = "13599840"
+    luminosity$ = "0"
+    givesOffLight$ = "True"
+    aLightTemp$ = theLightTemplate$
+    aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
+    PRINT #1, aLightNode$
+    '###End light data'
+    '########################'
+    '########################'
+    '###Fill in material data'
+    emitColorZero$ = "0.6,0.3,0.0,1.0"
+    emitColorOne$ = "0.9,0.1,0.0,1.0"
+    sunspotColor$ = "1.0,0,0,1.0"
+    rimColor$ = "0.68,0.05,0.05,1.0"
+    rimPower$ = "1"
+    rimBlend$ = "1"
+    aMaterialTemp$ = theMaterialTemplate$
+    aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
+    PRINT #1, aMaterialNode$
+    '###End material data'
+    '########################'
+    '########################'
+    '###Fill in coronas data'
+    starColour$ = "Red"
+    aCoronaTemp$ = theCoronasTemplate$
+    aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
+    PRINT #1, aCoronaNode$
+    '###End coronas data'
+    '########################'
+    PRINT #1, "        }"
+    PRINT #1, "    }"
+
+    maxPlanets = 0
+    IF PENABLE$ = "y" THEN
+        maxPlanets = INT(RND * 5) '#how many planets in this system? Max of 5
+    END IF
+
+    planetNumb = 1
+    FOR aPlanet = 1 TO maxPlanets
+        '#2017-0201 STH This could be turned into a CSV file of roman numerals read into an array
+        IF planetNumb = 1 THEN PNM$ = "I"
+        IF planetNumb = 2 THEN PNM$ = "II"
+        IF planetNumb = 3 THEN PNM$ = "III"
+        IF planetNumb = 4 THEN PNM$ = "IV"
+        IF planetNumb = 5 THEN PNM$ = "V"
+        thePlanetName$ = aStarName$ + " " + PNM$
+        '########################'
+        '#Pick a random planet template from what is read in'
+        keyIndex = INT(RND * UBOUND(planetKey$))
+        PLANETTYPE$ = planetKey$(keyIndex)
+        PLANETDESC$ = thePlanetDesc$(keyIndex)
+        PLANETRADI = thePlanetRadius(keyIndex)
+        '####'
+        SEMIMAJORAXIS = INT(RND * 10000000000) + 10000000
+        INCLINATION = INT(RND * 360)
+        theSphereOfInfluence$ = "" '#don't use the star's SOI
+        '########################'
         PRINT #1, "    Body"
         PRINT #1, "    {"
-        '########'
-        '#Needs to be an array'
-        aStarName$ = theStarName$ '#Calls the function "theStarName"
+        PRINT #1, "         name = " + thePlanetName$
         '#########'
-        PRINT #1, "        name = "; aStarName$
-        PRINT #1, "        Template"
-        PRINT #1, "        {"
-        PRINT #1, "            name = Sun"
-        PRINT #1, "        }"
+        PRINT #1, "         Template"
+        PRINT #1, "         {"
+        PRINT #1, "             name = "; PLANETTYPE$
+        PRINT #1, "         }"
         '########################'
         '###Fill in property data'
-        theDescription$ = "Dim light, Yet so bright. A lonely outpost in the deep dark night. Travelers come far shall know where they are. A new land, A new star, How much pain and suffering it must have took to go this far. For at "+aStarName$+" your journey might be done. And you will be free."
-        theRadius$ = STR$(INT(RND * 30000000) + 15000000)
-        theSphereOfInfluence$ = STR$(90118820000)
+        theDescription$ = thePlanetDesc$(keyIndex)
+        theRadius$ = str$(thePlanetRadius(keyIndex))
         aPropertiesTemplate$ = thePropertiesTemplate$
         aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
-        print #1, aPropertiesNode$
-        '###End property data'
+        PRINT #1, aPropertiesNode$
         '########################'
         '########################'
         '###Fill in orbit data'
-        theMode$ = str$(0)
-        theColor$ = "1,0,0,1"
-        aOrbitTemp$ = theOrbitTemplate$
-        aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
-        print #1, aOrbitNode$
-        '###End orbit data'
+        PRINT #1, "         Orbit"
+        PRINT #1, "         {"
+        PRINT #1, "            referenceBody = "; aStarName$; ""
+        PRINT #1, "            semiMajorAxis ="; SEMIMAJORAXIS; ""
+        PRINT #1, "            longitudeOfAscendingNode = 0"
+        PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
+        PRINT #1, "            meanAnomalyAtEpoch = 0"
+        PRINT #1, "            meanAnomalyAtEpochD = 0"
+        PRINT #1, "            epoch = 0"
+        PRINT #1, "            inclination ="; INCLINATION; ""
+        PRINT #1, "         }"
+        SEMIMAJORAXIS = SEMIMAJORAXIS * 1.5 '#the next semimajor axis should be beyond the present planet's SOI
         '########################'
-        PRINT #1, "        ScaledVersion"
-        PRINT #1, "        {"
-        '########################'
-        '###Fill in light data'
-        sunlightColor$ = "1.0,0.188,0.00,1.0"
-        sunlightIntensity$ = "0.50"
-        scaledSunlightColor$ = "1.0,0.188,0.00,1.0"
-        scaledSunlightIntensity$ = "0.30"
-        IVASuncolor$ = "1.0,0.188,0.00,1.0"
-        IVASunIntensity$ = "1"
-        sunLensFlareColor$ = "0.3,0,0,1.0"
-        ambientLightColor$ = "0,0,0,1"
-        sunAU$ = "13599840"
-        luminosity$ = "0"
-        givesOffLight$ = "True"
-        aLightTemp$ = theLightTemplate$
-        aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
-        print #1, aLightNode$
-        '###End light data'
-        '########################'
-        '########################'
-        '###Fill in material data'
-        emitColorZero$ = "0.6,0.3,0.0,1.0"
-        emitColorOne$ = "0.9,0.1,0.0,1.0"
-        sunspotColor$ = "1.0,0,0,1.0"
-        rimColor$ = "0.68,0.05,0.05,1.0"
-        rimPower$ = "1"
-        rimBlend$ = "1"
-        aMaterialTemp$ = theMaterialTemplate$
-        aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
-        print #1, aMaterialNode$
-        '###End material data'
-        '########################'
-        '########################'
-        '###Fill in coronas data'
-        starColour$ = "Red"
-        aCoronaTemp$ = theCoronasTemplate$
-        aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
-        print #1, aCoronaNode$
-        '###End coronas data'
-        '########################'
-        PRINT #1, "        }"
-        PRINT #1, "    }"
-
-        maxPlanets = 0
-        IF PENABLE$ = "y" THEN            
-            maxPlanets = INT(RND * 5) '#how many planets in this system? Max of 5
+        '####
+        '#33.3% chance of having a ring
+        RINGS = INT(RND * 3)
+        IF RINGS = 0 THEN
+            PRINT #1, "         Rings"
+            PRINT #1, "         {"
+            PRINT #1, "             Ring"
+            PRINT #1, "             {"
+            PRINT #1, "                 angle = 0"
+            PRINT #1, "                 outerRadius = 3000"
+            PRINT #1, "                 innerRadius = 2000"
+            
+            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
+            PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
+            PRINT #1, "                 lockRotation = false"
+            PRINT #1, "                 unlit = false"
+            PRINT #1, "             }"
+            PRINT #1, "          }"
         END IF
-
-        planetNumb = 1
-        for aPlanet = 1 to maxPlanets
-            '#2017-0201 STH This could be turned into a CSV file of roman numerals read into an array
-            if planetNumb = 1 then PNM$ = "I"
-            if planetNumb = 2 then PNM$ = "II"
-            if planetNumb = 3 then PNM$ = "III"
-            if planetNumb = 4 then PNM$ = "IV"
-            if planetNumb = 5 then PNM$ = "V"
-            thePlanetName$ = aStarName$ +" "+ PNM$
-            SEMIMAJORAXIS = INT(RND * 10000000000) + 10000000
+        PRINT #1, "    }"
+        
+        '####
+        '#25% chance of there being a moon
+        MAXMOON = INT(RND * 4)
+        FOR theMoonNumb = 1 TO MAXMOON
+            theMoonName$ = thePlanetName$ + " " + STR$(theMoonNumb)
+            moonSEMIMAJORAXIS = INT(RND * 10000000000) + 10000000
             INCLINATION = INT(RND * 360)
             PRINT #1, "    Body"
             PRINT #1, "    {"
-            PRINT #1, "         name = "+ thePlanetName$
-            PRINT #1, "         Orbit"
-            PRINT #1, "         {"
-            PRINT #1, "            referenceBody = "; aStarName$; ""
-            PRINT #1, "            semiMajorAxis ="; SEMIMAJORAXIS; ""
-            SEMIMAJORAXIS = SEMIMAJORAXIS * 1.5
-            '##############
-            '#the next semimajor axis should be beyond the present planet's SOI
-            '#2017-0201 STH'
-            '##############'
-            PRINT #1, "            longitudeOfAscendingNode = 0"
-            PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
-            PRINT #1, "            meanAnomalyAtEpoch = 0"
-            PRINT #1, "            meanAnomalyAtEpochD = 0"
-            PRINT #1, "            epoch = 0"
-            PRINT #1, "            inclination ="; INCLINATION; ""
-            PRINT #1, "         }"
-            PRINT #1, "         Template"
-            PRINT #1, "         {"                
-            keyIndex = INT(RND * ubound(planetKey$))
-            PLANETTYPE$ = planetKey$(keyIndex)
-            PLANETDESC$ = thePlanetDesc$(keyIndex)
-            PLANETRADI = thePlanetRadius(keyIndex)
-            PRINT #1, "             name = "; PLANETTYPE$
-            PRINT #1, "         }"
-            PRINT #1, "         Properties"
-            PRINT #1, "         {"
-            PRINT #1, "            description =" + PLANETDESC$            
-            PRINT #1, "            radius ="; INT(RND * PLANETRADI) + 70000; ""
-            PRINT #1, "         }"
-            
-            RINGS = INT(RND * 3)
-            IF RINGS = 0 THEN
-                PRINT #1, "         Rings"
-                PRINT #1, "         {"
-                PRINT #1, "             Ring"
-                PRINT #1, "             {"
-                PRINT #1, "                 angle = 0"
-                PRINT #1, "                 outerRadius = 3000"
-                PRINT #1, "                 innerRadius = 2000"
-                
-                PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-                PRINT #1, "                 color = 1.0,0.1,0.1,1.0"
-                PRINT #1, "                 lockRotation = false"
-                PRINT #1, "                 unlit = false"
-                PRINT #1, "             }"
-                PRINT #1, "          }"
+            PRINT #1, "        name = " + theMoonName$
+            PRINT #1, "        Orbit"
+            PRINT #1, "        {"
+            PRINT #1, "            referenceBody = " + thePlanetName$
+            PRINT #1, "            inclination =" + STR$(INCLINATION)
+            PRINT #1, "            semiMajorAxis =" + STR$(moonSEMIMAJORAXIS)
+            PRINT #1, "        }"
+            '#######'
+            '#We can be smarter about this by looking at radius of parent body
+            '#And only picking possible moons by picking things with radius less
+            '#than parent body
+            '#STH 2017-0203'
+            IF PLANETTYPE$ = "Jool" THEN
+                DO WHILE PLANETTYPE$ = "Jool"
+                    keyIndex = INT(RND * UBOUND(planetKey$))
+                    PLANETTYPE$ = planetKey$(keyIndex)
+                LOOP
+                PRINT #1, "        Template"
+                PRINT #1, "        {"
+                PRINT #1, "            name = "; PLANETTYPE$
+                PRINT #1, "        }"
+            ELSE
+                PRINT #1, "        Template"
+                PRINT #1, "        {"
+                PRINT #1, "            name = Gilly"
+                PRINT #1, "        }"
             END IF
             PRINT #1, "    }"
-            
-            MOON = INT(RND * 4)
-            MOONUMBER = 1
-            IF MOON > 0 THEN
-                DO
-                    PRINT #1, "    Body"
-                    PRINT #1, "    {"
-                    PRINT #1, "        name = "+thePlanetName$+" "+str$(MOONNUMBER)
-                    PRINT #1, ""
-                    PRINT #1, "        Orbit"
-                    PRINT #1, "        {"
-                    PRINT #1, "            referenceBody = "+thePlanetName$
-                    
-                    PRINT #1, "            inclination ="; INT(RND * 360)
-                    
-                    PRINT #1, "            semiMajorAxis ="; INT(RND * 50000000) + 11000000
-                    PRINT #1, "        }"
-                    IF PLANETTYPE$ = "Jool" THEN
-                        
-                        MOONTYPE = INT(RND * 13)
-                        SELECT CASE MOONTYPE
-                            CASE 0
-                                MOONTYPE$ = "Moho"
-                            CASE 1
-                                MOONTYPE$ = "Eve"
-                            CASE 2
-                                MOONTYPE$ = "Mun"
-                            CASE 3
-                                MOONTYPE$ = "Minmus"
-                            CASE 4
-                                MOONTYPE$ = "Duna"
-                            CASE 5
-                                MOONTYPE$ = "Ike"
-                            CASE 6
-                                MOONTYPE$ = "Dres"
-                            CASE 7
-                                MOONTYPE$ = "Gilly"
-                            CASE 8
-                                MOONTYPE$ = "Laythe"
-                            CASE 9
-                                MOONTYPE$ = "Vall"
-                            CASE 10
-                                MOONTYPE$ = "Tylo"
-                            CASE 11
-                                MOONTYPE$ = "Bop"
-                            CASE 12
-                                MOONTYPE$ = "Pol"
-                            CASE 13
-                                MOONTYPE$ = "Eeloo"
-                        END SELECT
-                        PRINT #1, "        Template"
-                        PRINT #1, "        {"
-                        PRINT #1, "            name = "; MOONTYPE$
-                        PRINT #1, "        }"
-                    ELSE
-                        PRINT #1, "        Template"
-                        PRINT #1, "        {"
-                        PRINT #1, "            name = Gilly"
-                        PRINT #1, "        }"
-                    END IF
-                    PRINT #1, "    }"
-                    'PRINT #1, "}"
-                    'PRINT #1, "}"
-                    MOON = MOON - 1
-                    MOONNUMBER = MOONNUMBER + 1
-                    MOBJECTNUMBER = MOBJECTNUMBER + 1
-                    IF MOON = 0 THEN
-                        GOTO 14
-                    END IF
-                LOOP
-            14 END IF
+            MOBJECTNUMBER = MOBJECTNUMBER + 1
+        NEXT
+        planetNumb = planetNumb + 1
+        POBJECTNUMBER = POBJECTNUMBER + 1
+    NEXT
 
-            planetNumb = planetNumb +1
-            POBJECTNUMBER = POBJECTNUMBER + 1
-        next
+    IF ASTTOG$ = "y" THEN
+        MAXAST = INT(RND * 2)
+        FOR ASTNUMBER = 1 TO MAXAST
+            PRINT #1, "    Body"
+            PRINT #1, "    {"
+            PRINT #1, "        name = "+aStarName$+" "+str$(ASTNUMBER)
+            PRINT #1, "        Template"
+            PRINT #1, "        {"
+            PRINT #1, "            name = Gilly"
+            PRINT #1, "        }"
+            PRINT #1, "        Properties"
+            PRINT #1, "        {"
+            PRINT #1, "            description = When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy. "
+            PRINT #1, "            radius ="; INT(RND * 80000) + 5000
+            PRINT #1, "        }"
+            theAstName$ = thePlanetName$ + " " + STR$(ASTNUMBER)
+            astSEMIMAJORAXIS = INT(RND * 10000000000) + 10000000
+            INCLINATION = INT(RND * 360)
+            PRINT #1, "        Orbit"
+            PRINT #1, "        {"
+            PRINT #1, "            referenceBody = " + aStarName$
+            PRINT #1, "            inclination =" + STR$(INCLINATION)
+            PRINT #1, "            semiMajorAxis =" + STR$(astSEMIMAJORAXIS)
+            PRINT #1, "        }"
+            PRINT #1, "        PQS"
+            PRINT #1, "        {"
+            PRINT #1, "            Mods"
+            PRINT #1, "            {"
+            PRINT #1, "                VertexSimplexHeightAbsolute"
+            PRINT #1, "                {"
+            PRINT #1, "                    seed ="; INT(RND * 100000)
+            PRINT #1, "                }"
+            PRINT #1, "                VertexHeightNoise"
+            PRINT #1, "                {"
+            PRINT #1, "                    seed ="; INT(RND * 100000)
+            PRINT #1, "                }"
+            PRINT #1, "            }"
+            PRINT #1, "        }"
+            PRINT #1, "    }"
 
-        IF ASTTOG$ = "y" THEN
-            
-            AST = INT(RND * 2)
-            ASTNUMBER = 1
-            IF AST > 0 THEN
-                DO
-                    'PRINT #1, "@Kopernicus:AFTER[KOPERNICUS]"
-                    'PRINT #1, "{"
-                    PRINT #1, "    Body"
-                    PRINT #1, "    {"
-                    PRINT #1, "        name = "; aStarName$; ASTNUMBER; ""
-                    PRINT #1, ""
-                    PRINT #1, "        Template"
-                    PRINT #1, "        {"
-                    PRINT #1, "            name = Gilly"
-                    PRINT #1, ""
-                    'PRINT #1, "            removePQSMods = PQSLandControl"
-                    PRINT #1, "        }"
-                    PRINT #1, "        Properties"
-                    PRINT #1, "        {"
-                    PRINT #1, "            description = When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy. "
-                    PRINT #1, ""
-                    
-                    PRINT #1, "            radius ="; INT(RND * 80000) + 5000
-                    PRINT #1, ""
-                    'PRINT #1, "            sphereOfInfluence = 117915"
-                    PRINT #1, "        }"
-                    PRINT #1, ""
-                    PRINT #1, "        Orbit"
-                    PRINT #1, "        {"
-                    PRINT #1, "            referenceBody = "; aStarName$; ""
-                    
-                    PRINT #1, "            inclination ="; INT(RND * 360)
-                    
-                    PRINT #1, "            semiMajorAxis ="; INT(RND * 10000000000) + 10000000
-                    PRINT #1, "        }"
-                    PRINT #1, "        PQS"
-                    PRINT #1, "        {"
-                    PRINT #1, "            Mods"
-                    PRINT #1, "            {"
-                    PRINT #1, "                VertexSimplexHeightAbsolute"
-                    PRINT #1, "                {"
-                    
-                    PRINT #1, "                    seed ="; INT(RND * 100000)
-                    PRINT #1, "                }"
-                    PRINT #1, "                VertexHeightNoise"
-                    PRINT #1, "                {"
-                    'PRINT #1, "                    persistence = 0.5"
-                    
-                    PRINT #1, "                    seed ="; INT(RND * 100000)
-                    PRINT #1, "                }"
-                    PRINT #1, "            }"
-                    PRINT #1, "        }"
-                    PRINT #1, "    }"
-                    'PRINT #1, "}"
-                    PRINT #1, ""
-                    AST = AST - 1
-                    ASTNUMBER = ASTNUMBER + 1
-                    AOBJECTNUMBER = AOBJECTNUMBER + 1
-                    IF AST = 0 THEN
-                        GOTO 151
-                    END IF
-                LOOP
+            AOBJECTNUMBER = AOBJECTNUMBER + 1
+        NEXT
+    END IF
 
-            151 END IF
-        END IF
-
-        PRINT #1, "}"
-        REDSTAR = REDSTAR - 1
-        SOBJECTNUMBER = SOBJECTNUMBER + 1
-        IF REDSTAR = 0 THEN
-            GOTO 1
-        END IF
-        REDSTARNUMBER = REDSTARNUMBER + 1
-    LOOP
-1 END IF
+    PRINT #1, "}"
+    SOBJECTNUMBER = SOBJECTNUMBER + 1
+    REDSTARNUMBER = REDSTARNUMBER + 1
+NEXT
 
 '******************************************************************************
-'******************************************************************************
-'******************************************************************************
-'******************************************************************************
-'******************************************************************************
 
-
-
-IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries out an action.
-
-
-
-    DO
+FOR aStar = 1 TO KSTAR
         IF PENABLE$ = "y" THEN
             
             SPN = INT(RND * 4)
@@ -908,21 +846,21 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
         PRINT #1, "        }"
         '########################'
         '###Fill in property data'
-        theDescription$ = "BILL -"+ STR$(KSTARNUMBER)+" is a main sequence orange dwarf star."
+        theDescription$ = "BILL -" + STR$(KSTARNUMBER) + " is a main sequence orange dwarf star."
         theRadius$ = STR$(INT(RND * 30000000) + 15000000)
         theSphereOfInfluence$ = STR$(90118820000)
         aPropertiesTemplate$ = thePropertiesTemplate$
         aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
-        print #1, aPropertiesNode$
+        PRINT #1, aPropertiesNode$
         '###End property data'
         '########################'
         '########################'
         '###Fill in orbit data'
-        theMode$ = str$(0)
+        theMode$ = STR$(0)
         theColor$ = "1,0.5,0,1"
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
-        print #1, aOrbitNode$
+        PRINT #1, aOrbitNode$
         '###End orbit data'
         '########################'
         PRINT #1, "        ScaledVersion"
@@ -942,7 +880,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
         givesOffLight$ = "True"
         aLightTemp$ = theLightTemplate$
         aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
-        print #1, aLightNode$
+        PRINT #1, aLightNode$
         '###End light data'
         '########################'
         '########################'
@@ -955,7 +893,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
         rimBlend$ = "1"
         aMaterialTemp$ = theMaterialTemplate$
         aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
-        print #1, aMaterialNode$
+        PRINT #1, aMaterialNode$
         '###End material data'
         '########################'
         '########################'
@@ -963,7 +901,7 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
         starColour$ = "K"
         aCoronaTemp$ = theCoronasTemplate$
         aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
-        print #1, aCoronaNode$
+        PRINT #1, aCoronaNode$
         '###End coronas data'
         '########################'
         PRINT #1, "        }"
@@ -1738,26 +1676,13 @@ IF KSTAR > 0 THEN 'Checks if KSTAR variable is still above zero, Then carries ou
             152 END IF
         END IF
         PRINT #1, "}"
-        KSTAR = KSTAR - 1
         SOBJECTNUMBER = SOBJECTNUMBER + 1
-        IF KSTAR = 0 THEN
-            GOTO 101
-        END IF
         KSTARNUMBER = KSTARNUMBER + 1
-    LOOP
-101 END IF
+NEXT
 
 '******************************************************************************
-'******************************************************************************
-'******************************************************************************
-'******************************************************************************
-'******************************************************************************
 
-
-
-IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then carries out an action.
-
-    DO
+FOR aStar = 1 TO YELLOWSTAR
         IF PENABLE$ = "y" THEN
             
             SPN = INT(RND * 4)
@@ -1779,21 +1704,21 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
         PRINT #1, "        }"
         '########################'
         '###Fill in property data'
-        theDescription$ = "KERMAN -"+str$(YELLOWSTARNUMBER)+" is a main sequence yellow dwarf star."
+        theDescription$ = "KERMAN -" + STR$(YELLOWSTARNUMBER) + " is a main sequence yellow dwarf star."
         theRadius$ = STR$(INT(RND * 300000000) + 100000000)
         theSphereOfInfluence$ = STR$(220118820000)
         aPropertiesTemplate$ = thePropertiesTemplate$
         aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
-        print #1, aPropertiesNode$
+        PRINT #1, aPropertiesNode$
         '###End property data'
         '########################'
         '########################'
         '###Fill in orbit data'
-        theMode$ = str$(0)
+        theMode$ = STR$(0)
         theColor$ = "1,1,0,1"
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
-        print #1, aOrbitNode$
+        PRINT #1, aOrbitNode$
         '###End orbit data'
         '########################'
         PRINT #1, "        ScaledVersion"
@@ -1813,7 +1738,7 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
         givesOffLight$ = "True"
         aLightTemp$ = theLightTemplate$
         aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
-        print #1, aLightNode$
+        PRINT #1, aLightNode$
         '###End light data'
         '########################'
         '########################'
@@ -1826,14 +1751,14 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
         rimBlend$ = "1"
         aMaterialTemp$ = theMaterialTemplate$
         aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
-        print #1, aMaterialNode$
+        PRINT #1, aMaterialNode$
         '###End material data'
         '########################'
         '###Fill in coronas data'
         starColour$ = "Yellow"
         aCoronaTemp$ = theCoronasTemplate$
         aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
-        print #1, aCoronaNode$
+        PRINT #1, aCoronaNode$
         '###End coronas data'
         '########################'
         PRINT #1, "        }"
@@ -2607,26 +2532,13 @@ IF YELLOWSTAR > 0 THEN 'Checks if YELLOWSTAR variable is still above zero, Then 
         END IF
 
         PRINT #1, "}"
-        YELLOWSTAR = YELLOWSTAR - 1
         SOBJECTNUMBER = SOBJECTNUMBER + 1
-        IF YELLOWSTAR = 0 THEN
-            GOTO 2
-        END IF
         YELLOWSTARNUMBER = YELLOWSTARNUMBER + 1
-    LOOP
-2 END IF
+NEXT
 
 '******************************************************************************
-'******************************************************************************
-'******************************************************************************
-'******************************************************************************
-'******************************************************************************
 
-COLOR _RGB(0, 0, 255)
-
-IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carries out an action.
-
-    DO
+FOR aStar = 1 TO BLUESTAR
         IF PENABLE$ = "y" THEN
             
             SPN = INT(RND * 4)
@@ -2648,21 +2560,21 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
         PRINT #1, "        }"
         '########################'
         '###Fill in property data'
-        theDescription$ = "VAL -"+str$(BLUESTARNUMBER)+ " is a main sequence blue giant star."
+        theDescription$ = "VAL -" + STR$(BLUESTARNUMBER) + " is a main sequence blue giant star."
         theRadius$ = STR$(INT(RND * 5000000000) + 2000000000)
         theSphereOfInfluence$ = STR$(500118820000)
         aPropertiesTemplate$ = thePropertiesTemplate$
         aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
-        print #1, aPropertiesNode$
+        PRINT #1, aPropertiesNode$
         '###End property data'
         '########################'
         '########################'
         '###Fill in orbit data'
-        theMode$ = str$(0)
+        theMode$ = STR$(0)
         theColor$ = "0,0,1,1"
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
-        print #1, aOrbitNode$
+        PRINT #1, aOrbitNode$
         '###End orbit data'
         '########################'
         PRINT #1, "        ScaledVersion"
@@ -2682,7 +2594,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
         givesOffLight$ = "True"
         aLightTemp$ = theLightTemplate$
         aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
-        print #1, aLightNode$
+        PRINT #1, aLightNode$
         '###End light data'
         '########################'
         '########################'
@@ -2695,7 +2607,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
         rimBlend$ = "3"
         aMaterialTemp$ = theMaterialTemplate$
         aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
-        print #1, aMaterialNode$
+        PRINT #1, aMaterialNode$
         '###End material data'
         '########################'
         '########################'
@@ -2703,7 +2615,7 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
         starColour$ = "Blue"
         aCoronaTemp$ = theCoronasTemplate$
         aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
-        print #1, aCoronaNode$
+        PRINT #1, aCoronaNode$
         '###End coronas data'
         '########################'
         PRINT #1, "        }"
@@ -3464,25 +3376,13 @@ IF BLUESTAR > 0 THEN 'Checks if BLUESTAR variable is still above zero, Then carr
 
         PRINT #1, "}"
 
-        BLUESTAR = BLUESTAR - 1
         SOBJECTNUMBER = SOBJECTNUMBER + 1
-        IF BLUESTAR = 0 THEN
-            GOTO 3
-        END IF
         BLUESTARNUMBER = BLUESTARNUMBER + 1
-    LOOP
-3 END IF
-
+NEXT
 
 '******************************************************************************
-'******************************************************************************
-'******************************************************************************
-'******************************************************************************
-'******************************************************************************
 
-IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then carries out an action.
-
-    DO
+FOR aStar = 1 TO WHITESTAR
         IF PENABLE$ = "y" THEN
             
             SPN = INT(RND * 4)
@@ -3504,21 +3404,21 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
         PRINT #1, "        }"
         '########################'
         '###Fill in property data'
-        theDescription$ = "KIRRIM -"+str$(WHITESTARNUMBER)+" is a yellow-white dwarf star."
+        theDescription$ = "KIRRIM -" + STR$(WHITESTARNUMBER) + " is a yellow-white dwarf star."
         theRadius$ = STR$(INT(RND * 1500000000) + 1000000000)
         theSphereOfInfluence$ = STR$(330118820000)
         aPropertiesTemplate$ = thePropertiesTemplate$
         aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
-        print #1, aPropertiesNode$
+        PRINT #1, aPropertiesNode$
         '###End property data'
         '########################'
         '########################'
         '###Fill in orbit data'
-        theMode$ = str$(0)
+        theMode$ = STR$(0)
         theColor$ = "1.0,1.0,0.67,1.0"
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
-        print #1, aOrbitNode$
+        PRINT #1, aOrbitNode$
         '###End orbit data'
         '########################'
         PRINT #1, "        ScaledVersion"
@@ -3538,7 +3438,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
         givesOffLight$ = "True"
         aLightTemp$ = theLightTemplate$
         aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
-        print #1, aLightNode$
+        PRINT #1, aLightNode$
         '###End light data'
         '########################'
         '########################'
@@ -3551,7 +3451,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
         rimBlend$ = "1"
         aMaterialTemp$ = theMaterialTemplate$
         aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
-        print #1, aMaterialNode$
+        PRINT #1, aMaterialNode$
         '###End material data'
         '########################'
         '########################'
@@ -3559,7 +3459,7 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
         starColour$ = "White"
         aCoronaTemp$ = theCoronasTemplate$
         aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
-        print #1, aCoronaNode$
+        PRINT #1, aCoronaNode$
         '###End coronas data'
         '########################'
         PRINT #1, "        }"
@@ -4080,19 +3980,13 @@ IF WHITESTAR > 0 THEN 'Checks if WHITESTAR variable is still above zero, Then ca
 
         PRINT #1, "}"
 
-        WHITESTAR = WHITESTAR - 1
         SOBJECTNUMBER = SOBJECTNUMBER + 1
-        IF WHITESTAR = 0 THEN
-            GOTO 4
-        END IF
         WHITESTARNUMBER = WHITESTARNUMBER + 1
-    LOOP
-4 END IF
+NEXT
 
+'******************************************************************************
 
-IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then carries out an action.
-
-    DO
+FOR aStar = 1 TO BROWNSTAR
         IF PENABLE$ = "y" THEN
             
             SPN = INT(RND * 4)
@@ -4119,16 +4013,16 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
         theSphereOfInfluence$ = STR$(50118820000)
         aPropertiesTemplate$ = thePropertiesTemplate$
         aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
-        print #1, aPropertiesNode$
+        PRINT #1, aPropertiesNode$
         '###End property data'
         '########################'
         '########################'
         '###Fill in orbit data'
-        theMode$ = str$(0)
+        theMode$ = STR$(0)
         theColor$ = "1,0,1,1"
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
-        print #1, aOrbitNode$
+        PRINT #1, aOrbitNode$
         '###End orbit data'
         '########################'
         PRINT #1, "        ScaledVersion"
@@ -4148,7 +4042,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
         givesOffLight$ = "True"
         aLightTemp$ = theLightTemplate$
         aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
-        print #1, aLightNode$
+        PRINT #1, aLightNode$
         '###End light data'
         '########################'
         '########################'
@@ -4161,7 +4055,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
         rimBlend$ = "1"
         aMaterialTemp$ = theMaterialTemplate$
         aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
-        print #1, aMaterialNode$
+        PRINT #1, aMaterialNode$
         '###End material data'
         '########################'
         '########################'
@@ -4169,7 +4063,7 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
         starColour$ = "Black"
         aCoronaTemp$ = theCoronasTemplate$
         aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
-        print #1, aCoronaNode$
+        PRINT #1, aCoronaNode$
         '###End coronas data'
         '########################'
         PRINT #1, "        }"
@@ -4910,19 +4804,13 @@ IF BROWNSTAR > 0 THEN 'Checks if BROWNSTAR variable is still above zero, Then ca
         END IF
 
         PRINT #1, "}"
-        BROWNSTAR = BROWNSTAR - 1
         SOBJECTNUMBER = SOBJECTNUMBER + 1
-        IF BROWNSTAR = 0 THEN
-            GOTO 5
-        END IF
         BROWNSTARNUMBER = BROWNSTARNUMBER + 1
-    LOOP
-5 END IF
+NEXT
 
+'******************************************************************************
 
-IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then carries out an action.
-
-    DO
+FOR aStar = 1 TO DWARFSTAR
         IF PENABLE$ = "y" THEN
             
             SPN = INT(RND * 4)
@@ -4944,21 +4832,21 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
         PRINT #1, "        }"
         '########################'
         '###Fill in property data'
-        theDescription$ = "NEIL -"+str$(DWARFSTARNUMBER)+" is a white dwarf stellar core remnant."
+        theDescription$ = "NEIL -" + STR$(DWARFSTARNUMBER) + " is a white dwarf stellar core remnant."
         theRadius$ = STR$(INT(RND * 700000) + 300000)
         theSphereOfInfluence$ = STR$(90118820000.5)
         aPropertiesTemplate$ = thePropertiesTemplate$
         aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, "")
-        print #1, aPropertiesNode$
+        PRINT #1, aPropertiesNode$
         '###End property data'
         '########################'
         '########################'
         '###Fill in orbit data'
-        theMode$ = str$(0)
+        theMode$ = STR$(0)
         theColor$ = "1,1,1,1"
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
-        print #1, aOrbitNode$
+        PRINT #1, aOrbitNode$
         '###End orbit data'
         '########################'
         PRINT #1, "        ScaledVersion"
@@ -4978,7 +4866,7 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
         givesOffLight$ = "True"
         aLightTemp$ = theLightTemplate$
         aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
-        print #1, aLightNode$
+        PRINT #1, aLightNode$
         '###End light data'
         '########################'
         '########################'
@@ -4991,7 +4879,7 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
         rimBlend$ = "1"
         aMaterialTemp$ = theMaterialTemplate$
         aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
-        print #1, aMaterialNode$
+        PRINT #1, aMaterialNode$
         '###End material data'
         '########################'
         '########################'
@@ -4999,7 +4887,7 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
         starColour$ = "White"
         aCoronaTemp$ = theCoronasTemplate$
         aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
-        print #1, aCoronaNode$
+        PRINT #1, aCoronaNode$
         '###End coronas data'
         '########################'
         PRINT #1, "        }"
@@ -5072,18 +4960,13 @@ IF DWARFSTAR > 0 THEN 'Checks if DWARFSTAR variable is still above zero, Then ca
             158 END IF
         END IF
         PRINT #1, "}"
-        DWARFSTAR = DWARFSTAR - 1
         SOBJECTNUMBER = SOBJECTNUMBER + 1
-        IF DWARFSTAR = 0 THEN
-            GOTO 6
-        END IF
         DWARFSTARNUMBER = DWARFSTARNUMBER + 1
-    LOOP
-6 END IF
+NEXT
 
-IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then carries out an action.
+'******************************************************************************
 
-    DO
+FOR aStar = 1 TO BLACKHOLE
         IF PENABLE$ = "y" THEN
             
             SPN = INT(RND * 4)
@@ -5105,22 +4988,22 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
         PRINT #1, "        }"
         '########################'
         '###Fill in property data'
-        theDescription$ = "BILLYBOB -"+str$(BLACKHOLENUMBER)+ "is a black hole. An infinitely dense singularity encapsulated by the event horizon."
+        theDescription$ = "BILLYBOB -" + STR$(BLACKHOLENUMBER) + "is a black hole. An infinitely dense singularity encapsulated by the event horizon."
         theRadius$ = STR$(INT(RND * 700000) + 300000)
         theSphereOfInfluence$ = STR$(90118820000.5)
-        theGeeASL$ = str$(1000000)
+        theGeeASL$ = STR$(1000000)
         aPropertiesTemplate$ = thePropertiesTemplate$
         aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, theGeeASL$)
-        print #1, aPropertiesNode$
+        PRINT #1, aPropertiesNode$
         '###End property data'
         '########################'
         '########################'
         '###Fill in orbit data'
-        theMode$ = str$(0)
+        theMode$ = STR$(0)
         theColor$ = "0.2,0.2,0.2,1"
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
-        print #1, aOrbitNode$
+        PRINT #1, aOrbitNode$
         '###End orbit data'
         '########################'
         '###Fill in Ring Data'
@@ -5133,7 +5016,7 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
         theUnlit$ = "True"
         aRingsTemp$ = theRingsTemplate$
         aRingsNode$ = ringNode$(aRingsTemp$, theAngle$, theOuterRadius$, theInnerRadius$, theRingTexture$, theColour$, theLockRotation$, theUnlit$)
-        print #1, aRingsNode$
+        PRINT #1, aRingsNode$
         '###End ring data'
         '########################'
         PRINT #1, "        ScaledVersion"
@@ -5153,7 +5036,7 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
         givesOffLight$ = "False"
         aLightTemp$ = theLightTemplate$
         aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
-        print #1, aLightNode$
+        PRINT #1, aLightNode$
         '###End light data'
         '########################'
         '########################'
@@ -5166,7 +5049,7 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
         rimBlend$ = "1.8"
         aMaterialTemp$ = theMaterialTemplate$
         aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
-        print #1, aMaterialNode$
+        PRINT #1, aMaterialNode$
         '###End material data'
         '########################'
         '########################'
@@ -5174,7 +5057,7 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
         starColour$ = "BlackHoleCorona"
         aCoronaTemp$ = theCoronasTemplate$
         aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
-        print #1, aCoronaNode$
+        PRINT #1, aCoronaNode$
         '###End coronas data'
         '########################'
         PRINT #1, "        }"
@@ -5247,21 +5130,13 @@ IF BLACKHOLE > 0 THEN 'Checks if BLACKHOLE variable is still above zero, Then ca
             159 END IF
         END IF
 
-
-        BLACKHOLE = BLACKHOLE - 1
         SOBJECTNUMBER = SOBJECTNUMBER + 1
-        IF BLACKHOLE = 0 THEN
-            GOTO 66
-        END IF
         BLACKHOLENUMBER = BLACKHOLENUMBER + 1
-    LOOP
-66 END IF
+NEXT
 
+'******************************************************************************
 
-
-IF ROGUE > 0 THEN
-    DO
-        
+FOR aStar = 1 TO ROGUE
         aStarName$ = theStarName$ '#Calls the function "theStarName"
         PRINT #1, "@Kopernicus"
         PRINT #1, "{"
@@ -5270,11 +5145,11 @@ IF ROGUE > 0 THEN
         PRINT #1, "         name = "; aStarName$
         '########################'
         '###Fill in orbit data'
-        theMode$ = str$(0)
+        theMode$ = STR$(0)
         theColor$ = "1,1,0,1"
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, GTYPE, theColor$, theMode$)
-        print #1, aOrbitNode$
+        PRINT #1, aOrbitNode$
         '###End property data'
         '########################'
 
@@ -5826,12 +5701,9 @@ IF ROGUE > 0 THEN
             PRINT #1, "}"
         END IF
         POBJECTNUMBER = POBJECTNUMBER + 1
-        ROGUE = ROGUE - 1
-        IF ROGUE = 0 THEN
-            GOTO 80
-        END IF
-    LOOP
-80 END IF
+NEXT
+
+'******************************************************************************
 
 PRINT ""
 PRINT ""; SOBJECTNUMBER; "Stars"
@@ -6187,147 +6059,155 @@ END FUNCTION
 '########http://www.qb64.net/wiki/index.php/LEFT$
 FUNCTION ReplaceStr$ (text$, old$, new$)
 DO
-  find = INSTR(start + 1, text$, old$) 'find location of a word in text
-  IF find THEN
-    count = count + 1
-    first$ = LEFT$(text$, find - 1) 'text before word including spaces
-    last$ = RIGHT$(text$, LEN(text$) - (find + LEN(old$) - 1)) 'text after word
-    text$ = first$ + new$ + last$
-  END IF
-  start = find
+    find = INSTR(start + 1, text$, old$) 'find location of a word in text
+    IF find THEN
+        count = count + 1
+        first$ = LEFT$(text$, find - 1) 'text before word including spaces
+        last$ = RIGHT$(text$, LEN(text$) - (find + LEN(old$) - 1)) 'text after word
+        text$ = first$ + new$ + last$
+    END IF
+    start = find
 LOOP WHILE find
 'Replace = count 'function returns the number of replaced words. Comment out in SUB
 'Replace = text$
 ReplaceStr$ = text$
-END FUNCTION  
+END FUNCTION
 
 FUNCTION propertyNode$ (aTemplate$, theDescription$, theRadius$, theSphereOfInfluence$, theGeeASL$)
-        '#####STH 2017-0124. QBasic doesn't have string formatting like python. 
-        '#####Replicated that function with string replacement function.
-        aTemplate$ = ReplaceStr(aTemplate$,"%(theDescription)s",theDescription$)
-        aTemplate$ = ReplaceStr(aTemplate$,"%(theRadius)s",theRadius$)
-        '###########################'
-        '##Uncomment geeASL property'
-        if theGeeALS$ <> "" then
-            aTemplate$ = ReplaceStr(aTemplate$,"//geeASL","geeASL")
-            aTemplate$ = ReplaceStr(aTemplate$,"%(theGeeASL)s",theGeeASL$)
-        end if
-        '###########################'  
-        aTemplate$ = ReplaceStr(aTemplate$,"%(theSphereOfInfluence)s",theSphereOfInfluence$)
-        propertyNode$ = aTemplate$
+    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
+    '#####Replicated that function with string replacement function.
+    '###########################'
+    '##Uncomment properties if data is present
+    if theDescription$ <> "" then 
+        aTemplate$ = ReplaceStr(aTemplate$, "//description =", "description =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theDescription)s", theDescription$)
+    end if
+    if theRadius$ <> "" then 
+        aTemplate$ = ReplaceStr(aTemplate$, "//radius =", "radius =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theRadius)s", theRadius$)
+    end if
+    if theSphereOfInfluence$ <> "" then 
+        aTemplate$ = ReplaceStr(aTemplate$, "//sphereOfInfluence =", "sphereOfInfluence =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theSphereOfInfluence)s", theSphereOfInfluence$)
+    end if
+    if theGeeASL$ <> "" then 
+        aTemplate$ = ReplaceStr(aTemplate$, "//geeASL =", "geeASL =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theGeeASL)s", theGeeASL$)
+    end if
+    '###########################'   
+    propertyNode$ = aTemplate$
 END FUNCTION
 
 FUNCTION orbitNode$ (aTemplate$, GTYPE, theColor$, theMode$)
-    if (GTYPE = 0 or GType = 1) then
-        theReferenceBody$ = "Sun"
-        if GType = 0 then theInclination$ = str$(INT(RND * 360))
-        if GType = 1 then theInclination$ = str$(INT(RND * 25) +1)
-        end if
-        theSemiMajorAxis$ = str$(INT(RND * 1D+16) + 100000000000000#)
-    else
-        theReferenceBody$ = str$(INT(RND * CLUSTERNUM))
-        theInclination$ = str$(INT(RND * 360))
-        theSemiMajorAxis$ = str$(INT(RND * 10000000000000) + 10000000000)
-    end if
-    theArgumentOfPeriapsis$ = str$(INT(RND * 1000))
-    theMeanAnomalyAtEpoch$ = str$(0)
-    theEpoch$ = str$(0)
-    '#####STH 2017-0124. QBasic doesn't have string formatting like python. 
-    '#####Replicated that function with string replacement function.
-    aTemplate$ = ReplaceStr(aTemplate$,"%(theReferenceBody)s",theReferenceBody$)
-    aTemplate$ = ReplaceStr(aTemplate$,"%(theColor)s",theColor$) 
-    aTemplate$ = ReplaceStr(aTemplate$,"%(theMode)s",theMode$)
-    aTemplate$ = ReplaceStr(aTemplate$,"%(theInclination)s",theInclination$)
-    aTemplate$ = ReplaceStr(aTemplate$,"%(theSemiMajorAxis)s",theSemiMajorAxis$)
-    aTemplate$ = ReplaceStr(aTemplate$,"%(theArgumentOfPeriapsis)s",theArgumentOfPeriapsis$)
-    aTemplate$ = ReplaceStr(aTemplate$,"%(theMeanAnomalyAtEpoch)s",theMeanAnomalyAtEpoch$)
-    aTemplate$ = ReplaceStr(aTemplate$,"%(theEpoch)s",theEpoch$)
-    orbitNode$ = aTemplate$
+IF (GTYPE = 0 OR GTYPE = 1) THEN
+    theReferenceBody$ = "Sun"
+    IF GTYPE = 0 THEN theInclination$ = STR$(INT(RND * 360))
+    IF GTYPE = 1 THEN theInclination$ = STR$(INT(RND * 25) + 1)
+    theSemiMajorAxis$ = STR$(INT(RND * 1D+16) + 100000000000000#)
+ELSE
+    theReferenceBody$ = STR$(INT(RND * CLUSTERNUM))
+    theInclination$ = STR$(INT(RND * 360))
+    theSemiMajorAxis$ = STR$(INT(RND * 10000000000000) + 10000000000)
+END IF
+theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
+theMeanAnomalyAtEpoch$ = STR$(0)
+theEpoch$ = STR$(0)
+'#####STH 2017-0124. QBasic doesn't have string formatting like python.
+'#####Replicated that function with string replacement function.
+aTemplate$ = ReplaceStr(aTemplate$, "%(theReferenceBody)s", theReferenceBody$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theColor)s", theColor$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theMode)s", theMode$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theInclination)s", theInclination$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theSemiMajorAxis)s", theSemiMajorAxis$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theArgumentOfPeriapsis)s", theArgumentOfPeriapsis$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theMeanAnomalyAtEpoch)s", theMeanAnomalyAtEpoch$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theEpoch)s", theEpoch$)
+orbitNode$ = aTemplate$
 END FUNCTION
 
-FUNCTION lightNode$(aTemplate$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
-        '#####STH 2017-0124. QBasic doesn't have string formatting like python. 
-        '#####Replicated that function with string replacement function.
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theSunlightColor)s", sunlightColor$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theSunlightIntensity)s", sunlightIntensity$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theScaledSunlightColor)s", scaledSunlightColor$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theScaledSunlightIntensity)s", scaledSunlightIntensity$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theIVASuncolor)s", IVASuncolor$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theIVASunIntensity)s", IVASunIntensity$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theSunLensFlareColor)s", sunLensFlareColor$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theAmbientLightColor)s", ambientLightColor$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theSunAU)s",sunAU$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theLuminosity)s", luminosity$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theGivesOffLight)s", givesOffLight$)
-        lightNode$ = aTemplate$
+FUNCTION lightNode$ (aTemplate$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
+'#####STH 2017-0124. QBasic doesn't have string formatting like python.
+'#####Replicated that function with string replacement function.
+aTemplate$ = ReplaceStr(aTemplate$, "%(theSunlightColor)s", sunlightColor$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theSunlightIntensity)s", sunlightIntensity$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theScaledSunlightColor)s", scaledSunlightColor$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theScaledSunlightIntensity)s", scaledSunlightIntensity$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theIVASuncolor)s", IVASuncolor$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theIVASunIntensity)s", IVASunIntensity$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theSunLensFlareColor)s", sunLensFlareColor$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theAmbientLightColor)s", ambientLightColor$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theSunAU)s", sunAU$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theLuminosity)s", luminosity$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theGivesOffLight)s", givesOffLight$)
+lightNode$ = aTemplate$
 END FUNCTION
 
-FUNCTION materialNode$(aTemplate$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
-        '#####STH 2017-0124. QBasic doesn't have string formatting like python. 
-        '#####Replicated that function with string replacement function.
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theEmitColor0)s", emitColorZero$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theEmitColor1)s", emitColorOne$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theSunspotColor)s", sunspotColor$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theRimColor)s", rimColor$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theRimPower)s", rimPower$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theRimBlend)s", rimBlend$)
-        materialNode$ = aTemplate$
+FUNCTION materialNode$ (aTemplate$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
+'#####STH 2017-0124. QBasic doesn't have string formatting like python.
+'#####Replicated that function with string replacement function.
+aTemplate$ = ReplaceStr(aTemplate$, "%(theEmitColor0)s", emitColorZero$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theEmitColor1)s", emitColorOne$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theSunspotColor)s", sunspotColor$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theRimColor)s", rimColor$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theRimPower)s", rimPower$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theRimBlend)s", rimBlend$)
+materialNode$ = aTemplate$
 END FUNCTION
 
-FUNCTION coronaNode$(aTemplate$, starColour$)
-        '#####STH 2017-0124. QBasic doesn't have string formatting like python. 
-        '#####Replicated that function with string replacement function.
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theTexture)s", starColour$)
-        coronaNode$ = aTemplate$
+FUNCTION coronaNode$ (aTemplate$, starColour$)
+'#####STH 2017-0124. QBasic doesn't have string formatting like python.
+'#####Replicated that function with string replacement function.
+aTemplate$ = ReplaceStr(aTemplate$, "%(theTexture)s", starColour$)
+coronaNode$ = aTemplate$
 END FUNCTION
 
-FUNCTION ringNode$(aTemplate$, theAngle$, theOuterRadius$, theInnerRadius$, theRingTexture$, theColour$, theLockRotation$, theUnlit$)
-        '#####STH 2017-0124. QBasic doesn't have string formatting like python. 
-        '#####Replicated that function with string replacement function.
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theAngle)s", theAngle$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theOuterRadius)s", theOuterRadius$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theInnerRadius)s", theInnerRadius$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theRingTexture)s", theRingTexture$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theColour)s", theColour$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theLockRotation)s", theLockRotation$)
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theUnlit)s", theUnlit$)
-        ringNode$ = aTemplate$
+FUNCTION ringNode$ (aTemplate$, theAngle$, theOuterRadius$, theInnerRadius$, theRingTexture$, theColour$, theLockRotation$, theUnlit$)
+'#####STH 2017-0124. QBasic doesn't have string formatting like python.
+'#####Replicated that function with string replacement function.
+aTemplate$ = ReplaceStr(aTemplate$, "%(theAngle)s", theAngle$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theOuterRadius)s", theOuterRadius$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theInnerRadius)s", theInnerRadius$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theRingTexture)s", theRingTexture$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theColour)s", theColour$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theLockRotation)s", theLockRotation$)
+aTemplate$ = ReplaceStr(aTemplate$, "%(theUnlit)s", theUnlit$)
+ringNode$ = aTemplate$
 END FUNCTION
 
 SUB readPlanetTemplates ()
-    '####2017.0201--STH
-    '#This is a mess. I want something like python's dictionary
-    '#Played with a multidimensional array, but can't redim it?
-    '#Ended up using an array for each colum read in from the CSV
-    '#Terrible technique, but I just want it to work at this point
-    '###################'
-    theFileName$ = "Data_Folder/TBG_Planet_Templates.csv"
-    theIndex = 0
-    IF _FILEEXISTS(theFileName$) THEN
-        OPEN theFileName$ FOR INPUT AS #1
-        'read through the file and get the number of lines'
-        DO UNTIL EOF(1)
-            REDIM _PRESERVE planetKey$(theIndex)
-            REDIM _PRESERVE thePlanetRadius(theIndex)
-            REDIM _PRESERVE thePlanetSOI(theIndex)
-            REDIM _PRESERVE thePlanetDesc$(theIndex)
-            INPUT #1, aPlanetName$, aPlanetRadius, aPlanetSOI, aDescription$
-            PRINT aPlanetRadius
-            planetKey$(theIndex) = aPlanetName$
-            thePlanetRadius(theIndex) = aPlanetRadius
-            thePlanetSOI(theIndex) = aPlanetSOI
-            thePlanetDesc$(theIndex) = aDescription$
-            theIndex = theIndex + 1
-        LOOP
-        CLOSE #1
-    END IF
+'####2017.0201--STH
+'#This is a mess. I want something like python's dictionary
+'#Played with a multidimensional array, but can't redim it?
+'#Ended up using an array for each colum read in from the CSV
+'#Terrible technique, but I just want it to work at this point
+'###################'
+theFileName$ = "Data_Folder/TBG_Planet_Templates.csv"
+theIndex = 0
+IF _FILEEXISTS(theFileName$) THEN
+    OPEN theFileName$ FOR INPUT AS #1
+    'read through the file and get the number of lines'
+    DO UNTIL EOF(1)
+        REDIM _PRESERVE planetKey$(theIndex)
+        REDIM _PRESERVE thePlanetRadius(theIndex)
+        REDIM _PRESERVE thePlanetSOI(theIndex)
+        REDIM _PRESERVE thePlanetDesc$(theIndex)
+        INPUT #1, aPlanetName$, aPlanetRadius, aPlanetSOI, aDescription$
+        PRINT aPlanetRadius
+        planetKey$(theIndex) = aPlanetName$
+        thePlanetRadius(theIndex) = aPlanetRadius
+        thePlanetSOI(theIndex) = aPlanetSOI
+        thePlanetDesc$(theIndex) = aDescription$
+        theIndex = theIndex + 1
+    LOOP
+    CLOSE #1
+END IF
 END SUB
 
 'FUNCTION makeABody$(theRadius$, theSphereOfInfluence$)
 ''    planetTxt=""
 ''    maxPlanets = INT(RND * 5) #how many planets in this system? Max of 5
 ''    PlanetNumb = 1
-''    for aPlanet = 1 to maxPlanets 
+''    for aPlanet = 1 to maxPlanets
 ''        if PlanetNumb = 1 then PNM = "I"
 ''        if PlanetNumb == 2 then PNM = "II"
 ''        if PlanetNumb == 3 then PNM = "III"
@@ -6336,7 +6216,7 @@ END SUB
 ''        planetTemplateName = random.choice(thePlanetDict.keys())
 ''        planetRadius = thePlanetDict[planetTemplateName][0]
 ''        planetSOI = thePlanetDict[planetTemplateName][1]
-''        planetDescription = thePlanetDict[planetTemplateName][2][0]    
+''        planetDescription = thePlanetDict[planetTemplateName][2][0]
 ''        planetBody=makeABody(theStarName, PNM, planetTemplateName, planetDescription, planetRadius, parentRadius, parentSOI) #this will be the same routine used to make both planets and moons
 ''        #print planetBody
 ''        planetTxt=planetTxt+planetBody
