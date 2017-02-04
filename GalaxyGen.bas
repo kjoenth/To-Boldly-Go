@@ -680,12 +680,12 @@ FOR aStar = 1 TO REDSTAR
         '########################'
         PRINT #1, "    Body"
         PRINT #1, "    {"
-        PRINT #1, "         name = " + thePlanetName$
+        PRINT #1, "        name = " + thePlanetName$
         '#########'
-        PRINT #1, "         Template"
-        PRINT #1, "         {"
-        PRINT #1, "             name = "; PLANETTYPE$
-        PRINT #1, "         }"
+        PRINT #1, "        Template"
+        PRINT #1, "        {"
+        PRINT #1, "            name = "; PLANETTYPE$
+        PRINT #1, "        }"
         '########################'
         '###Fill in property data'
         theDescription$ = thePlanetDesc$(keyIndex)
@@ -696,8 +696,8 @@ FOR aStar = 1 TO REDSTAR
         '########################'
         '########################'
         '###Fill in orbit data'
-        PRINT #1, "         Orbit"
-        PRINT #1, "         {"
+        PRINT #1, "        Orbit"
+        PRINT #1, "        {"
         PRINT #1, "            referenceBody = "; aStarName$; ""
         PRINT #1, "            semiMajorAxis ="; SEMIMAJORAXIS; ""
         PRINT #1, "            longitudeOfAscendingNode = 0"
@@ -706,7 +706,7 @@ FOR aStar = 1 TO REDSTAR
         PRINT #1, "            meanAnomalyAtEpochD = 0"
         PRINT #1, "            epoch = 0"
         PRINT #1, "            inclination ="; INCLINATION; ""
-        PRINT #1, "         }"
+        PRINT #1, "        }"
         SEMIMAJORAXIS = SEMIMAJORAXIS * 1.5 '#the next semimajor axis should be beyond the present planet's SOI
         '########################'
         '####
