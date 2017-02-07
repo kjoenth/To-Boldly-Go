@@ -2,13 +2,13 @@
         {
             //https://github.com/Kopernicus/Kopernicus/wiki/Orbit
             referenceBody = %(theReferenceBody)s
-            color = %(theColor)s
-            mode = %(theMode)s
-            inclination = %(theInclination)s 
+            //color = %(theColour)s
+            //mode = %(theMode)s
+            //inclination = %(theInclination)s 
             //eccentricity = %(theEccentricity)s 
             semiMajorAxis = %(theSemiMajorAxis)s 
             //longitudeOfAscendingNode = %(theLongitudeOfAscendingNode)s 
-            argumentOfPeriapsis = %(theArgumentOfPeriapsis)s
-            meanAnomalyAtEpoch = %(theMeanAnomalyAtEpoch)s
-            epoch = %(theEpoch)s       
+            //argumentOfPeriapsis = %(theArgumentOfPeriapsis)s
+            //meanAnomalyAtEpoch = %(theMeanAnomalyAtEpoch)s
+            //epoch = %(theEpoch)s       
         }
