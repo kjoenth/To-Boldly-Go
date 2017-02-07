@@ -735,7 +735,7 @@ FOR aStar = 1 TO REDSTAR
         MAXMOON = INT(RND * 4)
         FOR theMoonNumb = 1 TO MAXMOON
             theMoonName$ = thePlanetName$ + " " + STR$(theMoonNumb)
-            moonSEMIMAJORAXIS = INT(RND * 10000000000) + 10000000
+            moonSEMIMAJORAXIS = INT(RND * 50000000) + 11000000
             INCLINATION = INT(RND * 360)
             PRINT #1, "    Body"
             PRINT #1, "    {"
