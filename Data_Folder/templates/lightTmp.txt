@@ -12,4 +12,11 @@
                 sunAU = %(theSunAU)s
                 luminosity = %(theLuminosity)s
                 givesOffLight = %(theGivesOffLight)s
+                'brightnessCurve
+                '{
+                ''    key = -0.01573471 0.217353 1.706627 1.706627
+                ''    key = 0 0 0 0
+                ''    key = 5.084181 3.997075 -0.001802375 -0.001802375
+                ''    key = 38.56295 1.82142 0.0001713 0.0001713
+                ''}
             }

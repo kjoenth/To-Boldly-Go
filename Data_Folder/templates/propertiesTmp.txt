@@ -12,5 +12,5 @@
             //tidallyLocked = %(isTidallyLocked)s
             //isHomeWorld =   %(isHomeWorld)s 
             //timewarpAltitudeLimits = 0 30000 30000 60000 100000 300000 600000 800000
-            sphereOfInfluence = %(theSphereOfInfluence)s
+            //sphereOfInfluence = %(theSphereOfInfluence)s
         }
