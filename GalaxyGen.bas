@@ -314,7 +314,7 @@ IF GTYPE = 2 THEN
             PRINT #1, "            inclination ="; INT(RND * 50) - 25; ""
             
             PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
-            PRINT #1, "            mode = 0"
+            PRINT #1, "            //mode = 0"
             PRINT #1, "        }"
             PRINT #1, "        ScaledVersion"
             PRINT #1, "        {"
@@ -422,7 +422,7 @@ END IF
 
 
 PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
-PRINT #1, "            mode = 0"
+PRINT #1, "            //mode = 0"
 PRINT #1, "            color = 1,1,0,1"
 PRINT #1, "        }"
 PRINT #1, "        ScaledVersion"
@@ -535,7 +535,7 @@ PRINT #1, " @Body[Kerbin]"
 PRINT #1, " {"
 PRINT #1, "     PostSpawnOrbit
 PRINT #1, "     {
-PRINT #1, "            referenceBody = Kerbol
+PRINT #1, "            referenceBody = Kerbol"
 PRINT #1, "     }"   
 PRINT #1, " }"
 PRINT #1, " @Body[Duna]"
@@ -579,9 +579,79 @@ theGasGiantTemplate$ = fileAsString("gasGiantScaledVersionTmp.txt")
 theRingsTemplate$ = fileAsString("ringsTmp.txt")
 thePlanetTemplate$ = fileAsString("planetTmp.txt")
 theStarTmp$ = fileAsString("starTmp.txt")
+theWikiTemplate$ = fileAsString("wikiTemplate.html")
 
+blackHole_MassKg = 8.55E37
+blackHole_MassKSP = sol2Kerbol_kg(blackHole_MassKg) 
+
+'###########
+'###Make the wiki file
+OPEN "wikiEntry.html" FOR OUTPUT AS #10 'Creates the wiki file
 
 FOR aStar = 1 TO REDSTAR
+    '###########################'
+    '###STH 2017-0209 Do calculations to get star characteristics
+    'star_Name = starNameList[i]
+    star_Name$ = "bla bla bla"
+    'star_Description=random.choice(theDescriptions) % (starNameList[0])
+    '######pick a star mass in a normal distribution
+    'star_MassKg = abs(random.normalvariate(9.5E29, 2e30))
+    star_MassKg=kerbol2Sol_kg(1.7565459e28) '#test with Kerbol
+    star_MassKSP = sol2Kerbol_kg(star_MassKg)
+    star_MassSolar = kg2solarMass(star_MassKg)
+    star_RadiusSolar = solarRadiusFromSolarMass(star_MassSolar)
+    star_RadiusKm = solarRadius2km(star_RadiusSolar)
+    star_RadiusKSP = sol2Kerbol_km(star_RadiusKm*1000) '#return m 
+    star_Lum = luminocityFromSolarMass(star_MassSolar)
+    star_TempK = solarTemp(star_Lum,star_RadiusSolar)
+    'star_RGBColour = temp2RGB(star_TempK)
+    'star_HTMLColour = RGB2HTMLColor(star_RGBColour)
+    star_HTMLColour$ = "ffffffff"
+    star_Circumference = starCircumference(star_RadiusKSP) '#use KSP size
+    star_SurfaceArea = starSurfaceArea(star_RadiusKSP) '#use KSP size
+    star_Volume = starVolume(star_RadiusKSP) '#use KSP size
+    star_Density = starDensity(star_MassKSP,star_RadiusKSP/1000.0) '#use KSP size
+    star_stdGravitationalParameter = stdGravitationalParameter(star_MassKSP) '#use KSP size
+    star_surfaceGravity = surfaceGravity(star_MassKSP,star_RadiusKSP) '#use KSP size. radius should be in km
+    star_escapeVelocity = escapeVelocity(star_MassKSP,star_RadiusKSP) '#use KSP size. radius should be in km
+    star_RotationalPeriod = 432000.00 '##20 days in hours. Kerbol. This needs to be more random. Younger stars spin faster.
+    '#could do another normalized curve for rotation speeds
+    star_siderealRotationalVel = siderealRotationalVel(star_RadiusKSP, star_RotationalPeriod) '#m/s
+    star_theSynchronousOrbit = synchronousOrbit(star_RadiusKSP, star_MassKSP, star_RotationalPeriod)/1000 '#km
+    '#the Roche Limit of the black hole will be the minimum distance an objct can orbit it
+    blackHole_RocheLimit = rocheLimit(blackHole_MassKSP, star_MassKSP, star_RadiusKSP)
+    '#lower limit in picking the semimajor axis has to put the star radius outside the Roche limit
+    '#add a million to put a bit more distance in
+    '#Milky Way has a radius around 6.62251e+17km
+    '#KSP galaxy radius would be 6.62251e+17km/2.6594=6.62251e+17
+    'star_semimajorAxis = random.randint(int(blackHole_RocheLimit+star_RadiusKSP+1e6), 6.62251e17)
+    star_orbitMin = int(blackHole_RocheLimit+star_RadiusKSP+1e6)
+    star_prbitMax = 6.62251e17
+    star_semimajorAxis = star_orbitMin +(RND(1)*(star_orbitMax-star_orbitMin))
+    '###if Kerbol is an analog of Sol, it is ~26kly from the galactic center
+    '###1ly = 9.461e+12km
+    '###therefore 26*9.461e12km = 2.45986e14km from center.
+    '###stellar distances seem 10.95x smaller in KSP
+    'star_semimajorAxis = 2.25e16 '#in m
+    star_HillSphereRadius = hillSphere(blackHole_MassKg, blackHole_MassKg, 0, star_semimajorAxis)
+    star_SOI = kspSOI(blackHole_MassKSP, star_MassKSP, star_semimajorAxis)
+    '###END star characteristic calculation
+    '##############################
+    '#############
+    aWikiTemplate$ = theWikiTemplate$
+    aWikiTemplate$ = wikiEntry$(aWikiTemplate$, star_HTMLColour$, star_Name$, star_RadiusKSP, star_Circumference, star_SurfaceArea, star_MassKSP, star_stdGravitationalParameter, star_Density, star_surfaceGravity, star_escapeVelocity, star_RotationalPeriod, star_siderealRotationalVel, star_theSynchronousOrbit, star_SOI, star_TempK)
+    print #10, aWikiTemplate$
+
+
+
+
+
+
+
+
+
+
+
     '###These print statements can go away once the starTemplate can be used
     '###Need to get planet and moon template generation working in basic first
     '###STH 2017-0127
@@ -623,7 +693,7 @@ FOR aStar = 1 TO REDSTAR
     theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
     theMeanAnomalyAtEpoch$ = STR$(0)
     theEpoch$ = STR$(0)
-    theMode$ = STR$(0)
+    theMode$ = "" 'STR$(0)
     theColour$ = "1,0,0,1"
     aOrbitTemp$ = theOrbitTemplate$
     aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
@@ -755,11 +825,8 @@ FOR aStar = 1 TO REDSTAR
         MAXMOON = INT(RND * 4)
         FOR theMoonNumb = 1 TO MAXMOON
             theMoonName$ = thePlanetName$ + " " + STR$(theMoonNumb)
-<<<<<<< HEAD
-=======
             moonSEMIMAJORAXIS = INT(RND * 50000000) + 11000000
             INCLINATION = INT(RND * 360)
->>>>>>> origin/planet-streamlining
             PRINT #1, "    Body"
             PRINT #1, "    {"
             PRINT #1, "        name = " + theMoonName$
@@ -895,7 +962,7 @@ FOR aStar = 1 TO KSTAR
         theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
         theMeanAnomalyAtEpoch$ = STR$(0)
         theEpoch$ = STR$(0)
-        theMode$ = STR$(0)
+        theMode$ = "" 'STR$(0)
         theColour$ = "1,0.5,0,1"
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
@@ -1184,7 +1251,7 @@ FOR aStar = 1 TO YELLOWSTAR
         theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
         theMeanAnomalyAtEpoch$ = STR$(0)
         theEpoch$ = STR$(0)
-        theMode$ = STR$(0)
+        theMode$ = "" 'STR$(0)
         theColour$ = "1,1,0,1"
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
@@ -1473,7 +1540,7 @@ FOR aStar = 1 TO BLUESTAR
         theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
         theMeanAnomalyAtEpoch$ = STR$(0)
         theEpoch$ = STR$(0)
-        theMode$ = STR$(0)
+        theMode$ = "" 'STR$(0)
         theColour$ = "0,0,1,1"
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
@@ -1764,7 +1831,7 @@ FOR aStar = 1 TO WHITESTAR
         theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
         theMeanAnomalyAtEpoch$ = STR$(0)
         theEpoch$ = STR$(0)
-        theMode$ = STR$(0)
+        theMode$ = "" 'STR$(0)
         theColour$ = "1.0,1.0,0.67,1.0"
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
@@ -2055,7 +2122,7 @@ FOR aStar = 1 TO BROWNSTAR
         theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
         theMeanAnomalyAtEpoch$ = STR$(0)
         theEpoch$ = STR$(0)
-        theMode$ = STR$(0)
+        theMode$ = "" 'STR$(0)
         theColour$ = "1,0,1,1"
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
@@ -2345,7 +2412,7 @@ FOR aStar = 1 TO DWARFSTAR
         theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
         theMeanAnomalyAtEpoch$ = STR$(0)
         theEpoch$ = STR$(0)
-        theMode$ = STR$(0)
+        theMode$ = "" 'STR$(0)
         theColour$ = "1,1,1,1"
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
@@ -2509,7 +2576,7 @@ FOR aStar = 1 TO BLACKHOLE
         theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
         theMeanAnomalyAtEpoch$ = STR$(0)
         theEpoch$ = STR$(0)
-        theMode$ = STR$(0)
+        theMode$ = "" 'STR$(0)
         theColour$ = "0.2,0.2,0.2,1"
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
@@ -2668,7 +2735,7 @@ FOR aStar = 1 TO ROGUE
         theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
         theMeanAnomalyAtEpoch$ = STR$(0)
         theEpoch$ = STR$(0)
-        theMode$ = STR$(0)
+        theMode$ = "" 'STR$(0)
         theColour$ = "1,1,0,1"
         aOrbitTemp$ = theOrbitTemplate$
         aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
@@ -3239,6 +3306,7 @@ PRINT ""
 INPUT "Are you satisfied with these results? (y/n):", AGAIN$
 
 CLOSE #1
+close #10
 FILENAME$ = "Galaxygen_Info-" + GNAME$ + ".txt"
 OPEN FILENAME$ FOR OUTPUT AS #1
 PRINT #1, "  _______      ____        _     _ _          _____"
@@ -3766,61 +3834,171 @@ SUB readPlanetTemplates ()
     END IF
 END SUB
 
-'FUNCTION makeABody$(theRadius$, theSphereOfInfluence$)
-''    planetTxt=""
-''    maxPlanets = INT(RND * 5) #how many planets in this system? Max of 5
-''    PlanetNumb = 1
-''    for aPlanet = 1 to maxPlanets
-''        if PlanetNumb = 1 then PNM = "I"
-''        if PlanetNumb == 2 then PNM = "II"
-''        if PlanetNumb == 3 then PNM = "III"
-''        if PlanetNumb == 4 then PNM = "IV"
-''        if PlanetNumb == 5 then PNM = "V"
-''        planetTemplateName = random.choice(thePlanetDict.keys())
-''        planetRadius = thePlanetDict[planetTemplateName][0]
-''        planetSOI = thePlanetDict[planetTemplateName][1]
-''        planetDescription = thePlanetDict[planetTemplateName][2][0]
-''        planetBody=makeABody(theStarName, PNM, planetTemplateName, planetDescription, planetRadius, parentRadius, parentSOI) #this will be the same routine used to make both planets and moons
-''        #print planetBody
-''        planetTxt=planetTxt+planetBody
-''        if planetTemplateName!="Gilly":
-''            maxMoons=random.randint(1,4)
-''            moonNumb=1
-''            theParentName=theStarName+" "+PNM
-''            for aMoon in range(maxMoons):
-''                # if moonNumb == 1: PNM = "a"
-''                # if moonNumb == 2: PNM = "b"
-''                # if moonNumb == 3: PNM = "c"
-''                # if moonNumb == 4: PNM = "d"
-''                # if moonNumb == 5: PNM = "e"
-''                PNM=str(moonNumb)
-''                sortedPlanetKeys=sorted(thePlanetDict, key=lambda k: thePlanetDict[k][0])
-''                if planetTemplateName=="Jool":
-''                    del sortedPlanetKeys[-1]
-''                else:
-''                    sortedPlanetKeys=['Gilly']
-''                #we can be way smarter about this
-''                #can sort the planet templates my radius
-''                #and then pick only bodies 40% size of parent
-''                #as potential moons
-''                moonTemplateName=random.choice(sortedPlanetKeys)
-''                moonRadius = thePlanetDict[moonTemplateName][0]
-''                moonDescription = thePlanetDict[moonTemplateName][2][0]''
-''
-''                #print theParentName
-''                #print PNM
-''
-''               moonBody=makeABody(theParentName, PNM, moonTemplateName, moonDescription, moonRadius, planetRadius, planetSOI) #this will be the same routine used to make both planets and moons
-''                #print moonBody
-''                planetTxt=planetTxt+moonBody
-''                moonNumb=moonNumb+1
-''                totNumbMoons=totNumbMoons+1
-''        PlanetNumb=PlanetNumb+1
-''        totNumbPlanets=totNumbPlanets+1
-''    NEXT
-'END FUNCTION
+FUNCTION solarMass2kg(SM)
+    '#use Sol's solar mass and kg mass to convert
+    '#Sol is ~1.989e30kg
+    solarMass2kg = 1.989e30 * SM
+END FUNCTION
 
-'FUNCTION populateBody$()
-''
-''
-'END FUNCTION
+FUNCTION kg2solarMass(the_kg)
+    '#use Sol's solar mass and kg mass to convert
+    '#Sol is ~1.989e30kg
+    kg2solarMass = the_kg/1.989e30
+END FUNCTION
+
+FUNCTION sol2Kerbol_kg(the_kg)
+    '#The start Kerbol is 113.2393x less massiv than Sol
+    sol2Kerbol_kg = the_kg/113.2393
+END FUNCTION
+
+FUNCTION kerbol2Sol_kg(the_kg)
+    '#The start Kerbol is 113.2393x less massiv than Sol
+    kerbol2Sol_kg = the_kg*113.2393
+END FUNCTION
+
+FUNCTION sol2Kerbol_km(the_km)
+    '#The start Kerbol is 2.6594x smaller in radius than Sol
+    sol2Kerbol_km = the_km/2.6594
+END FUNCTION
+
+FUNCTION kerbol2Sol_km(the_km)
+    '#The start Kerbol is 2.6594x smaller in radius than Sol
+    kerbol2Sol_km = the_km*2.6594
+END FUNCTION
+
+FUNCTION solarRadius2km(SR)
+    '#use Sol's solar radius and km radius to convert
+    '#Sol is ~695700km
+    solarRadius2km = 695700.0 * SR
+END FUNCTION
+
+FUNCTION km2solarRadius(SR)
+    '#use Sol's solar radius and km radius to convert
+    '#Sol is ~695700km
+    km2solarRadius = SR/695700.0
+END FUNCTION
+
+FUNCTION solarRadiusFromSolarMass(SM)
+    '#need a good reference for this
+    if SM < 1 then
+        SR = SM^0.5
+    else
+        SR = SM^0.8 
+    end if
+    solarRadiusFromSolarMass = SR
+END FUNCTION
+
+FUNCTION luminocityFromSolarMass(SM)
+    luminocityFromSolarMass = SM^3.5
+END FUNCTION
+
+FUNCTION solarTemp(SL, SR)
+    '#returns star temp in K from solar luminocty and solar mass
+    solarTemp = ((SL/(SR^2.0))^0.25)*5778
+END FUNCTION
+
+FUNCTION starCircumference(radius_km)
+    starCircumference = 2.0*_PI*radius_km
+END FUNCTION
+
+FUNCTION starSurfaceArea(radius_km)
+    starSurfaceArea = 4.0*_PI*(radius_km^2.0)
+END FUNCTION
+
+FUNCTION starVolume(radius_km)
+    '#return in m^3
+    radius_m=radius_km * 1000.0
+    starVolume = (4.0/3.0)*_PI*(radius_m^3.0)
+END FUNCTION
+
+FUNCTION starDensity(mass_kg, radius_km)
+    theVolume=starVolume(radius_km)
+    starDensity = mass_kg/theVolume
+END FUNCTION
+
+FUNCTION stdGravitationalParameter(mass_kg)
+    '#https://en.wikipedia.org/wiki/Standard_gravitational_parameter
+    G = 6.674e-11
+    stdGravitationalParameter = (mass_kg*G)
+END FUNCTION
+
+FUNCTION surfaceGravity(mass_kg, radius_km)
+    '#https://en.wikipedia.org/wiki/Surface_gravity
+    G = 6.674e-11
+    surfaceGravity = G*(mass_kg/(radius_km^2.0))
+END FUNCTION
+
+FUNCTION escapeVelocity(mass_kg, radius_km)
+    G = 6.674e-11
+    temp = 2.0*G*mass_kg
+    temp = temp/radius_km
+    escapeVelocity = temp^0.5
+END FUNCTION
+
+FUNCTION hillSphere(mass_primary, mass_secondary, eccentricity_secondary, semimajorAxis_secondary)
+    '#calculate the radius of the Hill sphere
+    '#https://en.wikipedia.org/wiki/Hill_sphere
+    partOne = (semimajorAxis_secondary*(1.0-eccentricity_secondary))
+    partTwo = (mass_secondary/(3.0*mass_primary))^(1.0/3.0)
+    theRadius = partOne*partTwo
+    '#for unit test later:
+    '#mass earth = 5.97E+24 kg; mass sol = 1.98855E+30 kg; semi-major axis earth = 149,598,023 km; eccentricity earth = 0.0167086
+    '#gives a radius of 1471536.617 km
+    '#mass blackhole @ center of milky way: 8.55E+37 kg
+    hillSphere = theRadius
+END FUNCTION
+
+FUNCTION rocheLimit(mass_primary, mass_secondary, radius_secondary)
+    '#calculate the Roche limit around a body
+    '#this is the minimum distance around a primary that a secondary can maintain cohesion
+    '#Any closer and you would have a ring instead
+    '#https://en.wikipedia.org/wiki/Roche_limit
+    theDistance = 1.26 * radius_secondary *((mass_primary/mass_secondary)^(1.0/3.0))
+    '#for unit test later:
+    '#mass earth = 5.97E+24 kg; mass sol = 1.98855E+30 kg; radius earth = 6378 km
+    '#gives a radius of 1471536.617 km
+    rocheLimit = theDistance
+END FUNCTION
+
+FUNCTION kspSOI(mass_primary, mass_secondary, semimajorAxis_secondary)
+    '#http://wiki.kerbalspaceprogram.com/wiki/Sphere_of_influence
+    kspSOI = (semimajorAxis_secondary*((mass_secondary/mass_primary)^(2.0/5.0)))
+END FUNCTION
+
+FUNCTION siderealRotationalVel(theRadius, rotationalPeriod)
+    theVelocity = starCircumference(theRadius)/rotationalPeriod
+    siderealRotationalVel = theVelocity
+END FUNCTION
+
+FUNCTION synchronousOrbit(theRadius, theMass, rotationalPeriod)
+    '#returns the altitude of geosync orbit above sea level
+    G = 6.674e-11
+    tmpOne = (G*theMass*(rotationalPeriod^2.0))
+    tmpTwo = 4.0*(_PI^2.0)
+    tmpThr = (tmpOne/tmpTwo)^(1.0/3.0)
+    theAltitude = tmpThr-theRadius
+    synchronousOrbit = theAltitude 
+END FUNCTION
+
+FUNCTION wikiEntry$ (aTemplate$, star_HTMLColour$, star_Name$, star_RadiusKSP, star_Circumference, star_SurfaceArea, star_MassKSP, star_stdGravitationalParameter, star_Density, star_surfaceGravity, star_escapeVelocity, star_RotationalPeriod, star_siderealRotationalVel, star_theSynchronousOrbit, star_SOI, star_TempK)
+    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
+    '#####Replicated that function with string replacement function.
+    '###########################'
+    aTemplate$ = ReplaceStr(aTemplate$, "%(htmlColour)s", star_HTMLColour$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(starName)s", star_Name$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theRadius)i", str$(star_RadiusKSP))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theCircumfrence)g", str$(star_Circumference))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theSurfaceArea)g", str$(star_SurfaceArea))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theMass)g", str$(star_MassKSP))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theStdGrav)g", str$(star_stdGravitationalParameter))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theDensity)g", str$(star_Density))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theSurfaceGravity)g", str$(star_surfaceGravity))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theEscapeVelocity)g", str$(star_escapeVelocity))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theRotationPeriod)g", str$(star_RotationalPeriod))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theSideralVelocity)g", str$(star_siderealRotationalVel))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theSynchronousOrbit)f", str$(star_theSynchronousOrbit))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theSOI)g", str$(star_SOI))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theTemp)g", str$(star_TempK))
+    '###########################'   
+    wikiEntry$ = aTemplate$
+END FUNCTION
