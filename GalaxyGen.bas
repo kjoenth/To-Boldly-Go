@@ -442,6 +442,13 @@ PRINT #1, "     }"
 PRINT #1, "    }"
 PRINT #1, "}"
 
+'###############
+'#Let's make the center point a supermassive blackhole
+'#STH 2017-0209
+'#The milky way has a radius of ~5e20m'
+'#KSP distances are 10.64x smaller
+'#Radius of KSP galaxy is 4.699248120300751e19m'
+'#Use that as the black hole's SOI
 PRINT #1, "@Kopernicus:AFTER[Kopernicus]"
 PRINT #1, "{"
 PRINT #1, " @Body[Sun]"
@@ -451,6 +458,7 @@ PRINT #1, "        @Properties"
 PRINT #1, "        {"
 PRINT #1, "         description = Interstellar Space is one of the vastest emptiest regions of the Universe, It takes thousands of years to travel just from one star to another at sublight speeds, And is nearly devoid of matter. There are occasional areas of dense gas however, Which are filled with stars. But we cannot track them due to nebula interference."
 PRINT #1, "         radius = 10000"
+PRINT #1, "         sphereOfInfluence = 46992481203007510000"
 PRINT #1, "        }"
 PRINT #1, "        @ScaledVersion"
 PRINT #1, "        {"
