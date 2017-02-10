@@ -255,6 +255,7 @@ ELSE
         GOTO 2222
     END IF
 END IF
+
 '################################
 '#Make the cfg header text
 '###Insert 10 empty lines
@@ -282,9 +283,8 @@ NEXT
 '################################
 IF GTYPE = 2 THEN
     CLUSTERNUM = 0
-    IF CLUSTER > 0 THEN 'Checks if REDSTAR variable is still above zero, Then carries out an action.
-        DO
-            
+    IF CLUSTER > 0 THEN
+        DO           
             PRINT #1, "@Kopernicus"
             PRINT #1, "{"
             PRINT #1, "    Body"
@@ -533,8 +533,8 @@ PRINT #1, "     }"
 PRINT #1, " }"
 PRINT #1, " @Body[Kerbin]"
 PRINT #1, " {"
-PRINT #1, "     PostSpawnOrbit
-PRINT #1, "     {
+PRINT #1, "     PostSpawnOrbit"
+PRINT #1, "     {"
 PRINT #1, "            referenceBody = Kerbol"
 PRINT #1, "     }"   
 PRINT #1, " }"
@@ -589,14 +589,15 @@ blackHole_MassKSP = sol2Kerbol_kg(blackHole_MassKg)
 OPEN "wikiEntry.html" FOR OUTPUT AS #10 'Creates the wiki file
 
 FOR aStar = 1 TO REDSTAR
+    '####M Class Stars'
+    '####0.08-0.45 solar masses'
+    '####1.59084E+29 to 8.94848E+29 kg'
     '###########################'
     '###STH 2017-0209 Do calculations to get star characteristics
-    'star_Name = starNameList[i]
-    star_Name$ = "bla bla bla"
-    'star_Description=random.choice(theDescriptions) % (starNameList[0])
-    '######pick a star mass in a normal distribution
-    'star_MassKg = abs(random.normalvariate(9.5E29, 2e30))
-    star_MassKg=kerbol2Sol_kg(1.7565459e28) '#test with Kerbol
+    star_Name$ = theStarName$ '#Calls the function "theStarName"
+    star_Description$ = "Dim light, Yet so bright. A lonely outpost in the deep dark night. Travelers come far shall know where they are. A new land, A new star, How much pain and suffering it must have took to go this far. For at " + star_Name$ + " your journey might be done. And you will be free."
+    '###pick a star mass in the stellar class range'
+    star_MassKg = 1.59084e29 +(RND(1)*(8.94848E29-1.59084e29))
     star_MassKSP = sol2Kerbol_kg(star_MassKg)
     star_MassSolar = kg2solarMass(star_MassKg)
     star_RadiusSolar = solarRadiusFromSolarMass(star_MassSolar)
@@ -604,7 +605,8 @@ FOR aStar = 1 TO REDSTAR
     star_RadiusKSP = sol2Kerbol_km(star_RadiusKm*1000) '#return m 
     star_Lum = luminocityFromSolarMass(star_MassSolar)
     star_TempK = solarTemp(star_Lum,star_RadiusSolar)
-    'star_RGBColour = temp2RGB(star_TempK)
+    star_RGBColour$ = temp2RGB$(star_TempK)
+    print #10, star_RGBColour$
     'star_HTMLColour = RGB2HTMLColor(star_RGBColour)
     star_HTMLColour$ = "ffffffff"
     star_Circumference = starCircumference(star_RadiusKSP) '#use KSP size
@@ -626,7 +628,7 @@ FOR aStar = 1 TO REDSTAR
     '#KSP galaxy radius would be 6.62251e+17km/2.6594=6.62251e+17
     'star_semimajorAxis = random.randint(int(blackHole_RocheLimit+star_RadiusKSP+1e6), 6.62251e17)
     star_orbitMin = int(blackHole_RocheLimit+star_RadiusKSP+1e6)
-    star_prbitMax = 6.62251e17
+    star_orbitMax = 6.62251e17
     star_semimajorAxis = star_orbitMin +(RND(1)*(star_orbitMax-star_orbitMin))
     '###if Kerbol is an analog of Sol, it is ~26kly from the galactic center
     '###1ly = 9.461e+12km
@@ -642,16 +644,6 @@ FOR aStar = 1 TO REDSTAR
     aWikiTemplate$ = wikiEntry$(aWikiTemplate$, star_HTMLColour$, star_Name$, star_RadiusKSP, star_Circumference, star_SurfaceArea, star_MassKSP, star_stdGravitationalParameter, star_Density, star_surfaceGravity, star_escapeVelocity, star_RotationalPeriod, star_siderealRotationalVel, star_theSynchronousOrbit, star_SOI, star_TempK)
     print #10, aWikiTemplate$
 
-
-
-
-
-
-
-
-
-
-
     '###These print statements can go away once the starTemplate can be used
     '###Need to get planet and moon template generation working in basic first
     '###STH 2017-0127
@@ -659,22 +651,15 @@ FOR aStar = 1 TO REDSTAR
     PRINT #1, "{"
     PRINT #1, "    Body"
     PRINT #1, "    {"
-    '########'
-    '#Needs to be an array'
-    aStarName$ = theStarName$ '#Calls the function "theStarName"
-    '#########'
-    PRINT #1, "        name = "; aStarName$
+    PRINT #1, "        name = "; star_Name$
     PRINT #1, "        Template"
     PRINT #1, "        {"
     PRINT #1, "            name = Sun"
     PRINT #1, "        }"
     '########################'
     '###Fill in property data'
-    theDescription$ = "Dim light, Yet so bright. A lonely outpost in the deep dark night. Travelers come far shall know where they are. A new land, A new star, How much pain and suffering it must have took to go this far. For at " + aStarName$ + " your journey might be done. And you will be free."
-    theStarRadius = INT(RND * 30000000) + 15000000
-    theStarSphereOfInfluence = 90118820000
     aPropertiesTemplate$ = thePropertiesTemplate$
-    aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, str$(theStarRadius), str$(theStarSphereOfInfluence), "")
+    aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, star_Description$, str$(star_RadiusKSP), str$(star_SOI), "")
     PRINT #1, aPropertiesNode$
     '###End property data'
     '########################'
@@ -757,7 +742,7 @@ FOR aStar = 1 TO REDSTAR
         IF planetNumb = 3 THEN PNM$ = "III"
         IF planetNumb = 4 THEN PNM$ = "IV"
         IF planetNumb = 5 THEN PNM$ = "V"
-        thePlanetName$ = aStarName$ + " " + PNM$
+        thePlanetName$ = star_Name$ + " " + PNM$
         '########################'
         '#Pick a random planet template from what is read in'
         keyIndex = 1+INT(RND * (UBOUND(planetKey$)-1)) 'want the range to be from 1 to end. Index 0 is the header
@@ -785,7 +770,7 @@ FOR aStar = 1 TO REDSTAR
         '########################'
         '########################'
         '###Fill in orbit data'
-        theReferenceBody$ = aStarName$
+        theReferenceBody$ = star_Name$
         theColour$ = ""
         theMode$ = ""
         theInclination$ = str$(INT(RND * 360))
@@ -877,7 +862,7 @@ FOR aStar = 1 TO REDSTAR
         FOR ASTNUMBER = 1 TO MAXAST
             PRINT #1, "    Body"
             PRINT #1, "    {"
-            PRINT #1, "        name = "+aStarName$+" "+str$(ASTNUMBER)
+            PRINT #1, "        name = "+star_Name$+" "+str$(ASTNUMBER)
             PRINT #1, "        Template"
             PRINT #1, "        {"
             PRINT #1, "            name = Gilly"
@@ -892,7 +877,7 @@ FOR aStar = 1 TO REDSTAR
             INCLINATION = INT(RND * 360)
             PRINT #1, "        Orbit"
             PRINT #1, "        {"
-            PRINT #1, "            referenceBody = " + aStarName$
+            PRINT #1, "            referenceBody = " + star_Name$
             PRINT #1, "            inclination =" + STR$(INCLINATION)
             PRINT #1, "            semiMajorAxis =" + STR$(astSEMIMAJORAXIS)
             PRINT #1, "        }"
@@ -3837,13 +3822,13 @@ END SUB
 FUNCTION solarMass2kg(SM)
     '#use Sol's solar mass and kg mass to convert
     '#Sol is ~1.989e30kg
-    solarMass2kg = 1.989e30 * SM
+    solarMass2kg = 1.98855e30 * SM
 END FUNCTION
 
 FUNCTION kg2solarMass(the_kg)
     '#use Sol's solar mass and kg mass to convert
     '#Sol is ~1.989e30kg
-    kg2solarMass = the_kg/1.989e30
+    kg2solarMass = the_kg/1.98855e30
 END FUNCTION
 
 FUNCTION sol2Kerbol_kg(the_kg)
@@ -3979,6 +3964,59 @@ FUNCTION synchronousOrbit(theRadius, theMass, rotationalPeriod)
     theAltitude = tmpThr-theRadius
     synchronousOrbit = theAltitude 
 END FUNCTION
+
+'#star colour RGB from temp
+FUNCTION temp2RGB$(tmpKelvin):
+    '#From http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/ Retrieved 2017.0110
+    '#Start with a temperature, in Kelvin, somewhere between 1000 and 40000.  (Other values may work,
+    '#but I can't make any promises about the quality of the algorithm's estimates above 40000 K.)
+    '#Note also that the temperature and color variables need to be declared as floating-point.
+    '#tmpKelvin = 113017
+    '#Temperature must fall between 1000 and 40000 degrees
+    if tmpKelvin < 1000 then tmpKelvin = 1000
+    '#if tmpKelvin > 40000 : tmpKelvin = 40000
+
+    '#All calculations require tmpKelvin \ 100, so only do the conversion once
+    tmpKelvin = tmpKelvin \ 100 '#integer division aka floor division'
+    '#Calculate Red:
+    if tmpKelvin <= 66 then
+        r = 255
+    else
+        r = tmpKelvin - 60
+        r = 329.698727446 * (r^-0.1332047592)
+        if r < 0 then r = 0
+        if r > 255 then r = 255
+    end if
+
+    '#Calculate Green:
+    if tmpKelvin <= 66 then
+        g = tmpKelvin
+        g = 99.4708025861 * LOG(g) - 161.1195681661
+        if g < 0 then g = 0
+        if g > 255 then g = 255
+    else:
+        g = tmpKelvin - 60
+        g = 288.1221695283 * (g^-0.0755148492)
+        if g < 0 then g = 0
+        if g > 255 then g = 255
+    end if
+
+    '#Calculate Blue:
+    if tmpKelvin >= 66 then
+        b = 255
+    else:
+        if tmpKelvin <= 19 then
+            b = 0
+        else:
+            b = tmpKelvin - 10
+            b = 138.5177312231 * LOG(b) - 305.0447927307
+            if b < 0 then b = 0
+            if b > 255 then b = 255
+        end if
+    end if
+    temp2RGB$ = str$(r)+","+str$(g)+","+str$(b)
+END FUNCTION
+
 
 FUNCTION wikiEntry$ (aTemplate$, star_HTMLColour$, star_Name$, star_RadiusKSP, star_Circumference, star_SurfaceArea, star_MassKSP, star_stdGravitationalParameter, star_Density, star_surfaceGravity, star_escapeVelocity, star_RotationalPeriod, star_siderealRotationalVel, star_theSynchronousOrbit, star_SOI, star_TempK)
     '#####STH 2017-0124. QBasic doesn't have string formatting like python.
