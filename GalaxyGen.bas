@@ -51,7 +51,7 @@ CORESTARNUMBER = 1
 
 CLS 'clears the screen
 OPEN "galaxy.cfg" FOR OUTPUT AS #1 'Creates the config file
-PRINT #1, planetKey$(0)
+'PRINT #1, planetKey$(0)
 
 '*******************************************************************************
 '*******************************************************************************
@@ -525,9 +525,9 @@ PRINT #1, "     }"
 PRINT #1, " }"
 PRINT #1, " @Body[Kerbin]"
 PRINT #1, " {"
-PRINT #1, "     PostSpawnOrbit
-PRINT #1, "     {
-PRINT #1, "            referenceBody = Kerbol
+PRINT #1, "     PostSpawnOrbit"
+PRINT #1, "     {"
+PRINT #1, "            referenceBody = Kerbol"
 PRINT #1, "     }"   
 PRINT #1, " }"
 PRINT #1, " @Body[Duna]"
@@ -747,11 +747,8 @@ FOR aStar = 1 TO REDSTAR
         MAXMOON = INT(RND * 4)
         FOR theMoonNumb = 1 TO MAXMOON
             theMoonName$ = thePlanetName$ + " " + STR$(theMoonNumb)
-<<<<<<< HEAD
-=======
             moonSEMIMAJORAXIS = INT(RND * 50000000) + 11000000
             INCLINATION = INT(RND * 360)
->>>>>>> origin/planet-streamlining
             PRINT #1, "    Body"
             PRINT #1, "    {"
             PRINT #1, "        name = " + theMoonName$
