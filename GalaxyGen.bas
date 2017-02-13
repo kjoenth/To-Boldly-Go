@@ -682,7 +682,8 @@ FOR aStar = 1 TO REDSTAR
         thePlanetName$ = aStarName$ + " " + PNM$
         '########################'
         '#Pick a random planet template from what is read in'
-        keyIndex = 1+INT(RND * (UBOUND(planetKey$)-1)) 'want the range to be from 1 to end. Index 0 is the header
+        'keyIndex = 1+INT(RND * (UBOUND(planetKey$)-1)) 'want the range to be from 1 to end. Index 0 is the header
+        keyIndex = 1+INT(RND * (UBOUND(planetKey$))) 'want the range to be from 1 to end. Index 0 is the header
         PLANETTYPE$ = planetKey$(keyIndex)
         PLANETDESC$ = thePlanetDesc$(keyIndex)
         PLANETRADI = thePlanetRadius(keyIndex)
@@ -951,7 +952,8 @@ FOR aStar = 1 TO KSTAR
             thePlanetName$ = aStarName$ + " " + PNM$
             '########################'
             '#Pick a random planet template from what is read in'
-            keyIndex = 1+INT(RND * (UBOUND(planetKey$)-1)) 'want the range to be from 1 to end. Index 0 is the header
+            'keyIndex = 1+INT(RND * (UBOUND(planetKey$)-1)) 'want the range to be from 1 to end. Index 0 is the header
+            keyIndex = 1+INT(RND * (UBOUND(planetKey$))) 'want the range to be from 1 to end. Index 0 is the header
             PLANETTYPE$ = planetKey$(keyIndex)
             PLANETDESC$ = thePlanetDesc$(keyIndex)
             PLANETRADI = thePlanetRadius(keyIndex)
@@ -1239,7 +1241,8 @@ FOR aStar = 1 TO YELLOWSTAR
             thePlanetName$ = aStarName$ + " " + PNM$
             '########################'
             '#Pick a random planet template from what is read in'
-            keyIndex = 1+INT(RND * (UBOUND(planetKey$)-1)) 'want the range to be from 1 to end. Index 0 is the header
+            'keyIndex = 1+INT(RND * (UBOUND(planetKey$)-1)) 'want the range to be from 1 to end. Index 0 is the header
+            keyIndex = 1+INT(RND * (UBOUND(planetKey$))) 'want the range to be from 1 to end. Index 0 is the header
             PLANETTYPE$ = planetKey$(keyIndex)
             PLANETDESC$ = thePlanetDesc$(keyIndex)
             PLANETRADI = thePlanetRadius(keyIndex)
@@ -1529,7 +1532,8 @@ FOR aStar = 1 TO BLUESTAR
             thePlanetName$ = aStarName$ + " " + PNM$
             '########################'
             '#Pick a random planet template from what is read in'
-            keyIndex = 1+INT(RND * (UBOUND(planetKey$)-1)) 'want the range to be from 1 to end. Index 0 is the header
+            'keyIndex = 1+INT(RND * (UBOUND(planetKey$)-1)) 'want the range to be from 1 to end. Index 0 is the header
+            keyIndex = 1+INT(RND * (UBOUND(planetKey$))) 'want the range to be from 1 to end. Index 0 is the header
             PLANETTYPE$ = planetKey$(keyIndex)
             PLANETDESC$ = thePlanetDesc$(keyIndex)
             PLANETRADI = thePlanetRadius(keyIndex)
@@ -1820,7 +1824,8 @@ FOR aStar = 1 TO WHITESTAR
             thePlanetName$ = aStarName$ + " " + PNM$
             '########################'
             '#Pick a random planet template from what is read in'
-            keyIndex = 1+INT(RND * (UBOUND(planetKey$)-1)) 'want the range to be from 1 to end. Index 0 is the header
+            'keyIndex = 1+INT(RND * (UBOUND(planetKey$)-1)) 'want the range to be from 1 to end. Index 0 is the header
+            keyIndex = 1+INT(RND * (UBOUND(planetKey$))) 'want the range to be from 1 to end. Index 0 is the header
             PLANETTYPE$ = planetKey$(keyIndex)
             PLANETDESC$ = thePlanetDesc$(keyIndex)
             PLANETRADI = thePlanetRadius(keyIndex)
@@ -2111,7 +2116,8 @@ FOR aStar = 1 TO BROWNSTAR
             thePlanetName$ = aStarName$ + " " + PNM$
             '########################'
             '#Pick a random planet template from what is read in'
-            keyIndex = 1+INT(RND * (UBOUND(planetKey$)-1)) 'want the range to be from 1 to end. Index 0 is the header
+            'keyIndex = 1+INT(RND * (UBOUND(planetKey$)-1)) 'want the range to be from 1 to end. Index 0 is the header
+            keyIndex = 1+INT(RND * (UBOUND(planetKey$))) 'want the range to be from 1 to end. Index 0 is the header
             PLANETTYPE$ = planetKey$(keyIndex)
             PLANETDESC$ = thePlanetDesc$(keyIndex)
             PLANETRADI = thePlanetRadius(keyIndex)
