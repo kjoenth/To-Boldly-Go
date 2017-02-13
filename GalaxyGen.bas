@@ -758,7 +758,8 @@ FOR aStar = 1 TO REDSTAR
             '#And only picking possible moons by picking things with radius less
             '#than parent body
             '#STH 2017-0203'
-            IF PLANETTYPE$ = "Jool" THEN
+            'IF PLANETTYPE$ = "Jool" THEN
+            if PLANETRADI>2000000000 then
                 DO WHILE PLANETTYPE$ = "Jool"
                     keyIndex = INT(RND * UBOUND(planetKey$))
                     PLANETTYPE$ = planetKey$(keyIndex)
@@ -1026,7 +1027,8 @@ FOR aStar = 1 TO KSTAR
                 '#And only picking possible moons by picking things with radius less
                 '#than parent body
                 '#STH 2017-0203'
-                IF PLANETTYPE$ = "Jool" THEN
+                'IF PLANETTYPE$ = "Jool" THEN
+                if PLANETRADI>2000000000 then
                     DO WHILE PLANETTYPE$ = "Jool"
                         keyIndex = INT(RND * UBOUND(planetKey$))
                         PLANETTYPE$ = planetKey$(keyIndex)
@@ -1315,7 +1317,8 @@ FOR aStar = 1 TO YELLOWSTAR
                 '#And only picking possible moons by picking things with radius less
                 '#than parent body
                 '#STH 2017-0203'
-                IF PLANETTYPE$ = "Jool" THEN
+                'IF PLANETTYPE$ = "Jool" THEN
+                if PLANETRADI>2000000000 then
                     DO WHILE PLANETTYPE$ = "Jool"
                         keyIndex = INT(RND * UBOUND(planetKey$))
                         PLANETTYPE$ = planetKey$(keyIndex)
@@ -1606,7 +1609,8 @@ FOR aStar = 1 TO BLUESTAR
                 '#And only picking possible moons by picking things with radius less
                 '#than parent body
                 '#STH 2017-0203'
-                IF PLANETTYPE$ = "Jool" THEN
+                'IF PLANETTYPE$ = "Jool" THEN
+                if PLANETRADI>2000000000 then
                     DO WHILE PLANETTYPE$ = "Jool"
                         keyIndex = INT(RND * UBOUND(planetKey$))
                         PLANETTYPE$ = planetKey$(keyIndex)
@@ -1898,7 +1902,8 @@ FOR aStar = 1 TO WHITESTAR
                 '#And only picking possible moons by picking things with radius less
                 '#than parent body
                 '#STH 2017-0203'
-                IF PLANETTYPE$ = "Jool" THEN
+                'IF PLANETTYPE$ = "Jool" THEN
+                if PLANETRADI>2000000000 then
                     DO WHILE PLANETTYPE$ = "Jool"
                         keyIndex = INT(RND * UBOUND(planetKey$))
                         PLANETTYPE$ = planetKey$(keyIndex)
@@ -2190,7 +2195,8 @@ FOR aStar = 1 TO BROWNSTAR
                 '#And only picking possible moons by picking things with radius less
                 '#than parent body
                 '#STH 2017-0203'
-                IF PLANETTYPE$ = "Jool" THEN
+                'IF PLANETTYPE$ = "Jool" THEN
+                if PLANETRADI>2000000000 then
                     DO WHILE PLANETTYPE$ = "Jool"
                         keyIndex = INT(RND * UBOUND(planetKey$))
                         PLANETTYPE$ = planetKey$(keyIndex)
