@@ -1,0 +1,31 @@
+  _______      ____        _     _ _          _____
+ |__   __|    |  _ \      | |   | | |        / ____|
+    | | ___   | |_) | ___ | | __| | |_   _  | |  __  ___
+    | |/ _ \  |  _ < / _ \| |/ _` | | | | | | | |_ |/ _ \
+    | | (_) | | |_) | (_) | | (_| | | |_| | | |__| | (_) |
+    |_|\___/  |____/ \___/|_|\__,_|_|\__, |  \_____|\___/
+                                      __/ |
+                                     |___/
+*****test***** v0.2.6
+Creation Date: 17:13:27 02-10-2017
+Generation Mode: c
+Seed: 1234 
+Galaxy Type: 1 
+Galaxy Age: 1 
+Cluster Number: 0 
+Planets: n
+Asteroids: n
+Red Dwarves: 5 
+Orange Dwarves: 1 
+Yellow Dwarves: 1 
+White Stars: 1 
+Blue Giants: 1 
+Brown Dwarves: 1 
+White Dwarves: 1 
+-----------------
+ 4 Stars
+ 0 Planets
+ 0 Moons
+ 0 Asteroids
+ 4  Total
+-----------------
