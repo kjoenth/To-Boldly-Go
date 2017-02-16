@@ -1,4 +1,4 @@
-@Kopernicus
+@Kopernicus:FINAL
 {
     //https://github.com/Kopernicus/Kopernicus/wiki/Syntax-for-stars
     Body

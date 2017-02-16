@@ -34,6 +34,7 @@ REDIM SHARED planetKey$(-1)
 REDIM SHARED thePlanetRadius(-1)
 REDIM SHARED thePlanetSOI(-1)
 REDIM SHARED thePlanetDesc$(-1)
+REDIM SHARED thePlanetStock$(-1)
 readPlanetTemplates
 '###################
 
@@ -687,16 +688,23 @@ FOR aStar = 1 TO REDSTAR
         PLANETTYPE$ = planetKey$(keyIndex)
         PLANETDESC$ = thePlanetDesc$(keyIndex)
         PLANETRADI = thePlanetRadius(keyIndex)
+        PLANETSTOCK$ = thePlanetStock$(keyIndex)
         '####'
         '########################'
-        PRINT #1, "    Body"
+        if PLANETSTOCK$="True" then
+            PRINT #1, "    Body"
+        else
+            PRINT #1, "    +Body["+PLANETTYPE$+"]"
+        endif
         PRINT #1, "    {"
         PRINT #1, "        name = " + thePlanetName$
         '#########'
-        PRINT #1, "        Template"
-        PRINT #1, "        {"
-        PRINT #1, "            name = "; PLANETTYPE$
-        PRINT #1, "        }"
+        if PLANETSTOCK$="True" then
+            PRINT #1, "        Template"
+            PRINT #1, "        {"
+            PRINT #1, "            name = "; PLANETTYPE$
+            PRINT #1, "        }"
+        end if
         '########################'
         '###Fill in property data'
         theDescription$ = thePlanetDesc$(keyIndex)
@@ -958,16 +966,23 @@ FOR aStar = 1 TO KSTAR
             PLANETTYPE$ = planetKey$(keyIndex)
             PLANETDESC$ = thePlanetDesc$(keyIndex)
             PLANETRADI = thePlanetRadius(keyIndex)
+            PLANETSTOCK$ = thePlanetStock$(keyIndex)
             '####'
             '########################'
-            PRINT #1, "    Body"
+            if PLANETSTOCK$="True" then
+                PRINT #1, "    Body"
+            else
+                PRINT #1, "    +Body["+PLANETTYPE$+"]"
+            endif
             PRINT #1, "    {"
             PRINT #1, "        name = " + thePlanetName$
             '#########'
-            PRINT #1, "        Template"
-            PRINT #1, "        {"
-            PRINT #1, "            name = "; PLANETTYPE$
-            PRINT #1, "        }"
+            if PLANETSTOCK$="True" then
+                PRINT #1, "        Template"
+                PRINT #1, "        {"
+                PRINT #1, "            name = "; PLANETTYPE$
+                PRINT #1, "        }"
+            end if
             '########################'
             '###Fill in property data'
             theDescription$ = thePlanetDesc$(keyIndex)
@@ -1248,16 +1263,23 @@ FOR aStar = 1 TO YELLOWSTAR
             PLANETTYPE$ = planetKey$(keyIndex)
             PLANETDESC$ = thePlanetDesc$(keyIndex)
             PLANETRADI = thePlanetRadius(keyIndex)
+            PLANETSTOCK$ = thePlanetStock$(keyIndex)
             '####'
             '########################'
-            PRINT #1, "    Body"
+            if PLANETSTOCK$="True" then
+                PRINT #1, "    Body"
+            else
+                PRINT #1, "    +Body["+PLANETTYPE$+"]"
+            endif
             PRINT #1, "    {"
             PRINT #1, "        name = " + thePlanetName$
             '#########'
-            PRINT #1, "        Template"
-            PRINT #1, "        {"
-            PRINT #1, "            name = "; PLANETTYPE$
-            PRINT #1, "        }"
+            if PLANETSTOCK$="True" then
+                PRINT #1, "        Template"
+                PRINT #1, "        {"
+                PRINT #1, "            name = "; PLANETTYPE$
+                PRINT #1, "        }"
+            end if
             '########################'
             '###Fill in property data'
             theDescription$ = thePlanetDesc$(keyIndex)
@@ -1540,16 +1562,23 @@ FOR aStar = 1 TO BLUESTAR
             PLANETTYPE$ = planetKey$(keyIndex)
             PLANETDESC$ = thePlanetDesc$(keyIndex)
             PLANETRADI = thePlanetRadius(keyIndex)
+            PLANETSTOCK$ = thePlanetStock$(keyIndex)
             '####'
             '########################'
-            PRINT #1, "    Body"
+            if PLANETSTOCK$="True" then
+                PRINT #1, "    Body"
+            else
+                PRINT #1, "    +Body["+PLANETTYPE$+"]"
+            endif
             PRINT #1, "    {"
             PRINT #1, "        name = " + thePlanetName$
             '#########'
-            PRINT #1, "        Template"
-            PRINT #1, "        {"
-            PRINT #1, "            name = "; PLANETTYPE$
-            PRINT #1, "        }"
+            if PLANETSTOCK$="True" then
+                PRINT #1, "        Template"
+                PRINT #1, "        {"
+                PRINT #1, "            name = "; PLANETTYPE$
+                PRINT #1, "        }"
+            end if
             '########################'
             '###Fill in property data'
             theDescription$ = thePlanetDesc$(keyIndex)
@@ -1833,16 +1862,23 @@ FOR aStar = 1 TO WHITESTAR
             PLANETTYPE$ = planetKey$(keyIndex)
             PLANETDESC$ = thePlanetDesc$(keyIndex)
             PLANETRADI = thePlanetRadius(keyIndex)
+            PLANETSTOCK$ = thePlanetStock$(keyIndex)
             '####'
             '########################'
-            PRINT #1, "    Body"
+            if PLANETSTOCK$="True" then
+                PRINT #1, "    Body"
+            else
+                PRINT #1, "    +Body["+PLANETTYPE$+"]"
+            endif
             PRINT #1, "    {"
             PRINT #1, "        name = " + thePlanetName$
             '#########'
-            PRINT #1, "        Template"
-            PRINT #1, "        {"
-            PRINT #1, "            name = "; PLANETTYPE$
-            PRINT #1, "        }"
+            if PLANETSTOCK$="True" then
+                PRINT #1, "        Template"
+                PRINT #1, "        {"
+                PRINT #1, "            name = "; PLANETTYPE$
+                PRINT #1, "        }"
+            end if
             '########################'
             '###Fill in property data'
             theDescription$ = thePlanetDesc$(keyIndex)
@@ -2126,16 +2162,23 @@ FOR aStar = 1 TO BROWNSTAR
             PLANETTYPE$ = planetKey$(keyIndex)
             PLANETDESC$ = thePlanetDesc$(keyIndex)
             PLANETRADI = thePlanetRadius(keyIndex)
+            PLANETSTOCK$ = thePlanetStock$(keyIndex)
             '####'
             '########################'
-            PRINT #1, "    Body"
+            if PLANETSTOCK$="True" then
+                PRINT #1, "    Body"
+            else
+                PRINT #1, "    +Body["+PLANETTYPE$+"]"
+            endif
             PRINT #1, "    {"
             PRINT #1, "        name = " + thePlanetName$
             '#########'
-            PRINT #1, "        Template"
-            PRINT #1, "        {"
-            PRINT #1, "            name = "; PLANETTYPE$
-            PRINT #1, "        }"
+            if PLANETSTOCK$="True" then
+                PRINT #1, "        Template"
+                PRINT #1, "        {"
+                PRINT #1, "            name = "; PLANETTYPE$
+                PRINT #1, "        }"
+            end if
             '########################'
             '###Fill in property data'
             theDescription$ = thePlanetDesc$(keyIndex)
@@ -3603,19 +3646,19 @@ FUNCTION propertyNode$ (aTemplate$, theDescription$, theRadius$, theSphereOfInfl
     '###########################'
     '##Uncomment properties if data is present
     if theDescription$ <> "" then 
-        aTemplate$ = ReplaceStr(aTemplate$, "//description =", "description =")
+        aTemplate$ = ReplaceStr(aTemplate$, "//%description =", "%description =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theDescription)s", theDescription$)
     end if
     if theRadius$ <> "" then 
-        aTemplate$ = ReplaceStr(aTemplate$, "//radius =", "radius =")
+        aTemplate$ = ReplaceStr(aTemplate$, "//%radius =", "%radius =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theRadius)s", theRadius$)
     end if
     if theSphereOfInfluence$ <> "" then 
-        aTemplate$ = ReplaceStr(aTemplate$, "//sphereOfInfluence =", "sphereOfInfluence =")
+        aTemplate$ = ReplaceStr(aTemplate$, "//%sphereOfInfluence =", "%sphereOfInfluence =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theSphereOfInfluence)s", theSphereOfInfluence$)
     end if
     if theGeeASL$ <> "" then 
-        aTemplate$ = ReplaceStr(aTemplate$, "//geeASL =", "geeASL =")
+        aTemplate$ = ReplaceStr(aTemplate$, "//%geeASL =", "%geeASL =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theGeeASL)s", theGeeASL$)
     end if
     '###########################'   
@@ -3626,43 +3669,43 @@ FUNCTION orbitNode$ (aTemplate$, theReferenceBody$, theColour$, theMode$, theInc
 '#####STH 2017-0124. QBasic doesn't have string formatting like python.
 '#####Replicated that function with string replacement function.
     if theReferenceBody$ <> "" then 
-        aTemplate$ = ReplaceStr(aTemplate$, "//referenceBody =", "referenceBody =")
+        aTemplate$ = ReplaceStr(aTemplate$, "//%referenceBody =", "%referenceBody =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theReferenceBody)s", theReferenceBody$)
     end if
     if theColour$ <> "" then 
-        aTemplate$ = ReplaceStr(aTemplate$, "//color =", "color =")
+        aTemplate$ = ReplaceStr(aTemplate$, "//%color =", "%color =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theColour)s", theColour$)
     end if
     if theMode$ <> "" then
-        aTemplate$ = ReplaceStr(aTemplate$, "//mode =", "mode =")
+        aTemplate$ = ReplaceStr(aTemplate$, "//%mode =", "%mode =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theMode)s", theMode$)
     end if
     if theInclination$ <> "" then
-        aTemplate$ = ReplaceStr(aTemplate$, "//inclination =", "inclination =")
+        aTemplate$ = ReplaceStr(aTemplate$, "//%inclination =", "%inclination =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theInclination)s", theInclination$)
     end if
     if theEccentricity$ <> "" then
-        aTemplate$ = ReplaceStr(aTemplate$, "//eccentricity =", "eccentricity =")
+        aTemplate$ = ReplaceStr(aTemplate$, "//%eccentricity =", "%eccentricity =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theEccentricity)s", theEccentricity$)
     end if    
     if theSemiMajorAxis$ <> "" then
-        aTemplate$ = ReplaceStr(aTemplate$, "//semiMajorAxis =", "semiMajorAxis =")
+        aTemplate$ = ReplaceStr(aTemplate$, "//%semiMajorAxis =", "%semiMajorAxis =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theSemiMajorAxis)s", theSemiMajorAxis$)
     end if
     if theLongitudeOfAscendingNode$ <> "" then
-        aTemplate$ = ReplaceStr(aTemplate$, "//longitudeOfAscendingNode =", "longitudeOfAscendingNode =")
+        aTemplate$ = ReplaceStr(aTemplate$, "//%longitudeOfAscendingNode =", "%longitudeOfAscendingNode =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theLongitudeOfAscendingNode)s ", theLongitudeOfAscendingNode$)
     end if
     if theArgumentOfPeriapsis$ <> "" then
-        aTemplate$ = ReplaceStr(aTemplate$, "//argumentOfPeriapsis =", "argumentOfPeriapsis =")
+        aTemplate$ = ReplaceStr(aTemplate$, "//%argumentOfPeriapsis =", "%argumentOfPeriapsis =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theArgumentOfPeriapsis)s", theArgumentOfPeriapsis$)
     end if
     if theMeanAnomalyAtEpoch$ <> "" then
-        aTemplate$ = ReplaceStr(aTemplate$, "//meanAnomalyAtEpoch =", "meanAnomalyAtEpoch =")
+        aTemplate$ = ReplaceStr(aTemplate$, "//%meanAnomalyAtEpoch =", "%meanAnomalyAtEpoch =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theMeanAnomalyAtEpoch)s", theMeanAnomalyAtEpoch$)
     end if
     if theEpoch$ <> "" then
-        aTemplate$ = ReplaceStr(aTemplate$, "//epoch =", "epoch =")
+        aTemplate$ = ReplaceStr(aTemplate$, "//%epoch =", "%epoch =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theEpoch)s", theEpoch$)
     end if
 orbitNode$ = aTemplate$
@@ -3755,12 +3798,13 @@ SUB readPlanetTemplates ()
             REDIM _PRESERVE thePlanetRadius(theIndex)
             REDIM _PRESERVE thePlanetSOI(theIndex)
             REDIM _PRESERVE thePlanetDesc$(theIndex)
-            INPUT #1, aPlanetName$, aPlanetRadius, aPlanetSOI, aDescription$
-            PRINT aPlanetRadius
+            REDIM _PRESERVE thePlanetStock$(theIndex)
+            INPUT #1, aPlanetStock$, aPlanetName$, aPlanetRadius, aPlanetSOI, aDescription$
             planetKey$(theIndex) = aPlanetName$
             thePlanetRadius(theIndex) = aPlanetRadius
             thePlanetSOI(theIndex) = aPlanetSOI
             thePlanetDesc$(theIndex) = aDescription$
+            thePlanetStock$(theIndex) = aPlanetStock$
             theIndex = theIndex + 1
         LOOP
         CLOSE #1
