@@ -7,7 +7,7 @@
                                       __/ |
                                      |___/
 *****test***** v0.2.6
-Creation Date: 17:13:27 02-10-2017
+Creation Date: 16:52:58 02-20-2017
 Generation Mode: c
 Seed: 1234 
 Galaxy Type: 1 
@@ -15,7 +15,7 @@ Galaxy Age: 1
 Cluster Number: 0 
 Planets: n
 Asteroids: n
-Red Dwarves: 5 
+Red Dwarves: 1001 
 Orange Dwarves: 1 
 Yellow Dwarves: 1 
 White Stars: 1 
@@ -23,9 +23,9 @@ Blue Giants: 1
 Brown Dwarves: 1 
 White Dwarves: 1 
 -----------------
- 4 Stars
+ 1000 Stars
  0 Planets
  0 Moons
  0 Asteroids
- 4  Total
+ 1000  Total
 -----------------
