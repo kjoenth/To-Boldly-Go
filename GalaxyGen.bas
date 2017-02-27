@@ -298,15 +298,11 @@ IF GTYPE = 2 THEN
             PRINT #1, "        {"
             PRINT #1, "            name = Sun"
             PRINT #1, "        }"
-            PRINT #1, "************"
-            theProperties$ = fileAsString("propertiesTmp.txt")
-            PRINT #1, theProperties$
-            PRINT #1, "************"
-            PRINT #1, "        Properties"
-            PRINT #1, "        {"
-            PRINT #1, "            description = "
-            PRINT #1, "            radius = 10000"
-            PRINT #1, "        }"
+            theDescription$ = ""
+            theStarRadius = 10000
+            theStarSphereOfInfluence = 90118820000 'this is very small for a black hole I think. STH
+            aPropertiesTemplate$ = thePropertiesTemplate$
+            aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, str$(theStarRadius), str$(theStarSphereOfInfluence), "")
             PRINT #1, "        Orbit"
             PRINT #1, "        {"
             PRINT #1, "            referenceBody = Sun"
