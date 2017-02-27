@@ -34,6 +34,7 @@ REDIM SHARED planetKey$(-1)
 REDIM SHARED thePlanetRadius(-1)
 REDIM SHARED thePlanetSOI(-1)
 REDIM SHARED thePlanetDesc$(-1)
+REDIM SHARED thePlanetStock$(-1)
 readPlanetTemplates
 '###################
 
@@ -297,15 +298,11 @@ IF GTYPE = 2 THEN
             PRINT #1, "        {"
             PRINT #1, "            name = Sun"
             PRINT #1, "        }"
-            PRINT #1, "************"
-            theProperties$ = fileAsString("propertiesTmp.txt")
-            PRINT #1, theProperties$
-            PRINT #1, "************"
-            PRINT #1, "        Properties"
-            PRINT #1, "        {"
-            PRINT #1, "            description = "
-            PRINT #1, "            radius = 10000"
-            PRINT #1, "        }"
+            theDescription$ = aName$
+            theStarRadius = 10000
+            theStarSphereOfInfluence = 90118820000 'this is very small for a black hole I think. STH
+            aPropertiesTemplate$ = thePropertiesTemplate$
+            aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, str$(theStarRadius), str$(theStarSphereOfInfluence), "")
             PRINT #1, "        Orbit"
             PRINT #1, "        {"
             PRINT #1, "            referenceBody = Sun"
@@ -732,16 +729,23 @@ FOR aStar = 1 TO REDSTAR
         PLANETTYPE$ = planetKey$(keyIndex)
         PLANETDESC$ = thePlanetDesc$(keyIndex)
         PLANETRADI = thePlanetRadius(keyIndex)
+        PLANETSTOCK$ = thePlanetStock$(keyIndex)
         '####'
         '########################'
-        PRINT #1, "    Body"
+        IF PLANETSTOCK$ = "True" THEN
+            PRINT #1, "    Body"
+        ELSE
+            PRINT #1, "    +Body[" + PLANETTYPE$ + "]"
+        END IF
         PRINT #1, "    {"
         PRINT #1, "        name = " + thePlanetName$
         '#########'
-        PRINT #1, "        Template"
-        PRINT #1, "        {"
-        PRINT #1, "            name = "; PLANETTYPE$
-        PRINT #1, "        }"
+        IF PLANETSTOCK$ = "True" THEN
+            PRINT #1, "        Template"
+            PRINT #1, "        {"
+            PRINT #1, "            name = "; PLANETTYPE$
+            PRINT #1, "        }"
+        END IF
         '########################'
         '###Fill in property data'
         theDescription$ = thePlanetDesc$(keyIndex)
@@ -1003,16 +1007,23 @@ FOR aStar = 1 TO KSTAR
         PLANETTYPE$ = planetKey$(keyIndex)
         PLANETDESC$ = thePlanetDesc$(keyIndex)
         PLANETRADI = thePlanetRadius(keyIndex)
+        PLANETSTOCK$ = thePlanetStock$(keyIndex)
         '####'
         '########################'
-        PRINT #1, "    Body"
+        IF PLANETSTOCK$ = "True" THEN
+            PRINT #1, "    Body"
+        ELSE
+            PRINT #1, "    +Body[" + PLANETTYPE$ + "]"
+        END IF
         PRINT #1, "    {"
         PRINT #1, "        name = " + thePlanetName$
         '#########'
-        PRINT #1, "        Template"
-        PRINT #1, "        {"
-        PRINT #1, "            name = "; PLANETTYPE$
-        PRINT #1, "        }"
+        IF PLANETSTOCK$ = "True" THEN
+            PRINT #1, "        Template"
+            PRINT #1, "        {"
+            PRINT #1, "            name = "; PLANETTYPE$
+            PRINT #1, "        }"
+        END IF
         '########################'
         '###Fill in property data'
         theDescription$ = thePlanetDesc$(keyIndex)
@@ -1292,16 +1303,23 @@ FOR aStar = 1 TO YELLOWSTAR
         PLANETTYPE$ = planetKey$(keyIndex)
         PLANETDESC$ = thePlanetDesc$(keyIndex)
         PLANETRADI = thePlanetRadius(keyIndex)
+        PLANETSTOCK$ = thePlanetStock$(keyIndex)
         '####'
         '########################'
-        PRINT #1, "    Body"
+        IF PLANETSTOCK$ = "True" THEN
+            PRINT #1, "    Body"
+        ELSE
+            PRINT #1, "    +Body[" + PLANETTYPE$ + "]"
+        END IF
         PRINT #1, "    {"
         PRINT #1, "        name = " + thePlanetName$
         '#########'
-        PRINT #1, "        Template"
-        PRINT #1, "        {"
-        PRINT #1, "            name = "; PLANETTYPE$
-        PRINT #1, "        }"
+        IF PLANETSTOCK$ = "True" THEN
+            PRINT #1, "        Template"
+            PRINT #1, "        {"
+            PRINT #1, "            name = "; PLANETTYPE$
+            PRINT #1, "        }"
+        END IF
         '########################'
         '###Fill in property data'
         theDescription$ = thePlanetDesc$(keyIndex)
@@ -1582,16 +1600,23 @@ FOR aStar = 1 TO BLUESTAR
         PLANETTYPE$ = planetKey$(keyIndex)
         PLANETDESC$ = thePlanetDesc$(keyIndex)
         PLANETRADI = thePlanetRadius(keyIndex)
+        PLANETSTOCK$ = thePlanetStock$(keyIndex)
         '####'
         '########################'
-        PRINT #1, "    Body"
+        IF PLANETSTOCK$ = "True" THEN
+            PRINT #1, "    Body"
+        ELSE
+            PRINT #1, "    +Body[" + PLANETTYPE$ + "]"
+        END IF
         PRINT #1, "    {"
         PRINT #1, "        name = " + thePlanetName$
         '#########'
-        PRINT #1, "        Template"
-        PRINT #1, "        {"
-        PRINT #1, "            name = "; PLANETTYPE$
-        PRINT #1, "        }"
+        IF PLANETSTOCK$ = "True" THEN
+            PRINT #1, "        Template"
+            PRINT #1, "        {"
+            PRINT #1, "            name = "; PLANETTYPE$
+            PRINT #1, "        }"
+        END IF
         '########################'
         '###Fill in property data'
         theDescription$ = thePlanetDesc$(keyIndex)
@@ -1873,16 +1898,23 @@ FOR aStar = 1 TO WHITESTAR
         PLANETTYPE$ = planetKey$(keyIndex)
         PLANETDESC$ = thePlanetDesc$(keyIndex)
         PLANETRADI = thePlanetRadius(keyIndex)
+        PLANETSTOCK$ = thePlanetStock$(keyIndex)
         '####'
         '########################'
-        PRINT #1, "    Body"
+        IF PLANETSTOCK$ = "True" THEN
+            PRINT #1, "    Body"
+        ELSE
+            PRINT #1, "    +Body[" + PLANETTYPE$ + "]"
+        END IF
         PRINT #1, "    {"
         PRINT #1, "        name = " + thePlanetName$
         '#########'
-        PRINT #1, "        Template"
-        PRINT #1, "        {"
-        PRINT #1, "            name = "; PLANETTYPE$
-        PRINT #1, "        }"
+        IF PLANETSTOCK$ = "True" THEN
+            PRINT #1, "        Template"
+            PRINT #1, "        {"
+            PRINT #1, "            name = "; PLANETTYPE$
+            PRINT #1, "        }"
+        END IF
         '########################'
         '###Fill in property data'
         theDescription$ = thePlanetDesc$(keyIndex)
@@ -2164,16 +2196,23 @@ FOR aStar = 1 TO BROWNSTAR
         PLANETTYPE$ = planetKey$(keyIndex)
         PLANETDESC$ = thePlanetDesc$(keyIndex)
         PLANETRADI = thePlanetRadius(keyIndex)
+        PLANETSTOCK$ = thePlanetStock$(keyIndex)
         '####'
         '########################'
-        PRINT #1, "    Body"
+        IF PLANETSTOCK$ = "True" THEN
+            PRINT #1, "    Body"
+        ELSE
+            PRINT #1, "    +Body[" + PLANETTYPE$ + "]"
+        END IF
         PRINT #1, "    {"
         PRINT #1, "        name = " + thePlanetName$
         '#########'
-        PRINT #1, "        Template"
-        PRINT #1, "        {"
-        PRINT #1, "            name = "; PLANETTYPE$
-        PRINT #1, "        }"
+        IF PLANETSTOCK$ = "True" THEN
+            PRINT #1, "        Template"
+            PRINT #1, "        {"
+            PRINT #1, "            name = "; PLANETTYPE$
+            PRINT #1, "        }"
+        END IF
         '########################'
         '###Fill in property data'
         theDescription$ = thePlanetDesc$(keyIndex)
@@ -3854,12 +3893,13 @@ IF _FILEEXISTS(theFileName$) THEN
         REDIM _PRESERVE thePlanetRadius(theIndex)
         REDIM _PRESERVE thePlanetSOI(theIndex)
         REDIM _PRESERVE thePlanetDesc$(theIndex)
-        INPUT #1, aPlanetName$, aPlanetRadius, aPlanetSOI, aDescription$
-        PRINT aPlanetRadius
+        REDIM _PRESERVE thePlanetStock$(theIndex)
+        INPUT #1, aPlanetStock$, aPlanetName$, aPlanetRadius, aPlanetSOI, aDescription$
         planetKey$(theIndex) = aPlanetName$
         thePlanetRadius(theIndex) = aPlanetRadius
         thePlanetSOI(theIndex) = aPlanetSOI
         thePlanetDesc$(theIndex) = aDescription$
+        thePlanetStock$(theIndex) = aPlanetStock$
         theIndex = theIndex + 1
     LOOP
     CLOSE #1
