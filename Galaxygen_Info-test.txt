@@ -6,26 +6,28 @@
     |_|\___/  |____/ \___/|_|\__,_|_|\__, |  \_____|\___/
                                       __/ |
                                      |___/
-*****test***** v0.2.6
-Creation Date: 16:52:58 02-20-2017
+*****test***** v0.2.6.6
+Creation Date: 17:21:46 03-06-2017
 Generation Mode: c
 Seed: 1234 
 Galaxy Type: 1 
 Galaxy Age: 1 
 Cluster Number: 0 
-Planets: n
+Planets: y
 Asteroids: n
-Red Dwarves: 1001 
-Orange Dwarves: 1 
-Yellow Dwarves: 1 
-White Stars: 1 
-Blue Giants: 1 
-Brown Dwarves: 1 
+L to Y class (~Brown~): 20 
+M class (~Red~): 10 
+K class (~Orange~): 10 
+G class (~Yellow~): 5 
+F class (~Yellow-white~): 5 
+A class (~White~): 5 
+B class (~Blue-White~): 5 
+O class (~Blue~): 5 
 White Dwarves: 1 
 -----------------
- 1000 Stars
- 0 Planets
- 0 Moons
+ 65 Stars
+ 143 Planets
+ 221 Moons
  0 Asteroids
- 1000  Total
+ 429  Total
 -----------------
