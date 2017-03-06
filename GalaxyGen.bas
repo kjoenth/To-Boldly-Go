@@ -3292,7 +3292,7 @@ PRINT #1, "    | | (_) | | |_) | (_) | | (_| | | |_| | | |__| | (_) |"
 PRINT #1, "    |_|\___/  |____/ \___/|_|\__,_|_|\__, |  \_____|\___/"
 PRINT #1, "                                      __/ |"
 PRINT #1, "                                     |___/"
-PRINT #1, "*****"; GNAME$; "***** v0.2.6"
+PRINT #1, "*****"; GNAME$; "***** v"+TBG_Version$
 PRINT #1, "Creation Date: "; TIME$; " "; DATE$
 PRINT #1, "Generation Mode: "; CUSTOM$
 PRINT #1, "Seed:"; SEED
