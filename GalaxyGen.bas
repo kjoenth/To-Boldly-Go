@@ -4006,7 +4006,7 @@ SUB makeAStar (star_MassKG, star_Name$, star_Description$):
     '#KSP galaxy radius would be 6.62251e+17km/2.6594=6.62251e+17
     'star_semimajorAxis = random.randint(int(blackHole_RocheLimit+star_RadiusKSP+1e6), 6.62251e17)
     star_orbitMin = INT(blackHole_RocheLimit + star_RadiusKSP + 1E6)
-    star_orbitMax = 6.62251E17
+    star_orbitMax = 1e15 '6.62251E17
     star_semimajorAxis = star_orbitMin + (RND(1) * (star_orbitMax - star_orbitMin))
     '###if Kerbol is an analog of Sol, it is ~26kly from the galactic center
     '###1ly = 9.461e+12km
