@@ -625,7 +625,7 @@ FOR a_Star = 1 TO OSTAR
     maxPlanets = 0
     IF PENABLE$ = "y" THEN
         maxPlanets = INT(RND * 5) '#how many planets in this system? Max of 5
-        PRINT #1, "@Kopernicus"
+        PRINT #1, "@Kopernicus:FINAL"
         PRINT #1, "{"
 
         planetNumb = 1
@@ -653,7 +653,7 @@ FOR a_Star = 1 TO OSTAR
                 PRINT #1, "    +Body[" + PLANETTYPE$ + "]"
             END IF
             PRINT #1, "    {"
-            PRINT #1, "        name = " + thePlanetName$
+            PRINT #1, "        %name = " + thePlanetName$
             '#########'
             IF PLANETSTOCK$ = "True" THEN
                 PRINT #1, "        Template"
@@ -826,7 +826,7 @@ FOR a_Star = 1 TO BSTAR
     maxPlanets = 0
     IF PENABLE$ = "y" THEN
         maxPlanets = INT(RND * 5) '#how many planets in this system? Max of 5
-        PRINT #1, "@Kopernicus"
+        PRINT #1, "@Kopernicus:FINAL"
         PRINT #1, "{"
 
         planetNumb = 1
@@ -854,7 +854,7 @@ FOR a_Star = 1 TO BSTAR
                 PRINT #1, "    +Body[" + PLANETTYPE$ + "]"
             END IF
             PRINT #1, "    {"
-            PRINT #1, "        name = " + thePlanetName$
+            PRINT #1, "        %name = " + thePlanetName$
             '#########'
             IF PLANETSTOCK$ = "True" THEN
                 PRINT #1, "        Template"
@@ -1027,7 +1027,7 @@ FOR a_Star = 1 TO ASTAR
     maxPlanets = 0
     IF PENABLE$ = "y" THEN
         maxPlanets = INT(RND * 5) '#how many planets in this system? Max of 5
-        PRINT #1, "@Kopernicus"
+        PRINT #1, "@Kopernicus:FINAL"
         PRINT #1, "{"
 
         planetNumb = 1
@@ -1055,7 +1055,7 @@ FOR a_Star = 1 TO ASTAR
                 PRINT #1, "    +Body[" + PLANETTYPE$ + "]"
             END IF
             PRINT #1, "    {"
-            PRINT #1, "        name = " + thePlanetName$
+            PRINT #1, "        %name = " + thePlanetName$
             '#########'
             IF PLANETSTOCK$ = "True" THEN
                 PRINT #1, "        Template"
@@ -1228,7 +1228,7 @@ FOR a_Star = 1 TO FSTAR
     maxPlanets = 0
     IF PENABLE$ = "y" THEN
         maxPlanets = INT(RND * 5) '#how many planets in this system? Max of 5
-        PRINT #1, "@Kopernicus"
+        PRINT #1, "@Kopernicus:FINAL"
         PRINT #1, "{"
 
         planetNumb = 1
@@ -1256,7 +1256,7 @@ FOR a_Star = 1 TO FSTAR
                 PRINT #1, "    +Body[" + PLANETTYPE$ + "]"
             END IF
             PRINT #1, "    {"
-            PRINT #1, "        name = " + thePlanetName$
+            PRINT #1, "        %name = " + thePlanetName$
             '#########'
             IF PLANETSTOCK$ = "True" THEN
                 PRINT #1, "        Template"
@@ -1429,7 +1429,7 @@ FOR a_Star = 1 TO GSTAR
     maxPlanets = 0
     IF PENABLE$ = "y" THEN
         maxPlanets = INT(RND * 5) '#how many planets in this system? Max of 5
-        PRINT #1, "@Kopernicus"
+        PRINT #1, "@Kopernicus:FINAL"
         PRINT #1, "{"
 
         planetNumb = 1
@@ -1457,7 +1457,7 @@ FOR a_Star = 1 TO GSTAR
                 PRINT #1, "    +Body[" + PLANETTYPE$ + "]"
             END IF
             PRINT #1, "    {"
-            PRINT #1, "        name = " + thePlanetName$
+            PRINT #1, "        %name = " + thePlanetName$
             '#########'
             IF PLANETSTOCK$ = "True" THEN
                 PRINT #1, "        Template"
@@ -1630,7 +1630,7 @@ FOR a_Star = 1 TO KSTAR
     maxPlanets = 0
     IF PENABLE$ = "y" THEN
         maxPlanets = INT(RND * 5) '#how many planets in this system? Max of 5
-        PRINT #1, "@Kopernicus"
+        PRINT #1, "@Kopernicus:FINAL"
         PRINT #1, "{"
 
         planetNumb = 1
@@ -1658,7 +1658,7 @@ FOR a_Star = 1 TO KSTAR
                 PRINT #1, "    +Body[" + PLANETTYPE$ + "]"
             END IF
             PRINT #1, "    {"
-            PRINT #1, "        name = " + thePlanetName$
+            PRINT #1, "        %name = " + thePlanetName$
             '#########'
             IF PLANETSTOCK$ = "True" THEN
                 PRINT #1, "        Template"
@@ -1831,7 +1831,7 @@ FOR a_Star = 1 TO MSTAR
     maxPlanets = 0
     IF PENABLE$ = "y" THEN
         maxPlanets = INT(RND * 5) '#how many planets in this system? Max of 5
-        PRINT #1, "@Kopernicus"
+        PRINT #1, "@Kopernicus:FINAL"
         PRINT #1, "{"
 
         planetNumb = 1
@@ -1859,7 +1859,7 @@ FOR a_Star = 1 TO MSTAR
                 PRINT #1, "    +Body[" + PLANETTYPE$ + "]"
             END IF
             PRINT #1, "    {"
-            PRINT #1, "        name = " + thePlanetName$
+            PRINT #1, "        %name = " + thePlanetName$
             '#########'
             IF PLANETSTOCK$ = "True" THEN
                 PRINT #1, "        Template"
@@ -2032,7 +2032,7 @@ FOR a_Star = 1 TO LSTAR
     maxPlanets = 0
     IF PENABLE$ = "y" THEN
         maxPlanets = INT(RND * 5) '#how many planets in this system? Max of 5
-        PRINT #1, "@Kopernicus"
+        PRINT #1, "@Kopernicus:FINAL"
         PRINT #1, "{"
 
         planetNumb = 1
@@ -2060,7 +2060,7 @@ FOR a_Star = 1 TO LSTAR
                 PRINT #1, "    +Body[" + PLANETTYPE$ + "]"
             END IF
             PRINT #1, "    {"
-            PRINT #1, "        name = " + thePlanetName$
+            PRINT #1, "        %name = " + thePlanetName$
             '#########'
             IF PLANETSTOCK$ = "True" THEN
                 PRINT #1, "        Template"
@@ -2260,7 +2260,7 @@ FOR a_Star = 1 TO DWARFSTAR
     theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
     theMeanAnomalyAtEpoch$ = STR$(0)
     theEpoch$ = STR$(0)
-    theMode$ = "" 'STR$(0)
+    theMode$ = STR$(0)
     theColour$ = "1,1,1,1"
     aOrbitTemp$ = theOrbitTemplate$
     aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
