@@ -33,6 +33,7 @@ CLS
 '#Will be used in the functions that make planets
 REDIM SHARED planetKey$(-1)
 REDIM SHARED thePlanetRadius(-1)
+REDIM SHARED thePlanetMass(-1)
 REDIM SHARED thePlanetSOI(-1)
 REDIM SHARED thePlanetDesc$(-1)
 REDIM SHARED thePlanetStock$(-1)
@@ -334,7 +335,8 @@ IF GTYPE = 2 THEN
             PRINT #1, "    Body"
             PRINT #1, "    {"
             'CLS
-            aName$ = theStarName$(numbRequestedStars) '#Calls the function "theStarName"
+            aName$ = starNameList$(CLUSTERNUM)
+            'aName$ = theStarName$(numbRequestedStars) '#Calls the function "theStarName"
             PRINT #1, "        name = "; CLUSTERNUM; ""
             PRINT #1, "        cbNameLater = "; aName$; " Galaxy"
             PRINT #1, "        Template"
@@ -471,13 +473,21 @@ PRINT #1, "        ScaledVersion"
 PRINT #1, "        {"
 PRINT #1, "        Light"
 PRINT #1, "         {"
-PRINT #1, "             sunlightColor = 1,1,1,1.0"
-PRINT #1, "             sunlightIntensity = 0.55"
-PRINT #1, "             scaledSunlightColor = 1,1,1,1.0"
-PRINT #1, "             scaledSunlightIntensity = 0.55"
-PRINT #1, "             IVASunColor = 1,1,1,1.0"
-PRINT #1, "             IVASunIntensity = 0.55"
-PRINT #1, "             sunLensFlareColor = 1,1,1,1.0"
+'PRINT #1, "             sunlightColor = 1,1,1,1.0"
+'PRINT #1, "             sunlightIntensity = 0.55"
+'PRINT #1, "             scaledSunlightColor = 1,1,1,1.0"
+'PRINT #1, "             scaledSunlightIntensity = 0.55"
+'PRINT #1, "             IVASunColor = 1,1,1,1.0"
+'PRINT #1, "             IVASunIntensity = 0.55"
+'PRINT #1, "             sunLensFlareColor = 1,1,1,1.0"
+PRINT #1, "             sunlightColor = 0,0,0,0.0"
+PRINT #1, "             sunlightIntensity = 0"
+PRINT #1, "             scaledSunlightColor = 0,0,0,0.0"
+PRINT #1, "             scaledSunlightIntensity = 0"
+PRINT #1, "             IVASunColor = 0,0,0,0.0"
+PRINT #1, "             IVASunIntensity = 0"
+PRINT #1, "             sunLensFlareColor = 0,0,0,0.0"
+PRINT #1, "             givesOffLight = False"
 PRINT #1, ""
 PRINT #1, "         }"
 PRINT #1, "     }"
@@ -635,6 +645,8 @@ FOR a_Star = 1 TO OSTAR
             PRINT #1, "@Kopernicus:FINAL"
             PRINT #1, "{"
             planetNumb = 1
+            planet_distanceMax = 0.5*star_HillSphereRadius '#max distance is 1/2 of the star's hillSphere 
+            theSemiMajorAxis = 0
             FOR aPlanet = 1 TO maxPlanets
                 '#2017-0201 STH This could be turned into a CSV file of roman numerals read into an array
                 IF planetNumb = 1 THEN PNM$ = "I"
@@ -649,8 +661,11 @@ FOR a_Star = 1 TO OSTAR
                 PLANETTYPE$ = planetKey$(keyIndex)
                 PLANETDESC$ = thePlanetDesc$(keyIndex)
                 PLANETRADI = thePlanetRadius(keyIndex)
+                PLANETMASS = thePlanetMass(keyIndex)
                 PLANETSTOCK$ = thePlanetStock$(keyIndex)
                 PLANETSOI = thePlanetSOI(keyIndex) 'really, this should be calculated from mass'
+                'planet_distanceMin = rocheLimit(star_MassKSP, PLANETMASS, PLANETRADI) '#innermost location for a planet is the rocheLimit               
+                planet_distanceMin = star_RadiusKSP+INT(RND(1) * 100000000000) 'should be roche limit but isn't working
                 '####'
                 '########################'
                 IF PLANETSTOCK$ = "True" THEN
@@ -684,9 +699,15 @@ FOR a_Star = 1 TO OSTAR
                 theMode$ = ""
                 theInclination$ = STR$(INT(RND * 360))
                 theEccentricity$ = ""
+                IF theSemiMajorAxis = 0 then
+                    '#let the first planet fall somewhere between the roche limit and the frostline'
+                    theSemiMajorAxis = planet_distanceMin + (RND(1) * (star_FrostLineKm- planet_distanceMin))
+                ELSE
+                    theSemiMajorAxis = theSemiMajorAxis * 1.5 'should be a value between 1.4 and 2.0
+                END IF 
                 '#The planet's semimajoraxis should not be larger than the star's SOI
                 '# 'star_RadiusKSP and star_SOI are shared variables
-                theSemiMajorAxis = star_RadiusKSP + (RND(1) * (star_SOI - star_RadiusKSP))
+                'theSemiMajorAxis = star_RadiusKSP + (RND(1) * (star_SOI - star_RadiusKSP))
                 'theSemiMajorAxis = INT(RND * 10000000000) + 10000000
                 theLongitudeOfAscendingNode$ = "0"
                 theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
@@ -838,6 +859,8 @@ FOR a_Star = 1 TO BSTAR
             PRINT #1, "{"
 
             planetNumb = 1
+             planet_distanceMax = 0.5*star_HillSphereRadius '#max distance is 1/2 of the star's hillSphere 
+            theSemiMajorAxis = 0
             FOR aPlanet = 1 TO maxPlanets
                 '#2017-0201 STH This could be turned into a CSV file of roman numerals read into an array
                 IF planetNumb = 1 THEN PNM$ = "I"
@@ -852,8 +875,11 @@ FOR a_Star = 1 TO BSTAR
                 PLANETTYPE$ = planetKey$(keyIndex)
                 PLANETDESC$ = thePlanetDesc$(keyIndex)
                 PLANETRADI = thePlanetRadius(keyIndex)
+                PLANETMASS = thePlanetMass(keyIndex)
                 PLANETSTOCK$ = thePlanetStock$(keyIndex)
                 PLANETSOI = thePlanetSOI(keyIndex) 'really, this should be calculated from mass'
+                'planet_distanceMin = rocheLimit(star_MassKSP, PLANETMASS, PLANETRADI) '#innermost location for a planet is the rocheLimit               
+                planet_distanceMin = star_RadiusKSP+INT(RND(1) * 100000000000) 'should be roche limit but isn't working
                 '####'
                 '########################'
                 IF PLANETSTOCK$ = "True" THEN
@@ -887,9 +913,15 @@ FOR a_Star = 1 TO BSTAR
                 theMode$ = ""
                 theInclination$ = STR$(INT(RND * 360))
                 theEccentricity$ = ""
+                IF theSemiMajorAxis = 0 then
+                    '#let the first planet fall somewhere between the roche limit and the frostline'
+                    theSemiMajorAxis = planet_distanceMin + (RND(1) * (star_FrostLineKm- planet_distanceMin))
+                ELSE
+                    theSemiMajorAxis = theSemiMajorAxis * 1.5 'should be a value between 1.4 and 2.0
+                END IF 
                 '#The planet's semimajoraxis should not be larger than the star's SOI
                 '# 'star_RadiusKSP and star_SOI are shared variables
-                theSemiMajorAxis = star_RadiusKSP + (RND(1) * (star_SOI - star_RadiusKSP))
+                'theSemiMajorAxis = star_RadiusKSP + (RND(1) * (star_SOI - star_RadiusKSP))
                 'theSemiMajorAxis = INT(RND * 10000000000) + 10000000
                 theLongitudeOfAscendingNode$ = "0"
                 theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
@@ -1041,6 +1073,8 @@ FOR a_Star = 1 TO ASTAR
             PRINT #1, "{"
 
             planetNumb = 1
+            planet_distanceMax = 0.5*star_HillSphereRadius '#max distance is 1/2 of the star's hillSphere 
+            theSemiMajorAxis = 0
             FOR aPlanet = 1 TO maxPlanets
                 '#2017-0201 STH This could be turned into a CSV file of roman numerals read into an array
                 IF planetNumb = 1 THEN PNM$ = "I"
@@ -1055,8 +1089,11 @@ FOR a_Star = 1 TO ASTAR
                 PLANETTYPE$ = planetKey$(keyIndex)
                 PLANETDESC$ = thePlanetDesc$(keyIndex)
                 PLANETRADI = thePlanetRadius(keyIndex)
+                PLANETMASS = thePlanetMass(keyIndex)
                 PLANETSTOCK$ = thePlanetStock$(keyIndex)
                 PLANETSOI = thePlanetSOI(keyIndex) 'really, this should be calculated from mass'
+                'planet_distanceMin = rocheLimit(star_MassKSP, PLANETMASS, PLANETRADI) '#innermost location for a planet is the rocheLimit               
+                planet_distanceMin = star_RadiusKSP+INT(RND(1) * 100000000000) 'should be roche limit but isn't working
                 '####'
                 '########################'
                 IF PLANETSTOCK$ = "True" THEN
@@ -1090,9 +1127,15 @@ FOR a_Star = 1 TO ASTAR
                 theMode$ = ""
                 theInclination$ = STR$(INT(RND * 360))
                 theEccentricity$ = ""
+                IF theSemiMajorAxis = 0 then
+                    '#let the first planet fall somewhere between the roche limit and the frostline'
+                    theSemiMajorAxis = planet_distanceMin + (RND(1) * (star_FrostLineKm- planet_distanceMin))
+                ELSE
+                    theSemiMajorAxis = theSemiMajorAxis * 1.5 'should be a value between 1.4 and 2.0
+                END IF 
                 '#The planet's semimajoraxis should not be larger than the star's SOI
                 '# 'star_RadiusKSP and star_SOI are shared variables
-                theSemiMajorAxis = star_RadiusKSP + (RND(1) * (star_SOI - star_RadiusKSP))
+                'theSemiMajorAxis = star_RadiusKSP + (RND(1) * (star_SOI - star_RadiusKSP))
                 'theSemiMajorAxis = INT(RND * 10000000000) + 10000000
                 theLongitudeOfAscendingNode$ = "0"
                 theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
@@ -1244,6 +1287,8 @@ FOR a_Star = 1 TO FSTAR
             PRINT #1, "{"
 
             planetNumb = 1
+            planet_distanceMax = 0.5*star_HillSphereRadius '#max distance is 1/2 of the star's hillSphere 
+            theSemiMajorAxis = 0
             FOR aPlanet = 1 TO maxPlanets
                 '#2017-0201 STH This could be turned into a CSV file of roman numerals read into an array
                 IF planetNumb = 1 THEN PNM$ = "I"
@@ -1258,8 +1303,11 @@ FOR a_Star = 1 TO FSTAR
                 PLANETTYPE$ = planetKey$(keyIndex)
                 PLANETDESC$ = thePlanetDesc$(keyIndex)
                 PLANETRADI = thePlanetRadius(keyIndex)
+                PLANETMASS = thePlanetMass(keyIndex)
                 PLANETSTOCK$ = thePlanetStock$(keyIndex)
                 PLANETSOI = thePlanetSOI(keyIndex) 'really, this should be calculated from mass'
+                'planet_distanceMin = rocheLimit(star_MassKSP, PLANETMASS, PLANETRADI) '#innermost location for a planet is the rocheLimit               
+                planet_distanceMin = star_RadiusKSP+INT(RND(1) * 100000000000) 'should be roche limit but isn't working
                 '####'
                 '########################'
                 IF PLANETSTOCK$ = "True" THEN
@@ -1293,9 +1341,15 @@ FOR a_Star = 1 TO FSTAR
                 theMode$ = ""
                 theInclination$ = STR$(INT(RND * 360))
                 theEccentricity$ = ""
+                IF theSemiMajorAxis = 0 then
+                    '#let the first planet fall somewhere between the roche limit and the frostline'
+                    theSemiMajorAxis = planet_distanceMin + (RND(1) * (star_FrostLineKm- planet_distanceMin))
+                ELSE
+                    theSemiMajorAxis = theSemiMajorAxis * 1.5 'should be a value between 1.4 and 2.0
+                END IF 
                 '#The planet's semimajoraxis should not be larger than the star's SOI
                 '# 'star_RadiusKSP and star_SOI are shared variables
-                theSemiMajorAxis = star_RadiusKSP + (RND(1) * (star_SOI - star_RadiusKSP))
+                'theSemiMajorAxis = star_RadiusKSP + (RND(1) * (star_SOI - star_RadiusKSP))
                 'theSemiMajorAxis = INT(RND * 10000000000) + 10000000
                 theLongitudeOfAscendingNode$ = "0"
                 theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
@@ -1447,6 +1501,8 @@ FOR a_Star = 1 TO GSTAR
             PRINT #1, "{"
 
             planetNumb = 1
+            planet_distanceMax = 0.5*star_HillSphereRadius '#max distance is 1/2 of the star's hillSphere 
+            theSemiMajorAxis = 0
             FOR aPlanet = 1 TO maxPlanets
                 '#2017-0201 STH This could be turned into a CSV file of roman numerals read into an array
                 IF planetNumb = 1 THEN PNM$ = "I"
@@ -1461,8 +1517,11 @@ FOR a_Star = 1 TO GSTAR
                 PLANETTYPE$ = planetKey$(keyIndex)
                 PLANETDESC$ = thePlanetDesc$(keyIndex)
                 PLANETRADI = thePlanetRadius(keyIndex)
+                PLANETMASS = thePlanetMass(keyIndex)
                 PLANETSTOCK$ = thePlanetStock$(keyIndex)
                 PLANETSOI = thePlanetSOI(keyIndex) 'really, this should be calculated from mass'
+                'planet_distanceMin = rocheLimit(star_MassKSP, PLANETMASS, PLANETRADI) '#innermost location for a planet is the rocheLimit               
+                planet_distanceMin = star_RadiusKSP+INT(RND(1) * 100000000000) 'should be roche limit but isn't working
                 '####'
                 '########################'
                 IF PLANETSTOCK$ = "True" THEN
@@ -1496,9 +1555,15 @@ FOR a_Star = 1 TO GSTAR
                 theMode$ = ""
                 theInclination$ = STR$(INT(RND * 360))
                 theEccentricity$ = ""
+                IF theSemiMajorAxis = 0 then
+                    '#let the first planet fall somewhere between the roche limit and the frostline'
+                    theSemiMajorAxis = planet_distanceMin + (RND(1) * (star_FrostLineKm- planet_distanceMin))
+                ELSE
+                    theSemiMajorAxis = theSemiMajorAxis * 1.5 'should be a value between 1.4 and 2.0
+                END IF 
                 '#The planet's semimajoraxis should not be larger than the star's SOI
                 '# 'star_RadiusKSP and star_SOI are shared variables
-                theSemiMajorAxis = star_RadiusKSP + (RND(1) * (star_SOI - star_RadiusKSP))
+                'theSemiMajorAxis = star_RadiusKSP + (RND(1) * (star_SOI - star_RadiusKSP))
                 'theSemiMajorAxis = INT(RND * 10000000000) + 10000000
                 theLongitudeOfAscendingNode$ = "0"
                 theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
@@ -1650,6 +1715,8 @@ FOR a_Star = 1 TO KSTAR
             PRINT #1, "{"
 
             planetNumb = 1
+            planet_distanceMax = 0.5*star_HillSphereRadius '#max distance is 1/2 of the star's hillSphere 
+            theSemiMajorAxis = 0
             FOR aPlanet = 1 TO maxPlanets
                 '#2017-0201 STH This could be turned into a CSV file of roman numerals read into an array
                 IF planetNumb = 1 THEN PNM$ = "I"
@@ -1664,8 +1731,11 @@ FOR a_Star = 1 TO KSTAR
                 PLANETTYPE$ = planetKey$(keyIndex)
                 PLANETDESC$ = thePlanetDesc$(keyIndex)
                 PLANETRADI = thePlanetRadius(keyIndex)
+                PLANETMASS = thePlanetMass(keyIndex)
                 PLANETSTOCK$ = thePlanetStock$(keyIndex)
                 PLANETSOI = thePlanetSOI(keyIndex) 'really, this should be calculated from mass'
+                'planet_distanceMin = rocheLimit(star_MassKSP, PLANETMASS, PLANETRADI) '#innermost location for a planet is the rocheLimit               
+                planet_distanceMin = star_RadiusKSP+INT(RND(1) * 100000000000) 'should be roche limit but isn't working
                 '####'
                 '########################'
                 IF PLANETSTOCK$ = "True" THEN
@@ -1699,9 +1769,15 @@ FOR a_Star = 1 TO KSTAR
                 theMode$ = ""
                 theInclination$ = STR$(INT(RND * 360))
                 theEccentricity$ = ""
+                IF theSemiMajorAxis = 0 then
+                    '#let the first planet fall somewhere between the roche limit and the frostline'
+                    theSemiMajorAxis = planet_distanceMin + (RND(1) * (star_FrostLineKm- planet_distanceMin))
+                ELSE
+                    theSemiMajorAxis = theSemiMajorAxis * 1.5 'should be a value between 1.4 and 2.0
+                END IF 
                 '#The planet's semimajoraxis should not be larger than the star's SOI
                 '# 'star_RadiusKSP and star_SOI are shared variables
-                theSemiMajorAxis = star_RadiusKSP + (RND(1) * (star_SOI - star_RadiusKSP))
+                'theSemiMajorAxis = star_RadiusKSP + (RND(1) * (star_SOI - star_RadiusKSP))
                 'theSemiMajorAxis = INT(RND * 10000000000) + 10000000
                 theLongitudeOfAscendingNode$ = "0"
                 theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
@@ -1853,6 +1929,8 @@ FOR a_Star = 1 TO MSTAR
             PRINT #1, "{"
 
             planetNumb = 1
+            planet_distanceMax = 0.5*star_HillSphereRadius '#max distance is 1/2 of the star's hillSphere 
+            theSemiMajorAxis = 0
             FOR aPlanet = 1 TO maxPlanets
                 '#2017-0201 STH This could be turned into a CSV file of roman numerals read into an array
                 IF planetNumb = 1 THEN PNM$ = "I"
@@ -1867,8 +1945,11 @@ FOR a_Star = 1 TO MSTAR
                 PLANETTYPE$ = planetKey$(keyIndex)
                 PLANETDESC$ = thePlanetDesc$(keyIndex)
                 PLANETRADI = thePlanetRadius(keyIndex)
+                PLANETMASS = thePlanetMass(keyIndex)
                 PLANETSTOCK$ = thePlanetStock$(keyIndex)
                 PLANETSOI = thePlanetSOI(keyIndex) 'really, this should be calculated from mass'
+                'planet_distanceMin = rocheLimit(star_MassKSP, PLANETMASS, PLANETRADI) '#innermost location for a planet is the rocheLimit               
+                planet_distanceMin = star_RadiusKSP+INT(RND(1) * 100000000000) 'should be roche limit but isn't working
                 '####'
                 '########################'
                 IF PLANETSTOCK$ = "True" THEN
@@ -1902,9 +1983,15 @@ FOR a_Star = 1 TO MSTAR
                 theMode$ = ""
                 theInclination$ = STR$(INT(RND * 360))
                 theEccentricity$ = ""
+                IF theSemiMajorAxis = 0 then
+                    '#let the first planet fall somewhere between the roche limit and the frostline'
+                    theSemiMajorAxis = planet_distanceMin + (RND(1) * (star_FrostLineKm- planet_distanceMin))
+                ELSE
+                    theSemiMajorAxis = theSemiMajorAxis * 1.5 'should be a value between 1.4 and 2.0
+                END IF 
                 '#The planet's semimajoraxis should not be larger than the star's SOI
                 '# 'star_RadiusKSP and star_SOI are shared variables
-                theSemiMajorAxis = star_RadiusKSP + (RND(1) * (star_SOI - star_RadiusKSP))
+                'theSemiMajorAxis = star_RadiusKSP + (RND(1) * (star_SOI - star_RadiusKSP))
                 'theSemiMajorAxis = INT(RND * 10000000000) + 10000000
                 theLongitudeOfAscendingNode$ = "0"
                 theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
@@ -2056,6 +2143,8 @@ FOR a_Star = 1 TO LSTAR
             PRINT #1, "{"
 
             planetNumb = 1
+            planet_distanceMax = 0.5*star_HillSphereRadius '#max distance is 1/2 of the star's hillSphere 
+            theSemiMajorAxis = 0
             FOR aPlanet = 1 TO maxPlanets
                 '#2017-0201 STH This could be turned into a CSV file of roman numerals read into an array
                 IF planetNumb = 1 THEN PNM$ = "I"
@@ -2070,8 +2159,11 @@ FOR a_Star = 1 TO LSTAR
                 PLANETTYPE$ = planetKey$(keyIndex)
                 PLANETDESC$ = thePlanetDesc$(keyIndex)
                 PLANETRADI = thePlanetRadius(keyIndex)
+                PLANETMASS = thePlanetMass(keyIndex)
                 PLANETSTOCK$ = thePlanetStock$(keyIndex)
                 PLANETSOI = thePlanetSOI(keyIndex) 'really, this should be calculated from mass'
+                'planet_distanceMin = rocheLimit(star_MassKSP, PLANETMASS, PLANETRADI) '#innermost location for a planet is the rocheLimit               
+                planet_distanceMin = star_RadiusKSP+INT(RND(1) * 100000000000) 'should be roche limit but isn't working
                 '####'
                 '########################'
                 IF PLANETSTOCK$ = "True" THEN
@@ -2105,9 +2197,15 @@ FOR a_Star = 1 TO LSTAR
                 theMode$ = ""
                 theInclination$ = STR$(INT(RND * 360))
                 theEccentricity$ = ""
+                IF theSemiMajorAxis = 0 then
+                    '#let the first planet fall somewhere between the roche limit and the frostline'
+                    theSemiMajorAxis = planet_distanceMin + (RND(1) * (star_FrostLineKm- planet_distanceMin))
+                ELSE
+                    theSemiMajorAxis = theSemiMajorAxis * 1.5 'should be a value between 1.4 and 2.0
+                END IF 
                 '#The planet's semimajoraxis should not be larger than the star's SOI
                 '# 'star_RadiusKSP and star_SOI are shared variables
-                theSemiMajorAxis = star_RadiusKSP + (RND(1) * (star_SOI - star_RadiusKSP))
+                'theSemiMajorAxis = star_RadiusKSP + (RND(1) * (star_SOI - star_RadiusKSP))
                 'theSemiMajorAxis = INT(RND * 10000000000) + 10000000
                 theLongitudeOfAscendingNode$ = "0"
                 theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
@@ -3517,7 +3615,7 @@ SUB makeStarNameList(numbRequestedStars)
         '# combine the prefix and suffix to make a name
         fullStarName$ = PREFIX$ + SUFFIX$
         '#hard coded avoidance of 'sun' and 'core'
-        if fullStarName$="Sun" OR fullStarName="Core" then 
+        if fullStarName$="Sun" OR fullStarName$="Core" then 
             indexSuffixes% = INT(RND * lengArraySuffixes%)
             SUFFIX$ = arraySuffixes$(indexSuffixes%)
             fullStarName$=fullStarName$+"o'"+SUFFIX$
@@ -3794,12 +3892,14 @@ IF _FILEEXISTS(theFileName$) THEN
     DO UNTIL EOF(1)
         REDIM _PRESERVE planetKey$(theIndex)
         REDIM _PRESERVE thePlanetRadius(theIndex)
+        REDIM _PRESERVE thePlanetMass(theIndex)
         REDIM _PRESERVE thePlanetSOI(theIndex)
         REDIM _PRESERVE thePlanetDesc$(theIndex)
         REDIM _PRESERVE thePlanetStock$(theIndex)
-        INPUT #1, aPlanetStock$, aPlanetName$, aPlanetRadius, aPlanetSOI, aDescription$
+        INPUT #1, aPlanetStock$, aPlanetName$, aPlanetRadius, aPlanetMass, aPlanetSOI, aDescription$
         planetKey$(theIndex) = aPlanetName$
         thePlanetRadius(theIndex) = aPlanetRadius
+        thePlanetMass(theIndex) = aPlanetMass
         thePlanetSOI(theIndex) = aPlanetSOI
         thePlanetDesc$(theIndex) = aDescription$
         thePlanetStock$(theIndex) = aPlanetStock$
@@ -3808,6 +3908,14 @@ IF _FILEEXISTS(theFileName$) THEN
     CLOSE #1
 END IF
 END SUB
+
+FUNCTION AU2km(theAU)
+    AU2km = theAU*149597871
+END FUNCTION
+
+FUNCTION realKM2kerbinKM(realKM)
+    realKM2kerbinKM = realKM/10.64
+END FUNCTION
 
 FUNCTION solarMass2kg (SM)
 '#use Sol's solar mass and kg mass to convert
@@ -3911,33 +4019,38 @@ escapeVelocity = temp ^ 0.5
 END FUNCTION
 
 FUNCTION hillSphere (mass_primary, mass_secondary, eccentricity_secondary, semimajorAxis_secondary)
-'#calculate the radius of the Hill sphere
-'#https://en.wikipedia.org/wiki/Hill_sphere
-partOne = (semimajorAxis_secondary * (1.0 - eccentricity_secondary))
-partTwo = (mass_secondary / (3.0 * mass_primary)) ^ (1.0 / 3.0)
-theRadius = partOne * partTwo
-'#for unit test later:
-'#mass earth = 5.97E+24 kg; mass sol = 1.98855E+30 kg; semi-major axis earth = 149,598,023 km; eccentricity earth = 0.0167086
-'#gives a radius of 1471536.617 km
-'#mass blackhole @ center of milky way: 8.55E+37 kg
+    '#calculate the radius of the Hill sphere
+    '#https://en.wikipedia.org/wiki/Hill_sphere
+    partOne = (semimajorAxis_secondary * (1.0 - eccentricity_secondary))
+    partTwo = (mass_secondary / (3.0 * mass_primary)) ^ (1.0 / 3.0)
+    theRadius = partOne * partTwo
+    '#for unit test later:
+    '#mass earth = 5.97E+24 kg; mass sol = 1.98855E+30 kg; semi-major axis earth = 149,598,023 km; eccentricity earth = 0.0167086
+    '#gives a radius of 1471536.617 km
+    '#mass blackhole @ center of milky way: 8.55E+37 kg
 hillSphere = theRadius
 END FUNCTION
 
 FUNCTION rocheLimit (mass_primary, mass_secondary, radius_secondary)
-'#calculate the Roche limit around a body
-'#this is the minimum distance around a primary that a secondary can maintain cohesion
-'#Any closer and you would have a ring instead
-'#https://en.wikipedia.org/wiki/Roche_limit
-theDistance = 1.26 * radius_secondary * ((mass_primary / mass_secondary) ^ (1.0 / 3.0))
-'#for unit test later:
-'#mass earth = 5.97E+24 kg; mass sol = 1.98855E+30 kg; radius earth = 6378 km
-'#gives a radius of 1471536.617 km
-rocheLimit = theDistance
+    '#calculate the Roche limit around a body
+    '#this is the minimum distance around a primary that a secondary can maintain cohesion
+    '#Any closer and you would have a ring instead
+    '#https://en.wikipedia.org/wiki/Roche_limit
+    theDistance = 1.26 * radius_secondary * ((mass_primary / mass_secondary) ^ (1.0 / 3.0))
+    '#for unit test later:
+    '#mass earth = 5.97E+24 kg; mass sol = 1.98855E+30 kg; radius earth = 6378 km
+    '#gives a radius of 1471536.617 km
+    rocheLimit = theDistance
 END FUNCTION
 
 FUNCTION kspSOI (mass_primary, mass_secondary, semimajorAxis_secondary)
 '#http://wiki.kerbalspaceprogram.com/wiki/Sphere_of_influence
 kspSOI = (semimajorAxis_secondary * ((mass_secondary / mass_primary) ^ (2.0 / 5.0)))
+END FUNCTION
+
+FUNCTION solFrostLine (luminocity)
+    'https://en.wikipedia.org/wiki/Frost_line_(astrophysics)
+    solFrostLine = 4.85*(luminocity^0.5)
 END FUNCTION
 
 FUNCTION siderealRotationalVel (theRadius, rotationalPeriod)
@@ -4015,12 +4128,17 @@ END SUB
 SUB makeAStar (star_MassKG, star_Name$, star_Description$):
     SHARED star_RadiusKSP
     SHARED star_SOI
+    SHARED star_MassKSP
+    SHARED star_HillSphereRadius
+    SHARED star_FrostLineKm
     star_MassKSP = sol2Kerbol_kg(star_MassKG)
     star_MassSolar = kg2solarMass(star_MassKG)
     star_RadiusSolar = solarRadiusFromSolarMass(star_MassSolar)
     star_RadiusKm = solarRadius2km(star_RadiusSolar)
     star_RadiusKSP = sol2Kerbol_km(star_RadiusKm * 1000) '#return m
     star_Lum = luminocityFromSolarMass(star_MassSolar)
+    star_FrostLineAU = solFrostLine (star_Lum) '#return in AU'
+    star_FrostLineKm = AU2km(star_FrostLineAU)/10.64 'return in km. deivide by 10.64 to get kerbal km'
     star_TempK = solarTemp(star_Lum, star_RadiusSolar)
     temp2RGB (star_TempK) '#I would rather get the colour back as a list, but I guess qbasic doesn't have lists? #STH 2017-0216'
     theR = REDgb / 255.0
