@@ -2348,8 +2348,8 @@ FOR a_Star = 1 TO DWARFSTAR
     PRINT #1, "{"
     PRINT #1, "    Body"
     PRINT #1, "    {"
-    aStarName$ = theStarName$ '#Calls the function "theStarName"
-    PRINT #1, "        name = "; aStarName$
+    star_Name$ = starNameList$(SOBJECTNUMBER)
+    PRINT #1, "        name = "; star_Name$
     PRINT #1, "        Template"
     PRINT #1, "        {"
     PRINT #1, "            name = Sun"
