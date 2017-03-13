@@ -703,7 +703,7 @@ FOR a_Star = 1 TO OSTAR
                     '#let the first planet fall somewhere between the roche limit and the frostline'
                     theSemiMajorAxis = planet_distanceMin + (RND(1) * (star_FrostLineKm- planet_distanceMin))
                 ELSE
-                    theSemiMajorAxis = theSemiMajorAxis * 1.5 'should be a value between 1.4 and 2.0
+                    theSemiMajorAxis = theSemiMajorAxis+(theSemiMajorAxis * 1.5) 'should be a value between 1.4 and 2.0
                 END IF 
                 '#The planet's semimajoraxis should not be larger than the star's SOI
                 '# 'star_RadiusKSP and star_SOI are shared variables
@@ -774,13 +774,13 @@ FOR a_Star = 1 TO OSTAR
                     theMode$ = ""
                     theInclination$ = STR$(INT(RND * 360))
                     theEccentricity$ = ""
-                    theSemiMajorAxis = INT(RND * 50000000) + 11000000
+                    theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
                     theLongitudeOfAscendingNode$ = ""
                     theArgumentOfPeriapsis$ = ""
                     theMeanAnomalyAtEpoch$ = ""
                     theEpoch$ = ""
                     aOrbitTemp$ = theOrbitTemplate$
-                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
+                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
                     PRINT #1, aOrbitNode$
                     PRINT #1, "    }"
                     MOBJECTNUMBER = MOBJECTNUMBER + 1
@@ -917,7 +917,7 @@ FOR a_Star = 1 TO BSTAR
                     '#let the first planet fall somewhere between the roche limit and the frostline'
                     theSemiMajorAxis = planet_distanceMin + (RND(1) * (star_FrostLineKm- planet_distanceMin))
                 ELSE
-                    theSemiMajorAxis = theSemiMajorAxis * 1.5 'should be a value between 1.4 and 2.0
+                    theSemiMajorAxis = theSemiMajorAxis+(theSemiMajorAxis * 1.5) 'should be a value between 1.4 and 2.0
                 END IF 
                 '#The planet's semimajoraxis should not be larger than the star's SOI
                 '# 'star_RadiusKSP and star_SOI are shared variables
@@ -988,13 +988,13 @@ FOR a_Star = 1 TO BSTAR
                     theMode$ = ""
                     theInclination$ = STR$(INT(RND * 360))
                     theEccentricity$ = ""
-                    theSemiMajorAxis = INT(RND * 50000000) + 11000000
+                    theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
                     theLongitudeOfAscendingNode$ = ""
                     theArgumentOfPeriapsis$ = ""
                     theMeanAnomalyAtEpoch$ = ""
                     theEpoch$ = ""
                     aOrbitTemp$ = theOrbitTemplate$
-                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
+                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
                     PRINT #1, aOrbitNode$
                     PRINT #1, "    }"
                     MOBJECTNUMBER = MOBJECTNUMBER + 1
@@ -1131,7 +1131,7 @@ FOR a_Star = 1 TO ASTAR
                     '#let the first planet fall somewhere between the roche limit and the frostline'
                     theSemiMajorAxis = planet_distanceMin + (RND(1) * (star_FrostLineKm- planet_distanceMin))
                 ELSE
-                    theSemiMajorAxis = theSemiMajorAxis * 1.5 'should be a value between 1.4 and 2.0
+                    theSemiMajorAxis = theSemiMajorAxis+(theSemiMajorAxis * 1.5) 'should be a value between 1.4 and 2.0
                 END IF 
                 '#The planet's semimajoraxis should not be larger than the star's SOI
                 '# 'star_RadiusKSP and star_SOI are shared variables
@@ -1202,13 +1202,13 @@ FOR a_Star = 1 TO ASTAR
                     theMode$ = ""
                     theInclination$ = STR$(INT(RND * 360))
                     theEccentricity$ = ""
-                    theSemiMajorAxis = INT(RND * 50000000) + 11000000
+                    theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
                     theLongitudeOfAscendingNode$ = ""
                     theArgumentOfPeriapsis$ = ""
                     theMeanAnomalyAtEpoch$ = ""
                     theEpoch$ = ""
                     aOrbitTemp$ = theOrbitTemplate$
-                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
+                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
                     PRINT #1, aOrbitNode$
                     PRINT #1, "    }"
                     MOBJECTNUMBER = MOBJECTNUMBER + 1
@@ -1345,7 +1345,7 @@ FOR a_Star = 1 TO FSTAR
                     '#let the first planet fall somewhere between the roche limit and the frostline'
                     theSemiMajorAxis = planet_distanceMin + (RND(1) * (star_FrostLineKm- planet_distanceMin))
                 ELSE
-                    theSemiMajorAxis = theSemiMajorAxis * 1.5 'should be a value between 1.4 and 2.0
+                    theSemiMajorAxis = theSemiMajorAxis+(theSemiMajorAxis * 1.5) 'should be a value between 1.4 and 2.0
                 END IF 
                 '#The planet's semimajoraxis should not be larger than the star's SOI
                 '# 'star_RadiusKSP and star_SOI are shared variables
@@ -1416,13 +1416,13 @@ FOR a_Star = 1 TO FSTAR
                     theMode$ = ""
                     theInclination$ = STR$(INT(RND * 360))
                     theEccentricity$ = ""
-                    theSemiMajorAxis = INT(RND * 50000000) + 11000000
+                    theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
                     theLongitudeOfAscendingNode$ = ""
                     theArgumentOfPeriapsis$ = ""
                     theMeanAnomalyAtEpoch$ = ""
                     theEpoch$ = ""
                     aOrbitTemp$ = theOrbitTemplate$
-                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
+                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
                     PRINT #1, aOrbitNode$
                     PRINT #1, "    }"
                     MOBJECTNUMBER = MOBJECTNUMBER + 1
@@ -1559,7 +1559,7 @@ FOR a_Star = 1 TO GSTAR
                     '#let the first planet fall somewhere between the roche limit and the frostline'
                     theSemiMajorAxis = planet_distanceMin + (RND(1) * (star_FrostLineKm- planet_distanceMin))
                 ELSE
-                    theSemiMajorAxis = theSemiMajorAxis * 1.5 'should be a value between 1.4 and 2.0
+                    theSemiMajorAxis = theSemiMajorAxis+(theSemiMajorAxis * 1.5) 'should be a value between 1.4 and 2.0
                 END IF 
                 '#The planet's semimajoraxis should not be larger than the star's SOI
                 '# 'star_RadiusKSP and star_SOI are shared variables
@@ -1597,8 +1597,6 @@ FOR a_Star = 1 TO GSTAR
                 MAXMOON = INT(RND * 4)
                 FOR theMoonNumb = 1 TO MAXMOON
                     theMoonName$ = thePlanetName$ + " " + STR$(theMoonNumb)
-                    moonSEMIMAJORAXIS = INT(RND * 50000000) + 11000000
-                    INCLINATION = INT(RND * 360)
                     PRINT #1, "    Body"
                     PRINT #1, "    {"
                     PRINT #1, "        name = " + theMoonName$
@@ -1630,13 +1628,13 @@ FOR a_Star = 1 TO GSTAR
                     theMode$ = ""
                     theInclination$ = STR$(INT(RND * 360))
                     theEccentricity$ = ""
-                    theSemiMajorAxis = INT(RND * 50000000) + 11000000
+                    theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
                     theLongitudeOfAscendingNode$ = ""
                     theArgumentOfPeriapsis$ = ""
                     theMeanAnomalyAtEpoch$ = ""
                     theEpoch$ = ""
                     aOrbitTemp$ = theOrbitTemplate$
-                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
+                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
                     PRINT #1, aOrbitNode$
                     PRINT #1, "    }"
                     MOBJECTNUMBER = MOBJECTNUMBER + 1
@@ -1773,7 +1771,7 @@ FOR a_Star = 1 TO KSTAR
                     '#let the first planet fall somewhere between the roche limit and the frostline'
                     theSemiMajorAxis = planet_distanceMin + (RND(1) * (star_FrostLineKm- planet_distanceMin))
                 ELSE
-                    theSemiMajorAxis = theSemiMajorAxis * 1.5 'should be a value between 1.4 and 2.0
+                    theSemiMajorAxis = theSemiMajorAxis+(theSemiMajorAxis * 1.5) 'should be a value between 1.4 and 2.0
                 END IF 
                 '#The planet's semimajoraxis should not be larger than the star's SOI
                 '# 'star_RadiusKSP and star_SOI are shared variables
@@ -1844,13 +1842,13 @@ FOR a_Star = 1 TO KSTAR
                     theMode$ = ""
                     theInclination$ = STR$(INT(RND * 360))
                     theEccentricity$ = ""
-                    theSemiMajorAxis = INT(RND * 50000000) + 11000000
+                    theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
                     theLongitudeOfAscendingNode$ = ""
                     theArgumentOfPeriapsis$ = ""
                     theMeanAnomalyAtEpoch$ = ""
                     theEpoch$ = ""
                     aOrbitTemp$ = theOrbitTemplate$
-                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
+                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
                     PRINT #1, aOrbitNode$
                     PRINT #1, "    }"
                     MOBJECTNUMBER = MOBJECTNUMBER + 1
@@ -1987,7 +1985,7 @@ FOR a_Star = 1 TO MSTAR
                     '#let the first planet fall somewhere between the roche limit and the frostline'
                     theSemiMajorAxis = planet_distanceMin + (RND(1) * (star_FrostLineKm- planet_distanceMin))
                 ELSE
-                    theSemiMajorAxis = theSemiMajorAxis * 1.5 'should be a value between 1.4 and 2.0
+                    theSemiMajorAxis = theSemiMajorAxis+(theSemiMajorAxis * 1.5) 'should be a value between 1.4 and 2.0
                 END IF 
                 '#The planet's semimajoraxis should not be larger than the star's SOI
                 '# 'star_RadiusKSP and star_SOI are shared variables
@@ -2058,13 +2056,13 @@ FOR a_Star = 1 TO MSTAR
                     theMode$ = ""
                     theInclination$ = STR$(INT(RND * 360))
                     theEccentricity$ = ""
-                    theSemiMajorAxis = INT(RND * 50000000) + 11000000
+                    theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
                     theLongitudeOfAscendingNode$ = ""
                     theArgumentOfPeriapsis$ = ""
                     theMeanAnomalyAtEpoch$ = ""
                     theEpoch$ = ""
                     aOrbitTemp$ = theOrbitTemplate$
-                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
+                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
                     PRINT #1, aOrbitNode$
                     PRINT #1, "    }"
                     MOBJECTNUMBER = MOBJECTNUMBER + 1
@@ -2201,7 +2199,7 @@ FOR a_Star = 1 TO LSTAR
                     '#let the first planet fall somewhere between the roche limit and the frostline'
                     theSemiMajorAxis = planet_distanceMin + (RND(1) * (star_FrostLineKm- planet_distanceMin))
                 ELSE
-                    theSemiMajorAxis = theSemiMajorAxis * 1.5 'should be a value between 1.4 and 2.0
+                    theSemiMajorAxis = theSemiMajorAxis+(theSemiMajorAxis * 1.5) 'should be a value between 1.4 and 2.0
                 END IF 
                 '#The planet's semimajoraxis should not be larger than the star's SOI
                 '# 'star_RadiusKSP and star_SOI are shared variables
@@ -2272,13 +2270,13 @@ FOR a_Star = 1 TO LSTAR
                     theMode$ = ""
                     theInclination$ = STR$(INT(RND * 360))
                     theEccentricity$ = ""
-                    theSemiMajorAxis = INT(RND * 50000000) + 11000000
+                    theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
                     theLongitudeOfAscendingNode$ = ""
                     theArgumentOfPeriapsis$ = ""
                     theMeanAnomalyAtEpoch$ = ""
                     theEpoch$ = ""
                     aOrbitTemp$ = theOrbitTemplate$
-                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
+                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
                     PRINT #1, aOrbitNode$
                     PRINT #1, "    }"
                     MOBJECTNUMBER = MOBJECTNUMBER + 1
