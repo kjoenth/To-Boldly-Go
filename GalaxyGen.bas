@@ -269,7 +269,7 @@ ELSE
     END IF
 END IF
 
-numbRequestedStars = OSTAR+BSTAR+ASTAR+FSTAR+GSTAR+KSTAR+MSTAR+LSTAR
+numbRequestedStars = OSTAR+BSTAR+ASTAR+FSTAR+GSTAR+KSTAR+MSTAR+LSTAR+DWARFSTAR
 DIM shared starNameList$(0 to numbRequestedStars)
 CALL makeStarNameList(numbRequestedStars)
 '################################
@@ -441,7 +441,7 @@ PRINT #1, "        }"
 PRINT #1, "        Properties"
 PRINT #1, "        {"
 'PRINT #1, "             sphereOfInfluence = 220118820000"
-PRINT #1, "             sphereOfInfluence = 46992481203007510000"
+PRINT #1, "            sphereOfInfluence = 46992481203007510000"
 PRINT #1, "        }"
 PRINT #1, "        Orbit"
 PRINT #1, "        {"
@@ -467,12 +467,12 @@ END IF
 
 PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
 PRINT #1, "            mode = 0"
-PRINT #1, "            color = 1,1,0,1"
+PRINT #1, "            color = 0.2,0.2,0.2,1"
 PRINT #1, "        }"
 PRINT #1, "        ScaledVersion"
 PRINT #1, "        {"
-PRINT #1, "        Light"
-PRINT #1, "         {"
+PRINT #1, "            Light"
+PRINT #1, "            {"
 'PRINT #1, "             sunlightColor = 1,1,1,1.0"
 'PRINT #1, "             sunlightIntensity = 0.55"
 'PRINT #1, "             scaledSunlightColor = 1,1,1,1.0"
@@ -480,17 +480,40 @@ PRINT #1, "         {"
 'PRINT #1, "             IVASunColor = 1,1,1,1.0"
 'PRINT #1, "             IVASunIntensity = 0.55"
 'PRINT #1, "             sunLensFlareColor = 1,1,1,1.0"
-PRINT #1, "             sunlightColor = 0,0,0,0.0"
-PRINT #1, "             sunlightIntensity = 0"
-PRINT #1, "             scaledSunlightColor = 0,0,0,0.0"
-PRINT #1, "             scaledSunlightIntensity = 0"
-PRINT #1, "             IVASunColor = 0,0,0,0.0"
-PRINT #1, "             IVASunIntensity = 0"
-PRINT #1, "             sunLensFlareColor = 0,0,0,0.0"
-PRINT #1, "             givesOffLight = False"
-PRINT #1, ""
+PRINT #1, "                sunlightColor = 0,0,0,0.0"
+PRINT #1, "                sunlightIntensity = 0"
+PRINT #1, "                scaledSunlightColor = 0,0,0,0.0"
+PRINT #1, "                scaledSunlightIntensity = 0"
+PRINT #1, "                IVASunColor = 0,0,0,0.0"
+PRINT #1, "                IVASunIntensity = 0"
+PRINT #1, "                sunLensFlareColor = 0,0,0,0.0"
+PRINT #1, "                givesOffLight = False"
+PRINT #1, "            }"
+PRINT #1, "            Material"
+PRINT #1, "            {"
+PRINT #1, "                emitColor0 = 0,0,0,1"
+PRINT #1, "                emitColor1 = 0,0,0,1"
+PRINT #1, "                sunspotColor = 0,0,0,1"
+PRINT #1, "                rimColor = 0,0,0,1"
+PRINT #1, "            }"
+PRINT #1, "            Coronas"
+PRINT #1, "            {"
+PRINT #1, "                Corona"
+PRINT #1, "                {"
+PRINT #1, "                    rotation = 0"
+PRINT #1, "                    speed = -1"
+PRINT #1, "                    updateInterval = 5"
+PRINT #1, "                    scaleLimitX = 5"
+PRINT #1, "                    scaleLimitY = 5"
+PRINT #1, "                    scaleSpeed = 0.007"
+PRINT #1, "                    Material"
+PRINT #1, "                    {"
+PRINT #1, "                        texture = To_Boldly_Go/coronae/BlackCorona"
+PRINT #1, "                        inverseFade = 2.553731"
+PRINT #1, "                    }"
+PRINT #1, "                }"
+PRINT #1, "             }"
 PRINT #1, "         }"
-PRINT #1, "     }"
 PRINT #1, "    }"
 PRINT #1, "}"
 
@@ -2337,7 +2360,6 @@ FOR a_Star = 1 TO LSTAR
 NEXT
 
 '******************************************************************************
-
 FOR a_Star = 1 TO DWARFSTAR
     '###These print statements can go away once the starTemplate can be used
     '###Need to get planet and moon template generation working in basic first
