@@ -4233,7 +4233,13 @@ SUB makeAStar (star_MassKG, star_Name$, star_Description$):
     IVASuncolor$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
     IVASunIntensity$ = "1.0"
     'sunLensFlareColor$ = "0.3,0,0,1.0"
-    sunLensFlareColor$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
+    '#adjust some values to cover over the default yellow'
+    IF theB>=0.9 THEN
+        theRFlare=theR/2
+        sunLensFlareColor$ = STR$(theRFlare) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
+    ELSE
+        sunLensFlareColor$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
+    END IF
     ambientLightColor$ = "0,0,0,1"
     sunAU$ = str$(star_RadiusKSP+13338240256) 'added value is distance to kerbin from kerbol - kerbol radius. STH 2017-0309
     luminosity$ = "0"
