@@ -1,4 +1,4 @@
-'To Boldly Go v0.2.7 - Kopernicus Procedural Galaxy Generator!"
+'To Boldly Go v0.3 - Kopernicus Procedural Galaxy Generator!"
 'Copyright (C) 2016  Daniel L."
 '
 'This program is free software; you can redistribute it and/or modify"
