@@ -1,0 +1,46 @@
+
+
+SUB MakeAsteroids (star_Name$,thePlanetName$,Max_num_asteroids):
+	MAXAST = INT(RND * Max_num_asteroids)
+	FOR ASTNUMBER = 1 TO MAXAST
+		PRINT #1, "    Body"
+		PRINT #1, "    {"
+		PRINT #1, "        name = " + star_Name$ + " " + STR$(ASTNUMBER)
+		PRINT #1, "        Template"
+		PRINT #1, "        {"
+		PRINT #1, "            name = Gilly"
+		PRINT #1, "        }"
+		PRINT #1, "        Properties"
+		PRINT #1, "        {"
+		PRINT #1, "            description = When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy. "
+		PRINT #1, "            radius ="; INT(RND * 80000) + 5000
+		PRINT #1, "        }"
+		theAstName$ = thePlanetName$ + " " + STR$(ASTNUMBER)
+		astSEMIMAJORAXIS = INT(RND * 10000000000) + 10000000
+		INCLINATION = INT(RND * 360)
+		PRINT #1, "        Orbit"
+		PRINT #1, "        {"
+		PRINT #1, "            referenceBody = " + star_Name$
+		PRINT #1, "            inclination =" + STR$(INCLINATION)
+		PRINT #1, "            semiMajorAxis =" + STR$(astSEMIMAJORAXIS)
+		PRINT #1, "        }"
+		PRINT #1, "        PQS"
+		PRINT #1, "        {"
+		PRINT #1, "            Mods"
+		PRINT #1, "            {"
+		PRINT #1, "                VertexSimplexHeightAbsolute"
+		PRINT #1, "                {"
+		PRINT #1, "                    seed ="; INT(RND * 100000)
+		PRINT #1, "                }"
+		PRINT #1, "                VertexHeightNoise"
+		PRINT #1, "                {"
+		PRINT #1, "                    seed ="; INT(RND * 100000)
+		PRINT #1, "                }"
+		PRINT #1, "            }"
+		PRINT #1, "        }"
+		PRINT #1, "    }"
+
+		AOBJECTNUMBER = AOBJECTNUMBER + 1
+	NEXT
+	
+END SUB
