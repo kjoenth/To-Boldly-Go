@@ -1,0 +1,53 @@
+SUB MakeMoons (thePlanetName$,Max_num_moons):
+	MAXMOON = INT(RND * Max_num_moons)
+	FOR theMoonNumb = 1 TO MAXMOON
+		theMoonName$ = thePlanetName$ + " " + STR$(theMoonNumb)
+		moonSEMIMAJORAXIS = INT(RND * 50000000) + 11000000
+		INCLINATION = INT(RND * 360)
+		PRINT #1, "    Body"
+		PRINT #1, "    {"
+		PRINT #1, "        name = " + theMoonName$
+		'#######'
+		'#We can be smarter about this by looking at radius of parent body
+		'#And only picking possible moons by picking things with radius less
+		'#than parent body
+		'#STH 2017-0203'
+		'IF PLANETTYPE$ = "Jool" THEN
+		IF PLANETRADI > 2000000000 THEN
+			DO WHILE PLANETTYPE$ = "Jool"
+				keyIndex = INT(RND * UBOUND(planetKey$))
+				PLANETTYPE$ = planetKey$(keyIndex)
+			LOOP
+			PRINT #1, "        Template"
+			PRINT #1, "        {"
+			PRINT #1, "            name = "; PLANETTYPE$
+			PRINT #1, "        }"
+		END IF
+		IF NOT(PLANETRADI > 2000000000) THEN
+			PRINT #1, "        Template"
+			PRINT #1, "        {"
+			PRINT #1, "            name = Gilly"
+			PRINT #1, "        }"
+		END IF
+		'#########################'
+		'###Fill in orbit data'
+		theReferenceBody$ = thePlanetName$
+		theColour$ = ""
+		theMode$ = ""
+		theInclination$ = STR$(INT(RND * 360))
+		theEccentricity$ = ""
+		theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
+		theLongitudeOfAscendingNode$ = ""
+		theArgumentOfPeriapsis$ = ""
+		theMeanAnomalyAtEpoch$ = ""
+		theEpoch$ = ""
+		aOrbitTemp$ = theOrbitTemplate$
+		aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
+		PRINT #1, aOrbitNode$
+		PRINT #1, "    }"
+		MOBJECTNUMBER = MOBJECTNUMBER + 1
+	NEXT
+	
+		
+END SUB
+	

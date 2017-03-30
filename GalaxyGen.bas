@@ -1,4 +1,4 @@
-'To Boldly Go v0.3 - Kopernicus Procedural Galaxy Generator!"
+'To Boldly Go v0.3.0.5 - Kopernicus Procedural Galaxy Generator!"
 'Copyright (C) 2016  Daniel L."
 '
 'This program is free software; you can redistribute it and/or modify"
@@ -15,7 +15,7 @@
 'along with this program; if not, write to the Free Software"
 'Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 
-TBG_Version$ = "0.3"
+TBG_Version$ = "0.3.0.5"
 _TITLE "To Boldly Go version " + TBG_Version$
 
 i& = _LOADIMAGE("Data_Folder/Galaxy-icon.png", 32) '<<<<<<< use your image file name here
@@ -39,6 +39,12 @@ REDIM SHARED thePlanetDesc$(-1)
 REDIM SHARED thePlanetStock$(-1)
 readPlanetTemplates
 '###################
+
+'#make all the Object numbers shared accross subroutines to allow access
+DIM SHARED SOBJECTNUMBER AS INTEGER
+DIM SHARED POBJECTNUMBER AS INTEGER
+DIM SHARED MOBJECTNUMBER AS INTEGER
+DIM SHARED AOBJECTNUMBER AS INTEGER
 
 'BROWNSTARNUMBER = 1
 'REDSTARNUMBER = 1
@@ -654,99 +660,14 @@ FOR a_Star = 1 TO OSTAR
                 '########################'
                 '####
                 '#25% chance of there being a moon
-                MAXMOON = INT(RND * 4)
-                FOR theMoonNumb = 1 TO MAXMOON
-                    theMoonName$ = thePlanetName$ + " " + STR$(theMoonNumb)
-                    moonSEMIMAJORAXIS = INT(RND * 50000000) + 11000000
-                    INCLINATION = INT(RND * 360)
-                    PRINT #1, "    Body"
-                    PRINT #1, "    {"
-                    PRINT #1, "        name = " + theMoonName$
-                    '#######'
-                    '#We can be smarter about this by looking at radius of parent body
-                    '#And only picking possible moons by picking things with radius less
-                    '#than parent body
-                    '#STH 2017-0203'
-                    'IF PLANETTYPE$ = "Jool" THEN
-                    IF PLANETRADI > 2000000000 THEN
-                        DO WHILE PLANETTYPE$ = "Jool"
-                            keyIndex = INT(RND * UBOUND(planetKey$))
-                            PLANETTYPE$ = planetKey$(keyIndex)
-                        LOOP
-                        PRINT #1, "        Template"
-                        PRINT #1, "        {"
-                        PRINT #1, "            name = "; PLANETTYPE$
-                        PRINT #1, "        }"
-                    ELSE
-                        PRINT #1, "        Template"
-                        PRINT #1, "        {"
-                        PRINT #1, "            name = Gilly"
-                        PRINT #1, "        }"
-                    END IF
-                    '#########################'
-                    '###Fill in orbit data'
-                    theReferenceBody$ = thePlanetName$
-                    theColour$ = ""
-                    theMode$ = ""
-                    theInclination$ = STR$(INT(RND * 360))
-                    theEccentricity$ = ""
-                    theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
-                    theLongitudeOfAscendingNode$ = ""
-                    theArgumentOfPeriapsis$ = ""
-                    theMeanAnomalyAtEpoch$ = ""
-                    theEpoch$ = ""
-                    aOrbitTemp$ = theOrbitTemplate$
-                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
-                    PRINT #1, aOrbitNode$
-                    PRINT #1, "    }"
-                    MOBJECTNUMBER = MOBJECTNUMBER + 1
-                NEXT
+                CALL MakeMoons(thePlanetName$,4) '# number of moons can be related to the size of the host planet..
+
                 planetNumb = planetNumb + 1
                 POBJECTNUMBER = POBJECTNUMBER + 1
             NEXT
 
             IF ASTTOG$ = "y" THEN
-                MAXAST = INT(RND * 2)
-                FOR ASTNUMBER = 1 TO MAXAST
-                    PRINT #1, "    Body"
-                    PRINT #1, "    {"
-                    PRINT #1, "        name = " + star_Name$ + " " + STR$(ASTNUMBER)
-                    PRINT #1, "        Template"
-                    PRINT #1, "        {"
-                    PRINT #1, "            name = Gilly"
-                    PRINT #1, "        }"
-                    PRINT #1, "        Properties"
-                    PRINT #1, "        {"
-                    PRINT #1, "            description = When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy. "
-                    PRINT #1, "            radius ="; INT(RND * 80000) + 5000
-                    PRINT #1, "        }"
-                    theAstName$ = thePlanetName$ + " " + STR$(ASTNUMBER)
-                    astSEMIMAJORAXIS = INT(RND * 10000000000) + 10000000
-                    INCLINATION = INT(RND * 360)
-                    PRINT #1, "        Orbit"
-                    PRINT #1, "        {"
-                    PRINT #1, "            referenceBody = " + star_Name$
-                    PRINT #1, "            inclination =" + STR$(INCLINATION)
-                    PRINT #1, "            semiMajorAxis =" + STR$(astSEMIMAJORAXIS)
-                    PRINT #1, "        }"
-                    PRINT #1, "        PQS"
-                    PRINT #1, "        {"
-                    PRINT #1, "            Mods"
-                    PRINT #1, "            {"
-                    PRINT #1, "                VertexSimplexHeightAbsolute"
-                    PRINT #1, "                {"
-                    PRINT #1, "                    seed ="; INT(RND * 100000)
-                    PRINT #1, "                }"
-                    PRINT #1, "                VertexHeightNoise"
-                    PRINT #1, "                {"
-                    PRINT #1, "                    seed ="; INT(RND * 100000)
-                    PRINT #1, "                }"
-                    PRINT #1, "            }"
-                    PRINT #1, "        }"
-                    PRINT #1, "    }"
-
-                    AOBJECTNUMBER = AOBJECTNUMBER + 1
-                NEXT
+                CALL MakeAsteroids(star_Name$,thePlanetName$,2)
             END IF
 
             PRINT #1, "}"
@@ -868,99 +789,14 @@ FOR a_Star = 1 TO BSTAR
                 '########################'
                 '####
                 '#25% chance of there being a moon
-                MAXMOON = INT(RND * 4)
-                FOR theMoonNumb = 1 TO MAXMOON
-                    theMoonName$ = thePlanetName$ + " " + STR$(theMoonNumb)
-                    moonSEMIMAJORAXIS = INT(RND * 50000000) + 11000000
-                    INCLINATION = INT(RND * 360)
-                    PRINT #1, "    Body"
-                    PRINT #1, "    {"
-                    PRINT #1, "        name = " + theMoonName$
-                    '#######'
-                    '#We can be smarter about this by looking at radius of parent body
-                    '#And only picking possible moons by picking things with radius less
-                    '#than parent body
-                    '#STH 2017-0203'
-                    'IF PLANETTYPE$ = "Jool" THEN
-                    IF PLANETRADI > 2000000000 THEN
-                        DO WHILE PLANETTYPE$ = "Jool"
-                            keyIndex = INT(RND * UBOUND(planetKey$))
-                            PLANETTYPE$ = planetKey$(keyIndex)
-                        LOOP
-                        PRINT #1, "        Template"
-                        PRINT #1, "        {"
-                        PRINT #1, "            name = "; PLANETTYPE$
-                        PRINT #1, "        }"
-                    ELSE
-                        PRINT #1, "        Template"
-                        PRINT #1, "        {"
-                        PRINT #1, "            name = Gilly"
-                        PRINT #1, "        }"
-                    END IF
-                    '#########################'
-                    '###Fill in orbit data'
-                    theReferenceBody$ = thePlanetName$
-                    theColour$ = ""
-                    theMode$ = ""
-                    theInclination$ = STR$(INT(RND * 360))
-                    theEccentricity$ = ""
-                    theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
-                    theLongitudeOfAscendingNode$ = ""
-                    theArgumentOfPeriapsis$ = ""
-                    theMeanAnomalyAtEpoch$ = ""
-                    theEpoch$ = ""
-                    aOrbitTemp$ = theOrbitTemplate$
-                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
-                    PRINT #1, aOrbitNode$
-                    PRINT #1, "    }"
-                    MOBJECTNUMBER = MOBJECTNUMBER + 1
-                NEXT
+                CALL MakeMoons(thePlanetName$,4) '# number of moons can be related to the size of the host planet..
+
                 planetNumb = planetNumb + 1
                 POBJECTNUMBER = POBJECTNUMBER + 1
             NEXT
 
             IF ASTTOG$ = "y" THEN
-                MAXAST = INT(RND * 2)
-                FOR ASTNUMBER = 1 TO MAXAST
-                    PRINT #1, "    Body"
-                    PRINT #1, "    {"
-                    PRINT #1, "        name = " + star_Name$ + " " + STR$(ASTNUMBER)
-                    PRINT #1, "        Template"
-                    PRINT #1, "        {"
-                    PRINT #1, "            name = Gilly"
-                    PRINT #1, "        }"
-                    PRINT #1, "        Properties"
-                    PRINT #1, "        {"
-                    PRINT #1, "            description = When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy. "
-                    PRINT #1, "            radius ="; INT(RND * 80000) + 5000
-                    PRINT #1, "        }"
-                    theAstName$ = thePlanetName$ + " " + STR$(ASTNUMBER)
-                    astSEMIMAJORAXIS = INT(RND * 10000000000) + 10000000
-                    INCLINATION = INT(RND * 360)
-                    PRINT #1, "        Orbit"
-                    PRINT #1, "        {"
-                    PRINT #1, "            referenceBody = " + star_Name$
-                    PRINT #1, "            inclination =" + STR$(INCLINATION)
-                    PRINT #1, "            semiMajorAxis =" + STR$(astSEMIMAJORAXIS)
-                    PRINT #1, "        }"
-                    PRINT #1, "        PQS"
-                    PRINT #1, "        {"
-                    PRINT #1, "            Mods"
-                    PRINT #1, "            {"
-                    PRINT #1, "                VertexSimplexHeightAbsolute"
-                    PRINT #1, "                {"
-                    PRINT #1, "                    seed ="; INT(RND * 100000)
-                    PRINT #1, "                }"
-                    PRINT #1, "                VertexHeightNoise"
-                    PRINT #1, "                {"
-                    PRINT #1, "                    seed ="; INT(RND * 100000)
-                    PRINT #1, "                }"
-                    PRINT #1, "            }"
-                    PRINT #1, "        }"
-                    PRINT #1, "    }"
-
-                    AOBJECTNUMBER = AOBJECTNUMBER + 1
-                NEXT
+                CALL MakeAsteroids(star_Name$,thePlanetName$,2)
             END IF
 
             PRINT #1, "}"
@@ -1082,99 +918,14 @@ FOR a_Star = 1 TO ASTAR
                 '########################'
                 '####
                 '#25% chance of there being a moon
-                MAXMOON = INT(RND * 4)
-                FOR theMoonNumb = 1 TO MAXMOON
-                    theMoonName$ = thePlanetName$ + " " + STR$(theMoonNumb)
-                    moonSEMIMAJORAXIS = INT(RND * 50000000) + 11000000
-                    INCLINATION = INT(RND * 360)
-                    PRINT #1, "    Body"
-                    PRINT #1, "    {"
-                    PRINT #1, "        name = " + theMoonName$
-                    '#######'
-                    '#We can be smarter about this by looking at radius of parent body
-                    '#And only picking possible moons by picking things with radius less
-                    '#than parent body
-                    '#STH 2017-0203'
-                    'IF PLANETTYPE$ = "Jool" THEN
-                    IF PLANETRADI > 2000000000 THEN
-                        DO WHILE PLANETTYPE$ = "Jool"
-                            keyIndex = INT(RND * UBOUND(planetKey$))
-                            PLANETTYPE$ = planetKey$(keyIndex)
-                        LOOP
-                        PRINT #1, "        Template"
-                        PRINT #1, "        {"
-                        PRINT #1, "            name = "; PLANETTYPE$
-                        PRINT #1, "        }"
-                    ELSE
-                        PRINT #1, "        Template"
-                        PRINT #1, "        {"
-                        PRINT #1, "            name = Gilly"
-                        PRINT #1, "        }"
-                    END IF
-                    '#########################'
-                    '###Fill in orbit data'
-                    theReferenceBody$ = thePlanetName$
-                    theColour$ = ""
-                    theMode$ = ""
-                    theInclination$ = STR$(INT(RND * 360))
-                    theEccentricity$ = ""
-                    theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
-                    theLongitudeOfAscendingNode$ = ""
-                    theArgumentOfPeriapsis$ = ""
-                    theMeanAnomalyAtEpoch$ = ""
-                    theEpoch$ = ""
-                    aOrbitTemp$ = theOrbitTemplate$
-                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
-                    PRINT #1, aOrbitNode$
-                    PRINT #1, "    }"
-                    MOBJECTNUMBER = MOBJECTNUMBER + 1
-                NEXT
+                CALL MakeMoons(thePlanetName$,4) '# number of moons can be related to the size of the host planet..
+
                 planetNumb = planetNumb + 1
                 POBJECTNUMBER = POBJECTNUMBER + 1
             NEXT
 
             IF ASTTOG$ = "y" THEN
-                MAXAST = INT(RND * 2)
-                FOR ASTNUMBER = 1 TO MAXAST
-                    PRINT #1, "    Body"
-                    PRINT #1, "    {"
-                    PRINT #1, "        name = " + star_Name$ + " " + STR$(ASTNUMBER)
-                    PRINT #1, "        Template"
-                    PRINT #1, "        {"
-                    PRINT #1, "            name = Gilly"
-                    PRINT #1, "        }"
-                    PRINT #1, "        Properties"
-                    PRINT #1, "        {"
-                    PRINT #1, "            description = When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy. "
-                    PRINT #1, "            radius ="; INT(RND * 80000) + 5000
-                    PRINT #1, "        }"
-                    theAstName$ = thePlanetName$ + " " + STR$(ASTNUMBER)
-                    astSEMIMAJORAXIS = INT(RND * 10000000000) + 10000000
-                    INCLINATION = INT(RND * 360)
-                    PRINT #1, "        Orbit"
-                    PRINT #1, "        {"
-                    PRINT #1, "            referenceBody = " + star_Name$
-                    PRINT #1, "            inclination =" + STR$(INCLINATION)
-                    PRINT #1, "            semiMajorAxis =" + STR$(astSEMIMAJORAXIS)
-                    PRINT #1, "        }"
-                    PRINT #1, "        PQS"
-                    PRINT #1, "        {"
-                    PRINT #1, "            Mods"
-                    PRINT #1, "            {"
-                    PRINT #1, "                VertexSimplexHeightAbsolute"
-                    PRINT #1, "                {"
-                    PRINT #1, "                    seed ="; INT(RND * 100000)
-                    PRINT #1, "                }"
-                    PRINT #1, "                VertexHeightNoise"
-                    PRINT #1, "                {"
-                    PRINT #1, "                    seed ="; INT(RND * 100000)
-                    PRINT #1, "                }"
-                    PRINT #1, "            }"
-                    PRINT #1, "        }"
-                    PRINT #1, "    }"
-
-                    AOBJECTNUMBER = AOBJECTNUMBER + 1
-                NEXT
+                CALL MakeAsteroids(star_Name$,thePlanetName$,2)
             END IF
 
             PRINT #1, "}"
@@ -1296,99 +1047,14 @@ FOR a_Star = 1 TO FSTAR
                 '########################'
                 '####
                 '#25% chance of there being a moon
-                MAXMOON = INT(RND * 4)
-                FOR theMoonNumb = 1 TO MAXMOON
-                    theMoonName$ = thePlanetName$ + " " + STR$(theMoonNumb)
-                    moonSEMIMAJORAXIS = INT(RND * 50000000) + 11000000
-                    INCLINATION = INT(RND * 360)
-                    PRINT #1, "    Body"
-                    PRINT #1, "    {"
-                    PRINT #1, "        name = " + theMoonName$
-                    '#######'
-                    '#We can be smarter about this by looking at radius of parent body
-                    '#And only picking possible moons by picking things with radius less
-                    '#than parent body
-                    '#STH 2017-0203'
-                    'IF PLANETTYPE$ = "Jool" THEN
-                    IF PLANETRADI > 2000000000 THEN
-                        DO WHILE PLANETTYPE$ = "Jool"
-                            keyIndex = INT(RND * UBOUND(planetKey$))
-                            PLANETTYPE$ = planetKey$(keyIndex)
-                        LOOP
-                        PRINT #1, "        Template"
-                        PRINT #1, "        {"
-                        PRINT #1, "            name = "; PLANETTYPE$
-                        PRINT #1, "        }"
-                    ELSE
-                        PRINT #1, "        Template"
-                        PRINT #1, "        {"
-                        PRINT #1, "            name = Gilly"
-                        PRINT #1, "        }"
-                    END IF
-                    '#########################'
-                    '###Fill in orbit data'
-                    theReferenceBody$ = thePlanetName$
-                    theColour$ = ""
-                    theMode$ = ""
-                    theInclination$ = STR$(INT(RND * 360))
-                    theEccentricity$ = ""
-                    theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
-                    theLongitudeOfAscendingNode$ = ""
-                    theArgumentOfPeriapsis$ = ""
-                    theMeanAnomalyAtEpoch$ = ""
-                    theEpoch$ = ""
-                    aOrbitTemp$ = theOrbitTemplate$
-                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
-                    PRINT #1, aOrbitNode$
-                    PRINT #1, "    }"
-                    MOBJECTNUMBER = MOBJECTNUMBER + 1
-                NEXT
+                CALL MakeMoons(thePlanetName$,4) '# number of moons can be related to the size of the host planet..
+
                 planetNumb = planetNumb + 1
                 POBJECTNUMBER = POBJECTNUMBER + 1
             NEXT
 
             IF ASTTOG$ = "y" THEN
-                MAXAST = INT(RND * 2)
-                FOR ASTNUMBER = 1 TO MAXAST
-                    PRINT #1, "    Body"
-                    PRINT #1, "    {"
-                    PRINT #1, "        name = " + star_Name$ + " " + STR$(ASTNUMBER)
-                    PRINT #1, "        Template"
-                    PRINT #1, "        {"
-                    PRINT #1, "            name = Gilly"
-                    PRINT #1, "        }"
-                    PRINT #1, "        Properties"
-                    PRINT #1, "        {"
-                    PRINT #1, "            description = When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy. "
-                    PRINT #1, "            radius ="; INT(RND * 80000) + 5000
-                    PRINT #1, "        }"
-                    theAstName$ = thePlanetName$ + " " + STR$(ASTNUMBER)
-                    astSEMIMAJORAXIS = INT(RND * 10000000000) + 10000000
-                    INCLINATION = INT(RND * 360)
-                    PRINT #1, "        Orbit"
-                    PRINT #1, "        {"
-                    PRINT #1, "            referenceBody = " + star_Name$
-                    PRINT #1, "            inclination =" + STR$(INCLINATION)
-                    PRINT #1, "            semiMajorAxis =" + STR$(astSEMIMAJORAXIS)
-                    PRINT #1, "        }"
-                    PRINT #1, "        PQS"
-                    PRINT #1, "        {"
-                    PRINT #1, "            Mods"
-                    PRINT #1, "            {"
-                    PRINT #1, "                VertexSimplexHeightAbsolute"
-                    PRINT #1, "                {"
-                    PRINT #1, "                    seed ="; INT(RND * 100000)
-                    PRINT #1, "                }"
-                    PRINT #1, "                VertexHeightNoise"
-                    PRINT #1, "                {"
-                    PRINT #1, "                    seed ="; INT(RND * 100000)
-                    PRINT #1, "                }"
-                    PRINT #1, "            }"
-                    PRINT #1, "        }"
-                    PRINT #1, "    }"
-
-                    AOBJECTNUMBER = AOBJECTNUMBER + 1
-                NEXT
+                CALL MakeAsteroids(star_Name$,thePlanetName$,2)
             END IF
 
             PRINT #1, "}"
@@ -1510,97 +1176,14 @@ FOR a_Star = 1 TO GSTAR
                 '########################'
                 '####
                 '#25% chance of there being a moon
-                MAXMOON = INT(RND * 4)
-                FOR theMoonNumb = 1 TO MAXMOON
-                    theMoonName$ = thePlanetName$ + " " + STR$(theMoonNumb)
-                    PRINT #1, "    Body"
-                    PRINT #1, "    {"
-                    PRINT #1, "        name = " + theMoonName$
-                    '#######'
-                    '#We can be smarter about this by looking at radius of parent body
-                    '#And only picking possible moons by picking things with radius less
-                    '#than parent body
-                    '#STH 2017-0203'
-                    'IF PLANETTYPE$ = "Jool" THEN
-                    IF PLANETRADI > 2000000000 THEN
-                        DO WHILE PLANETTYPE$ = "Jool"
-                            keyIndex = INT(RND * UBOUND(planetKey$))
-                            PLANETTYPE$ = planetKey$(keyIndex)
-                        LOOP
-                        PRINT #1, "        Template"
-                        PRINT #1, "        {"
-                        PRINT #1, "            name = "; PLANETTYPE$
-                        PRINT #1, "        }"
-                    ELSE
-                        PRINT #1, "        Template"
-                        PRINT #1, "        {"
-                        PRINT #1, "            name = Gilly"
-                        PRINT #1, "        }"
-                    END IF
-                    '#########################'
-                    '###Fill in orbit data'
-                    theReferenceBody$ = thePlanetName$
-                    theColour$ = ""
-                    theMode$ = ""
-                    theInclination$ = STR$(INT(RND * 360))
-                    theEccentricity$ = ""
-                    theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
-                    theLongitudeOfAscendingNode$ = ""
-                    theArgumentOfPeriapsis$ = ""
-                    theMeanAnomalyAtEpoch$ = ""
-                    theEpoch$ = ""
-                    aOrbitTemp$ = theOrbitTemplate$
-                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
-                    PRINT #1, aOrbitNode$
-                    PRINT #1, "    }"
-                    MOBJECTNUMBER = MOBJECTNUMBER + 1
-                NEXT
+                CALL MakeMoons(thePlanetName$,4) '# number of moons can be related to the size of the host planet..
+
                 planetNumb = planetNumb + 1
                 POBJECTNUMBER = POBJECTNUMBER + 1
             NEXT
 
             IF ASTTOG$ = "y" THEN
-                MAXAST = INT(RND * 2)
-                FOR ASTNUMBER = 1 TO MAXAST
-                    PRINT #1, "    Body"
-                    PRINT #1, "    {"
-                    PRINT #1, "        name = " + star_Name$ + " " + STR$(ASTNUMBER)
-                    PRINT #1, "        Template"
-                    PRINT #1, "        {"
-                    PRINT #1, "            name = Gilly"
-                    PRINT #1, "        }"
-                    PRINT #1, "        Properties"
-                    PRINT #1, "        {"
-                    PRINT #1, "            description = When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy. "
-                    PRINT #1, "            radius ="; INT(RND * 80000) + 5000
-                    PRINT #1, "        }"
-                    theAstName$ = thePlanetName$ + " " + STR$(ASTNUMBER)
-                    astSEMIMAJORAXIS = INT(RND * 10000000000) + 10000000
-                    INCLINATION = INT(RND * 360)
-                    PRINT #1, "        Orbit"
-                    PRINT #1, "        {"
-                    PRINT #1, "            referenceBody = " + star_Name$
-                    PRINT #1, "            inclination =" + STR$(INCLINATION)
-                    PRINT #1, "            semiMajorAxis =" + STR$(astSEMIMAJORAXIS)
-                    PRINT #1, "        }"
-                    PRINT #1, "        PQS"
-                    PRINT #1, "        {"
-                    PRINT #1, "            Mods"
-                    PRINT #1, "            {"
-                    PRINT #1, "                VertexSimplexHeightAbsolute"
-                    PRINT #1, "                {"
-                    PRINT #1, "                    seed ="; INT(RND * 100000)
-                    PRINT #1, "                }"
-                    PRINT #1, "                VertexHeightNoise"
-                    PRINT #1, "                {"
-                    PRINT #1, "                    seed ="; INT(RND * 100000)
-                    PRINT #1, "                }"
-                    PRINT #1, "            }"
-                    PRINT #1, "        }"
-                    PRINT #1, "    }"
-
-                    AOBJECTNUMBER = AOBJECTNUMBER + 1
-                NEXT
+                CALL MakeAsteroids(star_Name$,thePlanetName$,2)
             END IF
 
             PRINT #1, "}"
@@ -1722,99 +1305,14 @@ FOR a_Star = 1 TO KSTAR
                 '########################'
                 '####
                 '#25% chance of there being a moon
-                MAXMOON = INT(RND * 4)
-                FOR theMoonNumb = 1 TO MAXMOON
-                    theMoonName$ = thePlanetName$ + " " + STR$(theMoonNumb)
-                    moonSEMIMAJORAXIS = INT(RND * 50000000) + 11000000
-                    INCLINATION = INT(RND * 360)
-                    PRINT #1, "    Body"
-                    PRINT #1, "    {"
-                    PRINT #1, "        name = " + theMoonName$
-                    '#######'
-                    '#We can be smarter about this by looking at radius of parent body
-                    '#And only picking possible moons by picking things with radius less
-                    '#than parent body
-                    '#STH 2017-0203'
-                    'IF PLANETTYPE$ = "Jool" THEN
-                    IF PLANETRADI > 2000000000 THEN
-                        DO WHILE PLANETTYPE$ = "Jool"
-                            keyIndex = INT(RND * UBOUND(planetKey$))
-                            PLANETTYPE$ = planetKey$(keyIndex)
-                        LOOP
-                        PRINT #1, "        Template"
-                        PRINT #1, "        {"
-                        PRINT #1, "            name = "; PLANETTYPE$
-                        PRINT #1, "        }"
-                    ELSE
-                        PRINT #1, "        Template"
-                        PRINT #1, "        {"
-                        PRINT #1, "            name = Gilly"
-                        PRINT #1, "        }"
-                    END IF
-                    '#########################'
-                    '###Fill in orbit data'
-                    theReferenceBody$ = thePlanetName$
-                    theColour$ = ""
-                    theMode$ = ""
-                    theInclination$ = STR$(INT(RND * 360))
-                    theEccentricity$ = ""
-                    theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
-                    theLongitudeOfAscendingNode$ = ""
-                    theArgumentOfPeriapsis$ = ""
-                    theMeanAnomalyAtEpoch$ = ""
-                    theEpoch$ = ""
-                    aOrbitTemp$ = theOrbitTemplate$
-                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
-                    PRINT #1, aOrbitNode$
-                    PRINT #1, "    }"
-                    MOBJECTNUMBER = MOBJECTNUMBER + 1
-                NEXT
+                CALL MakeMoons(thePlanetName$,4) '# number of moons can be related to the size of the host planet..
+
                 planetNumb = planetNumb + 1
                 POBJECTNUMBER = POBJECTNUMBER + 1
             NEXT
 
             IF ASTTOG$ = "y" THEN
-                MAXAST = INT(RND * 2)
-                FOR ASTNUMBER = 1 TO MAXAST
-                    PRINT #1, "    Body"
-                    PRINT #1, "    {"
-                    PRINT #1, "        name = " + star_Name$ + " " + STR$(ASTNUMBER)
-                    PRINT #1, "        Template"
-                    PRINT #1, "        {"
-                    PRINT #1, "            name = Gilly"
-                    PRINT #1, "        }"
-                    PRINT #1, "        Properties"
-                    PRINT #1, "        {"
-                    PRINT #1, "            description = When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy. "
-                    PRINT #1, "            radius ="; INT(RND * 80000) + 5000
-                    PRINT #1, "        }"
-                    theAstName$ = thePlanetName$ + " " + STR$(ASTNUMBER)
-                    astSEMIMAJORAXIS = INT(RND * 10000000000) + 10000000
-                    INCLINATION = INT(RND * 360)
-                    PRINT #1, "        Orbit"
-                    PRINT #1, "        {"
-                    PRINT #1, "            referenceBody = " + star_Name$
-                    PRINT #1, "            inclination =" + STR$(INCLINATION)
-                    PRINT #1, "            semiMajorAxis =" + STR$(astSEMIMAJORAXIS)
-                    PRINT #1, "        }"
-                    PRINT #1, "        PQS"
-                    PRINT #1, "        {"
-                    PRINT #1, "            Mods"
-                    PRINT #1, "            {"
-                    PRINT #1, "                VertexSimplexHeightAbsolute"
-                    PRINT #1, "                {"
-                    PRINT #1, "                    seed ="; INT(RND * 100000)
-                    PRINT #1, "                }"
-                    PRINT #1, "                VertexHeightNoise"
-                    PRINT #1, "                {"
-                    PRINT #1, "                    seed ="; INT(RND * 100000)
-                    PRINT #1, "                }"
-                    PRINT #1, "            }"
-                    PRINT #1, "        }"
-                    PRINT #1, "    }"
-
-                    AOBJECTNUMBER = AOBJECTNUMBER + 1
-                NEXT
+                CALL MakeAsteroids(star_Name$,thePlanetName$,2)
             END IF
 
             PRINT #1, "}"
@@ -1937,98 +1435,14 @@ FOR a_Star = 1 TO MSTAR
                 '####
                 '#25% chance of there being a moon
                 MAXMOON = INT(RND * 4)
-                FOR theMoonNumb = 1 TO MAXMOON
-                    theMoonName$ = thePlanetName$ + " " + STR$(theMoonNumb)
-                    moonSEMIMAJORAXIS = INT(RND * 50000000) + 11000000
-                    INCLINATION = INT(RND * 360)
-                    PRINT #1, "    Body"
-                    PRINT #1, "    {"
-                    PRINT #1, "        name = " + theMoonName$
-                    '#######'
-                    '#We can be smarter about this by looking at radius of parent body
-                    '#And only picking possible moons by picking things with radius less
-                    '#than parent body
-                    '#STH 2017-0203'
-                    'IF PLANETTYPE$ = "Jool" THEN
-                    IF PLANETRADI > 2000000000 THEN
-                        DO WHILE PLANETTYPE$ = "Jool"
-                            keyIndex = INT(RND * UBOUND(planetKey$))
-                            PLANETTYPE$ = planetKey$(keyIndex)
-                        LOOP
-                        PRINT #1, "        Template"
-                        PRINT #1, "        {"
-                        PRINT #1, "            name = "; PLANETTYPE$
-                        PRINT #1, "        }"
-                    ELSE
-                        PRINT #1, "        Template"
-                        PRINT #1, "        {"
-                        PRINT #1, "            name = Gilly"
-                        PRINT #1, "        }"
-                    END IF
-                    '#########################'
-                    '###Fill in orbit data'
-                    theReferenceBody$ = thePlanetName$
-                    theColour$ = ""
-                    theMode$ = ""
-                    theInclination$ = STR$(INT(RND * 360))
-                    theEccentricity$ = ""
-                    theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
-                    theLongitudeOfAscendingNode$ = ""
-                    theArgumentOfPeriapsis$ = ""
-                    theMeanAnomalyAtEpoch$ = ""
-                    theEpoch$ = ""
-                    aOrbitTemp$ = theOrbitTemplate$
-                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
-                    PRINT #1, aOrbitNode$
-                    PRINT #1, "    }"
-                    MOBJECTNUMBER = MOBJECTNUMBER + 1
-                NEXT
+                CALL MakeMoons(thePlanetName$,4) '# number of moons can be related to the size of the host planet..
+
                 planetNumb = planetNumb + 1
                 POBJECTNUMBER = POBJECTNUMBER + 1
             NEXT
 
             IF ASTTOG$ = "y" THEN
-                MAXAST = INT(RND * 2)
-                FOR ASTNUMBER = 1 TO MAXAST
-                    PRINT #1, "    Body"
-                    PRINT #1, "    {"
-                    PRINT #1, "        name = " + star_Name$ + " " + STR$(ASTNUMBER)
-                    PRINT #1, "        Template"
-                    PRINT #1, "        {"
-                    PRINT #1, "            name = Gilly"
-                    PRINT #1, "        }"
-                    PRINT #1, "        Properties"
-                    PRINT #1, "        {"
-                    PRINT #1, "            description = When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy. "
-                    PRINT #1, "            radius ="; INT(RND * 80000) + 5000
-                    PRINT #1, "        }"
-                    theAstName$ = thePlanetName$ + " " + STR$(ASTNUMBER)
-                    astSEMIMAJORAXIS = INT(RND * 10000000000) + 10000000
-                    INCLINATION = INT(RND * 360)
-                    PRINT #1, "        Orbit"
-                    PRINT #1, "        {"
-                    PRINT #1, "            referenceBody = " + star_Name$
-                    PRINT #1, "            inclination =" + STR$(INCLINATION)
-                    PRINT #1, "            semiMajorAxis =" + STR$(astSEMIMAJORAXIS)
-                    PRINT #1, "        }"
-                    PRINT #1, "        PQS"
-                    PRINT #1, "        {"
-                    PRINT #1, "            Mods"
-                    PRINT #1, "            {"
-                    PRINT #1, "                VertexSimplexHeightAbsolute"
-                    PRINT #1, "                {"
-                    PRINT #1, "                    seed ="; INT(RND * 100000)
-                    PRINT #1, "                }"
-                    PRINT #1, "                VertexHeightNoise"
-                    PRINT #1, "                {"
-                    PRINT #1, "                    seed ="; INT(RND * 100000)
-                    PRINT #1, "                }"
-                    PRINT #1, "            }"
-                    PRINT #1, "        }"
-                    PRINT #1, "    }"
-
-                    AOBJECTNUMBER = AOBJECTNUMBER + 1
-                NEXT
+                CALL MakeAsteroids(star_Name$,thePlanetName$,2)
             END IF
 
             PRINT #1, "}"
@@ -2150,99 +1564,14 @@ FOR a_Star = 1 TO LSTAR
                 '########################'
                 '####
                 '#25% chance of there being a moon
-                MAXMOON = INT(RND * 4)
-                FOR theMoonNumb = 1 TO MAXMOON
-                    theMoonName$ = thePlanetName$ + " " + STR$(theMoonNumb)
-                    moonSEMIMAJORAXIS = INT(RND * 50000000) + 11000000
-                    INCLINATION = INT(RND * 360)
-                    PRINT #1, "    Body"
-                    PRINT #1, "    {"
-                    PRINT #1, "        name = " + theMoonName$
-                    '#######'
-                    '#We can be smarter about this by looking at radius of parent body
-                    '#And only picking possible moons by picking things with radius less
-                    '#than parent body
-                    '#STH 2017-0203'
-                    'IF PLANETTYPE$ = "Jool" THEN
-                    IF PLANETRADI > 2000000000 THEN
-                        DO WHILE PLANETTYPE$ = "Jool"
-                            keyIndex = INT(RND * UBOUND(planetKey$))
-                            PLANETTYPE$ = planetKey$(keyIndex)
-                        LOOP
-                        PRINT #1, "        Template"
-                        PRINT #1, "        {"
-                        PRINT #1, "            name = "; PLANETTYPE$
-                        PRINT #1, "        }"
-                    ELSE
-                        PRINT #1, "        Template"
-                        PRINT #1, "        {"
-                        PRINT #1, "            name = Gilly"
-                        PRINT #1, "        }"
-                    END IF
-                    '#########################'
-                    '###Fill in orbit data'
-                    theReferenceBody$ = thePlanetName$
-                    theColour$ = ""
-                    theMode$ = ""
-                    theInclination$ = STR$(INT(RND * 360))
-                    theEccentricity$ = ""
-                    theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
-                    theLongitudeOfAscendingNode$ = ""
-                    theArgumentOfPeriapsis$ = ""
-                    theMeanAnomalyAtEpoch$ = ""
-                    theEpoch$ = ""
-                    aOrbitTemp$ = theOrbitTemplate$
-                    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
-                    PRINT #1, aOrbitNode$
-                    PRINT #1, "    }"
-                    MOBJECTNUMBER = MOBJECTNUMBER + 1
-                NEXT
+                CALL MakeMoons(thePlanetName$,4) '# number of moons can be related to the size of the host planet..
+
                 planetNumb = planetNumb + 1
                 POBJECTNUMBER = POBJECTNUMBER + 1
             NEXT
 
             IF ASTTOG$ = "y" THEN
-                MAXAST = INT(RND * 2)
-                FOR ASTNUMBER = 1 TO MAXAST
-                    PRINT #1, "    Body"
-                    PRINT #1, "    {"
-                    PRINT #1, "        name = " + star_Name$ + " " + STR$(ASTNUMBER)
-                    PRINT #1, "        Template"
-                    PRINT #1, "        {"
-                    PRINT #1, "            name = Gilly"
-                    PRINT #1, "        }"
-                    PRINT #1, "        Properties"
-                    PRINT #1, "        {"
-                    PRINT #1, "            description = When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy. "
-                    PRINT #1, "            radius ="; INT(RND * 80000) + 5000
-                    PRINT #1, "        }"
-                    theAstName$ = thePlanetName$ + " " + STR$(ASTNUMBER)
-                    astSEMIMAJORAXIS = INT(RND * 10000000000) + 10000000
-                    INCLINATION = INT(RND * 360)
-                    PRINT #1, "        Orbit"
-                    PRINT #1, "        {"
-                    PRINT #1, "            referenceBody = " + star_Name$
-                    PRINT #1, "            inclination =" + STR$(INCLINATION)
-                    PRINT #1, "            semiMajorAxis =" + STR$(astSEMIMAJORAXIS)
-                    PRINT #1, "        }"
-                    PRINT #1, "        PQS"
-                    PRINT #1, "        {"
-                    PRINT #1, "            Mods"
-                    PRINT #1, "            {"
-                    PRINT #1, "                VertexSimplexHeightAbsolute"
-                    PRINT #1, "                {"
-                    PRINT #1, "                    seed ="; INT(RND * 100000)
-                    PRINT #1, "                }"
-                    PRINT #1, "                VertexHeightNoise"
-                    PRINT #1, "                {"
-                    PRINT #1, "                    seed ="; INT(RND * 100000)
-                    PRINT #1, "                }"
-                    PRINT #1, "            }"
-                    PRINT #1, "        }"
-                    PRINT #1, "    }"
-
-                    AOBJECTNUMBER = AOBJECTNUMBER + 1
-                NEXT
+                CALL MakeAsteroids(star_Name$,thePlanetName$,2)
             END IF
 
             PRINT #1, "}"
@@ -2345,70 +1674,7 @@ FOR a_Star = 1 TO DWARFSTAR
     PRINT #1, "    }"
 
     IF ASTTOG$ = "y" THEN
-
-        AST = INT(RND * 2)
-        ASTNUMBER = 1
-        IF AST > 0 THEN
-            DO
-                PRINT #1, "@Kopernicus:AFTER[KOPERNICUS]"
-                PRINT #1, "{"
-                PRINT #1, "    Body"
-                PRINT #1, "    {"
-                PRINT #1, "        name = "; aStarName$; ASTNUMBER; ""
-                PRINT #1, ""
-                PRINT #1, "        Template"
-                PRINT #1, "        {"
-                PRINT #1, "            name = Gilly"
-                PRINT #1, ""
-                'PRINT #1, "            removePQSMods = PQSLandControl"
-                PRINT #1, "        }"
-                PRINT #1, "        Properties"
-                PRINT #1, "        {"
-                PRINT #1, "            description = When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy. "
-                PRINT #1, ""
-
-                PRINT #1, "            radius ="; INT(RND * 80000) + 5000
-                PRINT #1, ""
-                'PRINT #1, "            sphereOfInfluence = 117915"
-                PRINT #1, "        }"
-                PRINT #1, ""
-                PRINT #1, "        Orbit"
-                PRINT #1, "        {"
-                PRINT #1, "            referenceBody = "; aStarName$; ""
-
-                PRINT #1, "            inclination ="; INT(RND * 360)
-
-                PRINT #1, "            semiMajorAxis ="; INT(RND * 100000000000) + 100000000
-                PRINT #1, "        }"
-                PRINT #1, "        PQS"
-                PRINT #1, "        {"
-                PRINT #1, "            Mods"
-                PRINT #1, "            {"
-                PRINT #1, "                VertexSimplexHeightAbsolute"
-                PRINT #1, "                {"
-
-                PRINT #1, "                    seed ="; INT(RND * 100000)
-                PRINT #1, "                }"
-                PRINT #1, "                VertexHeightNoise"
-                PRINT #1, "                {"
-                'PRINT #1, "                    persistence = 0.5"
-
-                PRINT #1, "                    seed ="; INT(RND * 100000)
-                PRINT #1, "                }"
-                PRINT #1, "            }"
-                PRINT #1, "        }"
-                PRINT #1, "    }"
-                PRINT #1, "}"
-                PRINT #1, ""
-                AST = AST - 1
-                ASTNUMBER = ASTNUMBER + 1
-                AOBJECTNUMBER = AOBJECTNUMBER + 1
-                IF AST = 0 THEN
-                    GOTO 158
-                END IF
-            LOOP
-
-        158 END IF
+        CALL MakeAsteroids(star_Name$,thePlanetName$,2)
     END IF
     PRINT #1, "}"
     SOBJECTNUMBER = SOBJECTNUMBER + 1
