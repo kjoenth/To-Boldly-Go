@@ -1,4 +1,4 @@
-'To Boldly Go v0.3 - Kopernicus Procedural Galaxy Generator!"
+'To Boldly Go v0.3.0.5 - Kopernicus Procedural Galaxy Generator!"
 'Copyright (C) 2016  Daniel L."
 '
 'This program is free software; you can redistribute it and/or modify"
@@ -15,7 +15,7 @@
 'along with this program; if not, write to the Free Software"
 'Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 
-TBG_Version$ = "0.3"
+TBG_Version$ = "0.3.0.5"
 _TITLE "To Boldly Go version " + TBG_Version$
 
 i& = _LOADIMAGE("Data_Folder/Galaxy-icon.png", 32) '<<<<<<< use your image file name here
@@ -45,7 +45,6 @@ DIM SHARED SOBJECTNUMBER AS INTEGER
 DIM SHARED POBJECTNUMBER AS INTEGER
 DIM SHARED MOBJECTNUMBER AS INTEGER
 DIM SHARED AOBJECTNUMBER AS INTEGER
-
 
 'BROWNSTARNUMBER = 1
 'REDSTARNUMBER = 1
@@ -661,8 +660,8 @@ FOR a_Star = 1 TO OSTAR
                 '########################'
                 '####
                 '#25% chance of there being a moon
-             
-				CALL MakeMoons(thePlanetName$,4) '# number of moons can be related to the size of the host planet..
+                CALL MakeMoons(thePlanetName$,4) '# number of moons can be related to the size of the host planet..
+
                 planetNumb = planetNumb + 1
                 POBJECTNUMBER = POBJECTNUMBER + 1
             NEXT
@@ -790,9 +789,8 @@ FOR a_Star = 1 TO BSTAR
                 '########################'
                 '####
                 '#25% chance of there being a moon
-				
                 CALL MakeMoons(thePlanetName$,4) '# number of moons can be related to the size of the host planet..
-				
+
                 planetNumb = planetNumb + 1
                 POBJECTNUMBER = POBJECTNUMBER + 1
             NEXT
@@ -920,13 +918,12 @@ FOR a_Star = 1 TO ASTAR
                 '########################'
                 '####
                 '#25% chance of there being a moon
-                
                 CALL MakeMoons(thePlanetName$,4) '# number of moons can be related to the size of the host planet..
-			   
-				planetNumb = planetNumb + 1
+
+                planetNumb = planetNumb + 1
                 POBJECTNUMBER = POBJECTNUMBER + 1
             NEXT
-			
+
             IF ASTTOG$ = "y" THEN
                 CALL MakeAsteroids(star_Name$,thePlanetName$,2)
             END IF
@@ -1050,12 +1047,12 @@ FOR a_Star = 1 TO FSTAR
                 '########################'
                 '####
                 '#25% chance of there being a moon
-                
                 CALL MakeMoons(thePlanetName$,4) '# number of moons can be related to the size of the host planet..
-			   
-				planetNumb = planetNumb + 1
+
+                planetNumb = planetNumb + 1
                 POBJECTNUMBER = POBJECTNUMBER + 1
             NEXT
+
             IF ASTTOG$ = "y" THEN
                 CALL MakeAsteroids(star_Name$,thePlanetName$,2)
             END IF
@@ -1179,9 +1176,8 @@ FOR a_Star = 1 TO GSTAR
                 '########################'
                 '####
                 '#25% chance of there being a moon
-                
                 CALL MakeMoons(thePlanetName$,4) '# number of moons can be related to the size of the host planet..
-				
+
                 planetNumb = planetNumb + 1
                 POBJECTNUMBER = POBJECTNUMBER + 1
             NEXT
@@ -1309,9 +1305,8 @@ FOR a_Star = 1 TO KSTAR
                 '########################'
                 '####
                 '#25% chance of there being a moon
-                
                 CALL MakeMoons(thePlanetName$,4) '# number of moons can be related to the size of the host planet..
-				
+
                 planetNumb = planetNumb + 1
                 POBJECTNUMBER = POBJECTNUMBER + 1
             NEXT
@@ -1439,9 +1434,9 @@ FOR a_Star = 1 TO MSTAR
                 '########################'
                 '####
                 '#25% chance of there being a moon
-                
+                MAXMOON = INT(RND * 4)
                 CALL MakeMoons(thePlanetName$,4) '# number of moons can be related to the size of the host planet..
-				
+
                 planetNumb = planetNumb + 1
                 POBJECTNUMBER = POBJECTNUMBER + 1
             NEXT
@@ -1569,13 +1564,12 @@ FOR a_Star = 1 TO LSTAR
                 '########################'
                 '####
                 '#25% chance of there being a moon
-               
                 CALL MakeMoons(thePlanetName$,4) '# number of moons can be related to the size of the host planet..
-			   
-				planetNumb = planetNumb + 1
+
+                planetNumb = planetNumb + 1
                 POBJECTNUMBER = POBJECTNUMBER + 1
             NEXT
-			
+
             IF ASTTOG$ = "y" THEN
                 CALL MakeAsteroids(star_Name$,thePlanetName$,2)
             END IF
@@ -1679,10 +1673,9 @@ FOR a_Star = 1 TO DWARFSTAR
     PRINT #1, "        }"
     PRINT #1, "    }"
 
-	IF ASTTOG$ = "y" THEN
-       CALL MakeAsteroids(star_Name$,"",2)
+    IF ASTTOG$ = "y" THEN
+        CALL MakeAsteroids(star_Name$,thePlanetName$,2)
     END IF
-    
     PRINT #1, "}"
     SOBJECTNUMBER = SOBJECTNUMBER + 1
     DWARFSTARNUMBER = DWARFSTARNUMBER + 1
@@ -3549,14 +3542,5 @@ aTemplate$ = ReplaceStr(aTemplate$, "%(theTemp)g", STR$(star_TempK))
 '###########################'
 wikiEntry$ = aTemplate$
 END FUNCTION
-
-'############################
-'# include external SUBs
-'############################
-
-'$INCLUDE: 'Source\MakeAsteroids.bm'
-'$INCLUDE: 'Source\MakeMoons.bm'
-
-
 
     
