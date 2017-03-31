@@ -1,0 +1,33 @@
+  _______      ____        _     _ _          _____
+ |__   __|    |  _ \      | |   | | |        / ____|
+    | | ___   | |_) | ___ | | __| | |_   _  | |  __  ___
+    | |/ _ \  |  _ < / _ \| |/ _` | | | | | | | |_ |/ _ \
+    | | (_) | | |_) | (_) | | (_| | | |_| | | |__| | (_) |
+    |_|\___/  |____/ \___/|_|\__,_|_|\__, |  \_____|\___/
+                                      __/ |
+                                     |___/
+*****Thesarius***** v0.3
+Creation Date: 16:02:37 03-27-2017
+Generation Mode: a
+Seed: 113 
+Galaxy Type: 1 
+Galaxy Age: 0 
+Cluster Number: 0 
+Planets: y
+Asteroids: y
+L to Y class (~Brown~): 18 
+M class (~Red~): 27 
+K class (~Orange~): 28 
+G class (~Yellow~): 22 
+F class (~Yellow-white~): 0 
+A class (~White~): 14 
+B class (~Blue-White~): 3 
+O class (~Blue~): 0 
+White Dwarves: 1 
+-----------------
+ 112 Stars
+ 206 Planets
+ 324 Moons
+ 42 Asteroids
+ 684  Total
+-----------------

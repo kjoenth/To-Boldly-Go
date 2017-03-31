@@ -1,23 +1,22 @@
-@Kopernicus:FINAL
+@Kopernicus
 {
     //https://github.com/Kopernicus/Kopernicus/wiki/Syntax-for-stars
     Body
     {
-        name = %(theStarName)s
+        //%name = %(theName)s
         Template
         {
             name = Sun
         }
-        %(theProperties)s
-        %(theOrbitData)s
-        %(theRingData)s
+//%(theProperties)s
+//%(theOrbitData)s
+//%(theRingData)s
         ScaledVersion
         {
-            %(theLightData)s
-            %(theMaterialData)s
-            %(theCoronasData)s
+//%(theLightData)s
+//%(theMaterialData)s
+//%(theCoronasData)s
         }
-        %(theSolarPowerCurve)s
+//%(theSolarPowerCurve)s
     }
-    %(planetBodies)s
 }
