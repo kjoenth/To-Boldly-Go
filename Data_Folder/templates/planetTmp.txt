@@ -1,16 +1,16 @@
-    Body
+@Kopernicus:FINAL
+{
+//%(theBodyData)s
     {
         //https://github.com/Kopernicus/Kopernicus/wiki/Syntax-for-planets
         //%name = %(theName)s
-        Template
-        {
-            name = %s
-        }
-        //%(theProperties)s
-        //%(theOrbitalData)s
-        //%(ScaledVersion)s
-        //%(theRings)s
-        //%(theAtmosphere)s
-        //%(thePQS)s
-        //%(theOcean)s
+//%(theTemplateData)s
+//%(theProperties)s
+//%(theOrbitData)s
+//%(ScaledVersion)s
+//%(theRingData)s
+//%(theAtmosphere)s
+//%(thePQS)s
+//%(theOcean)s
     }
+}

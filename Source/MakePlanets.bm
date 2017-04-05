@@ -4,19 +4,9 @@ SUB MakePlanets (star_Name$,Max_num_planets,planet_distanceMin,planet_distanceMa
 	'# Planet Gen Start
 	maxPlanets = INT(RND * Max_num_planets) '#how many planets in this system? Max of 5
 	IF maxPlanets > 0 THEN
-		PRINT #1, "@Kopernicus:FINAL"
-		PRINT #1, "{"
-		planetNumb = 1
-		
+		planetNumb = 1		
 		theSemiMajorAxis = 0
 		FOR aPlanet = 1 TO maxPlanets
-			'#2017-0201 STH This could be turned into a CSV file of roman numerals read into an array
-			IF planetNumb = 1 THEN PNM$ = "I"
-			IF planetNumb = 2 THEN PNM$ = "II"
-			IF planetNumb = 3 THEN PNM$ = "III"
-			IF planetNumb = 4 THEN PNM$ = "IV"
-			IF planetNumb = 5 THEN PNM$ = "V"
-			thePlanetName$ = star_Name$ + " " + PNM$
 			'########################'
 			'#Pick a random planet template from what is read in'
 			keyIndex = 1 + INT(RND * (UBOUND(planetKey$))) 'want the range to be from 1 to end. Index 0 is the header
@@ -26,34 +16,32 @@ SUB MakePlanets (star_Name$,Max_num_planets,planet_distanceMin,planet_distanceMa
 			PLANETMASS = thePlanetMass(keyIndex)
 			PLANETSTOCK$ = thePlanetStock$(keyIndex)
 			PLANETSOI = thePlanetSOI(keyIndex) 'really, this should be calculated from mass'
-
-			'####'
 			'########################'
+			'###Fill in basic body data'
 			IF PLANETSTOCK$ = "True" THEN
-				PRINT #1, "    Body"
+				aBodyNode$ = "    Body"+chr$(13)
+				templateNode$ = "        Template"+chr$(13)+"        {"+chr$(13)+"            name = "+ PLANETTYPE$+chr$(13)+"        }"
 			END IF
-			IF NOT(PLANETSTOCK$ = "True") THEN
-				PRINT #1, "    +Body[" + PLANETTYPE$ + "]"
+			'# ELSE statements don't seem to work in included code
+			IF NOT (PLANETSTOCK$ = "True") THEN
+				aBodyNode$ = "    +Body[" + PLANETTYPE$ + "]"+chr$(13)
+				templateNode$ = ""
 			END IF
-			PRINT #1, "    {"
-			PRINT #1, "        %name = " + thePlanetName$
-			'#########'
-			IF PLANETSTOCK$ = "True" THEN
-				PRINT #1, "        Template"
-				PRINT #1, "        {"
-				PRINT #1, "            name = "; PLANETTYPE$
-				PRINT #1, "        }"
-			END IF
+			'########################'
+			'###Planet name
+			'#2017-0201 STH This could be turned into a CSV file of roman numerals read into an array
+			IF planetNumb = 1 THEN PNM$ = "I"
+			IF planetNumb = 2 THEN PNM$ = "II"
+			IF planetNumb = 3 THEN PNM$ = "III"
+			IF planetNumb = 4 THEN PNM$ = "IV"
+			IF planetNumb = 5 THEN PNM$ = "V"
+			thePlanetName$ = star_Name$ + " " + PNM$
 			'########################'
 			'###Fill in property data'
 			'theDescription$ = thePlanetDesc$(keyIndex)
 			'theRadius$ = STR$(thePlanetRadius(keyIndex))
-			'theSphereOfInfluence$ = "" '#don't use the star's SOI
 			aPropertiesTemplate$ = thePropertiesTemplate$
-			'aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, star_Description$, str$(star_RadiusKSP), str$(star_MassKSP), str$(star_stdGravitationalParameter), str$(star_surfaceGravity), "True", str$(star_RotationalPeriod), "", "", "", str$(star_SOI))
 			aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, PLANETDESC$, STR$(PLANETRADI), "", "", "", "", "", "", "", "", STR$(PLANETSOI))
-			PRINT #1, aPropertiesNode$
-			'########################'
 			'########################'
 			'###Fill in orbit data'
 			theReferenceBody$ = star_Name$
@@ -77,27 +65,29 @@ SUB MakePlanets (star_Name$,Max_num_planets,planet_distanceMin,planet_distanceMa
 			theMeanAnomalyAtEpoch$ = STR$(0)
 			theEpoch$ = STR$(0)
 			aOrbitTemp$ = theOrbitTemplate$
-			aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
-			PRINT #1, aOrbitNode$
-			'theSemiMajorAxis = theSemiMajorAxis * 1.5 '#the next semimajor axis should be beyond the present planet's SOI
-			'###End orbit data'
+			aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)		
 			'########################'
 			'###33.3% chance of having a ring
-			RINGS = INT(RND * 3)
+			'RINGS = INT(RND * 3)
+			RINGS = 0
 			IF RINGS = 0 THEN
 				theAngle$ = "0"
 				theOuterRadius$ = "3000"
 				theInnerRadius$ = "2000"
-				theTexture$ = STR$(INT(RND * 3) + 1)
+				theRingTexture$ = ltrim$(str$(INT(RND * 3) + 1))
 				theColour$ = "1.0,0.1,0.1,1.0"
 				theLockRotation$ = "false"
 				theUnlit$ = "false"
 				aRingsTemp$ = theRingsTemplate$
 				aRingNode$ = ringNode$(aRingsTemp$, theAngle$, theOuterRadius$, theInnerRadius$, theRingTexture$, theColour$, theLockRotation$, theUnlit$)
-				PRINT #1, aRingNode
 			END IF
-			PRINT #1, "    }"
-			'########################'
+
+			aPlanetTemp$ = thePlanetTemplate$
+			'FUNCTION planetTempSubstitution$ (aTemplate$, aBodyNode$, aName$, aTemplateNode$, aPropertiesNode$, aOrbitNode$, aScaledVerionNode$, aRingNode$, aAtmosphereNode$, aPQSNode$, aOceanNode$)
+			'#Pieces are in place for scaledVersion, atmosphere, PQS, and ocean nodes'
+			aPlanetTemp$ = planetTempSubstitution$ (aPlanetTemp$, aBodyNode$, thePlanetName$, templateNode$, aPropertiesNode$, aOrbitNode$, "", aRingNode$, "", "", "")
+			print #1, aPlanetTemp$
+
 			'########################'
 			'####
 			'#25% chance of there being a moon
@@ -110,8 +100,6 @@ SUB MakePlanets (star_Name$,Max_num_planets,planet_distanceMin,planet_distanceMa
 		IF ASTTOG$ = "y" THEN
 			CALL MakeAsteroids(star_Name$,thePlanetName$,2)
 		END IF
-
-		PRINT #1, "}"
 	END IF
 	
 		

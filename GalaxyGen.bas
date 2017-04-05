@@ -2581,13 +2581,19 @@ FUNCTION starTempSubstitution$ (aTemplate$, aName$, aPropertiesNode$, aOrbitNode
     starTempSubstitution$ = aTemplate$
 END FUNCTION
 
-FUNCTION planetTempSubstitution$ (aTemplate$, aName$, aPropertiesNode$, aOrbitNode$, aScaledVerionNode, aRingNode$, aAtmosphereNode$, aPQSNode$, aOceanNode$)
+FUNCTION planetTempSubstitution$ (aTemplate$, aBodyNode$, aName$, aTemplateNode$, aPropertiesNode$, aOrbitNode$, aScaledVerionNode$, aRingNode$, aAtmosphereNode$, aPQSNode$, aOceanNode$)
     '#####STH 2017-0124. QBasic doesn't have string formatting like python.
     '#####Replicated that function with string replacement function.
     '###########################'
+    IF aBodyNode$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(theBodyData)s", aBodyNode$)
+    END IF
     IF aName$ <> "" THEN
         aTemplate$ = ReplaceStr(aTemplate$, "//%name =", "%name =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theName)s", aName$)
+    END IF
+    IF aTemplateNode$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(theTemplateData)s", aTemplateNode$)
     END IF
     IF aPropertiesNode$ <> "" THEN
         aTemplate$ = ReplaceStr(aTemplate$, "//%(theProperties)s", aPropertiesNode$)
