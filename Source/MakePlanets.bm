@@ -68,8 +68,8 @@ SUB MakePlanets (star_Name$,Max_num_planets,planet_distanceMin,planet_distanceMa
 			aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)		
 			'########################'
 			'###33.3% chance of having a ring
-			'RINGS = INT(RND * 3)
-			RINGS = 0
+			RINGS = INT(RND * 3)
+			'RINGS = 0
 			IF RINGS = 0 THEN
 				theAngle$ = "0"
 				theOuterRadius$ = "3000"
