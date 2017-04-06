@@ -19,12 +19,12 @@ SUB MakePlanets (star_Name$,Max_num_planets,planet_distanceMin,planet_distanceMa
 			'########################'
 			'###Fill in basic body data'
 			IF PLANETSTOCK$ = "True" THEN
-				aBodyNode$ = "    Body"+chr$(13)
-				templateNode$ = "        Template"+chr$(13)+"        {"+chr$(13)+"            name = "+ PLANETTYPE$+chr$(13)+"        }"
+				aBodyNode$ = "Body"+chr$(13)
+				templateNode$ = "Template"+chr$(13)+"        {"+chr$(13)+"            name = "+ PLANETTYPE$+chr$(13)+"        }"
 			END IF
 			'# ELSE statements don't seem to work in included code
 			IF NOT (PLANETSTOCK$ = "True") THEN
-				aBodyNode$ = "    +Body[" + PLANETTYPE$ + "]"+chr$(13)
+				aBodyNode$ = "+Body[" + PLANETTYPE$ + "]"+chr$(13)
 				templateNode$ = ""
 			END IF
 			'########################'
@@ -91,13 +91,14 @@ SUB MakePlanets (star_Name$,Max_num_planets,planet_distanceMin,planet_distanceMa
 			'########################'
 			'####
 			'#25% chance of there being a moon
-			CALL MakeMoons (thePlanetName$,4)
+			CALL MakeMoons (thePlanetName$,PLANETRADI,4)
 			
 			planetNumb = planetNumb + 1
 			POBJECTNUMBER = POBJECTNUMBER + 1
 		NEXT
 
 		IF ASTTOG$ = "y" THEN
+			print #1, "//############Making an astroid"
 			CALL MakeAsteroids(star_Name$,thePlanetName$,2)
 		END IF
 	END IF
