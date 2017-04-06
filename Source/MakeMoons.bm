@@ -1,34 +1,60 @@
-SUB MakeMoons (thePlanetName$,Max_num_moons):
+SUB MakeMoons (thePlanetName$,parentRadius,Max_num_moons):
+	'#Essentially the same as MakePlanets.bm
+	'#Smarter way to to this would be to abstract further and have moon and planet gen call common code'
+	'#STH 2017-0406'
 	MAXMOON = INT(RND * Max_num_moons)
 	FOR theMoonNumb = 1 TO MAXMOON
-		theMoonName$ = thePlanetName$ + " " + STR$(theMoonNumb)
-		moonSEMIMAJORAXIS = INT(RND * 50000000) + 11000000
-		INCLINATION = INT(RND * 360)
-		PRINT #1, "    Body"
-		PRINT #1, "    {"
-		PRINT #1, "        name = " + theMoonName$
 		'#######'
 		'#We can be smarter about this by looking at radius of parent body
 		'#And only picking possible moons by picking things with radius less
 		'#than parent body
 		'#STH 2017-0203'
-		'IF PLANETTYPE$ = "Jool" THEN
-		IF PLANETRADI > 2000000000 THEN
+		print #1, "//############Making a moon"
+		'print #1, parentRadius
+		PLANETTYPE$ = "Jool"
+		IF parentRadius > 1000000 THEN
 			DO WHILE PLANETTYPE$ = "Jool"
-				keyIndex = INT(RND * UBOUND(planetKey$))
+				keyIndex = 1 + INT(RND * (UBOUND(planetKey$))) 'want the range to be from 1 to end. Index 0 is the header
+				'print #1, keyIndex
 				PLANETTYPE$ = planetKey$(keyIndex)
+				'print #1, PLANETTYPE$
+				PLANETDESC$ = thePlanetDesc$(keyIndex)
+				'print #1, PLANETDESC$
+				PLANETRADI = thePlanetRadius(keyIndex)
+				'print #1, PLANETRADI
+				PLANETMASS = thePlanetMass(keyIndex)
+				'print #1, PLANETMASS
+				PLANETSTOCK$ = thePlanetStock$(keyIndex)
+				'print #1, PLANETSTOCK$
+				PLANETSOI = thePlanetSOI(keyIndex) 'really, this should be calculated from mass'
+				'print #1, PLANETSOI
 			LOOP
-			PRINT #1, "        Template"
-			PRINT #1, "        {"
-			PRINT #1, "            name = "; PLANETTYPE$
-			PRINT #1, "        }"
+			'########################'
+			'###Fill in basic body data'
+			IF PLANETSTOCK$ = "True" THEN
+				aBodyNode$ = "Body"+chr$(13)
+				templateNode$ = "Template"+chr$(13)+"        {"+chr$(13)+"            name = "+ PLANETTYPE$+chr$(13)+"        }"
+			END IF
+			'# ELSE statements don't seem to work in included code
+			IF NOT (PLANETSTOCK$ = "True") THEN
+				aBodyNode$ = "+Body[" + PLANETTYPE$ + "]"+chr$(13)
+				templateNode$ = ""
+			END IF
 		END IF
-		IF NOT(PLANETRADI > 2000000000) THEN
-			PRINT #1, "        Template"
-			PRINT #1, "        {"
-			PRINT #1, "            name = Gilly"
-			PRINT #1, "        }"
+		'# ELSE statements don't seem to work in included code
+		IF NOT(parentRadius > 1000000) THEN
+			aBodyNode$ = "Body"+chr$(13)
+			templateNode$ = "Template"+chr$(13)+"        {"+chr$(13)+"            name = Gilly"+chr$(13)+"        }"
 		END IF
+		'########################'
+		'###Moon name
+		theMoonName$ = thePlanetName$ + STR$(theMoonNumb)
+		'########################'
+		'###Fill in property data'
+		'theDescription$ = thePlanetDesc$(keyIndex)
+		'theRadius$ = STR$(thePlanetRadius(keyIndex))
+		aPropertiesTemplate$ = thePropertiesTemplate$
+		aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, PLANETDESC$, STR$(PLANETRADI), "", "", "", "", "", "", "", "", STR$(PLANETSOI))
 		'#########################'
 		'###Fill in orbit data'
 		theReferenceBody$ = thePlanetName$
@@ -43,8 +69,11 @@ SUB MakeMoons (thePlanetName$,Max_num_moons):
 		theEpoch$ = ""
 		aOrbitTemp$ = theOrbitTemplate$
 		aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
-		PRINT #1, aOrbitNode$
-		PRINT #1, "    }"
+		
+		aMoonTemp$ = thePlanetTemplate$
+		aMoonTemp$ = planetTempSubstitution$ (aMoonTemp$, aBodyNode$, theMoonName$, templateNode$, aPropertiesNode$, aOrbitNode$, "", "", "", "", "")
+		print #1, aMoonTemp$
+
 		MOBJECTNUMBER = MOBJECTNUMBER + 1
 	NEXT
 	
