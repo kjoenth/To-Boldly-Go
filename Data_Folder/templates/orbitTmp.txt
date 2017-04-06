@@ -1,4 +1,4 @@
-        %Orbit
+%Orbit
         {
             //https://github.com/Kopernicus/Kopernicus/wiki/Orbit
             %referenceBody = %(theReferenceBody)s

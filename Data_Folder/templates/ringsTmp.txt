@@ -1,13 +1,13 @@
-         Rings
-         {
-             Ring
-             {
-                 //angle = %(theAngle)s
-                 //outerRadius = %(theOuterRadius)s
-                 //innerRadius = %(theInnerRadius)s
-                 //texture = To_Boldly_Go/ringtextures/%(theRingTexture)s.png
-                 //color = %(theColour)s
-                 //lockRotation = %(theLockRotation)s
-                 //unlit = %(theUnlit)s
-             }
-          }
+Rings
+        {
+            Ring
+            {
+                //angle = %(theAngle)s
+                //outerRadius = %(theOuterRadius)s
+                //innerRadius = %(theInnerRadius)s
+                //texture = To_Boldly_Go/ringtextures/%(theRingTexture)s.png
+                //color = %(theColour)s
+                //lockRotation = %(theLockRotation)s
+                //unlit = %(theUnlit)s
+            }
+        }

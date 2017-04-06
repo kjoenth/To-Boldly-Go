@@ -1,4 +1,4 @@
-        %Properties
+%Properties
         {
             //https://github.com/Kopernicus/Kopernicus/wiki/Properties
             %description = %(theDescription)s

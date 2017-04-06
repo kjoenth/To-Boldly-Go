@@ -1,4 +1,4 @@
-            Light
+    Light
             {
                 //https://github.com/Kopernicus/Kopernicus/wiki/Light
                 //sunlightColor = %(theSunlightColor)s

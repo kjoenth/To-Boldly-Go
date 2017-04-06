@@ -1,4 +1,4 @@
-            Material
+    Material
             {
             	//https://github.com/Kopernicus/Kopernicus/wiki/ScaledVersion_Material
                 emitColor0 = %(theEmitColor0)s
