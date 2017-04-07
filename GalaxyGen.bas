@@ -1,4 +1,4 @@
-'To Boldly Go v0.3.0.2 - Kopernicus Procedural Galaxy Generator!"
+'To Boldly Go v0.3.0.5 - Kopernicus Procedural Galaxy Generator!"
 'Copyright (C) 2016  Daniel L."
 '
 'This program is free software; you can redistribute it and/or modify"
@@ -15,7 +15,7 @@
 'along with this program; if not, write to the Free Software"
 'Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 
-TBG_Version$ = "0.3.0.2"
+TBG_Version$ = "0.3.0.5"
 _TITLE "To Boldly Go version " + TBG_Version$
 
 i& = _LOADIMAGE("Data_Folder/Galaxy-icon.png", 32) '<<<<<<< use your image file name here
@@ -803,7 +803,7 @@ FOR a_Star = 1 TO DWARFSTAR
     PRINT #1, "    }"
 
     IF ASTTOG$ = "y" THEN
-        CALL MakeAsteroids(star_Name$, "", 2)
+        CALL MakeAsteroids(star_Name$, 2)
     END IF
     PRINT #1, "}"
     SOBJECTNUMBER = SOBJECTNUMBER + 1
@@ -933,7 +933,7 @@ FOR a_Star = 1 TO BLACKHOLE
     PRINT #1, "    }"
 
     IF ASTTOG$ = "y" THEN
-        CALL MakeAsteroids(star_Name$, "", 2)
+        CALL MakeAsteroids(star_Name$, 2)
     END IF
 
     SOBJECTNUMBER = SOBJECTNUMBER + 1
