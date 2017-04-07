@@ -48,7 +48,8 @@ SUB MakeMoons (thePlanetName$,parentRadius,Max_num_moons):
 		END IF
 		'########################'
 		'###Moon name
-		theMoonName$ = thePlanetName$ + STR$(theMoonNumb)
+		'#sum theMoonNumb and acsii 140 to get a lowercase letter for the moon name
+		theMoonName$ = thePlanetName$ + chr$(theMoonNumb+141)
 		'########################'
 		'###Fill in property data'
 		'theDescription$ = thePlanetDesc$(keyIndex)
