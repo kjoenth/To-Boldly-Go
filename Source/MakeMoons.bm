@@ -1,4 +1,4 @@
-SUB MakeMoons (thePlanetName$,parentRadius,Max_num_moons):
+SUB MakeMoons (thePlanetName$,parentInclination,parentRadius,Max_num_moons):
 	'#Essentially the same as MakePlanets.bm
 	'#Smarter way to to this would be to abstract further and have moon and planet gen call common code'
 	'#STH 2017-0406'
@@ -53,11 +53,15 @@ SUB MakeMoons (thePlanetName$,parentRadius,Max_num_moons):
 		theReferenceBody$ = thePlanetName$
 		theColour$ = ""
 		theMode$ = ""
-		theInclination$ = STR$(INT(RND * 360))
+		'#the inclination of the planet should be close to the plane of the parent star
+		'#https://en.wikipedia.org/wiki/Orbital_inclination
+		'theInclination$ = STR$(INT(RND * 360))
+		tempVar=int(rnd*2.0)
+		theInclination$=str$(int(parentInclination+tempVar))
 		theEccentricity$ = ""
 		theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
 		theLongitudeOfAscendingNode$ = ""
-		theArgumentOfPeriapsis$ = ""
+		theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
 		theMeanAnomalyAtEpoch$ = ""
 		theEpoch$ = ""
 		aOrbitTemp$ = theOrbitTemplate$

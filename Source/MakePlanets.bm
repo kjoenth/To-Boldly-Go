@@ -1,5 +1,5 @@
 
-SUB MakePlanets (star_Name$,Max_num_planets,planet_distanceMin,planet_distanceMax):
+SUB MakePlanets (star_Name$,parentInclination,Max_num_planets,planet_distanceMin,planet_distanceMax):
 	
 	'# Planet Gen Start
 	maxPlanets = INT(RND * Max_num_planets) '#how many planets in this system? Max of 5
@@ -48,7 +48,16 @@ SUB MakePlanets (star_Name$,Max_num_planets,planet_distanceMin,planet_distanceMa
 			theReferenceBody$ = star_Name$
 			theColour$ = ""
 			theMode$ = ""
-			theInclination$ = STR$(INT(RND * 360))
+			'#the inclination of the planet should be close to the plane of the parent star
+			'#https://en.wikipedia.org/wiki/Orbital_inclination
+			'theInclination$ = STR$(INT(RND * 360))
+			tempVar=int(rnd*7.0)
+			theInclination$=str$(int(parentInclination+tempVar))
+			'#allow rare planets to have orbits that deviate a lot from the orbital plane'
+			if RND>0.75 then
+				tempVar=int(rnd*45.0)
+				theInclination$=str$(parentInclination+tempVar)
+			end if
 			theEccentricity$ = ""
 			IF theSemiMajorAxis = 0 then
 				'#let the first planet fall somewhere between the roche limit and the frostline'
@@ -92,7 +101,7 @@ SUB MakePlanets (star_Name$,Max_num_planets,planet_distanceMin,planet_distanceMa
 			'########################'
 			'####
 			'#25% chance of there being a moon
-			CALL MakeMoons (thePlanetName$,PLANETRADI,4)
+			CALL MakeMoons (thePlanetName$,parentInclination,PLANETRADI,4)
 			
 			planetNumb = planetNumb + 1
 			POBJECTNUMBER = POBJECTNUMBER + 1

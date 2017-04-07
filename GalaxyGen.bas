@@ -563,7 +563,8 @@ FOR a_Star = 1 TO OSTAR
     maxPlanets = 0
     IF PENABLE$ = "y" THEN
         '# parent name, number of planets (max), minimum distance from star, maximum distance from star
-        CALL MakePlanets(star_Name$, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
+        star_OrbitalInclination = INT(RND * 360)
+        CALL MakePlanets(star_Name$, star_OrbitalInclination, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
 
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
@@ -583,7 +584,8 @@ FOR a_Star = 1 TO BSTAR
 
     IF PENABLE$ = "y" THEN
         '# parent name, number of planets (max), minimum distance from star, maximum distance from star
-        CALL MakePlanets(star_Name$, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
+        star_OrbitalInclination = INT(RND * 360)
+        CALL MakePlanets(star_Name$, star_OrbitalInclination, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
 
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
@@ -603,7 +605,8 @@ FOR a_Star = 1 TO ASTAR
 
     IF PENABLE$ = "y" THEN
         '# parent name, number of planets (max), minimum distance from star, maximum distance from star
-        CALL MakePlanets(star_Name$, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
+        star_OrbitalInclination = INT(RND * 360)
+        CALL MakePlanets(star_Name$, star_OrbitalInclination, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
         
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
@@ -623,7 +626,8 @@ FOR a_Star = 1 TO FSTAR
 
     IF PENABLE$ = "y" THEN
         '# parent name, number of planets (max), minimum distance from star, maximum distance from star
-        CALL MakePlanets(star_Name$, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
+        star_OrbitalInclination = INT(RND * 360)
+        CALL MakePlanets(star_Name$, star_OrbitalInclination, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
         
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
@@ -643,7 +647,8 @@ FOR a_Star = 1 TO GSTAR
 
     IF PENABLE$ = "y" THEN
         '# parent name, number of planets (max), minimum distance from star, maximum distance from star
-        CALL MakePlanets(star_Name$, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
+        star_OrbitalInclination = INT(RND * 360)
+        CALL MakePlanets(star_Name$, star_OrbitalInclination, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
         
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
@@ -663,7 +668,8 @@ FOR a_Star = 1 TO KSTAR
 
     IF PENABLE$ = "y" THEN
         '# parent name, number of planets (max), minimum distance from star, maximum distance from star
-        CALL MakePlanets(star_Name$, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
+        star_OrbitalInclination = INT(RND * 360)
+        CALL MakePlanets(star_Name$, star_OrbitalInclination, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
         
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
@@ -683,7 +689,8 @@ FOR a_Star = 1 TO MSTAR
 
     IF PENABLE$ = "y" THEN
         '# parent name, number of planets (max), minimum distance from star, maximum distance from star
-        CALL MakePlanets(star_Name$, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
+        star_OrbitalInclination = INT(RND * 360)
+        CALL MakePlanets(star_Name$, star_OrbitalInclination, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
 
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
@@ -703,7 +710,8 @@ FOR a_Star = 1 TO LSTAR
 
     IF PENABLE$ = "y" THEN
         '# parent name, number of planets (max), minimum distance from star, maximum distance from star
-        CALL MakePlanets(star_Name$, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
+        star_OrbitalInclination = INT(RND * 360)
+        CALL MakePlanets(star_Name$, star_OrbitalInclination, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
 
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
