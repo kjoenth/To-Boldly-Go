@@ -10,24 +10,16 @@ SUB MakeMoons (thePlanetName$,parentRadius,Max_num_moons):
 		'#than parent body
 		'#STH 2017-0203'
 		print #1, "//############Making a moon"
-		'print #1, parentRadius
 		PLANETTYPE$ = "Jool"
 		IF parentRadius > 1000000 THEN
 			DO WHILE PLANETTYPE$ = "Jool"
 				keyIndex = 1 + INT(RND * (UBOUND(planetKey$))) 'want the range to be from 1 to end. Index 0 is the header
-				'print #1, keyIndex
 				PLANETTYPE$ = planetKey$(keyIndex)
-				'print #1, PLANETTYPE$
 				PLANETDESC$ = thePlanetDesc$(keyIndex)
-				'print #1, PLANETDESC$
 				PLANETRADI = thePlanetRadius(keyIndex)
-				'print #1, PLANETRADI
 				PLANETMASS = thePlanetMass(keyIndex)
-				'print #1, PLANETMASS
 				PLANETSTOCK$ = thePlanetStock$(keyIndex)
-				'print #1, PLANETSTOCK$
 				PLANETSOI = thePlanetSOI(keyIndex) 'really, this should be calculated from mass'
-				'print #1, PLANETSOI
 			LOOP
 			'########################'
 			'###Fill in basic body data'
@@ -48,8 +40,8 @@ SUB MakeMoons (thePlanetName$,parentRadius,Max_num_moons):
 		END IF
 		'########################'
 		'###Moon name
-		'#sum theMoonNumb and acsii 140 to get a lowercase letter for the moon name
-		theMoonName$ = thePlanetName$ + chr$(theMoonNumb+141)
+		'#sum theMoonNumb and acsii 96 to get a lowercase letter for the moon name
+		theMoonName$ = thePlanetName$ + chr$(theMoonNumb+96)
 		'########################'
 		'###Fill in property data'
 		'theDescription$ = thePlanetDesc$(keyIndex)
