@@ -31,12 +31,12 @@ SUB MakePlanets (star_Name$,Max_num_planets,planet_distanceMin,planet_distanceMa
 			'###Planet name
 			'#2017-0201 STH This could be turned into a CSV file of roman numerals read into an array
 			'#Let's be cray-cray and use Mayan numerals!
-			IF planetNumb = 1 THEN PNM$ = "."
-			IF planetNumb = 2 THEN PNM$ = ":"
-			IF planetNumb = 3 THEN PNM$ = ".:"
-			IF planetNumb = 4 THEN PNM$ = "::"
-			IF planetNumb = 5 THEN PNM$ = "|"
-			thePlanetName$ = star_Name$ + " " + PNM$
+			IF planetNumb = 1 THEN PNM$ = "I"
+			IF planetNumb = 2 THEN PNM$ = "II"
+			IF planetNumb = 3 THEN PNM$ = "III"
+			IF planetNumb = 4 THEN PNM$ = "IV"
+			IF planetNumb = 5 THEN PNM$ = "V"
+			thePlanetName$ = star_Name$ +" "+ PNM$
 			'########################'
 			'###Fill in property data'
 			'theDescription$ = thePlanetDesc$(keyIndex)
@@ -99,8 +99,7 @@ SUB MakePlanets (star_Name$,Max_num_planets,planet_distanceMin,planet_distanceMa
 		NEXT
 
 		IF ASTTOG$ = "y" THEN
-			print #1, "//############Making an astroid"
-			CALL MakeAsteroids(star_Name$,thePlanetName$,2)
+			CALL MakeAsteroids(star_Name$,2)
 		END IF
 	END IF
 	
