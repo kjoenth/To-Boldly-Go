@@ -684,7 +684,8 @@ FOR a_Star = 1 TO MSTAR
     '###########################'
     '###STH 2017-0209 Do calculations to get star characteristics
     star_Name$ = starNameList$(SOBJECTNUMBER)
-    star_Description$ = "FELIPE -" + STR$(a_Star) + " is a main sequence red dwarf star."
+    '#star_Description$ = "FELIPE -" + STR$(a_Star) + " is a main sequence red dwarf star."
+    star_Description$ = star_Name$ + " is a main sequence red dwarf star."
     CALL makeAStar(star_MassKg, star_Name$, star_Description$) '#call the subroutinue to make a star'
 
     IF PENABLE$ = "y" THEN

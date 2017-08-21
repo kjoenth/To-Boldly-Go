@@ -17,6 +17,7 @@ SUB MakeMoons (thePlanetName$,parentInclination,parentRadius,Max_num_moons):
 				PLANETTYPE$ = planetKey$(keyIndex)
 				PLANETDESC$ = thePlanetDesc$(keyIndex)
 				PLANETRADI = thePlanetRadius(keyIndex)
+				print #1, PLANETRADI
 				PLANETMASS = thePlanetMass(keyIndex)
 				PLANETSTOCK$ = thePlanetStock$(keyIndex)
 				PLANETSOI = thePlanetSOI(keyIndex) 'really, this should be calculated from mass'

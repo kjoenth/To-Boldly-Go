@@ -101,7 +101,8 @@ SUB MakePlanets (star_Name$,parentInclination,Max_num_planets,planet_distanceMin
 			'########################'
 			'####
 			'#25% chance of there being a moon
-			CALL MakeMoons (thePlanetName$,parentInclination,PLANETRADI,4)
+			'#Disabled moon generation for now. STH 2017-08-20
+			'CALL MakeMoons (thePlanetName$,parentInclination,PLANETRADI,4)
 			
 			planetNumb = planetNumb + 1
 			POBJECTNUMBER = POBJECTNUMBER + 1

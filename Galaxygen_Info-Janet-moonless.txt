@@ -6,28 +6,28 @@
     |_|\___/  |____/ \___/|_|\__,_|_|\__, |  \_____|\___/
                                       __/ |
                                      |___/
-*****Anscopolamine***** v0.3.0.5b
-Creation Date: 15:29:24 08-20-2017
-Generation Mode: c
+*****Janet-moonless***** v0.3.0.5b
+Creation Date: 23:08:18 08-20-2017
+Generation Mode: a
 Seed: 1234 
 Galaxy Type: 1 
-Galaxy Age: 1 
+Galaxy Age: 3 
 Cluster Number: 0 
 Planets: y
 Asteroids: y
-L to Y class (~Brown~): 5 
-M class (~Red~): 5 
+L to Y class (~Brown~): 31 
+M class (~Red~): 14 
 K class (~Orange~): 5 
-G class (~Yellow~): 5 
-F class (~Yellow-white~): 5 
-A class (~White~): 5 
-B class (~Blue-White~): 5 
-O class (~Blue~): 5 
-White Dwarves: 6 
+G class (~Yellow~): 0 
+F class (~Yellow-white~): 0 
+A class (~White~): 0 
+B class (~Blue-White~): 0 
+O class (~Blue~): 0 
+White Dwarves: 29 
 -----------------
- 45 Stars
- 77 Planets
- 117 Moons
- 21 Asteroids
- 260  Total
+ 78 Stars
+ 103 Planets
+ 0 Moons
+ 26 Asteroids
+ 207  Total
 -----------------
