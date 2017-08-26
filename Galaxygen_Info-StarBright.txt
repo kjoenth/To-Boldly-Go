@@ -6,28 +6,28 @@
     |_|\___/  |____/ \___/|_|\__,_|_|\__, |  \_____|\___/
                                       __/ |
                                      |___/
-*****Janet-moonless***** v0.3.0.5b
-Creation Date: 23:08:18 08-20-2017
-Generation Mode: a
+*****StarBright***** v0.3.0.5c
+Creation Date: 00:34:28 08-26-2017
+Generation Mode: c
 Seed: 1234 
-Galaxy Type: 1 
-Galaxy Age: 3 
+Galaxy Type: 2 
+Galaxy Age: 1 
 Cluster Number: 0 
 Planets: y
 Asteroids: y
-L to Y class (~Brown~): 31 
-M class (~Red~): 14 
-K class (~Orange~): 5 
-G class (~Yellow~): 0 
+L to Y class (~Brown~): 29 
+M class (~Red~): 24 
+K class (~Orange~): 12 
+G class (~Yellow~): 9 
 F class (~Yellow-white~): 0 
-A class (~White~): 0 
-B class (~Blue-White~): 0 
+A class (~White~): 6 
+B class (~Blue-White~): 4 
 O class (~Blue~): 0 
-White Dwarves: 29 
+White Dwarves: 4 
 -----------------
- 78 Stars
- 103 Planets
+ 87 Stars
+ 174 Planets
  0 Moons
- 26 Asteroids
- 207  Total
+ 36 Asteroids
+ 297  Total
 -----------------
