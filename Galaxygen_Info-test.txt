@@ -1,0 +1,33 @@
+  _______      ____        _     _ _          _____
+ |__   __|    |  _ \      | |   | | |        / ____|
+    | | ___   | |_) | ___ | | __| | |_   _  | |  __  ___
+    | |/ _ \  |  _ < / _ \| |/ _` | | | | | | | |_ |/ _ \
+    | | (_) | | |_) | (_) | | (_| | | |_| | | |__| | (_) |
+    |_|\___/  |____/ \___/|_|\__,_|_|\__, |  \_____|\___/
+                                      __/ |
+                                     |___/
+*****test***** v0.3.0.5c
+Creation Date: 16:21:44 08-28-2017
+Generation Mode: a
+Seed: 1234 
+Galaxy Type: 1 
+Galaxy Age: 3 
+Cluster Number: 0 
+Planets: y
+Asteroids: y
+L to Y class (~Brown~): 31 
+M class (~Red~): 14 
+K class (~Orange~): 5 
+G class (~Yellow~): 0 
+F class (~Yellow-white~): 0 
+A class (~White~): 0 
+B class (~Blue-White~): 0 
+O class (~Blue~): 0 
+White Dwarves: 29 
+-----------------
+ 78 Stars
+ 103 Planets
+ 0 Moons
+ 26 Asteroids
+ 207  Total
+-----------------
