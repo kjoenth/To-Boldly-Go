@@ -370,21 +370,19 @@ PRINT #1, "@Kopernicus"
 PRINT #1, "{"
 PRINT #1, "    Body"
 PRINT #1, "    {"
-'PRINT #1, "        name = Kerbol"
 PRINT #1, "        name = Core"
-'PRINT #1, "        cbNameLater = Sun"
 PRINT #1, "        Template"
 PRINT #1, "        {"
 PRINT #1, "            name = Sun"
 PRINT #1, "        }"
 PRINT #1, "        Properties"
 PRINT #1, "        {"
-'PRINT #1, "             sphereOfInfluence = 220118820000"
 PRINT #1, "            description = The Kraken's Lair"
 'PRINT #1, "            sphereOfInfluence = 46992481203007510000" 220118820000
 '#it appears that giving a big SOI to CORE breaks the ability to orbit the stock Sun
 '# STH 2017-0320'
-PRINT #1, "            sphereOfInfluence = 220118820000"
+'PRINT #1, "            sphereOfInfluence = 220118820000"
+PRINT #1, "            sphereOfInfluence = 6.62251E+17"
 PRINT #1, "        }"
 PRINT #1, "        Orbit"
 PRINT #1, "        {"
@@ -405,7 +403,7 @@ IF GTYPE = 1 THEN
 END IF
 
 
-PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
+PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 360); ""
 PRINT #1, "            mode = 0"
 PRINT #1, "            color = 0.2,0.2,0.2,1"
 PRINT #1, "        }"
@@ -2493,7 +2491,7 @@ SUB makeAStar (star_MassKG, star_Name$, star_Description$):
         theInclination$ = STR$(INT(RND * 360))
         theSemiMajorAxis$ = STR$(star_semimajorAxis)
     END IF
-    theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
+    theArgumentOfPeriapsis$ = STR$(INT(RND * 360))
     theMeanAnomalyAtEpoch$ = STR$(0)
     theEpoch$ = STR$(0)
     theMode$ = "0" 'STR$(0)
