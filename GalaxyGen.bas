@@ -1,4 +1,4 @@
-'To Boldly Go v0.3.0.5c - Kopernicus Procedural Galaxy Generator!"
+'To Boldly Go v0.3.0.5d - Kopernicus Procedural Galaxy Generator!"
 'Copyright (C) 2016  Daniel L."
 '
 'This program is free software; you can redistribute it and/or modify"
@@ -15,7 +15,7 @@
 'along with this program; if not, write to the Free Software"
 'Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 
-TBG_Version$ = "0.3.0.5c"
+TBG_Version$ = "0.3.0.5d"
 _TITLE "To Boldly Go version " + TBG_Version$
 
 i& = _LOADIMAGE("Data_Folder/Galaxy-icon.png", 32) '<<<<<<< use your image file name here
@@ -351,23 +351,28 @@ PRINT #1, "            description = The Kraken's Lair"
 '#it appears that giving a big SOI to CORE breaks the ability to orbit the stock Sun
 '# STH 2017-0320'
 'PRINT #1, "            sphereOfInfluence = 220118820000"
-PRINT #1, "            sphereOfInfluence ="; galaxy_RadiusKSP; ""
+PRINT #1, "            sphereOfInfluence ="; galaxy_RadiusKSP-2e+12; ""
 PRINT #1, "        }"
 PRINT #1, "        Orbit"
 PRINT #1, "        {"
 PRINT #1, "            referenceBody = Sun"
 IF GTYPE = 2 THEN
+    '#spherical but smaller
     theSemimajorAxis = INT(RND * 10000000000000) + 10000000000
     theInclination =  INT(RND * 360)
 END IF
 
 IF GTYPE = 0 THEN
-    theSemimajorAxis =  INT(RND * 1D+16) + 100000000000000
+    '#spherical
+    '#theSemimajorAxis =  INT(RND * 1D+16) + 100000000000000
+    theSemimajorAxis =  galaxy_RadiusKSP
     theInclination = INT(RND * 360)
 END IF
 
 IF GTYPE = 1 THEN
-    theSemimajorAxis =  INT(RND * 1D+16) + 100000000000000
+    '#disc
+    '#theSemimajorAxis =  INT(RND * 1D+16) + 100000000000000
+    theSemimajorAxis =  galaxy_RadiusKSP
     theInclination = INT(RND * 50) - 25
 END IF
 
@@ -427,7 +432,9 @@ PRINT #1, "        }"
 PRINT #1, "    }"
 PRINT #1, "}"
 
-star_SOI = kspSOI(blackHole_MassKSP, 1.75656696858329E+28, theSemimajorAxis)
+'#This transition from Kerbol to other star's SOIs is such a PITA. STH 2017-0902
+'star_SOI = kspSOI(blackHole_MassKSP, 1.75656696858329E+28, theSemimajorAxis)
+'star_SOI = 2.0e+11
 
 PRINT #1, "@Kopernicus:AFTER[Kopernicus]"
 PRINT #1, "{"
@@ -436,7 +443,7 @@ PRINT #1, "    {"
 PRINT #1, "        %Properties"
 PRINT #1, "        {"
 PRINT #1, "            %description = The Sun is the most well known object in the daytime sky. Scientists have noted a particular burning sensation and potential loss of vision if it is stared at for long periods of time. This is especially important to keep in mind considering the effect shiny objects have on the average Kerbal."
-PRINT #1, "            %sphereOfInfluence =  "; star_SOI;""
+'PRINT #1, "            %sphereOfInfluence =  "; star_SOI;""
 PRINT #1, "        }"
 PRINT #1, "        %ScaledVersion"
 PRINT #1, "        {"
@@ -785,7 +792,8 @@ FOR a_Star = 1 TO DWARFSTAR
         theReferenceBody$ = "Core"
         IF GTYPE = 0 THEN theInclination$ = STR$(INT(RND * 360))
         IF GTYPE = 1 THEN theInclination$ = STR$(INT(RND * 25) + 1)
-        theSemiMajorAxis$ = STR$(INT(RND * 1D+16) + 100000000000000#)
+        '#theSemiMajorAxis$ = STR$(INT(RND * 1D+16) + 100000000000000#)
+        theSemimajorAxis =  galaxy_RadiusKSP
     ELSE
         theReferenceBody$ = STR$(INT(RND * CLUSTERNUM))
         theInclination$ = STR$(INT(RND * 360))
@@ -904,7 +912,8 @@ FOR a_Star = 1 TO BLACKHOLE
         theReferenceBody$ = "Core"
         IF GTYPE = 0 THEN theInclination$ = STR$(INT(RND * 360))
         IF GTYPE = 1 THEN theInclination$ = STR$(INT(RND * 25) + 1)
-        theSemiMajorAxis$ = STR$(INT(RND * 1D+16) + 100000000000000#)
+        '#theSemiMajorAxis$ = STR$(INT(RND * 1D+16) + 100000000000000#)
+        theSemimajorAxis =  galaxy_RadiusKSP
     ELSE
         theReferenceBody$ = STR$(INT(RND * CLUSTERNUM))
         theInclination$ = STR$(INT(RND * 360))
@@ -1000,7 +1009,8 @@ FOR a_Star = 1 TO ROGUE
         theReferenceBody$ = "Sun"
         IF GTYPE = 0 THEN theInclination$ = STR$(INT(RND * 360))
         IF GTYPE = 1 THEN theInclination$ = STR$(INT(RND * 25) + 1)
-        theSemiMajorAxis$ = STR$(INT(RND * 1D+16) + 100000000000000#)
+        '#theSemiMajorAxis$ = STR$(INT(RND * 1D+16) + 100000000000000#)
+        theSemimajorAxis =  galaxy_RadiusKSP
     ELSE
         theReferenceBody$ = STR$(INT(RND * CLUSTERNUM))
         theInclination$ = STR$(INT(RND * 360))
@@ -2463,7 +2473,8 @@ SUB makeAStar (star_MassKG, star_Name$, star_Description$):
     '#KSP galaxy radius would be 6.62251e+17km/2.6594=6.62251e+17
     'star_semimajorAxis = random.randint(int(blackHole_RocheLimit+star_RadiusKSP+1e6), 6.62251e17)
     star_orbitMin = INT(blackHole_RocheLimit + star_RadiusKSP + 1E6)
-    star_orbitMax = 1E16 '6.62251E17
+    '#star_orbitMax = 1E16 '6.62251E17
+    star_orbitMax = galaxy_RadiusKSP
     star_semimajorAxis = star_orbitMin + (RND(1) * (star_orbitMax - star_orbitMin))
     '###if Kerbol is an analog of Sol, it is ~26kly from the galactic center
     '###1ly = 9.461e+12km
