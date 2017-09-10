@@ -6,11 +6,11 @@
     |_|\___/  |____/ \___/|_|\__,_|_|\__, |  \_____|\___/
                                       __/ |
                                      |___/
-*****SOIpond***** v0.3.0.5d
-Creation Date: 22:48:53 09-02-2017
+*****ClusterHeadache***** v0.3.0.5e
+Creation Date: 00:11:31 09-10-2017
 Generation Mode: a
 Seed: 1234567 
-Galaxy Type: 1 
+Galaxy Type: 0 
 Galaxy Age: 0 
 Cluster Number: 0 
 Planets: y

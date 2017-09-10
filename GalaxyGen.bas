@@ -1,4 +1,4 @@
-'To Boldly Go v0.3.0.5d - Kopernicus Procedural Galaxy Generator!"
+'To Boldly Go v0.3.0.5e - Kopernicus Procedural Galaxy Generator!"
 'Copyright (C) 2016  Daniel L."
 '
 'This program is free software; you can redistribute it and/or modify"
@@ -15,7 +15,7 @@
 'along with this program; if not, write to the Free Software"
 'Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 
-TBG_Version$ = "0.3.0.5d"
+TBG_Version$ = "0.3.0.5e"
 _TITLE "To Boldly Go version " + TBG_Version$
 
 i& = _LOADIMAGE("Data_Folder/Galaxy-icon.png", 32) '<<<<<<< use your image file name here
@@ -179,9 +179,9 @@ IF CUSTOM$ = "c" THEN
         'GTYPE = INT(RND * 2)
         IF GTYPE = 2 THEN
             CLUSTER = INT(RND * 4) + 1
-            GTYPE = GTYPE + 1
-        ELSE
-            GTYPE = GTYPE + 1
+        ''    GTYPE = GTYPE + 1
+        'ELSE
+        ''    GTYPE = GTYPE + 1
         END IF
         SELECT CASE AGE
             CASE 0
@@ -225,12 +225,12 @@ ELSE
         GTYPE = INT(RND * 2)
         IF GTYPE = 2 THEN
             CLUSTER = INT(RND * 4) + 1
-            GTYPE = GTYPE + 1
-        ELSE
-            GTYPE = GTYPE + 1
+        ''    GTYPE = GTYPE + 1
+        'ELSE
+        ''    GTYPE = GTYPE + 1
         END IF
         'IF GTYPE = 0 THEN
-        GTYPE = 1
+        'GTYPE = 1
         'END IF
         PENABLE$ = "y"
         ASTTOG$ = "y"
@@ -358,7 +358,8 @@ PRINT #1, "        {"
 PRINT #1, "            referenceBody = Sun"
 IF GTYPE = 2 THEN
     '#spherical but smaller
-    theSemimajorAxis = INT(RND * 10000000000000) + 10000000000
+    '#theSemimajorAxis = INT(RND * 10000000000000) + 10000000000
+    theSemimajorAxis =  galaxy_RadiusKSP
     theInclination =  INT(RND * 360)
 END IF
 
@@ -475,102 +476,106 @@ PRINT #1, "}"
 
 IF GTYPE = 2 THEN
     CLUSTERNUM = 0
-    IF CLUSTER > 0 THEN
-        DO
-            PRINT #1, "@Kopernicus"
-            PRINT #1, "{"
-            PRINT #1, "    Body"
-            PRINT #1, "    {"
-            'CLS
-            aName$ = starNameList$(CLUSTERNUM)
-            'aName$ = theStarName$(numbRequestedStars) '#Calls the function "theStarName"
-            PRINT #1, "        name = "; CLUSTERNUM; ""
-            PRINT #1, "        cbNameLater = "; aName$; " Galaxy"
-            PRINT #1, "        Template"
-            PRINT #1, "        {"
-            PRINT #1, "            name = Sun"
-            PRINT #1, "        }"
-            theDescription$ = aName$
-            theStarRadius = 10000
-            theStarSphereOfInfluence = 90118820000 'this is very small for a black hole I think. STH
-            aPropertiesTemplate$ = thePropertiesTemplate$
-            aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, STR$(theStarRadius), "", "", "", "", "", "", "", "", STR$(theStarSphereOfInfluence))
-            PRINT #1, "        Orbit"
-            PRINT #1, "        {"
-            PRINT #1, "            referenceBody = Sun"
-            PRINT #1, "            semiMajorAxis ="; INT(RND * 1D+16) + 100000000000000#; ""
-            
-            PRINT #1, "            inclination ="; INT(RND * 50) - 25; ""
-            
-            PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 1000); ""
-            PRINT #1, "            mode = 0"
-            PRINT #1, "            color = 0.2,0.2,0.2,1"
-            PRINT #1, "        }"
-            PRINT #1, "        ScaledVersion"
-            PRINT #1, "        {"
-            PRINT #1, "        Light"
-            PRINT #1, "         {"
-            PRINT #1, "             sunlightColor = 1,1,1,1.0"
-            PRINT #1, "             sunlightIntensity = 0.55"
-            PRINT #1, "             scaledSunlightColor = 1,1,1,1.0"
-            PRINT #1, "             scaledSunlightIntensity = 0.55"
-            PRINT #1, "             IVASunColor = 1,1,1,1.0"
-            PRINT #1, "             IVASunIntensity = 0.55"
-            PRINT #1, "             sunLensFlareColor = 1,1,1,1.0"
-            PRINT #1, "             luminosity = 0"
-            PRINT #1, "             ambientLightColor = 0,0,0,1.0"
-            PRINT #1, "             givesOffLight = False"
-            PRINT #1, "         }"
-            PRINT #1, "         Material"
-            PRINT #1, "         {"
-            PRINT #1, "             emitColor0 = 0,0,0,1"
-            PRINT #1, "             emitColor1 = 0,0,0,1"
-            PRINT #1, "             sunspotColor = 0,0,0,1"
-            PRINT #1, "             rimColor = 0,0,0,1"
-            PRINT #1, "         }"
-            PRINT #1, "         Coronas"
-            PRINT #1, "         {"
-            PRINT #1, "            Corona"
-            PRINT #1, "            {"
-            PRINT #1, "                rotation = 0"
-            PRINT #1, "                speed = -1"
-            PRINT #1, "                updateInterval = 5"
-            PRINT #1, "                scaleLimitX = 5"
-            PRINT #1, "                scaleLimitY = 5"
-            PRINT #1, "                scaleSpeed = 0.007"
-            PRINT #1, ""
-            PRINT #1, "                Material"
-            PRINT #1, "                {"
-            PRINT #1, "                    texture = To_Boldly_Go/coronae/BlackCorona"
-            PRINT #1, "                    inverseFade = 2.553731"
-            PRINT #1, "                }"
-            PRINT #1, "            }"
-            PRINT #1, "            Corona"
-            PRINT #1, "            {"
-            PRINT #1, "                rotation = 0"
-            PRINT #1, "                speed = 1"
-            PRINT #1, "                updateInterval = 5"
-            PRINT #1, "                scaleLimitX = 5"
-            PRINT #1, "                scaleLimitY = 5"
-            PRINT #1, "                scaleSpeed = 0.009"
-            PRINT #1, ""
-            PRINT #1, "                Material"
-            PRINT #1, "                {"
-            PRINT #1, "                      texture = To_Boldly_Go/coronae/BlackCorona"
-            PRINT #1, "                      inverseFade = 2.553731"
-            PRINT #1, "                }"
-            PRINT #1, "            }"
-            PRINT #1, "            }"
-            PRINT #1, "        }"
-            PRINT #1, "    }"
-            PRINT #1, "}"
-            CLUSTER = CLUSTER - 1
-            IF CLUSTER = 0 THEN
-                GOTO 111
-            END IF
-            CLUSTERNUM = CLUSTERNUM + 1
-        LOOP
-    111 END IF
+    for a_Cluster = 1 to CLUSTER
+        PRINT #1, "@Kopernicus"
+        PRINT #1, "{"
+        PRINT #1, "    Body"
+        PRINT #1, "    {"
+        'CLS
+        aName$ = starNameList$(CLUSTERNUM)
+        'aName$ = theStarName$(numbRequestedStars) '#Calls the function "theStarName"
+        PRINT #1, "        name = "; CLUSTERNUM; ""
+        PRINT #1, "        cbNameLater = "; aName$; " Galaxy"
+        PRINT #1, "        Template"
+        PRINT #1, "        {"
+        PRINT #1, "            name = Sun"
+        PRINT #1, "        }"
+        'theDescription$ = aName$
+        'theStarRadius = 10000
+        'theStarSphereOfInfluence = 90118820000 'this is very small for a black hole I think. STH
+        'aPropertiesTemplate$ = thePropertiesTemplate$
+        'aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, STR$(theStarRadius), "", "", "", "", "", "", "", "", STR$(theStarSphereOfInfluence))
+        PRINT #1, "        Properties"
+        PRINT #1, "        {"
+        PRINT #1, "            description = "; aName$; " Galaxy"
+        'PRINT #1, "            sphereOfInfluence = 46992481203007510000" 220118820000
+        '#it appears that giving a big SOI to CORE breaks the ability to orbit the stock Sun
+        '# STH 2017-0320'
+        'PRINT #1, "            sphereOfInfluence = 220118820000"
+        PRINT #1, "            sphereOfInfluence ="; (galaxy_RadiusKSP-2e+12)/CLUSTER
+        PRINT #1, "        }"
+
+        PRINT #1, "        Orbit"
+        PRINT #1, "        {"
+        PRINT #1, "            referenceBody = Core"
+        PRINT #1, "            semiMajorAxis ="; RND(1) * (theSemimajorAxis)
+        
+        PRINT #1, "            inclination ="; theInclination
+        
+        PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 360); ""
+        PRINT #1, "            mode = 0"
+        PRINT #1, "            color = 0.2,0.2,0.2,1"
+        PRINT #1, "        }"
+        PRINT #1, "        ScaledVersion"
+        PRINT #1, "        {"
+        PRINT #1, "        Light"
+        PRINT #1, "         {"
+        PRINT #1, "             sunlightColor = 1,1,1,1.0"
+        PRINT #1, "             sunlightIntensity = 0.55"
+        PRINT #1, "             scaledSunlightColor = 1,1,1,1.0"
+        PRINT #1, "             scaledSunlightIntensity = 0.55"
+        PRINT #1, "             IVASunColor = 1,1,1,1.0"
+        PRINT #1, "             IVASunIntensity = 0.55"
+        PRINT #1, "             sunLensFlareColor = 1,1,1,1.0"
+        PRINT #1, "             luminosity = 0"
+        PRINT #1, "             ambientLightColor = 0,0,0,1.0"
+        PRINT #1, "             givesOffLight = False"
+        PRINT #1, "         }"
+        PRINT #1, "         Material"
+        PRINT #1, "         {"
+        PRINT #1, "             emitColor0 = 0,0,0,1"
+        PRINT #1, "             emitColor1 = 0,0,0,1"
+        PRINT #1, "             sunspotColor = 0,0,0,1"
+        PRINT #1, "             rimColor = 0,0,0,1"
+        PRINT #1, "         }"
+        PRINT #1, "         Coronas"
+        PRINT #1, "         {"
+        PRINT #1, "            Corona"
+        PRINT #1, "            {"
+        PRINT #1, "                rotation = 0"
+        PRINT #1, "                speed = -1"
+        PRINT #1, "                updateInterval = 5"
+        PRINT #1, "                scaleLimitX = 5"
+        PRINT #1, "                scaleLimitY = 5"
+        PRINT #1, "                scaleSpeed = 0.007"
+        PRINT #1, ""
+        PRINT #1, "                Material"
+        PRINT #1, "                {"
+        PRINT #1, "                    texture = To_Boldly_Go/coronae/BlackCorona"
+        PRINT #1, "                    inverseFade = 2.553731"
+        PRINT #1, "                }"
+        PRINT #1, "            }"
+        PRINT #1, "            Corona"
+        PRINT #1, "            {"
+        PRINT #1, "                rotation = 0"
+        PRINT #1, "                speed = 1"
+        PRINT #1, "                updateInterval = 5"
+        PRINT #1, "                scaleLimitX = 5"
+        PRINT #1, "                scaleLimitY = 5"
+        PRINT #1, "                scaleSpeed = 0.009"
+        PRINT #1, ""
+        PRINT #1, "                Material"
+        PRINT #1, "                {"
+        PRINT #1, "                      texture = To_Boldly_Go/coronae/BlackCorona"
+        PRINT #1, "                      inverseFade = 2.553731"
+        PRINT #1, "                }"
+        PRINT #1, "            }"
+        PRINT #1, "            }"
+        PRINT #1, "        }"
+        PRINT #1, "    }"
+        PRINT #1, "}"
+        clusternum = clusternum +1
+    next
 END IF
 
 
