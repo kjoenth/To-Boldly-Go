@@ -6,28 +6,28 @@
     |_|\___/  |____/ \___/|_|\__,_|_|\__, |  \_____|\___/
                                       __/ |
                                      |___/
-*****ClusterHeadache***** v0.3.0.5e
-Creation Date: 00:11:31 09-10-2017
+*****In through the moon door***** v0.3.0.5f
+Creation Date: 17:12:36 10-19-2017
 Generation Mode: a
-Seed: 1234567 
+Seed: 1234 
 Galaxy Type: 0 
-Galaxy Age: 0 
+Galaxy Age: 3 
 Cluster Number: 0 
 Planets: y
 Asteroids: y
-L to Y class (~Brown~): 38 
+L to Y class (~Brown~): 31 
 M class (~Red~): 14 
-K class (~Orange~): 24 
-G class (~Yellow~): 18 
+K class (~Orange~): 5 
+G class (~Yellow~): 0 
 F class (~Yellow-white~): 0 
-A class (~White~): 13 
-B class (~Blue-White~): 4 
+A class (~White~): 0 
+B class (~Blue-White~): 0 
 O class (~Blue~): 0 
-White Dwarves: 1 
+White Dwarves: 29 
 -----------------
- 111 Stars
- 203 Planets
- 0 Moons
- 45 Asteroids
- 359  Total
+ 78 Stars
+ 99 Planets
+ 94 Moons
+ 32 Asteroids
+ 303  Total
 -----------------

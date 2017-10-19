@@ -4,24 +4,36 @@ SUB MakeMoons (thePlanetName$,parentInclination,parentRadius,Max_num_moons):
 	'#STH 2017-0406'
 	MAXMOON = INT(RND * Max_num_moons)
 	FOR theMoonNumb = 1 TO MAXMOON
-		'#######'
-		'#We can be smarter about this by looking at radius of parent body
-		'#And only picking possible moons by picking things with radius less
-		'#than parent body
-		'#STH 2017-0203'
 		print #1, "//############Making a moon"
-		PLANETTYPE$ = "Jool"
-		IF parentRadius > 1000000 THEN
-			DO WHILE PLANETTYPE$ = "Jool"
-				keyIndex = 1 + INT(RND * (UBOUND(planetKey$))) 'want the range to be from 1 to end. Index 0 is the header
+		moonFound = 0
+		'#This would be nicer if we sorted things by radius first and limited the search scope
+		'#Loop through the list a max of some random value based on length of the list
+		maxTimes = INT(RND * (UBOUND(planetKey$)))
+		if maxTimes < 5 then maxTimes = 5
+		for i = 1 to maxTimes
+			keyIndex = 1 + INT(RND * (UBOUND(planetKey$))) 'want the range to be from 1 to end. Index 0 is the header
+			'#This is based on radii of parent and moon. Probably should be mass, but this will do for now
+			'#STH 2017.1019
+			PLANETRADI = thePlanetRadius(keyIndex)
+			radiiDiff = parentRadius/PLANETRADI
+			'#Earth:Luna is an extreme almost binary planet system
+			'#radius earth/radius moon=3.6678
+			'#This will be our curoff for planet:moon size
+			if (radiiDiff > 3.6678) then
 				PLANETTYPE$ = planetKey$(keyIndex)
 				PLANETDESC$ = thePlanetDesc$(keyIndex)
 				PLANETRADI = thePlanetRadius(keyIndex)
-				print #1, PLANETRADI
 				PLANETMASS = thePlanetMass(keyIndex)
 				PLANETSTOCK$ = thePlanetStock$(keyIndex)
 				PLANETSOI = thePlanetSOI(keyIndex) 'really, this should be calculated from mass'
-			LOOP
+				moonFound = 1
+				exit for
+			end if
+			'print #1, radiiDiff
+			'aBodyNode$ = "Body"+chr$(13)
+			'templateNode$ = "Template"+chr$(13)+"        {"+chr$(13)+"            name = Gilly"+chr$(13)+"        }"
+		next
+		if moonFound = 1 then
 			'########################'
 			'###Fill in basic body data'
 			IF PLANETSTOCK$ = "True" THEN
@@ -33,46 +45,41 @@ SUB MakeMoons (thePlanetName$,parentInclination,parentRadius,Max_num_moons):
 				aBodyNode$ = "+Body[" + PLANETTYPE$ + "]"+chr$(13)
 				templateNode$ = ""
 			END IF
-		END IF
-		'# ELSE statements don't seem to work in included code
-		IF NOT(parentRadius > 1000000) THEN
-			aBodyNode$ = "Body"+chr$(13)
-			templateNode$ = "Template"+chr$(13)+"        {"+chr$(13)+"            name = Gilly"+chr$(13)+"        }"
-		END IF
-		'########################'
-		'###Moon name
-		'#sum theMoonNumb and acsii 96 to get a lowercase letter for the moon name
-		theMoonName$ = thePlanetName$ + chr$(theMoonNumb+96)
-		'########################'
-		'###Fill in property data'
-		'theDescription$ = thePlanetDesc$(keyIndex)
-		'theRadius$ = STR$(thePlanetRadius(keyIndex))
-		aPropertiesTemplate$ = thePropertiesTemplate$
-		aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, PLANETDESC$, STR$(PLANETRADI), "", "", "", "", "", "", "", "", STR$(PLANETSOI))
-		'#########################'
-		'###Fill in orbit data'
-		theReferenceBody$ = thePlanetName$
-		theColour$ = ""
-		theMode$ = ""
-		'#the inclination of the planet should be close to the plane of the parent star
-		'#https://en.wikipedia.org/wiki/Orbital_inclination
-		'theInclination$ = STR$(INT(RND * 360))
-		tempVar=int(rnd*2.0)
-		theInclination$=str$(int(parentInclination+tempVar))
-		theEccentricity$ = ""
-		theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
-		theLongitudeOfAscendingNode$ = ""
-		theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
-		theMeanAnomalyAtEpoch$ = ""
-		theEpoch$ = ""
-		aOrbitTemp$ = theOrbitTemplate$
-		aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
-		
-		aMoonTemp$ = thePlanetTemplate$
-		aMoonTemp$ = planetTempSubstitution$ (aMoonTemp$, aBodyNode$, theMoonName$, templateNode$, aPropertiesNode$, aOrbitNode$, "", "", "", "", "")
-		print #1, aMoonTemp$
+			'########################'
+			'###Moon name
+			'#sum theMoonNumb and acsii 96 to get a lowercase letter for the moon name
+			theMoonName$ = thePlanetName$ + chr$(theMoonNumb+96)
+			'########################'
+			'###Fill in property data'
+			'theDescription$ = thePlanetDesc$(keyIndex)
+			'theRadius$ = STR$(thePlanetRadius(keyIndex))
+			aPropertiesTemplate$ = thePropertiesTemplate$
+			aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, PLANETDESC$, STR$(PLANETRADI), "", "", "", "", "", "", "", "", STR$(PLANETSOI))
+			'#########################'
+			'###Fill in orbit data'
+			theReferenceBody$ = thePlanetName$
+			theColour$ = ""
+			theMode$ = ""
+			'#the inclination of the planet should be close to the plane of the parent star
+			'#https://en.wikipedia.org/wiki/Orbital_inclination
+			'theInclination$ = STR$(INT(RND * 360))
+			tempVar=int(rnd*2.0)
+			theInclination$=str$(int(parentInclination+tempVar))
+			theEccentricity$ = ""
+			theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
+			theLongitudeOfAscendingNode$ = ""
+			theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
+			theMeanAnomalyAtEpoch$ = ""
+			theEpoch$ = ""
+			aOrbitTemp$ = theOrbitTemplate$
+			aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
+			
+			aMoonTemp$ = thePlanetTemplate$
+			aMoonTemp$ = planetTempSubstitution$ (aMoonTemp$, aBodyNode$, theMoonName$, templateNode$, aPropertiesNode$, aOrbitNode$, "", "", "", "", "")
+			print #1, aMoonTemp$
 
-		MOBJECTNUMBER = MOBJECTNUMBER + 1
+			MOBJECTNUMBER = MOBJECTNUMBER + 1
+		end if
 	NEXT
 	
 		
