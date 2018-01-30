@@ -1,0 +1,42 @@
+  _______      ____        _     _ _          _____
+ |__   __|    |  _ \      | |   | | |        / ____|
+    | | ___   | |_) | ___ | | __| | |_   _  | |  __  ___
+    | |/ _ \  |  _ < / _ \| |/ _` | | | | | | | |_ |/ _ \
+    | | (_) | | |_) | (_) | | (_| | | |_| | | |__| | (_) |
+    |_|\___/  |____/ \___/|_|\__,_|_|\__, |  \_____|\___/
+                                      __/ |
+                                     |___/
+<<<<<<< HEAD:Galaxygen_Info-Osakanuse.txt
+*****Osakanuse***** v0.3.0.5h
+Creation Date: 13:17:04 01-30-2018
+Generation Mode: c
+Seed: 1.234568E+09 
+Galaxy Type: 1 
+Galaxy Age: 1 
+=======
+*****In through the moon door***** v0.3.0.5g
+Creation Date: 17:12:36 10-19-2017
+Generation Mode: a
+Seed: 1234 
+Galaxy Type: 0 
+Galaxy Age: 3 
+>>>>>>> origin/Janet:Galaxygen_Info-In through the moon door.txt
+Cluster Number: 0 
+Planets: y
+Asteroids: n
+L to Y class (~Brown~): 41 
+M class (~Red~): 12 
+K class (~Orange~): 21 
+G class (~Yellow~): 8 
+F class (~Yellow-white~): 0 
+A class (~White~): 9 
+B class (~Blue-White~): 4 
+O class (~Blue~): 0 
+White Dwarves: 1 
+-----------------
+ 95 Stars
+ 204 Planets
+ 196 Moons
+ 0 Asteroids
+ 495  Total
+-----------------
