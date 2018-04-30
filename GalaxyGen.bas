@@ -70,7 +70,7 @@ SCREEN _NEWIMAGE(700, 518, 32)
 Backdrop = _LOADIMAGE("Data_folder/Background2.png")
 _PUTIMAGE (0, 0), Backdrop
 
-_FONT _LOADFONT("Data_folder/DejaVuSans.ttf", 15, "MONOSPACE") 'select monospace font
+_FONT _LOADFONT("Data_folder/Commodore_Rounded_v1.2.ttf", 15, "MONOSPACE") 'select monospace font
 _PRINTMODE _KEEPBACKGROUND
 '*******************************************************************************
 '*******************************************************************************
@@ -78,8 +78,8 @@ _PRINTMODE _KEEPBACKGROUND
 PRINT ""
 
 778 PRINT
-_FONT _LOADFONT("Data_folder/DejaVuSans.ttf", 15, "MONOSPACE") 'select monospace font
-_PRINTMODE _KEEPBACKGROUND
+'_FONT _LOADFONT("Data_folder/DejaVuSans.ttf", 15, "MONOSPACE") 'select monospace font
+'_PRINTMODE _KEEPBACKGROUND
 
 
 IF PTOGGLE = 1 THEN
@@ -90,10 +90,16 @@ IF ATOGGLE = 1 THEN
     ASTTOG$ = "y"
 END IF
 
-FOR i = 1 TO 11
+'COLOR _RGB(255, 255, 255), _RGB(0, 0, 0)
+COLOR _RGB(88, 139, 175), _RGB(0, 0, 0)
+
+FOR i = 1 TO 2
     PRINT ""
 NEXT
-COLOR _RGB(255, 255, 255), _RGB(0, 0, 0)
+PRINT "TBG version "+TBG_Version$
+FOR i = 1 TO 5
+    PRINT ""
+NEXT
 PRINT "Please do not use capitalization"
 PRINT "for anything other than the Galaxy name."
 PRINT ""
@@ -448,8 +454,26 @@ PRINT #1, "            %description = The Sun is the most well known object in t
 PRINT #1, "        }"
 PRINT #1, "        %ScaledVersion"
 PRINT #1, "        {"
+'#This is a TERRIBLE way to do this. It should be using a template
+'#STH 2018-0302
 PRINT #1, "            %Light"
 PRINT #1, "            {"
+PRINT #1, "                %IntensityCurve"
+PRINT #1, "                {"
+PRINT #1, "                    key = 0 1 0 0"
+PRINT #1, "                    key = 3000000000 1 0 -4.809E-11"
+PRINT #1, "                    key = 6000000000 0.9 -2.404E-11 -2.404E-11"
+PRINT #1, "                    key = 12000000000 0.8 -1.202E-11 -1.202E-11"
+PRINT #1, "                    key = 24000000000 0.7 -6.011E-12 -6.011E-12"
+PRINT #1, "                    key = 48000000000 0.6 -3.006E-12 -3.006E-12"
+PRINT #1, "                    key = 96000000000 0.5 -1.503E-12 -1.503E-12"
+PRINT #1, "                    key = 192000000000 0.4 -7.514E-13 -7.514E-13"
+PRINT #1, "                    key = 384000000000 0.3 -3.757E-13 -3.757E-13"
+PRINT #1, "                    key = 600000000000 0.235614 -2.404E-13 -1.212E-12"
+PRINT #1, "                    key = 768000000000 0.032 -1.212E-12 -3.006E-14"
+PRINT #1, "                    key = 1536000000000 0.016 -1.503E-14 -1.503E-14"
+PRINT #1, "                    key = 3072000000000 0 -7.514E-15 0"
+PRINT #1, "                }"
 PRINT #1, "                %ScaledIntensityCurve"
 PRINT #1, "                {"
 PRINT #1, "                    key = 0 1 0 0"
@@ -464,6 +488,22 @@ PRINT #1, "                    key = 11200000 0.3 -1.29E-08 -1.29E-08"
 PRINT #1, "                    key = 22400000 0.2 -6.44E-09 -6.44E-09"
 PRINT #1, "                    key = 44800000 0.1 -3.22E-09 -3.22E-09"
 PRINT #1, "                    key = 89600000 0 -1.61E-09 0"
+PRINT #1, "                }"
+PRINT #1, "                %IVAIntensityCurve"
+PRINT #1, "                {"
+PRINT #1, "                    key = 0 1 0 0"
+PRINT #1, "                    key = 3000000000 1 0 -4.809E-11"
+PRINT #1, "                    key = 6000000000 0.9 -2.404E-11 -2.404E-11"
+PRINT #1, "                    key = 12000000000 0.8 -1.202E-11 -1.202E-11"
+PRINT #1, "                    key = 24000000000 0.7 -6.011E-12 -6.011E-12"
+PRINT #1, "                    key = 48000000000 0.6 -3.006E-12 -3.006E-12"
+PRINT #1, "                    key = 96000000000 0.5 -1.503E-12 -1.503E-12"
+PRINT #1, "                    key = 192000000000 0.4 -7.514E-13 -7.514E-13"
+PRINT #1, "                    key = 384000000000 0.3 -3.757E-13 -3.757E-13"
+PRINT #1, "                    key = 600000000000 0.235614 -2.404E-13 -1.212E-12"
+PRINT #1, "                    key = 768000000000 0.032 -1.212E-12 -3.006E-14"
+PRINT #1, "                    key = 1536000000000 0.016 -1.503E-14 -1.503E-14"
+PRINT #1, "                    key = 3072000000000 0 -7.514E-15 0"
 PRINT #1, "                }"
 PRINT #1, "            }"
 PRINT #1, "        }"

@@ -1,0 +1,75 @@
+    Light
+            {
+                //https://github.com/Kopernicus/Kopernicus/wiki/Light
+                //sunlightColor = %(theSunlightColor)s
+                //sunlightIntensity = %(theSunlightIntensity)s
+                //scaledSunlightColor = %(theScaledSunlightColor)s
+                //scaledSunlightIntensity = %(theScaledSunlightIntensity)s
+                //IVASuncolor = %(theIVASuncolor)s
+                //IVASunIntensity = %(theIVASunIntensity)s
+                //sunLensFlareColor = %(theSunLensFlareColor)s
+                //ambientLightColor = %(theAmbientLightColor)s
+                //sunAU = %(theSunAU)s
+                //luminosity = %(theLuminosity)s
+                //givesOffLight = %(theGivesOffLight)s
+                //
+                // In 1.3.1-3 this was fixed, so your IntensityCurve and IVAIntensity curve need to be in localspace distance (meters) 
+                // while your ScaledIntensityCurve (which should be kept since it was the only one working previously) remains in 
+                // scaledspace distance (meters / 6000).
+                // https://forum.kerbalspaceprogram.com/index.php?/topic/151998-indev-13-to-boldly-go-an-external-application-designed-to-procedurally-generate-an-entire-galaxy-for-ksp/&do=findComment&comment=3261071
+                //
+                IntensityCurve
+                {
+                    key = 0 1 0 0
+                    key = 525000 1 0 -1.65E-06
+                    key = 1050000 0.9 -8.24E-07 -8.24E-07
+                    key = 2100000 0.8 -4.12E-07 -4.12E-07
+                    key = 4200000 0.7 -2.06E-07 -2.06E-07
+                    key = 8400000 0.6 -1.03E-07 -1.03E-07
+                    key = 16800000 0.5 -5.15E-08 -5.15E-08
+                    key = 33600000 0.4 -2.58E-08 -2.58E-08
+                    key = 67200000 0.3 -1.29E-08 -1.29E-08
+                    key = 134400000 0.2 -6.44E-09 -6.44E-09
+                    key = 268800000 0.1 -3.22E-09 -3.22E-09
+                    key = 537600000 0 -1.61E-09 0
+                }
+                //ScaledIntensityCurve stops the star brightness from being overwhelming
+                ScaledIntensityCurve
+                {
+                    key = 0 1 0 0
+                    key = 87500 1 0 -1.65E-06
+                    key = 175000 0.9 -8.24E-07 -8.24E-07
+                    key = 350000 0.8 -4.12E-07 -4.12E-07
+                    key = 700000 0.7 -2.06E-07 -2.06E-07
+                    key = 1400000 0.6 -1.03E-07 -1.03E-07
+                    key = 2800000 0.5 -5.15E-08 -5.15E-08
+                    key = 5600000 0.4 -2.58E-08 -2.58E-08
+                    key = 11200000 0.3 -1.29E-08 -1.29E-08
+                    key = 22400000 0.2 -6.44E-09 -6.44E-09
+                    key = 44800000 0.1 -3.22E-09 -3.22E-09
+                    key = 89600000 0 -1.61E-09 0
+                }
+                IVAIntensityCurve
+                {
+                    key = 0 1 0 0
+                    key = 525000 1 0 -1.65E-06
+                    key = 1050000 0.9 -8.24E-07 -8.24E-07
+                    key = 2100000 0.8 -4.12E-07 -4.12E-07
+                    key = 4200000 0.7 -2.06E-07 -2.06E-07
+                    key = 8400000 0.6 -1.03E-07 -1.03E-07
+                    key = 16800000 0.5 -5.15E-08 -5.15E-08
+                    key = 33600000 0.4 -2.58E-08 -2.58E-08
+                    key = 67200000 0.3 -1.29E-08 -1.29E-08
+                    key = 134400000 0.2 -6.44E-09 -6.44E-09
+                    key = 268800000 0.1 -3.22E-09 -3.22E-09
+                    key = 537600000 0 -1.61E-09 0
+                }
+                brightnessCurve
+                {
+                    key = 0.0014 0.035 0 25
+                    key = 0.01 0.5 50 50
+                    key = 0.1 5 50 50
+                    key = 0.45 22.5 50 -50
+                    key = 0.5 0 -50 -50
+                }
+            }

@@ -6,7 +6,15 @@
         //%name = %(theName)s
         Template
         {
-            name = Sun
+            name = Sun      
+            removePQS = false // Should we strip the PQS off
+            removeAtmosphere = false // Should we strip the atmosphere off
+            removeBiomes = false // Should we remove the biomes
+            removeOcean = false // Should we strip the ocean off
+            removeAllPQSMods = true // Should we strip all Mods off
+            removeProgressTree = false // Collection of PQS mods to remove
+            removeCoronas = true // Remove coronas for star
+
         }
         //%(theProperties)s
         //%(theOrbitData)s
