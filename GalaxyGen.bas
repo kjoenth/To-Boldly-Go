@@ -1,5 +1,5 @@
 'To Boldly Go v0.3.0.5h - Kopernicus Procedural Galaxy Generator!"
-'Copyright (C) 2017  Daniel L. & Sean T. Hammond"
+'Copyright (C) 2018  Daniel L. & Sean T. Hammond"
 '
 'This program is free software; you can redistribute it and/or modify"
 'it under the terms of the GNU General Public License as published by"
@@ -2122,72 +2122,72 @@ orbitNode$ = aTemplate$
 END FUNCTION
 
 FUNCTION lightNode$ (aTemplate$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
-'#####STH 2017-0124. QBasic doesn't have string formatting like python.
-'#####Replicated that function with string replacement function.
-IF sunlightColor$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//sunlightColor =", "sunlightColor =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theSunlightColor)s", sunlightColor$)
-END IF
-IF sunlightIntensity$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//sunlightIntensity =", "sunlightIntensity =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theSunlightIntensity)s", sunlightIntensity$)
-END IF
-IF scaledSunlightColor$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//scaledSunlightColor =", "scaledSunlightColor =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theScaledSunlightColor)s", scaledSunlightColor$)
-END IF
-IF scaledSunlightIntensity$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//scaledSunlightIntensity =", "scaledSunlightIntensity =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theScaledSunlightIntensity)s", scaledSunlightIntensity$)
-END IF
-IF IVASuncolor$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//IVASuncolor =", "IVASuncolor =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theIVASuncolor)s", IVASuncolor$)
-END IF
-IF IVASunIntensity$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//IVASunIntensity =", "IVASunIntensity =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theIVASunIntensity)s", IVASunIntensity$)
-END IF
-IF sunLensFlareColor$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//sunLensFlareColor =", "sunLensFlareColor =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theSunLensFlareColor)s", sunLensFlareColor$)
-END IF
-IF ambientLightColor$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//ambientLightColor =", "ambientLightColor =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theAmbientLightColor)s", ambientLightColor$)
-END IF
-IF sunAU$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//sunAU =", "sunAU =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theSunAU)s", sunAU$)
-END IF
-IF luminosity$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//luminosity =", "luminosity =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theLuminosity)s", luminosity$)
-END IF
-IF givesOffLight$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//givesOffLight =", "givesOffLight =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theGivesOffLight)s", givesOffLight$)
-END IF
-lightNode$ = aTemplate$
+    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
+    '#####Replicated that function with string replacement function.
+    IF sunlightColor$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//sunlightColor =", "sunlightColor =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theSunlightColor)s", sunlightColor$)
+    END IF
+    IF sunlightIntensity$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//sunlightIntensity =", "sunlightIntensity =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theSunlightIntensity)s", sunlightIntensity$)
+    END IF
+    IF scaledSunlightColor$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//scaledSunlightColor =", "scaledSunlightColor =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theScaledSunlightColor)s", scaledSunlightColor$)
+    END IF
+    IF scaledSunlightIntensity$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//scaledSunlightIntensity =", "scaledSunlightIntensity =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theScaledSunlightIntensity)s", scaledSunlightIntensity$)
+    END IF
+    IF IVASuncolor$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//IVASuncolor =", "IVASuncolor =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theIVASuncolor)s", IVASuncolor$)
+    END IF
+    IF IVASunIntensity$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//IVASunIntensity =", "IVASunIntensity =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theIVASunIntensity)s", IVASunIntensity$)
+    END IF
+    IF sunLensFlareColor$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//sunLensFlareColor =", "sunLensFlareColor =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theSunLensFlareColor)s", sunLensFlareColor$)
+    END IF
+    IF ambientLightColor$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//ambientLightColor =", "ambientLightColor =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theAmbientLightColor)s", ambientLightColor$)
+    END IF
+    IF sunAU$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//sunAU =", "sunAU =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theSunAU)s", sunAU$)
+    END IF
+    IF luminosity$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//luminosity =", "luminosity =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theLuminosity)s", luminosity$)
+    END IF
+    IF givesOffLight$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//givesOffLight =", "givesOffLight =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theGivesOffLight)s", givesOffLight$)
+    END IF
+    lightNode$ = aTemplate$
 END FUNCTION
 
 FUNCTION materialNode$ (aTemplate$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
-'#####STH 2017-0124. QBasic doesn't have string formatting like python.
-'#####Replicated that function with string replacement function.
-aTemplate$ = ReplaceStr(aTemplate$, "%(theEmitColor0)s", emitColorZero$)
-aTemplate$ = ReplaceStr(aTemplate$, "%(theEmitColor1)s", emitColorOne$)
-aTemplate$ = ReplaceStr(aTemplate$, "%(theSunspotColor)s", sunspotColor$)
-aTemplate$ = ReplaceStr(aTemplate$, "%(theRimColor)s", rimColor$)
-aTemplate$ = ReplaceStr(aTemplate$, "%(theRimPower)s", rimPower$)
-aTemplate$ = ReplaceStr(aTemplate$, "%(theRimBlend)s", rimBlend$)
-materialNode$ = aTemplate$
+    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
+    '#####Replicated that function with string replacement function.
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theEmitColor0)s", emitColorZero$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theEmitColor1)s", emitColorOne$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theSunspotColor)s", sunspotColor$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theRimColor)s", rimColor$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theRimPower)s", rimPower$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theRimBlend)s", rimBlend$)
+    materialNode$ = aTemplate$
 END FUNCTION
 
 FUNCTION coronaNode$ (aTemplate$, starColour$)
-'#####STH 2017-0124. QBasic doesn't have string formatting like python.
-'#####Replicated that function with string replacement function.
-aTemplate$ = ReplaceStr(aTemplate$, "%(theTexture)s", starColour$)
-coronaNode$ = aTemplate$
+    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
+    '#####Replicated that function with string replacement function.
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theTexture)s", starColour$)
+    coronaNode$ = aTemplate$
 END FUNCTION
 
 FUNCTION ringNode$ (aTemplate$, theAngle$, theOuterRadius$, theInnerRadius$, theRingTexture$, theColour$, theLockRotation$, theUnlit$)
@@ -2257,493 +2257,494 @@ END IF
 END SUB
 
 FUNCTION AU2km (theAU)
-AU2km = theAU * 149597871
+    AU2km = theAU * 149597871
 END FUNCTION
 
 FUNCTION realKM2kerbinKM (realKM)
-realKM2kerbinKM = realKM / 10.64
+    realKM2kerbinKM = realKM / 10.64
 END FUNCTION
 
 FUNCTION solarMass2kg (SM)
-'#use Sol's solar mass and kg mass to convert
-'#Sol is ~1.989e30kg
-solarMass2kg = 1.98855E30 * SM
+    '#use Sol's solar mass and kg mass to convert
+    '#Sol is ~1.989e30kg
+    solarMass2kg = 1.98855E30 * SM
 END FUNCTION
 
 FUNCTION kg2solarMass (the_kg)
-'#use Sol's solar mass and kg mass to convert
-'#Sol is ~1.989e30kg
-kg2solarMass = the_kg / 1.98855E30
+    '#use Sol's solar mass and kg mass to convert
+    '#Sol is ~1.989e30kg
+    kg2solarMass = the_kg / 1.98855E30
 END FUNCTION
 
 FUNCTION sol2Kerbol_kg (the_kg)
-'#The start Kerbol is 113.2393x less massiv than Sol
-sol2Kerbol_kg = the_kg / 113.2393
+    '#The start Kerbol is 113.2393x less massiv than Sol
+    sol2Kerbol_kg = the_kg / 113.2393
 END FUNCTION
 
 FUNCTION kerbol2Sol_kg (the_kg)
-'#The start Kerbol is 113.2393x less massiv than Sol
-kerbol2Sol_kg = the_kg * 113.2393
+    '#The start Kerbol is 113.2393x less massiv than Sol
+    kerbol2Sol_kg = the_kg * 113.2393
 END FUNCTION
 
 FUNCTION sol2Kerbol_km (the_km)
-'#The start Kerbol is 2.6594x smaller in radius than Sol
-sol2Kerbol_km = the_km / 2.6594
+    '#The start Kerbol is 2.6594x smaller in radius than Sol
+    sol2Kerbol_km = the_km / 2.6594
 END FUNCTION
 
 FUNCTION kerbol2Sol_km (the_km)
-'#The start Kerbol is 2.6594x smaller in radius than Sol
-kerbol2Sol_km = the_km * 2.6594
+    '#The start Kerbol is 2.6594x smaller in radius than Sol
+    kerbol2Sol_km = the_km * 2.6594
 END FUNCTION
 
 FUNCTION solarRadius2km (SR)
-'#use Sol's solar radius and km radius to convert
-'#Sol is ~695700km
-solarRadius2km = 695700.0 * SR
+    '#use Sol's solar radius and km radius to convert
+    '#Sol is ~695700km
+    solarRadius2km = 695700.0 * SR
 END FUNCTION
 
 FUNCTION km2solarRadius (SR)
-'#use Sol's solar radius and km radius to convert
-'#Sol is ~695700km
-km2solarRadius = SR / 695700.0
+    '#use Sol's solar radius and km radius to convert
+    '#Sol is ~695700km
+    km2solarRadius = SR / 695700.0
 END FUNCTION
 
 FUNCTION solarRadiusFromSolarMass (SM)
-'#need a good reference for this
-IF SM < 1 THEN
-    SR = SM ^ 0.5
-ELSE
-    SR = SM ^ 0.8
-END IF
-solarRadiusFromSolarMass = SR
+    '#need a good reference for this
+    IF SM < 1 THEN
+        SR = SM ^ 0.5
+    ELSE
+        SR = SM ^ 0.8
+    END IF
+    solarRadiusFromSolarMass = SR
 END FUNCTION
 
 FUNCTION luminocityFromSolarMass (SM)
-luminocityFromSolarMass = SM ^ 3.5
+    luminocityFromSolarMass = SM ^ 3.5
 END FUNCTION
 
 FUNCTION solarTemp (SL, SR)
-'#returns star temp in K from solar luminocty and solar mass
-solarTemp = ((SL / (SR ^ 2.0)) ^ 0.25) * 5778
+    '#returns star temp in K from solar luminocty and solar mass
+    solarTemp = ((SL / (SR ^ 2.0)) ^ 0.25) * 5778
 END FUNCTION
 
 FUNCTION starCircumference (radius_km)
-starCircumference = 2.0 * _PI * radius_km
+    starCircumference = 2.0 * _PI * radius_km
 END FUNCTION
 
 FUNCTION starSurfaceArea (radius_km)
-starSurfaceArea = 4.0 * _PI * (radius_km ^ 2.0)
+    starSurfaceArea = 4.0 * _PI * (radius_km ^ 2.0)
 END FUNCTION
 
 FUNCTION starVolume (radius_km)
-'#return in m^3
-radius_m = radius_km * 1000.0
-starVolume = (4.0 / 3.0) * _PI * (radius_m ^ 3.0)
+    '#return in m^3
+    radius_m = radius_km * 1000.0
+    starVolume = (4.0 / 3.0) * _PI * (radius_m ^ 3.0)
 END FUNCTION
 
 FUNCTION starDensity (mass_kg, radius_km)
-theVolume = starVolume(radius_km)
-starDensity = mass_kg / theVolume
+    theVolume = starVolume(radius_km)
+    starDensity = mass_kg / theVolume
 END FUNCTION
 
 FUNCTION stdGravitationalParameter (mass_kg)
-'#https://en.wikipedia.org/wiki/Standard_gravitational_parameter
-G = 6.674E-11
-stdGravitationalParameter = (mass_kg * G)
+    '#https://en.wikipedia.org/wiki/Standard_gravitational_parameter
+    G = 6.674E-11
+    stdGravitationalParameter = (mass_kg * G)
 END FUNCTION
 
 FUNCTION surfaceGravity (mass_kg, radius_km)
-'#https://en.wikipedia.org/wiki/Surface_gravity
-G = 6.674E-11
-surfaceGravity = G * (mass_kg / (radius_km ^ 2.0))
+    '#https://en.wikipedia.org/wiki/Surface_gravity
+    G = 6.674E-11
+    surfaceGravity = G * (mass_kg / (radius_km ^ 2.0))
 END FUNCTION
 
 FUNCTION escapeVelocity (mass_kg, radius_km)
-G = 6.674E-11
-temp = 2.0 * G * mass_kg
-temp = temp / radius_km
-escapeVelocity = temp ^ 0.5
+    G = 6.674E-11
+    temp = 2.0 * G * mass_kg
+    temp = temp / radius_km
+    escapeVelocity = temp ^ 0.5
 END FUNCTION
 
 FUNCTION hillSphere (mass_primary, mass_secondary, eccentricity_secondary, semimajorAxis_secondary)
-'#calculate the radius of the Hill sphere
-'#https://en.wikipedia.org/wiki/Hill_sphere
-partOne = (semimajorAxis_secondary * (1.0 - eccentricity_secondary))
-partTwo = (mass_secondary / (3.0 * mass_primary)) ^ (1.0 / 3.0)
-theRadius = partOne * partTwo
-'#for unit test later:
-'#mass earth = 5.97E+24 kg; mass sol = 1.98855E+30 kg; semi-major axis earth = 149,598,023 km; eccentricity earth = 0.0167086
-'#gives a radius of 1471536.617 km
-'#mass blackhole @ center of milky way: 8.55E+37 kg
-hillSphere = theRadius
+    '#calculate the radius of the Hill sphere
+    '#https://en.wikipedia.org/wiki/Hill_sphere
+    partOne = (semimajorAxis_secondary * (1.0 - eccentricity_secondary))
+    partTwo = (mass_secondary / (3.0 * mass_primary)) ^ (1.0 / 3.0)
+    theRadius = partOne * partTwo
+    '#for unit test later:
+    '#mass earth = 5.97E+24 kg; mass sol = 1.98855E+30 kg; semi-major axis earth = 149,598,023 km; eccentricity earth = 0.0167086
+    '#gives a radius of 1471536.617 km
+    '#mass blackhole @ center of milky way: 8.55E+37 kg
+    hillSphere = theRadius
 END FUNCTION
 
 FUNCTION rocheLimit (mass_primary, mass_secondary, radius_secondary)
-'#calculate the Roche limit around a body
-'#this is the minimum distance around a primary that a secondary can maintain cohesion
-'#Any closer and you would have a ring instead
-'#https://en.wikipedia.org/wiki/Roche_limit
-theDistance = 1.26 * radius_secondary * ((mass_primary / mass_secondary) ^ (1.0 / 3.0))
-'#for unit test later:
-'#mass earth = 5.97E+24 kg; mass sol = 1.98855E+30 kg; radius earth = 6378 km
-'#gives a radius of 1471536.617 km
-rocheLimit = theDistance
+    '#calculate the Roche limit around a body
+    '#this is the minimum distance around a primary that a secondary can maintain cohesion
+    '#Any closer and you would have a ring instead
+    '#https://en.wikipedia.org/wiki/Roche_limit
+    theDistance = 1.26 * radius_secondary * ((mass_primary / mass_secondary) ^ (1.0 / 3.0))
+    '#for unit test later:
+    '#mass earth = 5.97E+24 kg; mass sol = 1.98855E+30 kg; radius earth = 6378 km
+    '#gives a radius of 1471536.617 km
+    rocheLimit = theDistance
 END FUNCTION
 
 FUNCTION kspSOI (mass_primary, mass_secondary, semimajorAxis_secondary)
-'#http://wiki.kerbalspaceprogram.com/wiki/Sphere_of_influence
-kspSOI = (semimajorAxis_secondary * ((mass_secondary / mass_primary) ^ (2.0 / 5.0)))
+    '#http://wiki.kerbalspaceprogram.com/wiki/Sphere_of_influence
+    kspSOI = (semimajorAxis_secondary * ((mass_secondary / mass_primary) ^ (2.0 / 5.0)))
 END FUNCTION
 
 FUNCTION solFrostLine (luminocity)
-'https://en.wikipedia.org/wiki/Frost_line_(astrophysics)
-solFrostLine = 4.85 * (luminocity ^ 0.5)
+    'https://en.wikipedia.org/wiki/Frost_line_(astrophysics)
+    solFrostLine = 4.85 * (luminocity ^ 0.5)
 END FUNCTION
 
 FUNCTION siderealRotationalVel (theRadius, rotationalPeriod)
-theVelocity = starCircumference(theRadius) / rotationalPeriod
-siderealRotationalVel = theVelocity
+    theVelocity = starCircumference(theRadius) / rotationalPeriod
+    siderealRotationalVel = theVelocity
 END FUNCTION
 
 FUNCTION synchronousOrbit (theRadius, theMass, rotationalPeriod)
-'#returns the altitude of geosync orbit above sea level
-G = 6.674E-11
-tmpOne = (G * theMass * (rotationalPeriod ^ 2.0))
-tmpTwo = 4.0 * (_PI ^ 2.0)
-tmpThr = (tmpOne / tmpTwo) ^ (1.0 / 3.0)
-theAltitude = tmpThr - theRadius
-synchronousOrbit = theAltitude
+    '#returns the altitude of geosync orbit above sea level
+    G = 6.674E-11
+    tmpOne = (G * theMass * (rotationalPeriod ^ 2.0))
+    tmpTwo = 4.0 * (_PI ^ 2.0)
+    tmpThr = (tmpOne / tmpTwo) ^ (1.0 / 3.0)
+    theAltitude = tmpThr - theRadius
+    synchronousOrbit = theAltitude
 END FUNCTION
 
 '#star colour RGB from temp
 SUB temp2RGB (tmpKelvin):
-'#From http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/ Retrieved 2017.0110
-'#Start with a temperature, in Kelvin, somewhere between 1000 and 40000.  (Other values may work,
-'#but I can't make any promises about the quality of the algorithm's estimates above 40000 K.)
-'#Note also that the temperature and color variables need to be declared as floating-point.
-'#tmpKelvin = 113017
-'#Temperature must fall between 1000 and 40000 degrees
-'IF tmpKelvin < 1000 THEN tmpKelvin = 1000
-'#if tmpKelvin > 40000 : tmpKelvin = 40000
-'#All calculations require tmpKelvin \ 100, so only do the conversion once
-tmpKelvin = tmpKelvin \ 100 '#integer division aka floor division'
+    '#From http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/ Retrieved 2017.0110
+    '#Start with a temperature, in Kelvin, somewhere between 1000 and 40000.  (Other values may work,
+    '#but I can't make any promises about the quality of the algorithm's estimates above 40000 K.)
+    '#Note also that the temperature and color variables need to be declared as floating-point.
+    '#tmpKelvin = 113017
+    '#Temperature must fall between 1000 and 40000 degrees
+    'IF tmpKelvin < 1000 THEN tmpKelvin = 1000
+    '#if tmpKelvin > 40000 : tmpKelvin = 40000
+    '#All calculations require tmpKelvin \ 100, so only do the conversion once
+    tmpKelvin = tmpKelvin \ 100 '#integer division aka floor division'
 
-'#Calculate Red:
-IF tmpKelvin <= 66 THEN
-    r = 255
-    IF tmpKelvin <= 29 THEN
-        r = tmpKelvin
-        r = 196.5 * LOG(r) - 361.8223
+    '#Calculate Red:
+    IF tmpKelvin <= 66 THEN
+        r = 255
+        IF tmpKelvin <= 29 THEN
+            r = tmpKelvin
+            r = 196.5 * LOG(r) - 361.8223
+        END IF
+    ELSE
+        r = tmpKelvin - 60
+        r = 329.698727446 * (r ^ -0.1332047592)
     END IF
-ELSE
-    r = tmpKelvin - 60
-    r = 329.698727446 * (r ^ -0.1332047592)
-END IF
-IF r < 0 THEN r = 0
-IF r > 255 THEN r = 255
+    IF r < 0 THEN r = 0
+    IF r > 255 THEN r = 255
 
-'#Calculate Green:
-IF tmpKelvin <= 66 THEN
-    g = tmpKelvin
-    g = 99.4708025861 * LOG(g) - 161.1195681661
-ELSE:
-    g = tmpKelvin - 60
-    g = 288.1221695283 * (g ^ -0.0755148492)
-END IF
-IF g < 0 THEN g = 0
-IF g > 255 THEN g = 255
-
-'#Calculate Blue:
-IF tmpKelvin >= 66 THEN
-    b = 255
-ELSE:
-    IF tmpKelvin <= 19 THEN
-        b = 0
+    '#Calculate Green:
+    IF tmpKelvin <= 66 THEN
+        g = tmpKelvin
+        g = 99.4708025861 * LOG(g) - 161.1195681661
     ELSE:
-        b = tmpKelvin - 10
-        b = 138.5177312231 * LOG(b) - 305.0447927307
-        IF b < 0 THEN b = 0
-        IF b > 255 THEN b = 255
+        g = tmpKelvin - 60
+        g = 288.1221695283 * (g ^ -0.0755148492)
     END IF
-END IF
-REDgb = r
-rGREENb = g
-rgBLUE = b
+    IF g < 0 THEN g = 0
+    IF g > 255 THEN g = 255
+
+    '#Calculate Blue:
+    IF tmpKelvin >= 66 THEN
+        b = 255
+    ELSE:
+        IF tmpKelvin <= 19 THEN
+            b = 0
+        ELSE:
+            b = tmpKelvin - 10
+            b = 138.5177312231 * LOG(b) - 305.0447927307
+            IF b < 0 THEN b = 0
+            IF b > 255 THEN b = 255
+        END IF
+    END IF
+    REDgb = r
+    rGREENb = g
+    rgBLUE = b
 END SUB
 
 
 SUB makeAStar (star_MassKG, star_Name$, star_Description$):
-'#consder moving this to an imported file. STH 2017-0403
-SHARED star_RadiusKSP
-SHARED star_SOI
-SHARED star_MassKSP
-SHARED star_HillSphereRadius
-SHARED star_FrostLineKm
-star_MassKSP = sol2Kerbol_kg(star_MassKG)
-star_MassSolar = kg2solarMass(star_MassKG)
-star_RadiusSolar = solarRadiusFromSolarMass(star_MassSolar)
-star_RadiusKm = solarRadius2km(star_RadiusSolar)
-star_RadiusKSP = sol2Kerbol_km(star_RadiusKm * 1000) '#return m
-star_Lum = luminocityFromSolarMass(star_MassSolar)
-star_FrostLineAU = solFrostLine(star_Lum) '#return in AU'
-star_FrostLineKm = AU2km(star_FrostLineAU) / 10.64 'return in km. deivide by 10.64 to get kerbal km'
-star_TempK = solarTemp(star_Lum, star_RadiusSolar)
-temp2RGB (star_TempK) '#I would rather get the colour back as a list, but I guess qbasic doesn't have lists? #STH 2017-0216'
-theR = REDgb / 255.0
-theG = rGREENb / 255.0
-theB = rgBLUE / 255.0
-'#===convert to hex and prefix with zero if needed'
-hexR$ = HEX$(REDgb)
-hexG$ = HEX$(rGREENb)
-hexB$ = HEX$(rgBLUE)
-IF LEN(hexR$) = 1 THEN hexR$ = "0" + hexR$
-IF LEN(hexG$) = 1 THEN hexG$ = "0" + hexG$
-IF LEN(hexB$) = 1 THEN hexB$ = "0" + hexB$
-'#======='
-star_HTMLColour$ = hexR$ + hexG$ + hexB$
-star_Circumference = starCircumference(star_RadiusKSP) '#use KSP size
-star_SurfaceArea = starSurfaceArea(star_RadiusKSP) '#use KSP size
-star_Volume = starVolume(star_RadiusKSP) '#use KSP size
-star_Density = starDensity(star_MassKSP, star_RadiusKSP / 1000.0) '#use KSP size
-star_stdGravitationalParameter = stdGravitationalParameter(star_MassKSP) '#use KSP size
-star_surfaceGravity = surfaceGravity(star_MassKSP, star_RadiusKSP) '#use KSP size. radius should be in km
-star_escapeVelocity = escapeVelocity(star_MassKSP, star_RadiusKSP) '#use KSP size. radius should be in km
-star_RotationalPeriod = 432000.00 '##20 days in hours. Kerbol. This needs to be more random. Younger stars spin faster. '#could do another normalized curve for rotation speeds
-star_siderealRotationalVel = siderealRotationalVel(star_RadiusKSP, star_RotationalPeriod) '#m/s
-star_theSynchronousOrbit = synchronousOrbit(star_RadiusKSP, star_MassKSP, star_RotationalPeriod) / 1000 '#km
-'#the Roche Limit of the black hole will be the minimum distance an objct can orbit it
-blackHole_RocheLimit = rocheLimit(blackHole_MassKSP, star_MassKSP, star_RadiusKSP)
-'#lower limit in picking the semimajor axis has to put the star radius outside the Roche limit
-'#add a million to put a bit more distance in
-'#Milky Way has a radius around 6.62251e+17km
-'#KSP galaxy radius would be 6.62251e+17km/2.6594=6.62251e+17
-'star_semimajorAxis = random.randint(int(blackHole_RocheLimit+star_RadiusKSP+1e6), 6.62251e17)
-star_orbitMin = INT(blackHole_RocheLimit + star_RadiusKSP + 1E6)
-'#star_orbitMax = 1E16 '6.62251E17
-star_orbitMax = galaxy_RadiusKSP
-star_semimajorAxis = star_orbitMin + (RND(1) * (star_orbitMax - star_orbitMin))
-'###if Kerbol is an analog of Sol, it is ~26kly from the galactic center
-'###1ly = 9.461e+12km
-'###therefore 26*9.461e12km = 2.45986e14km from center.
-'###stellar distances seem 10.95x smaller in KSP
-'star_semimajorAxis = 2.25e16 '#in m
-star_HillSphereRadius = hillSphere(blackHole_MassKg, blackHole_MassKg, 0, star_semimajorAxis)
-star_SOI = kspSOI(blackHole_MassKSP, star_MassKSP, star_semimajorAxis)
-'###END star characteristic calculation
-'##############################
-'#############
-aWikiTemplate$ = theWikiTemplate$
-aWikiTemplate$ = wikiEntry$(aWikiTemplate$, star_HTMLColour$, star_Name$, star_RadiusKSP, star_Circumference, star_SurfaceArea, star_MassKSP, star_stdGravitationalParameter, star_Density, star_surfaceGravity, star_escapeVelocity, star_RotationalPeriod, star_siderealRotationalVel, star_theSynchronousOrbit, star_SOI, star_TempK)
-PRINT #10, aWikiTemplate$
+    '#consder moving this to an imported file. STH 2017-0403
+    SHARED star_RadiusKSP
+    SHARED star_SOI
+    SHARED star_MassKSP
+    SHARED star_HillSphereRadius
+    SHARED star_FrostLineKm
+    star_MassKSP = sol2Kerbol_kg(star_MassKG)
+    star_MassSolar = kg2solarMass(star_MassKG)
+    star_RadiusSolar = solarRadiusFromSolarMass(star_MassSolar)
+    star_RadiusKm = solarRadius2km(star_RadiusSolar)
+    star_RadiusKSP = sol2Kerbol_km(star_RadiusKm * 1000) '#return m
+    star_Lum = luminocityFromSolarMass(star_MassSolar)
+    star_FrostLineAU = solFrostLine(star_Lum) '#return in AU'
+    star_FrostLineKm = AU2km(star_FrostLineAU) / 10.64 'return in km. deivide by 10.64 to get kerbal km'
+    star_TempK = solarTemp(star_Lum, star_RadiusSolar)
+    temp2RGB (star_TempK) '#I would rather get the colour back as a list, but I guess qbasic doesn't have lists? #STH 2017-0216'
+    theR = REDgb / 255.0
+    theG = rGREENb / 255.0
+    theB = rgBLUE / 255.0
+    '#===convert to hex and prefix with zero if needed'
+    hexR$ = HEX$(REDgb)
+    hexG$ = HEX$(rGREENb)
+    hexB$ = HEX$(rgBLUE)
+    IF LEN(hexR$) = 1 THEN hexR$ = "0" + hexR$
+    IF LEN(hexG$) = 1 THEN hexG$ = "0" + hexG$
+    IF LEN(hexB$) = 1 THEN hexB$ = "0" + hexB$
+    '#======='
+    star_HTMLColour$ = hexR$ + hexG$ + hexB$
+    star_Circumference = starCircumference(star_RadiusKSP) '#use KSP size
+    star_SurfaceArea = starSurfaceArea(star_RadiusKSP) '#use KSP size
+    star_Volume = starVolume(star_RadiusKSP) '#use KSP size
+    star_Density = starDensity(star_MassKSP, star_RadiusKSP / 1000.0) '#use KSP size
+    star_stdGravitationalParameter = stdGravitationalParameter(star_MassKSP) '#use KSP size
+    star_surfaceGravity = surfaceGravity(star_MassKSP, star_RadiusKSP) '#use KSP size. radius should be in km
+    star_escapeVelocity = escapeVelocity(star_MassKSP, star_RadiusKSP) '#use KSP size. radius should be in km
+    star_RotationalPeriod = 432000.00 '##20 days in hours. Kerbol. This needs to be more random. Younger stars spin faster. '#could do another normalized curve for rotation speeds
+    star_siderealRotationalVel = siderealRotationalVel(star_RadiusKSP, star_RotationalPeriod) '#m/s
+    star_theSynchronousOrbit = synchronousOrbit(star_RadiusKSP, star_MassKSP, star_RotationalPeriod) / 1000 '#km
+    '#the Roche Limit of the black hole will be the minimum distance an objct can orbit it
+    blackHole_RocheLimit = rocheLimit(blackHole_MassKSP, star_MassKSP, star_RadiusKSP)
+    '#lower limit in picking the semimajor axis has to put the star radius outside the Roche limit
+    '#add a million to put a bit more distance in
+    '#Milky Way has a radius around 6.62251e+17km
+    '#KSP galaxy radius would be 6.62251e+17km/2.6594=6.62251e+17
+    'star_semimajorAxis = random.randint(int(blackHole_RocheLimit+star_RadiusKSP+1e6), 6.62251e17)
+    star_orbitMin = INT(blackHole_RocheLimit + star_RadiusKSP + 1E6)
+    '#star_orbitMax = 1E16 '6.62251E17
+    star_orbitMax = galaxy_RadiusKSP
+    star_semimajorAxis = star_orbitMin + (RND(1) * (star_orbitMax - star_orbitMin))
+    '###if Kerbol is an analog of Sol, it is ~26kly from the galactic center
+    '###1ly = 9.461e+12km
+    '###therefore 26*9.461e12km = 2.45986e14km from center.
+    '###stellar distances seem 10.95x smaller in KSP
+    'star_semimajorAxis = 2.25e16 '#in m
+    star_HillSphereRadius = hillSphere(blackHole_MassKg, blackHole_MassKg, 0, star_semimajorAxis)
+    star_SOI = kspSOI(blackHole_MassKSP, star_MassKSP, star_semimajorAxis)
+    '###END star characteristic calculation
+    '##############################
+    '#############
+    aWikiTemplate$ = theWikiTemplate$
+    aWikiTemplate$ = wikiEntry$(aWikiTemplate$, star_HTMLColour$, star_Name$, star_RadiusKSP, star_Circumference, star_SurfaceArea, star_MassKSP, star_stdGravitationalParameter, star_Density, star_surfaceGravity, star_escapeVelocity, star_RotationalPeriod, star_siderealRotationalVel, star_theSynchronousOrbit, star_SOI, star_TempK, star_Lum)
+    PRINT #10, aWikiTemplate$
 
 
-'########################'
-'###Fill in property data'
-aPropertiesTemplate$ = thePropertiesTemplate$
-aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, star_Description$, STR$(star_RadiusKSP), STR$(star_MassKSP), STR$(star_stdGravitationalParameter), STR$(star_surfaceGravity), "True", STR$(star_RotationalPeriod), "", "", "", STR$(star_SOI))
-'PRINT #1, aPropertiesNode$
-'###End property data'
-'########################'
+    '########################'
+    '###Fill in property data'
+    aPropertiesTemplate$ = thePropertiesTemplate$
+    aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, star_Description$, STR$(star_RadiusKSP), STR$(star_MassKSP), STR$(star_stdGravitationalParameter), STR$(star_surfaceGravity), "True", STR$(star_RotationalPeriod), "", "", "", STR$(star_SOI))
+    'PRINT #1, aPropertiesNode$
+    '###End property data'
+    '########################'
 
 
-'########################'
-'###Fill in orbit data'
-IF (GTYPE = 0 OR GTYPE = 1) THEN
-    theReferenceBody$ = "Core"
-    IF GTYPE = 0 THEN theInclination$ = STR$(INT(RND * 360))
-    IF GTYPE = 1 THEN theInclination$ = STR$(INT(RND * 25) + 1)
-    theSemiMajorAxis$ = STR$(star_semimajorAxis)
-ELSE
-    theReferenceBody$ = STR$(INT(RND * CLUSTERNUM))
-    theInclination$ = STR$(INT(RND * 360))
-    theSemiMajorAxis$ = STR$(star_semimajorAxis)
-END IF
-theArgumentOfPeriapsis$ = STR$(INT(RND * 360))
-theMeanAnomalyAtEpoch$ = STR$(0)
-theEpoch$ = STR$(0)
-theMode$ = "0" 'STR$(0)
-theColour$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
-aOrbitTemp$ = theOrbitTemplate$
-'#FUNCTION orbitNode$ (aTemplate$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
-aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
-'###End orbit data'
-'########################'
+    '########################'
+    '###Fill in orbit data'
+    IF (GTYPE = 0 OR GTYPE = 1) THEN
+        theReferenceBody$ = "Core"
+        IF GTYPE = 0 THEN theInclination$ = STR$(INT(RND * 360))
+        IF GTYPE = 1 THEN theInclination$ = STR$(INT(RND * 25) + 1)
+        theSemiMajorAxis$ = STR$(star_semimajorAxis)
+    ELSE
+        theReferenceBody$ = STR$(INT(RND * CLUSTERNUM))
+        theInclination$ = STR$(INT(RND * 360))
+        theSemiMajorAxis$ = STR$(star_semimajorAxis)
+    END IF
+    theArgumentOfPeriapsis$ = STR$(INT(RND * 360))
+    theMeanAnomalyAtEpoch$ = STR$(0)
+    theEpoch$ = STR$(0)
+    theMode$ = "0" 'STR$(0)
+    theColour$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
+    aOrbitTemp$ = theOrbitTemplate$
+    '#FUNCTION orbitNode$ (aTemplate$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
+    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
+    '###End orbit data'
+    '########################'
 
 
-'########################'
-'###Fill in light data'
-sunlightColor$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
-sunlightIntensity$ = "0.50"
-scaledSunlightColor$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
-scaledSunlightIntensity$ = "0.30"
-IVASuncolor$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
-IVASunIntensity$ = "1.0"
-'sunLensFlareColor$ = "0.3,0,0,1.0"
-'#adjust some values to cover over the default yellow'
-IF theB >= 0.9 THEN
-    theRFlare = theR / 2
-    sunLensFlareColor$ = STR$(theRFlare) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
-ELSE
-    sunLensFlareColor$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
-END IF
-ambientLightColor$ = "0,0,0,1"
-sunAU$ = STR$(star_RadiusKSP + 13338240256) 'added value is distance to kerbin from kerbol - kerbol radius. STH 2017-0309
-luminosity$ = "0"
-givesOffLight$ = "True"
-aLightTemp$ = theLightTemplate$
-aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
-'PRINT #1, aLightNode$
-'###End light data'
-'########################'
+    '########################'
+    '###Fill in light data'
+    sunlightColor$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
+    sunlightIntensity$ = "0.50"
+    scaledSunlightColor$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
+    scaledSunlightIntensity$ = "0.30"
+    IVASuncolor$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
+    IVASunIntensity$ = "1.0"
+    'sunLensFlareColor$ = "0.3,0,0,1.0"
+    '#adjust some values to cover over the default yellow'
+    IF theB >= 0.9 THEN
+        theRFlare = theR / 2
+        sunLensFlareColor$ = STR$(theRFlare) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
+    ELSE
+        sunLensFlareColor$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
+    END IF
+    ambientLightColor$ = "0,0,0,1"
+    sunAU$ = STR$(star_RadiusKSP + 13338240256) 'added value is distance to kerbin from kerbol - kerbol radius. STH 2017-0309
+    luminosity$ = "0"
+    givesOffLight$ = "True"
+    aLightTemp$ = theLightTemplate$
+    aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
+    'PRINT #1, aLightNode$
+    '###End light data'
+    '########################'
 
 
-'########################'
-'###Fill in material data'
-'emitColorZero$ = "0.6,0.3,0.0,1.0"
-emitColorZero$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
-'emitColorOne$ = "0.9,0.1,0.0,1.0"
-emitColorOne$ = STR$(theR * 0.4) + "," + STR$(theG * 0.4) + "," + STR$(theB * 0.4) + ",1.0"
-'sunspotColor$ = "1.0,0,0,1.0"
-sunspotColor$ = "0.23,0.23,0.23,1.0"
-'rimColor$ = "0.68,0.05,0.05,1.0"
-rimColor$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
-rimPower$ = "1"
-rimBlend$ = "1"
-aMaterialTemp$ = theMaterialTemplate$
-aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
-'PRINT #1, aMaterialNode$
-'###End material data'
-'########################'
+    '########################'
+    '###Fill in material data'
+    'emitColorZero$ = "0.6,0.3,0.0,1.0"
+    emitColorZero$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
+    'emitColorOne$ = "0.9,0.1,0.0,1.0"
+    emitColorOne$ = STR$(theR * 0.4) + "," + STR$(theG * 0.4) + "," + STR$(theB * 0.4) + ",1.0"
+    'sunspotColor$ = "1.0,0,0,1.0"
+    sunspotColor$ = "0.23,0.23,0.23,1.0"
+    'rimColor$ = "0.68,0.05,0.05,1.0"
+    rimColor$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
+    rimPower$ = "1"
+    rimBlend$ = "1"
+    aMaterialTemp$ = theMaterialTemplate$
+    aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
+    'PRINT #1, aMaterialNode$
+    '###End material data'
+    '########################'
 
 
-'########################'
-'###Fill in coronas data'
-'https://en.wikipedia.org/wiki/Stellar_classification
-IF (star_MassSolar >= 16) THEN
-    starColour$ = "Blue"
-ELSEIF (star_MassSolar < 16 AND star_MassSolar >= 2.1) THEN
-    starColour$ = "Blue"
-ELSEIF (star_MassSolar < 2.1 AND star_MassSolar >= 1.4) THEN
-    starColour$ = "White"
-ELSEIF (star_MassSolar < 1.4 AND star_MassSolar >= 1.04) THEN
-    starColour$ = "White"
-ELSEIF (star_MassSolar < 1.04 AND star_MassSolar >= 0.8) THEN
-    starColour$ = "Yellow"
-ELSEIF (star_MassSolar < 0.8 AND star_MassSolar >= 0.45) THEN
-    starColour$ = "K"
-ELSEIF (star_MassSolar < 0.45 AND star_MassSolar >= 0.08) THEN
-    starColour$ = "Red"
-ELSE
-    starColour$ = "BlackHole"
-END IF
+    '########################'
+    '###Fill in coronas data'
+    'https://en.wikipedia.org/wiki/Stellar_classification
+    IF (star_MassSolar >= 16) THEN
+        starColour$ = "Blue"
+    ELSEIF (star_MassSolar < 16 AND star_MassSolar >= 2.1) THEN
+        starColour$ = "Blue"
+    ELSEIF (star_MassSolar < 2.1 AND star_MassSolar >= 1.4) THEN
+        starColour$ = "White"
+    ELSEIF (star_MassSolar < 1.4 AND star_MassSolar >= 1.04) THEN
+        starColour$ = "White"
+    ELSEIF (star_MassSolar < 1.04 AND star_MassSolar >= 0.8) THEN
+        starColour$ = "Yellow"
+    ELSEIF (star_MassSolar < 0.8 AND star_MassSolar >= 0.45) THEN
+        starColour$ = "K"
+    ELSEIF (star_MassSolar < 0.45 AND star_MassSolar >= 0.08) THEN
+        starColour$ = "Red"
+    ELSE
+        starColour$ = "BlackHole"
+    END IF
 
-aCoronaTemp$ = theCoronasTemplate$
-aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
-'PRINT #1, aCoronaNode$
-'###End coronas data'
-'########################'
-'print #1, aOrbitNode$
-aStarTemp$ = theStarTmp$
-'FUNCTION starTempSubstitution$ (aTemplate$, aName$, aPropertiesNode$, aOrbitNode$, aRingNode$, aLightNode$, aMaterialNode$, aCoronaNode$, aSolarPowerCurve$)
-aStarTmp$ = starTempSubstitution$(aStarTemp$, star_Name$, aPropertiesNode$, aOrbitNode$, "", aLightNode$, aMaterialNode$, aCoronaNode$, "")
-PRINT #1, aStarTmp$
+    aCoronaTemp$ = theCoronasTemplate$
+    aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
+    'PRINT #1, aCoronaNode$
+    '###End coronas data'
+    '########################'
+    'print #1, aOrbitNode$
+    aStarTemp$ = theStarTmp$
+    'FUNCTION starTempSubstitution$ (aTemplate$, aName$, aPropertiesNode$, aOrbitNode$, aRingNode$, aLightNode$, aMaterialNode$, aCoronaNode$, aSolarPowerCurve$)
+    aStarTmp$ = starTempSubstitution$(aStarTemp$, star_Name$, aPropertiesNode$, aOrbitNode$, "", aLightNode$, aMaterialNode$, aCoronaNode$, "")
+    PRINT #1, aStarTmp$
 END SUB
 
 FUNCTION starTempSubstitution$ (aTemplate$, aName$, aPropertiesNode$, aOrbitNode$, aRingNode$, aLightNode$, aMaterialNode$, aCoronaNode$, aSolarPowerCurve$)
-'#####STH 2017-0124. QBasic doesn't have string formatting like python.
-'#####Replicated that function with string replacement function.
-'###########################'
-IF aName$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%name =", "%name =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theName)s", aName$)
-END IF
-IF aPropertiesNode$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%(theProperties)s", aPropertiesNode$)
-END IF
-IF aOrbitNode$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%(theOrbitData)s", aOrbitNode$)
-END IF
-IF aRingNode$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%(theRingData)s", aRingNode$)
-END IF
-IF aLightNode$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%(theLightData)s", aLightNode$)
-END IF
-IF aMaterialNode$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%(theMaterialData)s", aMaterialNode$)
-END IF
-IF aCoronaNode$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%(theCoronasData)s", aCoronaNode$)
-END IF
-IF aSolarPowerCurve$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%(theSolarPowerCurve)s", aSolarPowerCurve$)
-END IF
+    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
+    '#####Replicated that function with string replacement function.
+    '###########################'
+    IF aName$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%name =", "%name =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theName)s", aName$)
+    END IF
+    IF aPropertiesNode$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(theProperties)s", aPropertiesNode$)
+    END IF
+    IF aOrbitNode$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(theOrbitData)s", aOrbitNode$)
+    END IF
+    IF aRingNode$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(theRingData)s", aRingNode$)
+    END IF
+    IF aLightNode$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(theLightData)s", aLightNode$)
+    END IF
+    IF aMaterialNode$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(theMaterialData)s", aMaterialNode$)
+    END IF
+    IF aCoronaNode$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(theCoronasData)s", aCoronaNode$)
+    END IF
+    IF aSolarPowerCurve$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(theSolarPowerCurve)s", aSolarPowerCurve$)
+    END IF
 
-'###########################'
-starTempSubstitution$ = aTemplate$
+    '###########################'
+    starTempSubstitution$ = aTemplate$
 END FUNCTION
 
 FUNCTION planetTempSubstitution$ (aTemplate$, aBodyNode$, aName$, aTemplateNode$, aPropertiesNode$, aOrbitNode$, aScaledVerionNode$, aRingNode$, aAtmosphereNode$, aPQSNode$, aOceanNode$)
-'#####STH 2017-0124. QBasic doesn't have string formatting like python.
-'#####Replicated that function with string replacement function.
-'###########################'
-IF aBodyNode$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%(theBodyData)s", aBodyNode$)
-END IF
-IF aName$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%name =", "%name =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theName)s", aName$)
-END IF
-IF aTemplateNode$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%(theTemplateData)s", aTemplateNode$)
-END IF
-IF aPropertiesNode$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%(theProperties)s", aPropertiesNode$)
-END IF
-IF aOrbitNode$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%(theOrbitData)s", aOrbitNode$)
-END IF
-IF aRingNode$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%(theRingData)s", aRingNode$)
-END IF
-IF aScaledVerionNode$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%(ScaledVersion)s", aScaledVerionNode$)
-END IF
-IF aAtmosphereNode$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%(theAtmosphere)s", aAtmosphereNode$)
-END IF
-IF aPQSNode$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%(thePQS)s", aPQSNode$)
-END IF
-IF aOceanNode$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%(theOcean)s", aOceanNode$)
-END IF
+    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
+    '#####Replicated that function with string replacement function.
+    '###########################'
+    IF aBodyNode$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(theBodyData)s", aBodyNode$)
+    END IF
+    IF aName$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%name =", "%name =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theName)s", aName$)
+    END IF
+    IF aTemplateNode$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(theTemplateData)s", aTemplateNode$)
+    END IF
+    IF aPropertiesNode$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(theProperties)s", aPropertiesNode$)
+    END IF
+    IF aOrbitNode$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(theOrbitData)s", aOrbitNode$)
+    END IF
+    IF aRingNode$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(theRingData)s", aRingNode$)
+    END IF
+    IF aScaledVerionNode$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(ScaledVersion)s", aScaledVerionNode$)
+    END IF
+    IF aAtmosphereNode$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(theAtmosphere)s", aAtmosphereNode$)
+    END IF
+    IF aPQSNode$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(thePQS)s", aPQSNode$)
+    END IF
+    IF aOceanNode$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(theOcean)s", aOceanNode$)
+    END IF
 
-'###########################'
-planetTempSubstitution$ = aTemplate$
+    '###########################'
+    planetTempSubstitution$ = aTemplate$
 END FUNCTION
 
-FUNCTION wikiEntry$ (aTemplate$, star_HTMLColour$, star_Name$, star_RadiusKSP, star_Circumference, star_SurfaceArea, star_MassKSP, star_stdGravitationalParameter, star_Density, star_surfaceGravity, star_escapeVelocity, star_RotationalPeriod, star_siderealRotationalVel, star_theSynchronousOrbit, star_SOI, star_TempK)
-'#####STH 2017-0124. QBasic doesn't have string formatting like python.
-'#####Replicated that function with string replacement function.
-'###########################'
-aTemplate$ = ReplaceStr(aTemplate$, "%(htmlColour)s", star_HTMLColour$)
-aTemplate$ = ReplaceStr(aTemplate$, "%(starName)s", star_Name$)
-aTemplate$ = ReplaceStr(aTemplate$, "%(theRadius)i", STR$(star_RadiusKSP))
-aTemplate$ = ReplaceStr(aTemplate$, "%(theCircumfrence)g", STR$(star_Circumference))
-aTemplate$ = ReplaceStr(aTemplate$, "%(theSurfaceArea)g", STR$(star_SurfaceArea))
-aTemplate$ = ReplaceStr(aTemplate$, "%(theMass)g", STR$(star_MassKSP))
-aTemplate$ = ReplaceStr(aTemplate$, "%(theStdGrav)g", STR$(star_stdGravitationalParameter))
-aTemplate$ = ReplaceStr(aTemplate$, "%(theDensity)g", STR$(star_Density))
-aTemplate$ = ReplaceStr(aTemplate$, "%(theSurfaceGravity)g", STR$(star_surfaceGravity))
-aTemplate$ = ReplaceStr(aTemplate$, "%(theEscapeVelocity)g", STR$(star_escapeVelocity))
-aTemplate$ = ReplaceStr(aTemplate$, "%(theRotationPeriod)g", STR$(star_RotationalPeriod))
-aTemplate$ = ReplaceStr(aTemplate$, "%(theSideralVelocity)g", STR$(star_siderealRotationalVel))
-aTemplate$ = ReplaceStr(aTemplate$, "%(theSynchronousOrbit)f", STR$(star_theSynchronousOrbit))
-aTemplate$ = ReplaceStr(aTemplate$, "%(theSOI)g", STR$(star_SOI))
-aTemplate$ = ReplaceStr(aTemplate$, "%(theTemp)g", STR$(star_TempK))
-'###########################'
-wikiEntry$ = aTemplate$
+FUNCTION wikiEntry$ (aTemplate$, star_HTMLColour$, star_Name$, star_RadiusKSP, star_Circumference, star_SurfaceArea, star_MassKSP, star_stdGravitationalParameter, star_Density, star_surfaceGravity, star_escapeVelocity, star_RotationalPeriod, star_siderealRotationalVel, star_theSynchronousOrbit, star_SOI, star_TempK, star_Lum)
+    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
+    '#####Replicated that function with string replacement function.
+    '###########################'
+    aTemplate$ = ReplaceStr(aTemplate$, "%(htmlColour)s", star_HTMLColour$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(starName)s", star_Name$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theRadius)i", STR$(star_RadiusKSP))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theCircumfrence)g", STR$(star_Circumference))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theSurfaceArea)g", STR$(star_SurfaceArea))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theMass)g", STR$(star_MassKSP))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theStdGrav)g", STR$(star_stdGravitationalParameter))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theDensity)g", STR$(star_Density))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theSurfaceGravity)g", STR$(star_surfaceGravity))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theEscapeVelocity)g", STR$(star_escapeVelocity))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theRotationPeriod)g", STR$(star_RotationalPeriod))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theSideralVelocity)g", STR$(star_siderealRotationalVel))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theSynchronousOrbit)f", STR$(star_theSynchronousOrbit))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theSOI)g", STR$(star_SOI))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theTemp)g", STR$(star_TempK))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theLuminosity)g", STR$(star_Lum))
+    '###########################'
+    wikiEntry$ = aTemplate$
 END FUNCTION
 
 '$INCLUDE: 'Source\MakeAsteroids.bm'
