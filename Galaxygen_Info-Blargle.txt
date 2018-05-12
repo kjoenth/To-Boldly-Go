@@ -1,0 +1,33 @@
+  _______      ____        _     _ _          _____
+ |__   __|    |  _ \      | |   | | |        / ____|
+    | | ___   | |_) | ___ | | __| | |_   _  | |  __  ___
+    | |/ _ \  |  _ < / _ \| |/ _` | | | | | | | |_ |/ _ \
+    | | (_) | | |_) | (_) | | (_| | | |_| | | |__| | (_) |
+    |_|\___/  |____/ \___/|_|\__,_|_|\__, |  \_____|\___/
+                                      __/ |
+                                     |___/
+*****Blargle***** v0.3.0.5h
+Creation Date: 10:53:02 05-12-2018
+Generation Mode: a
+Seed: 9.583285E+08 
+Galaxy Type: 1 
+Galaxy Age: 0 
+Cluster Number: 0 
+Planets: y
+Asteroids: y
+L to Y class (~Brown~): 35 
+M class (~Red~): 18 
+K class (~Orange~): 28 
+G class (~Yellow~): 23 
+F class (~Yellow-white~): 0 
+A class (~White~): 13 
+B class (~Blue-White~): 3 
+O class (~Blue~): 0 
+White Dwarves: 1 
+-----------------
+ 120 Stars
+ 247 Planets
+ 270 Moons
+ 37 Asteroids
+ 674  Total
+-----------------
