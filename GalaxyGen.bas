@@ -1,4 +1,4 @@
-'To Boldly Go v0.3.0.5h - Kopernicus Procedural Galaxy Generator!"
+'To Boldly Go v0.3.0.6 - Kopernicus Procedural Galaxy Generator!"
 'Copyright (C) 2018  Daniel L. & Sean T. Hammond"
 '
 'This program is free software; you can redistribute it and/or modify"
@@ -15,7 +15,7 @@
 'along with this program; if not, write to the Free Software"
 'Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 
-TBG_Version$ = "0.3.0.5h"
+TBG_Version$ = "0.3.0.6"
 _TITLE "To Boldly Go version " + TBG_Version$
 
 i& = _LOADIMAGE("Data_Folder/Galaxy-icon.png", 32) '<<<<<<< use your image file name here
@@ -2031,13 +2031,17 @@ IF theDescription$ <> "" THEN
     aTemplate$ = ReplaceStr(aTemplate$, "//%description =", "%description =")
     aTemplate$ = ReplaceStr(aTemplate$, "%(theDescription)s", theDescription$)
 END IF
-IF theRadius$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%radius =", "%radius =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theRadius)s", theRadius$)
+'#STH 2018-0516. More dogshit code. 
+'#Why doesn't "IF (theRadius$ <> "" THEN IF val(theRadius$) <> 0) THEN" work?
+IF theRadius$ <> "" THEN IF val(theRadius$) > 0 THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%radius =", "%radius =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theRadius)s", str$(val(theRadius$)+1))
+END IF 
 END IF
-IF theMass$ <> "" THEN
+IF theMass$ <> "" THEN IF val(theMass$) > 0 THEN
     aTemplate$ = ReplaceStr(aTemplate$, "//%mass =", "%mass =")
     aTemplate$ = ReplaceStr(aTemplate$, "%(theMass)s", theMass$)
+END IF
 END IF
 IF theGravParam$ <> "" THEN
     aTemplate$ = ReplaceStr(aTemplate$, "//%gravParameter =", "%gravParameter =")
@@ -2067,10 +2071,11 @@ IF theIsHomeWord$ <> "" THEN
     aTemplate$ = ReplaceStr(aTemplate$, "//%isHomeWorld =", "%isHomeWorld =")
     aTemplate$ = ReplaceStr(aTemplate$, "%(isHomeWorld)s", theIsHomeWord$)
 END IF
-IF theSOI$ <> "" THEN
+IF theSOI$ <> "" THEN IF val(theSOI$) > 0 THEN 
     aTemplate$ = ReplaceStr(aTemplate$, "//%sphereOfInfluence =", "%sphereOfInfluence =")
     aTemplate$ = ReplaceStr(aTemplate$, "%(theSphereOfInfluence)s", theSOI$)
 END IF
+END if
 '###########################'
 propertyNode$ = aTemplate$
 END FUNCTION

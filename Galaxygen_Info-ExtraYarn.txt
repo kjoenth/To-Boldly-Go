@@ -6,28 +6,28 @@
     |_|\___/  |____/ \___/|_|\__,_|_|\__, |  \_____|\___/
                                       __/ |
                                      |___/
-*****Blargle***** v0.3.0.5h
-Creation Date: 10:53:02 05-12-2018
+*****ExtraYarn***** v0.3.0.6
+Creation Date: 21:41:45 05-27-2018
 Generation Mode: a
-Seed: 9.583285E+08 
+Seed: 2.018053E+13 
 Galaxy Type: 1 
-Galaxy Age: 0 
+Galaxy Age: 2 
 Cluster Number: 0 
 Planets: y
 Asteroids: y
-L to Y class (~Brown~): 35 
-M class (~Red~): 18 
-K class (~Orange~): 28 
-G class (~Yellow~): 23 
+L to Y class (~Brown~): 31 
+M class (~Red~): 20 
+K class (~Orange~): 13 
+G class (~Yellow~): 2 
 F class (~Yellow-white~): 0 
-A class (~White~): 13 
-B class (~Blue-White~): 3 
+A class (~White~): 0 
+B class (~Blue-White~): 0 
 O class (~Blue~): 0 
-White Dwarves: 1 
+White Dwarves: 6 
 -----------------
- 120 Stars
- 247 Planets
- 270 Moons
- 37 Asteroids
- 674  Total
+ 71 Stars
+ 133 Planets
+ 142 Moons
+ 32 Asteroids
+ 378  Total
 -----------------

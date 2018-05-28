@@ -49,12 +49,6 @@ SUB MakeMoons (thePlanetName$,parentInclination,parentRadius,Max_num_moons):
 			'###Moon name
 			'#sum theMoonNumb and acsii 96 to get a lowercase letter for the moon name
 			theMoonName$ = thePlanetName$ + chr$(theMoonNumb+96)
-			'########################'
-			'###Fill in property data'
-			'theDescription$ = thePlanetDesc$(keyIndex)
-			'theRadius$ = STR$(thePlanetRadius(keyIndex))
-			aPropertiesTemplate$ = thePropertiesTemplate$
-			aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, PLANETDESC$, STR$(PLANETRADI), "", "", "", "", "", "", "", "", STR$(PLANETSOI))
 			'#########################'
 			'###Fill in orbit data'
 			theReferenceBody$ = thePlanetName$
@@ -62,15 +56,23 @@ SUB MakeMoons (thePlanetName$,parentInclination,parentRadius,Max_num_moons):
 			theMode$ = ""
 			'#the inclination of the planet should be close to the plane of the parent star
 			'#https://en.wikipedia.org/wiki/Orbital_inclination
-			'theInclination$ = STR$(INT(RND * 360))
-			tempVar=int(rnd*2.0)
+			tempVar=int(rnd*0.5)
 			theInclination$=str$(int(parentInclination+tempVar))
 			theEccentricity$ = ""
 			theMoonSemiMajorAxis = INT(RND * 50000000) + 11000000
 			theLongitudeOfAscendingNode$ = ""
 			theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
-			theMeanAnomalyAtEpoch$ = ""
-			theEpoch$ = ""
+			theMeanAnomalyAtEpoch$ = STR$(0)
+			theEpoch$ = STR$(0)
+			'########################'
+			'###Fill in property data'
+			'#moved the property data code to take advantage of orbital values in description'
+			if PLANETDESC$ = "" then
+				PLANETDESC$ = "Semimajor axis:\\nn          "+str$(theMoonSemiMajorAxis)+"m\\nn \\nnArg. of periapsis: "+theArgumentOfPeriapsis$+"°\\nn \\nnInclination: "+theInclination$+"°\\nn \\nnTidal locked:\\nn \\nnHabitable zone:"
+			end if
+			aPropertiesTemplate$ = thePropertiesTemplate$
+			aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, PLANETDESC$, STR$(PLANETRADI), STR$(PLANETMASS), "", "", "", "", "", "", "", STR$(PLANETSOI))
+			'########################'
 			aOrbitTemp$ = theOrbitTemplate$
 			aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
 			

@@ -1,8 +1,8 @@
 %Properties
         {
             //https://github.com/Kopernicus/Kopernicus/wiki/Properties
-            %description = %(theDescription)s
-            %radius = %(theRadius)s
+            //%description = %(theDescription)s
+            //%radius = %(theRadius)s
             //%mass = %(theMass)s
             //%gravParameter = %(theGravParameter)s
             //%geeASL = %(theGeeASL)s
