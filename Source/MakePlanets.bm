@@ -1,8 +1,9 @@
 
-SUB MakePlanets (star_Name$,parentInclination,Max_num_planets,planet_distanceMin,planet_distanceMax):
-	
+SUB MakePlanets (star_Name$,star_MassKSP,star_RadiusKSP,parentInclination,Max_num_planets,planet_distanceMax,star_FrostLineM):
 	'# Planet Gen Start
+	'#Note that star_FrostLineM is in meters
 	maxPlanets = INT(RND * Max_num_planets) '#how many planets in this system? Max of 5
+	'maxPlanets = 10
 	IF maxPlanets > 0 THEN
 		planetNumb = 1		
 		theSemiMajorAxis = 0
@@ -12,18 +13,18 @@ SUB MakePlanets (star_Name$,parentInclination,Max_num_planets,planet_distanceMin
 			keyIndex = 1 + INT(RND * (UBOUND(planetKey$))) 'want the range to be from 1 to end. Index 0 is the header
 			PLANETTYPE$ = planetKey$(keyIndex)
 			PLANETDESC$ = thePlanetDesc$(keyIndex)
-			PLANETRADI = thePlanetRadius(keyIndex)
+			PLANETRADIUS = thePlanetRadius(keyIndex)
 			PLANETMASS = thePlanetMass(keyIndex)
 			PLANETSTOCK$ = thePlanetStock$(keyIndex)
 			PLANETSOI = thePlanetSOI(keyIndex) 'really, this should be calculated from mass'
 			'########################'
 			'###Fill in basic body data'
-			IF PLANETSTOCK$ = "True" THEN
+			IF PLANETSTOCK$ = "TRUE" THEN
 				aBodyNode$ = "Body"+chr$(13)
 				templateNode$ = "Template"+chr$(13)+"        {"+chr$(13)+"            name = "+ PLANETTYPE$+chr$(13)+"        }"
 			END IF
 			'# ELSE statements don't seem to work in included code
-			IF NOT (PLANETSTOCK$ = "True") THEN
+			IF NOT (PLANETSTOCK$ = "TRUE") THEN
 				aBodyNode$ = "+Body[" + PLANETTYPE$ + "]"+chr$(13)
 				templateNode$ = ""
 			END IF
@@ -35,6 +36,11 @@ SUB MakePlanets (star_Name$,parentInclination,Max_num_planets,planet_distanceMin
 			IF planetNumb = 3 THEN PNM$ = "III"
 			IF planetNumb = 4 THEN PNM$ = "IV"
 			IF planetNumb = 5 THEN PNM$ = "V"
+			IF planetNumb = 6 THEN PNM$ = "VI"
+			IF planetNumb = 7 THEN PNM$ = "VII"
+			IF planetNumb = 8 THEN PNM$ = "VIII"
+			IF planetNumb = 9 THEN PNM$ = "IX"
+			IF planetNumb = 10 THEN PNM$ = "X"
 			thePlanetName$ = star_Name$ +" "+ PNM$
 			'########################'
 			'###Fill in orbit data'
@@ -51,9 +57,17 @@ SUB MakePlanets (star_Name$,parentInclination,Max_num_planets,planet_distanceMin
 				theInclination$=str$(parentInclination+tempVar)
 			end if
 			theEccentricity$ = ""
+			'#Calculate the Roche Limit
+			'#imported things in QBasic don't like else statements
+			if (str$(PLANETMASS)="" OR str$(PLANETRADIUS)="") then
+				planet_distanceMin = simpleRocheLimit(star_Mass)
+			end if
+			if NOT(str$(PLANETMASS)="" OR str$(PLANETRADIUS)="") then
+				planet_distanceMin = rocheLimit(star_MassKSP, PLANETMASS, star_RadiusKSP, PLANETRADIUS)
+			end if
 			IF theSemiMajorAxis = 0 then
 				'#let the first planet fall somewhere between the roche limit and the frostline'
-				theSemiMajorAxis = planet_distanceMin + (RND(1) * (star_FrostLineKm- planet_distanceMin))
+				theSemiMajorAxis = planet_distanceMin + (RND(1) * (star_FrostLineM- planet_distanceMin))
 			END IF 	
 			IF NOT(theSemiMajorAxis = 0) then
 				theSemiMajorAxis = theSemiMajorAxis+(theSemiMajorAxis * 1.5) 'should be a value between 1.4 and 2.0
@@ -70,10 +84,10 @@ SUB MakePlanets (star_Name$,parentInclination,Max_num_planets,planet_distanceMin
 			'###Fill in property data'
 			'#moved the property data code to take advantage of orbital values in description'
 			if PLANETDESC$ = "" then
-				PLANETDESC$ = "Semimajor axis:\\nn          "+str$(theSemiMajorAxis)+"m\\nn \\nnArg. of periapsis: "+theArgumentOfPeriapsis$+"°\\nn \\nnInclination: "+theInclination$+"°\\nn \\nnTidal locked:\\nn \\nnHabitable zone:"
+				PLANETDESC$ = "Semimajor axis:\\nn "+str$(theSemiMajorAxis)+"m\\nn \\nnArg. of periapsis: "+theArgumentOfPeriapsis$+"°\\nn \\nnInclination: "+theInclination$+"°\\nn \\nnTidal locked: unknown\\nn \\nnHabitable zone: unknown"
 			end if
 			aPropertiesTemplate$ = thePropertiesTemplate$
-			aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, PLANETDESC$, STR$(PLANETRADI), STR$(PLANETMASS), "", "", "", "", "", "", "", STR$(PLANETSOI))
+			aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, PLANETDESC$, STR$(PLANETRADIUS), STR$(PLANETMASS), "", "", "", "", "", "", "", STR$(PLANETSOI))
 			'########################'
 			aOrbitTemp$ = theOrbitTemplate$
 			aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)		
@@ -93,20 +107,48 @@ SUB MakePlanets (star_Name$,parentInclination,Max_num_planets,planet_distanceMin
 				aRingsTemp$ = theRingsTemplate$
 				aRingNode$ = ringNode$(aRingsTemp$, theAngle$, theOuterRadius$, theInnerRadius$, theRingTexture$, theColour$, theLockRotation$, theUnlit$)
 			END IF
+			'########################'
+			'#Give all planets oceans just as a test. STH 2018-0531
+			'#Eventually there has to be a check to see if the body is in the habitable zone of the star.
 
+			'if PLANETTYPE$ <> "Jool" then
+			''	'#Planets that use Jool as a template can't have oceans
+			''	'#This could be tricky to work out for planet packs
+			''	aOceanTemp$ = theOceanTemplate$
+			''	'#call to the oceanNode string replacement routine will go here. STH 2018-0531
+			''	aOceanNode$ = aOceanTemp$
+			'end if
+
+
+
+			'########################'
 			aPlanetTemp$ = thePlanetTemplate$
 			'FUNCTION planetTempSubstitution$ (aTemplate$, aBodyNode$, aName$, aTemplateNode$, aPropertiesNode$, aOrbitNode$, aScaledVerionNode$, aRingNode$, aAtmosphereNode$, aPQSNode$, aOceanNode$)
 			'#Pieces are in place for scaledVersion, atmosphere, PQS, and ocean nodes'
-			aPlanetTemp$ = planetTempSubstitution$ (aPlanetTemp$, aBodyNode$, thePlanetName$, templateNode$, aPropertiesNode$, aOrbitNode$, "", aRingNode$, "", "", "")
+			aPlanetTemp$ = planetTempSubstitution$ (aPlanetTemp$, aBodyNode$, thePlanetName$, templateNode$, aPropertiesNode$, aOrbitNode$, "", aRingNode$, "", "", aOceanNode$)
+			'#Clear out the nodes so they are not populated next iteration
+			'#Failing to do so led to oddities with ocean and ring nodes appearing everywhere
+			aBodyNode$ = ""
+			templateNode$ = ""
+			aPropertiesNode$ = ""
+			aOrbitNode$ = ""
+			aRingNode$ = ""
+			aOceanNode$ = ""
 			print #1, aPlanetTemp$
+
+			'########################
+			'#add planet to the researchBody file
+			ignoreLevels$ = ignoreLevels$ + "        "+thePlanetName$ +" = true false false false"+chr$(10)
+			discoveryText$ = discoveryText$+ "        "+thePlanetName$ + " = " + thePlanetName$ + " -- Orbiting: "+star_Name$+"\\nn  \\nnSemimajor axis: "+str$(theSemiMajorAxis)+"m\\nn \\nnArg. of periapsis: "+theArgumentOfPeriapsis$+"°\\nn \\nnInclination: "+theInclination$+"°\\nn \\nnTidal locked: unknown\\nn \\nnHabitable zone: unknown"+chr$(10)
 
 			'########################'
 			'####
 			'#25% chance of there being a moon
-			CALL MakeMoons (thePlanetName$,parentInclination,PLANETRADI,4)
+			CALL MakeMoons (thePlanetName$,parentInclination,PLANETRADIUS,4)
 			
 			planetNumb = planetNumb + 1
 			POBJECTNUMBER = POBJECTNUMBER + 1
+
 		NEXT
 
 		IF ASTTOG$ = "y" THEN

@@ -1,0 +1,16 @@
+RESEARCHBODIES{
+    loadAs = mod
+    name = To-Boldly-Go
+
+    IGNORE{
+        %(ignoreStrings)s
+    }
+
+    ONDISCOVERY
+    {
+        %(onDiscoveryStrings)s
+    }
+    IGNORELEVELS{
+        %(onIgnoreLevelStrings)s
+    }
+}

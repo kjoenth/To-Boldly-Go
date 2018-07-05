@@ -46,6 +46,10 @@ DIM SHARED MOBJECTNUMBER AS INTEGER
 DIM SHARED AOBJECTNUMBER AS INTEGER
 DIM SHARED ASTTOG$
 
+DIM SHARED discoveryText$ 
+DIM SHARED ignoreBodies$ 
+DIM SHARED ignoreLevels$ 
+
 
 'BROWNSTARNUMBER = 1
 'REDSTARNUMBER = 1
@@ -316,7 +320,7 @@ PRINT #1, "//Seed: " + STR$(SEED)
 '#############################
 '###Read in the string templates
 DIM SHARED thePropertiesTemplate$, theOrbitTemplate$, theLightTemplate$, theMaterialTemplate$, theCoronasTemplate$
-DIM SHARED theGasGiantTemplate$, theRingsTemplate$, thePlanetTemplate$, theStarTmp$, theWikiTemplate$
+DIM SHARED theGasGiantTemplate$, theRingsTemplate$, theOceanTemplate$, thePlanetTemplate$, theStarTmp$, theWikiTemplate$
 thePropertiesTemplate$ = fileAsString("propertiesTmp.txt")
 theOrbitTemplate$ = fileAsString("orbitTmp.txt")
 theLightTemplate$ = fileAsString("lightTmp.txt")
@@ -324,11 +328,18 @@ theMaterialTemplate$ = fileAsString("materialTmp.txt")
 theCoronasTemplate$ = fileAsString("coronaTmp.txt")
 theGasGiantTemplate$ = fileAsString("gasGiantScaledVersionTmp.txt")
 theRingsTemplate$ = fileAsString("ringsTmp.txt")
+theOceanTemplate$ = fileAsString("oceanTmp.txt")
 thePlanetTemplate$ = fileAsString("planetTmp.txt")
 theStarTmp$ = fileAsString("starTmp.txt")
 theWikiTemplate$ = fileAsString("wikiTemplate.html")
 
+'###############################
+'#Template files for integration with other mods
+DIM SHARED theResearchBodyTemplate$
+theResearchBodyTemplate$ = fileAsString("forReserachBodiesTmp.txt")
+
 DIM SHARED blackHole_MassKSP
+DIM SHARED blackHole_RadiusKSP
 DIM SHARED galaxy_RadiusKSP
 
 DIM SHARED REDgb AS INTEGER
@@ -337,6 +348,7 @@ DIM SHARED rgBLUE AS INTEGER
 
 blackHole_MassKg = 8.55E37
 blackHole_MassKSP = sol2Kerbol_kg(blackHole_MassKg)
+blackHole_RadiusKSP = 100000
 
 galaxy_RadiusKSP = 6.62251E+17
 
@@ -362,18 +374,13 @@ PRINT #1, "        }"
 PRINT #1, "        Orbit"
 PRINT #1, "        {"
 PRINT #1, "            referenceBody = Sun"
-IF GTYPE = 2 THEN
-    '#spherical but smaller
-    '#theSemimajorAxis = INT(RND * 10000000000000) + 10000000000
-    theSemimajorAxis = galaxy_RadiusKSP
-    theInclination = INT(RND * 360)
-END IF
 
 IF GTYPE = 0 THEN
     '#spherical
     '#theSemimajorAxis =  INT(RND * 1D+16) + 100000000000000
     theSemimajorAxis = galaxy_RadiusKSP
     theInclination = INT(RND * 360)
+    theArgPeriapsis = INT(RND * 360)
 END IF
 
 IF GTYPE = 1 THEN
@@ -381,13 +388,25 @@ IF GTYPE = 1 THEN
     '#theSemimajorAxis =  INT(RND * 1D+16) + 100000000000000
     theSemimajorAxis = galaxy_RadiusKSP
     theInclination = INT(RND * 50) - 25
+    theArgPeriapsis = INT(RND * 360)
 END IF
+
+IF GTYPE = 2 THEN
+    '#spherical but smaller
+    '#theSemimajorAxis = INT(RND * 10000000000000) + 10000000000
+    theSemimajorAxis = galaxy_RadiusKSP
+    theInclination = INT(RND * 360)
+    theArgPeriapsis = INT(RND * 360)
+END IF
+
+DIM SHARED KerbolDistanceToCore
+KerbolDistanceToCore = theSemimajorAxis
+DIM SHARED CoreArgPeriapsis
+CoreArgPeriapsis = theArgPeriapsis
 
 PRINT #1, "            semiMajorAxis ="; theSemimajorAxis; ""
 PRINT #1, "            inclination ="; theInclination; ""
-
-
-PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 360); ""
+PRINT #1, "            argumentOfPeriapsis ="; theArgPeriapsis; ""
 PRINT #1, "            mode = 0"
 PRINT #1, "            color = 0.2,0.2,0.2,1"
 PRINT #1, "        }"
@@ -395,13 +414,6 @@ PRINT #1, "        ScaledVersion"
 PRINT #1, "        {"
 PRINT #1, "            Light"
 PRINT #1, "            {"
-'PRINT #1, "             sunlightColor = 1,1,1,1.0"
-'PRINT #1, "             sunlightIntensity = 0.55"
-'PRINT #1, "             scaledSunlightColor = 1,1,1,1.0"
-'PRINT #1, "             scaledSunlightIntensity = 0.55"
-'PRINT #1, "             IVASunColor = 1,1,1,1.0"
-'PRINT #1, "             IVASunIntensity = 0.55"
-'PRINT #1, "             sunLensFlareColor = 1,1,1,1.0"
 PRINT #1, "                sunlightColor = 0,0,0,0.0"
 PRINT #1, "                sunlightIntensity = 0"
 PRINT #1, "                scaledSunlightColor = 0,0,0,0.0"
@@ -510,13 +522,11 @@ PRINT #1, "        }"
 PRINT #1, "    }"
 PRINT #1, "}"
 
-
-
-
-
 IF GTYPE = 2 THEN
     CLUSTERNUM = 0
     FOR a_Cluster = 1 TO CLUSTER
+        theArgPeriapsis = INT(RND * 360)
+
         PRINT #1, "@Kopernicus"
         PRINT #1, "{"
         PRINT #1, "    Body"
@@ -552,7 +562,7 @@ IF GTYPE = 2 THEN
         
         PRINT #1, "            inclination ="; theInclination
         
-        PRINT #1, "            argumentOfPeriapsis ="; INT(RND * 360); ""
+        PRINT #1, "            argumentOfPeriapsis ="; theArgPeriapsis; ""
         PRINT #1, "            mode = 0"
         PRINT #1, "            color = 0.2,0.2,0.2,1"
         PRINT #1, "        }"
@@ -625,18 +635,21 @@ END IF
 
 '###########
 '###Make the wiki file
-OPEN "wikiEntry.html" FOR OUTPUT AS #10 'Creates the wiki file
+OPEN "wikiEntry.html" FOR OUTPUT AS #10 '#Creates the wiki file
+
+'###########
+'###Make the researchBodies mod file
+OPEN "TBG-ResearchBodies.cfg" FOR OUTPUT AS #20 '#Creates the researchBodies mod file
 
 '******************************************************************************
 FOR a_Star = 1 TO OSTAR
-    star_MassKg = 3.18168E+31 + (RND(1) * (3.18168E+32 - 3.18168E+31)) '###pick a star mass in the M stellar class range'
+    star_MassKg = 3.18168E+31 + (RND(1) * (3.18168E+32 - 3.18168E+31)) '###pick a star mass in the O stellar class range'
     '#test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
     '#star_MassKg = 1.7565459e28*113.2393
 
     '###########################'
     '###STH 2017-0209 Do calculations to get star characteristics
     star_Name$ = starNameList$(SOBJECTNUMBER)
-    'star_Description$ = "VAL -" + STR$(a_Star) + " is a main sequence blue giant star."
     star_Description$ = star_Name$ + " is a main sequence blue giant star."
     CALL makeAStar(star_MassKg, star_Name$, star_Description$) '#call the subroutinue to make a star'
 
@@ -644,165 +657,148 @@ FOR a_Star = 1 TO OSTAR
     IF PENABLE$ = "y" THEN
         '# parent name, number of planets (max), minimum distance from star, maximum distance from star
         star_OrbitalInclination = INT(RND * 360)
-        CALL MakePlanets(star_Name$, star_OrbitalInclination, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
-
+        CALL MakePlanets(star_Name$, star_MassKSP, star_RadiusKSP, star_OrbitalInclination, 5, 0.5 * star_HillSphereRadius, star_FrostLineKSP*1000)
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
-    'REDSTARNUMBER = REDSTARNUMBER + 1
 NEXT
 '******************************************************************************
 FOR a_Star = 1 TO BSTAR
-    star_MassKg = 4.17596E+30 + (RND(1) * (3.18168E+31 - 4.17596E+30)) '###pick a star mass in the M stellar class range'
+    star_MassKg = 4.17596E+30 + (RND(1) * (3.18168E+31 - 4.17596E+30)) '###pick a star mass in the B stellar class range'
     '#test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
     '#star_MassKg = 1.7565459e28*113.2393
 
     '###########################'
     '###STH 2017-0209 Do calculations to get star characteristics
     star_Name$ = starNameList$(SOBJECTNUMBER)
-    'star_Description$ = "VAL -" + STR$(a_Star) + " is a main sequence blue-white giant star."
     star_Description$ = star_Name$ + " is a main sequence blue-white giant star."
     CALL makeAStar(star_MassKg, star_Name$, star_Description$) '#call the subroutinue to make a star'
 
     IF PENABLE$ = "y" THEN
         '# parent name, number of planets (max), minimum distance from star, maximum distance from star
         star_OrbitalInclination = INT(RND * 360)
-        CALL MakePlanets(star_Name$, star_OrbitalInclination, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
+        CALL MakePlanets(star_Name$, star_MassKSP, star_RadiusKSP, star_OrbitalInclination, 5, 0.5 * star_HillSphereRadius, star_FrostLineKSP*1000)
 
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
-    'REDSTARNUMBER = REDSTARNUMBER + 1
 NEXT
 '******************************************************************************
 FOR a_Star = 1 TO ASTAR
-    star_MassKg = 2.78397E+30 + (RND(1) * (4.17596E+30 - 2.78397E+30)) '###pick a star mass in the M stellar class range'
+    star_MassKg = 2.78397E+30 + (RND(1) * (4.17596E+30 - 2.78397E+30)) '###pick a star mass in the A stellar class range'
     '#test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
     '#star_MassKg = 1.7565459e28*113.2393
 
     '###########################'
     '###STH 2017-0209 Do calculations to get star characteristics
     star_Name$ = starNameList$(SOBJECTNUMBER)
-    'star_Description$ = "KIRRIM -" + STR$(a_Star) + " is a main sequence white dwarf star, though not a white-dwarf star. It's complicated."
     star_Description$ = star_Name$ + " is a main sequence white dwarf star, though not a white-dwarf star. It's complicated."
     CALL makeAStar(star_MassKg, star_Name$, star_Description$) '#call the subroutinue to make a star'
 
     IF PENABLE$ = "y" THEN
         '# parent name, number of planets (max), minimum distance from star, maximum distance from star
         star_OrbitalInclination = INT(RND * 360)
-        CALL MakePlanets(star_Name$, star_OrbitalInclination, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
+        CALL MakePlanets(star_Name$, star_MassKSP, star_RadiusKSP, star_OrbitalInclination, 5, 0.5 * star_HillSphereRadius, star_FrostLineKSP*1000)
         
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
-    'REDSTARNUMBER = REDSTARNUMBER + 1
 NEXT
 '*****************************************************************************
 FOR a_Star = 1 TO FSTAR
-    star_MassKg = 2.06809E+30 + (RND(1) * (2.78397E+30 - 2.06809E+30)) '###pick a star mass in the M stellar class range'
+    star_MassKg = 2.06809E+30 + (RND(1) * (2.78397E+30 - 2.06809E+30)) '###pick a star mass in the F stellar class range'
     '#test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
     '#star_MassKg = 1.7565459e28*113.2393
 
     '###########################'
     '###STH 2017-0209 Do calculations to get star characteristics
     star_Name$ = starNameList$(SOBJECTNUMBER)
-    'star_Description$ = "KIRRIM -" + STR$(a_Star) + " is a main sequence yellow-white dwarf star."
     star_Description$ = star_Name$ + " is a main sequence yellow-white dwarf star."
     CALL makeAStar(star_MassKg, star_Name$, star_Description$) '#call the subroutinue to make a star'
 
     IF PENABLE$ = "y" THEN
         '# parent name, number of planets (max), minimum distance from star, maximum distance from star
         star_OrbitalInclination = INT(RND * 360)
-        CALL MakePlanets(star_Name$, star_OrbitalInclination, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
+        CALL MakePlanets(star_Name$, star_MassKSP, star_RadiusKSP, star_OrbitalInclination, 5, 0.5 * star_HillSphereRadius, star_FrostLineKSP*1000)
         
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
-    'REDSTARNUMBER = REDSTARNUMBER + 1
 NEXT
 '*****************************************************************************
 FOR a_Star = 1 TO GSTAR
-    star_MassKg = 1.59084E+30 + (RND(1) * (2.06809E+30 - 1.59084E+30)) '###pick a star mass in the M stellar class range'
+    star_MassKg = 1.59084E+30 + (RND(1) * (2.06809E+30 - 1.59084E+30)) '###pick a star mass in the G stellar class range'
     '#test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
     '#star_MassKg = 1.7565459e28*113.2393
 
     '###########################'
     '###STH 2017-0209 Do calculations to get star characteristics
     star_Name$ = starNameList$(SOBJECTNUMBER)
-    'star_Description$ = "KERMAN -" + STR$(a_Star) + " is a main sequence yellow dwarf star."
     star_Description$ = star_Name$ + " is a main sequence yellow dwarf star."
     CALL makeAStar(star_MassKg, star_Name$, star_Description$) '#call the subroutinue to make a star'
 
     IF PENABLE$ = "y" THEN
         '# parent name, number of planets (max), minimum distance from star, maximum distance from star
         star_OrbitalInclination = INT(RND * 360)
-        CALL MakePlanets(star_Name$, star_OrbitalInclination, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
+        CALL MakePlanets(star_Name$, star_MassKSP, star_RadiusKSP, star_OrbitalInclination, 5, 0.5 * star_HillSphereRadius, star_FrostLineKSP*1000)
         
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
-    'REDSTARNUMBER = REDSTARNUMBER + 1
 NEXT
 '*****************************************************************************
 FOR a_Star = 1 TO KSTAR
-    star_MassKg = 8.94848E+29 + (RND(1) * (1.59084E+30 - 8.94848E+29)) '###pick a star mass in the M stellar class range'
+    star_MassKg = 8.94848E+29 + (RND(1) * (1.59084E+30 - 8.94848E+29)) '###pick a star mass in the K stellar class range'
     '#test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
     '#star_MassKg = 1.7565459e28*113.2393
 
     '###########################'
     '###STH 2017-0209 Do calculations to get star characteristics
     star_Name$ = starNameList$(SOBJECTNUMBER)
-    'star_Description$ = "BILL -" + STR$(a_Star) + " is a main sequence orange dwarf star."
     star_Description$ = star_Name$ + " is a main sequence orange dwarf star."
     CALL makeAStar(star_MassKg, star_Name$, star_Description$) '#call the subroutinue to make a star'
 
     IF PENABLE$ = "y" THEN
         '# parent name, number of planets (max), minimum distance from star, maximum distance from star
         star_OrbitalInclination = INT(RND * 360)
-        CALL MakePlanets(star_Name$, star_OrbitalInclination, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
-        
+        CALL MakePlanets(star_Name$, star_MassKSP, star_RadiusKSP, star_OrbitalInclination, 5, 0.5 * star_HillSphereRadius, star_FrostLineKSP*1000)
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
-    'REDSTARNUMBER = REDSTARNUMBER + 1
 NEXT
 '*****************************************************************************
 FOR a_Star = 1 TO MSTAR
-    star_MassKg = 1.59084E29 + (RND(1) * (8.94848E29 - 1.59084E29)) '###pick a star mass in the M stellar class range'
+    star_MassKg = 1.491825E+29 + (RND(1) * (8.94848E+29 - 1.491825E+29)) '###pick a star mass in the M stellar class range'
     '#test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
     '#star_MassKg = 1.7565459e28*113.2393
 
     '###########################'
     '###STH 2017-0209 Do calculations to get star characteristics
     star_Name$ = starNameList$(SOBJECTNUMBER)
-    'star_Description$ = "FELIPE -" + STR$(a_Star) + " is a main sequence red dwarf star."
     star_Description$ = star_Name$ + " is a main sequence red dwarf star."
     CALL makeAStar(star_MassKg, star_Name$, star_Description$) '#call the subroutinue to make a star'
 
     IF PENABLE$ = "y" THEN
         '# parent name, number of planets (max), minimum distance from star, maximum distance from star
         star_OrbitalInclination = INT(RND * 360)
-        CALL MakePlanets(star_Name$, star_OrbitalInclination, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
+        CALL MakePlanets(star_Name$, star_MassKSP, star_RadiusKSP, star_OrbitalInclination, 5, 0.5 * star_HillSphereRadius, star_FrostLineKSP*1000)
 
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
-    'REDSTARNUMBER = REDSTARNUMBER + 1
 NEXT
 '*****************************************************************************
 FOR a_Star = 1 TO LSTAR
-    star_MassKg = 1.2337E+29 + (RND(1) * (1.59084E+29 - 1.2337E+29)) '###pick a star mass in the M stellar class range'
+    star_MassKg = 1.2337E+29 + (RND(1) * (1.491825E29 - 1.2337E+29)) '###pick a star mass in the L stellar class range'
     '#test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
     '#star_MassKg = 1.7565459e28*113.2393
 
     '###########################'
     '###STH 2017-0209 Do calculations to get star characteristics
     star_Name$ = starNameList$(SOBJECTNUMBER)
-    'star_Description$ = "KRAKEN -" + STR$(a_Star) + ": not quite a star, too big for a planet. A bug in the code of the universe."
     star_Description$ = star_Name$ + ": not quite a star, too big for a planet. A bug in the code of the universe."
     CALL makeAStar(star_MassKg, star_Name$, star_Description$) '#call the subroutinue to make a star'
 
     IF PENABLE$ = "y" THEN
         '# parent name, number of planets (max), minimum distance from star, maximum distance from star
         star_OrbitalInclination = INT(RND * 360)
-        CALL MakePlanets(star_Name$, star_OrbitalInclination, 5, star_RadiusKSP + INT(RND(1) * 100000000000), 0.5 * star_HillSphereRadius)
+        CALL MakePlanets(star_Name$, star_MassKSP, star_RadiusKSP, star_OrbitalInclination, 5, 0.5 * star_HillSphereRadius, star_FrostLineKSP*1000)
 
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
-    'REDSTARNUMBER = REDSTARNUMBER + 1
 NEXT
 
 '******************************************************************************
@@ -823,7 +819,6 @@ FOR a_Star = 1 TO DWARFSTAR
     PRINT #1, "        }"
     '########################'
     '###Fill in property data'
-    'star_Description$ = "NEIL -" + STR$(DWARFSTARNUMBER) + " is a white dwarf stellar core remnant."
     star_Description$ = star_Name$ + " is a white dwarf stellar core remnant."
     star_RadiusKSP = INT(RND * 700000) + 300000
     star_SOI = 90118820000
@@ -1623,6 +1618,10 @@ FOR a_Star = 1 TO ROGUE
     POBJECTNUMBER = POBJECTNUMBER + 1
 NEXT
 
+
+
+tempVar$ = forResearchBodies$(theResearchBodyTemplate$, "", discoveryText$, ignoreLevels$)
+print #20, tempVar$
 '******************************************************************************
 
 PRINT ""
@@ -1804,57 +1803,57 @@ TYPE MouseInfo
 END TYPE
 
 SUB VQB_Frame (X%, Y%, Width%, Height%, CLR&)
-OldCLR& = CLR&
-LINE (X%, Y%)-(X% + Width%, Y% + Height%), CLR&, BF
-FOR Border% = 0 TO 4
-    IF CLR& > _RGB(0, 0, 0) THEN
-        NewRed& = _RED(CLR&) - (6 * Border%)
-        NewGreen& = _GREEN(CLR&) - (6 * Border%)
-        NewBlue& = _BLUE(CLR&) - (6 * Border%)
-        CLR& = _RGB(NewRed&, NewGreen&, NewBlue&)
-    ELSE
-        NewRed& = _RED(CLR&) + (6 * Border%)
-        NewGreen& = _GREEN(CLR&) + (6 * Border%)
-        NewBlue& = _BLUE(CLR&) + (6 * Border%)
-        CLR& = _RGBA(NewRed&, NewGreen&, NewBlue&, 120)
-    END IF
-    LINE (X% - Border%, Y% - Border%)-(X% + Width% + Border%, Y% - Border%), CLR&, BF
-    LINE (X% - Border%, Y% + Height% + Border%)-(X% + Width% + Border%, Y% + Height% + Border%), CLR&, BF
-    LINE (X% - Border%, Y% - Border%)-(X% - Border%, Y% + Height% + Border%), CLR&, BF
-    LINE (X% + Width% + Border%, Y% - Border%)-(X% + Width% + Border%, Y% + Height% + Border%), CLR&, BF
-NEXT
-CLR& = OldCLR&
+    OldCLR& = CLR&
+    LINE (X%, Y%)-(X% + Width%, Y% + Height%), CLR&, BF
+    FOR Border% = 0 TO 4
+        IF CLR& > _RGB(0, 0, 0) THEN
+            NewRed& = _RED(CLR&) - (6 * Border%)
+            NewGreen& = _GREEN(CLR&) - (6 * Border%)
+            NewBlue& = _BLUE(CLR&) - (6 * Border%)
+            CLR& = _RGB(NewRed&, NewGreen&, NewBlue&)
+        ELSE
+            NewRed& = _RED(CLR&) + (6 * Border%)
+            NewGreen& = _GREEN(CLR&) + (6 * Border%)
+            NewBlue& = _BLUE(CLR&) + (6 * Border%)
+            CLR& = _RGBA(NewRed&, NewGreen&, NewBlue&, 120)
+        END IF
+        LINE (X% - Border%, Y% - Border%)-(X% + Width% + Border%, Y% - Border%), CLR&, BF
+        LINE (X% - Border%, Y% + Height% + Border%)-(X% + Width% + Border%, Y% + Height% + Border%), CLR&, BF
+        LINE (X% - Border%, Y% - Border%)-(X% - Border%, Y% + Height% + Border%), CLR&, BF
+        LINE (X% + Width% + Border%, Y% - Border%)-(X% + Width% + Border%, Y% + Height% + Border%), CLR&, BF
+    NEXT
+    CLR& = OldCLR&
 END SUB
 
 
 '// Buttons
 
 SUB VQB_Button_New (Button AS Button, X%, Y%, Width%, Height%, CLR&, TextClr&, Text$, Shape%)
-Button.X = X%
-Button.Y = Y%
-Button.Width = Width%
-Button.Height = Height%
-Button.CLR = CLR&
-Button.TextCLR = TextClr&
-Button.Text = Text$
-Button.Shape = Shape%
+    Button.X = X%
+    Button.Y = Y%
+    Button.Width = Width%
+    Button.Height = Height%
+    Button.CLR = CLR&
+    Button.TextCLR = TextClr&
+    Button.Text = Text$
+    Button.Shape = Shape%
 END SUB
 
 
 SUB VQB_Button_Draw (Button AS Button)
-OldClr& = Button.CLR
-IF Button.Shape = 1 THEN '// Square button
-    VQB_Frame Button.X, Button.Y, Button.Width, Button.Height, Button.CLR
-    COLOR Button.TextCLR, _RGBA(0, 0, 0, 0)
-    _PRINTSTRING (Button.X + (Button.Width / 2) - (_PRINTWIDTH(RTRIM$(Button.Text)) / 2), Button.Y + (_FONTHEIGHT / 4)), Button.Text
-ELSEIF Button.Shape = 2 THEN '// Ellipse button
-    EllipseXS Button.X, Button.Y, Button.Width, Button.Height, 1, Button.CLR, _RGB(7, 7, 7)
-    PAINT (Button.X, Button.Y), Button.CLR, Button.CLR
-    EllipseXS Button.X, Button.Y, Button.Width, Button.Height, 12, Button.CLR, _RGB(7, 7, 7)
-    COLOR Button.TextCLR, _RGBA(0, 0, 0, 0)
-    _PRINTSTRING (Button.X - (_PRINTWIDTH(RTRIM$(Button.Text)) / 2), Button.Y - (_FONTHEIGHT / 2)), Button.Text
-END IF
-Button.CLR = OldClr&
+    OldClr& = Button.CLR
+    IF Button.Shape = 1 THEN '// Square button
+        VQB_Frame Button.X, Button.Y, Button.Width, Button.Height, Button.CLR
+        COLOR Button.TextCLR, _RGBA(0, 0, 0, 0)
+        _PRINTSTRING (Button.X + (Button.Width / 2) - (_PRINTWIDTH(RTRIM$(Button.Text)) / 2), Button.Y + (_FONTHEIGHT / 4)), Button.Text
+    ELSEIF Button.Shape = 2 THEN '// Ellipse button
+        EllipseXS Button.X, Button.Y, Button.Width, Button.Height, 1, Button.CLR, _RGB(7, 7, 7)
+        PAINT (Button.X, Button.Y), Button.CLR, Button.CLR
+        EllipseXS Button.X, Button.Y, Button.Width, Button.Height, 12, Button.CLR, _RGB(7, 7, 7)
+        COLOR Button.TextCLR, _RGBA(0, 0, 0, 0)
+        _PRINTSTRING (Button.X - (_PRINTWIDTH(RTRIM$(Button.Text)) / 2), Button.Y - (_FONTHEIGHT / 2)), Button.Text
+    END IF
+    Button.CLR = OldClr&
 END SUB
 
 
@@ -1916,214 +1915,214 @@ LOOP WHILE _MOUSEINPUT
 END SUB
 
 SUB makeStarNameList (numbRequestedStars)
-'###########################
-'#read in star name prefixes
-REDIM arrayPrefixes$(0)
-theFileName$ = "Data_Folder/TBG_Prefixes.txt"
-IF _FILEEXISTS(theFileName$) THEN
-    OPEN theFileName$ FOR INPUT AS #2
-    filecount% = 0
-    DO UNTIL EOF(2)
-        LINE INPUT #2, file$ 'read entire text file line
-        arrayPrefixes$(filecount%) = file$
-        filecount% = filecount% + 1
-        REDIM _PRESERVE arrayPrefixes$(filecount%)
-    LOOP
-    CLOSE #2
-END IF
-'###########################
-'#read in star name suffixes
-REDIM arraySuffixes$(0)
-theFileName$ = "Data_Folder/TBG_Suffixes.txt"
-IF _FILEEXISTS(theFileName$) THEN
-    OPEN theFileName$ FOR INPUT AS #2
-    filecount% = 0
-    DO UNTIL EOF(2)
-        LINE INPUT #2, file$ 'read entire text file line
-        arraySuffixes$(filecount%) = file$
-        filecount% = filecount% + 1
-        REDIM _PRESERVE arraySuffixes$(filecount%)
-    LOOP
-    CLOSE #2
-END IF
-'########################################################
-'# pick a random index from the prefix and suffix arrays'
-'# the equiv in python would be:
-'# PREFIX = random.choice(thePrefixes)
-'# SUFFIX = random.choice(theSuffixes)
-FOR i = 0 TO numbRequestedStars
-    lengArrayPrefixes% = UBOUND(arrayPrefixes$)
-    lengArraySuffixes% = UBOUND(arraySuffixes$)
-    indexPrefixes% = INT(RND * lengArrayPrefixes%)
-    indexSuffixes% = INT(RND * lengArraySuffixes%)
-    PREFIX$ = arrayPrefixes$(indexPrefixes%)
-    SUFFIX$ = arraySuffixes$(indexSuffixes%)
-    '##############################################
-    '# combine the prefix and suffix to make a name
-    fullStarName$ = PREFIX$ + SUFFIX$
-    '#hard coded avoidance of 'sun' and 'core'
-    IF fullStarName$ = "Sun" OR fullStarName$ = "Core" THEN
-        indexSuffixes% = INT(RND * lengArraySuffixes%)
-        SUFFIX$ = arraySuffixes$(indexSuffixes%)
-        fullStarName$ = fullStarName$ + "o'" + SUFFIX$
+    '###########################
+    '#read in star name prefixes
+    REDIM arrayPrefixes$(0)
+    theFileName$ = "Data_Folder/TBG_Prefixes.txt"
+    IF _FILEEXISTS(theFileName$) THEN
+        OPEN theFileName$ FOR INPUT AS #2
+        filecount% = 0
+        DO UNTIL EOF(2)
+            LINE INPUT #2, file$ 'read entire text file line
+            arrayPrefixes$(filecount%) = file$
+            filecount% = filecount% + 1
+            REDIM _PRESERVE arrayPrefixes$(filecount%)
+        LOOP
+        CLOSE #2
     END IF
-    '#I guess qbasic doesn't have a way of boolean testing to see if a value is in an array?
-    '####First look and see if the proposed name is in the template name array'
-    FOR j = 1 TO UBOUND(planetKey$)
-        DO UNTIL fullStarName$ <> planetKey$(j)
+    '###########################
+    '#read in star name suffixes
+    REDIM arraySuffixes$(0)
+    theFileName$ = "Data_Folder/TBG_Suffixes.txt"
+    IF _FILEEXISTS(theFileName$) THEN
+        OPEN theFileName$ FOR INPUT AS #2
+        filecount% = 0
+        DO UNTIL EOF(2)
+            LINE INPUT #2, file$ 'read entire text file line
+            arraySuffixes$(filecount%) = file$
+            filecount% = filecount% + 1
+            REDIM _PRESERVE arraySuffixes$(filecount%)
+        LOOP
+        CLOSE #2
+    END IF
+    '########################################################
+    '# pick a random index from the prefix and suffix arrays'
+    '# the equiv in python would be:
+    '# PREFIX = random.choice(thePrefixes)
+    '# SUFFIX = random.choice(theSuffixes)
+    FOR i = 0 TO numbRequestedStars
+        lengArrayPrefixes% = UBOUND(arrayPrefixes$)
+        lengArraySuffixes% = UBOUND(arraySuffixes$)
+        indexPrefixes% = INT(RND * lengArrayPrefixes%)
+        indexSuffixes% = INT(RND * lengArraySuffixes%)
+        PREFIX$ = arrayPrefixes$(indexPrefixes%)
+        SUFFIX$ = arraySuffixes$(indexSuffixes%)
+        '##############################################
+        '# combine the prefix and suffix to make a name
+        fullStarName$ = PREFIX$ + SUFFIX$
+        '#hard coded avoidance of 'sun' and 'core'
+        IF fullStarName$ = "Sun" OR fullStarName$ = "Core" THEN
             indexSuffixes% = INT(RND * lengArraySuffixes%)
             SUFFIX$ = arraySuffixes$(indexSuffixes%)
             fullStarName$ = fullStarName$ + "o'" + SUFFIX$
-        LOOP
+        END IF
+        '#I guess qbasic doesn't have a way of boolean testing to see if a value is in an array?
+        '####First look and see if the proposed name is in the template name array'
+        FOR j = 1 TO UBOUND(planetKey$)
+            DO UNTIL fullStarName$ <> planetKey$(j)
+                indexSuffixes% = INT(RND * lengArraySuffixes%)
+                SUFFIX$ = arraySuffixes$(indexSuffixes%)
+                fullStarName$ = fullStarName$ + "o'" + SUFFIX$
+            LOOP
+        NEXT
+        '#do the same sort of check and make sure the star name hasn't been used already
+        FOR j = 1 TO UBOUND(starNameList$)
+            DO UNTIL fullStarName$ <> starNameList$(j)
+                indexSuffixes% = INT(RND * lengArraySuffixes%)
+                SUFFIX$ = arraySuffixes$(indexSuffixes%)
+                fullStarName$ = fullStarName$ + "a'" + SUFFIX$
+            LOOP
+        NEXT
+        starNameList$(i) = fullStarName$
     NEXT
-    '#do the same sort of check and make sure the star name hasn't been used already
-    FOR j = 1 TO UBOUND(starNameList$)
-        DO UNTIL fullStarName$ <> starNameList$(j)
-            indexSuffixes% = INT(RND * lengArraySuffixes%)
-            SUFFIX$ = arraySuffixes$(indexSuffixes%)
-            fullStarName$ = fullStarName$ + "a'" + SUFFIX$
-        LOOP
-    NEXT
-    starNameList$(i) = fullStarName$
-NEXT
 END SUB
 
 FUNCTION fileAsString$ (fileName$)
-'###########################
-'#read in string template
-theFileName$ = "Data_Folder/templates/" + fileName$
-wholeTxt$ = ""
-IF _FILEEXISTS(theFileName$) THEN
-    OPEN theFileName$ FOR INPUT AS #3
-    DO UNTIL EOF(3)
-        LINE INPUT #3, fileLine$ 'read entire text file line
-        wholeTxt$ = wholeTxt$ + fileLine$ + CHR$(10)
-    LOOP
-    CLOSE #3
-END IF
-fileAsString$ = wholeTxt$
+    '###########################
+    '#read in string template
+    theFileName$ = "Data_Folder/templates/" + fileName$
+    wholeTxt$ = ""
+    IF _FILEEXISTS(theFileName$) THEN
+        OPEN theFileName$ FOR INPUT AS #3
+        DO UNTIL EOF(3)
+            LINE INPUT #3, fileLine$ 'read entire text file line
+            wholeTxt$ = wholeTxt$ + fileLine$ + CHR$(10)
+        LOOP
+        CLOSE #3
+    END IF
+    fileAsString$ = wholeTxt$
 END FUNCTION
 
 '################################################
 '########http://www.qb64.net/wiki/index.php/LEFT$
 FUNCTION ReplaceStr$ (text$, old$, new$)
-DO
-    find = INSTR(start + 1, text$, old$) 'find location of a word in text
-    IF find THEN
-        count = count + 1
-        first$ = LEFT$(text$, find - 1) 'text before word including spaces
-        last$ = RIGHT$(text$, LEN(text$) - (find + LEN(old$) - 1)) 'text after word
-        text$ = first$ + new$ + last$
-    END IF
-    start = find
-LOOP WHILE find
-'Replace = count 'function returns the number of replaced words. Comment out in SUB
-'Replace = text$
-ReplaceStr$ = text$
+    DO
+        find = INSTR(start + 1, text$, old$) 'find location of a word in text
+        IF find THEN
+            count = count + 1
+            first$ = LEFT$(text$, find - 1) 'text before word including spaces
+            last$ = RIGHT$(text$, LEN(text$) - (find + LEN(old$) - 1)) 'text after word
+            text$ = first$ + new$ + last$
+        END IF
+        start = find
+    LOOP WHILE find
+    'Replace = count 'function returns the number of replaced words. Comment out in SUB
+    'Replace = text$
+    ReplaceStr$ = text$
 END FUNCTION
 
 FUNCTION propertyNode$ (aTemplate$, theDescription$, theRadius$, theMass$, theGravParam$, theGeeASL$, theDoesRotate$, theRotationPeriod$, theInitialRotation$, theIsTidallyLocked$, theIsHomeWord$, theSOI$)
-'#####STH 2017-0124. QBasic doesn't have string formatting like python.
-'#####Replicated that function with string replacement function.
-'###########################'
-'##Uncomment properties if data is present
-IF theDescription$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%description =", "%description =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theDescription)s", theDescription$)
-END IF
-'#STH 2018-0516. More dogshit code. 
-'#Why doesn't "IF (theRadius$ <> "" THEN IF val(theRadius$) <> 0) THEN" work?
-IF theRadius$ <> "" THEN IF val(theRadius$) > 0 THEN
-        aTemplate$ = ReplaceStr(aTemplate$, "//%radius =", "%radius =")
-        aTemplate$ = ReplaceStr(aTemplate$, "%(theRadius)s", str$(val(theRadius$)+1))
-END IF 
-END IF
-IF theMass$ <> "" THEN IF val(theMass$) > 0 THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%mass =", "%mass =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theMass)s", theMass$)
-END IF
-END IF
-IF theGravParam$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%gravParameter =", "%gravParameter =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theGravParameter)s", theGravParam$)
-END IF
-IF theGeeASL$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%geeASL =", "%geeASL =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theGeeASL)s", theGeeASL$)
-END IF
-IF theDoesRotate$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%rotates =", "%rotates =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(doesRotate)s", theDoesRotate$)
-END IF
-IF theRotationPeriod$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%rotationPeriod =", "%rotationPeriod =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(rotationPeriod)s", theRotationPeriod$)
-END IF
-IF theInitialRotation$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%initialRotation =", "%initialRotation =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(initialRotation)s", theInitialRotation$)
-END IF
-IF theIsTidallyLocked$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%tidallyLocked =", "%tidallyLocked =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(isTidallyLocked)s", theIsTidallyLocked$)
-END IF
-IF theIsHomeWord$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%isHomeWorld =", "%isHomeWorld =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(isHomeWorld)s", theIsHomeWord$)
-END IF
-IF theSOI$ <> "" THEN IF val(theSOI$) > 0 THEN 
-    aTemplate$ = ReplaceStr(aTemplate$, "//%sphereOfInfluence =", "%sphereOfInfluence =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theSphereOfInfluence)s", theSOI$)
-END IF
-END if
-'###########################'
-propertyNode$ = aTemplate$
+    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
+    '#####Replicated that function with string replacement function.
+    '###########################'
+    '##Uncomment properties if data is present
+    IF theDescription$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%description =", "%description =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theDescription)s", theDescription$)
+    END IF
+    '#STH 2018-0516. More dogshit code. 
+    '#Why doesn't "IF (theRadius$ <> "" THEN IF val(theRadius$) <> 0) THEN" work?
+    IF theRadius$ <> "" THEN IF val(theRadius$) > 0 THEN
+            aTemplate$ = ReplaceStr(aTemplate$, "//%radius =", "%radius =")
+            aTemplate$ = ReplaceStr(aTemplate$, "%(theRadius)s", str$(val(theRadius$)+1))
+    END IF 
+    END IF
+    IF theMass$ <> "" THEN IF val(theMass$) > 0 THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%mass =", "%mass =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theMass)s", theMass$)
+    END IF
+    END IF
+    IF theGravParam$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%gravParameter =", "%gravParameter =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theGravParameter)s", theGravParam$)
+    END IF
+    IF theGeeASL$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%geeASL =", "%geeASL =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theGeeASL)s", theGeeASL$)
+    END IF
+    IF theDoesRotate$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%rotates =", "%rotates =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(doesRotate)s", theDoesRotate$)
+    END IF
+    IF theRotationPeriod$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%rotationPeriod =", "%rotationPeriod =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(rotationPeriod)s", theRotationPeriod$)
+    END IF
+    IF theInitialRotation$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%initialRotation =", "%initialRotation =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(initialRotation)s", theInitialRotation$)
+    END IF
+    IF theIsTidallyLocked$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%tidallyLocked =", "%tidallyLocked =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(isTidallyLocked)s", theIsTidallyLocked$)
+    END IF
+    IF theIsHomeWord$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%isHomeWorld =", "%isHomeWorld =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(isHomeWorld)s", theIsHomeWord$)
+    END IF
+    IF theSOI$ <> "" THEN IF val(theSOI$) > 0 THEN 
+        aTemplate$ = ReplaceStr(aTemplate$, "//%sphereOfInfluence =", "%sphereOfInfluence =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theSphereOfInfluence)s", theSOI$)
+    END IF
+    END if
+    '###########################'
+    propertyNode$ = aTemplate$
 END FUNCTION
 
 FUNCTION orbitNode$ (aTemplate$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
-'#####STH 2017-0124. QBasic doesn't have string formatting like python.
-'#####Replicated that function with string replacement function.
-IF theReferenceBody$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%referenceBody =", "%referenceBody =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theReferenceBody)s", theReferenceBody$)
-END IF
-IF theColour$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%color =", "%color =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theColour)s", theColour$)
-END IF
-IF theMode$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%mode =", "%mode =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theMode)s", theMode$)
-END IF
-IF theInclination$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%inclination =", "%inclination =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theInclination)s", theInclination$)
-END IF
-IF theEccentricity$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%eccentricity =", "%eccentricity =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theEccentricity)s", theEccentricity$)
-END IF
-IF theSemiMajorAxis$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%semiMajorAxis =", "%semiMajorAxis =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theSemiMajorAxis)s", theSemiMajorAxis$)
-END IF
-IF theLongitudeOfAscendingNode$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%longitudeOfAscendingNode =", "%longitudeOfAscendingNode =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theLongitudeOfAscendingNode)s ", theLongitudeOfAscendingNode$)
-END IF
-IF theArgumentOfPeriapsis$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%argumentOfPeriapsis =", "%argumentOfPeriapsis =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theArgumentOfPeriapsis)s", theArgumentOfPeriapsis$)
-END IF
-IF theMeanAnomalyAtEpoch$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%meanAnomalyAtEpoch =", "%meanAnomalyAtEpoch =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theMeanAnomalyAtEpoch)s", theMeanAnomalyAtEpoch$)
-END IF
-IF theEpoch$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//%epoch =", "%epoch =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theEpoch)s", theEpoch$)
-END IF
-orbitNode$ = aTemplate$
+    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
+    '#####Replicated that function with string replacement function.
+    IF theReferenceBody$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%referenceBody =", "%referenceBody =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theReferenceBody)s", theReferenceBody$)
+    END IF
+    IF theColour$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%color =", "%color =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theColour)s", theColour$)
+    END IF
+    IF theMode$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%mode =", "%mode =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theMode)s", theMode$)
+    END IF
+    IF theInclination$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%inclination =", "%inclination =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theInclination)s", theInclination$)
+    END IF
+    IF theEccentricity$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%eccentricity =", "%eccentricity =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theEccentricity)s", theEccentricity$)
+    END IF
+    IF theSemiMajorAxis$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%semiMajorAxis =", "%semiMajorAxis =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theSemiMajorAxis)s", theSemiMajorAxis$)
+    END IF
+    IF theLongitudeOfAscendingNode$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%longitudeOfAscendingNode =", "%longitudeOfAscendingNode =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theLongitudeOfAscendingNode)s ", theLongitudeOfAscendingNode$)
+    END IF
+    IF theArgumentOfPeriapsis$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%argumentOfPeriapsis =", "%argumentOfPeriapsis =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theArgumentOfPeriapsis)s", theArgumentOfPeriapsis$)
+    END IF
+    IF theMeanAnomalyAtEpoch$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%meanAnomalyAtEpoch =", "%meanAnomalyAtEpoch =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theMeanAnomalyAtEpoch)s", theMeanAnomalyAtEpoch$)
+    END IF
+    IF theEpoch$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%epoch =", "%epoch =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theEpoch)s", theEpoch$)
+    END IF
+    orbitNode$ = aTemplate$
 END FUNCTION
 
 FUNCTION lightNode$ (aTemplate$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
@@ -2196,69 +2195,69 @@ FUNCTION coronaNode$ (aTemplate$, starColour$)
 END FUNCTION
 
 FUNCTION ringNode$ (aTemplate$, theAngle$, theOuterRadius$, theInnerRadius$, theRingTexture$, theColour$, theLockRotation$, theUnlit$)
-'#####STH 2017-0124. QBasic doesn't have string formatting like python.
-'#####Replicated that function with string replacement function.
-IF theAngle$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//angle =", "angle =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theAngle)s", theAngle$)
-END IF
-IF theOuterRadius$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//outerRadius =", "outerRadius =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theOuterRadius)s", theOuterRadius$)
-END IF
-IF theInnerRadius$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//innerRadius =", "innerRadius =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theInnerRadius)s", theInnerRadius$)
-END IF
-IF theRingTexture$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//texture =", "texture =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theRingTexture)s", theRingTexture$)
-END IF
-IF theColour$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//color =", "color =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theColour)s", theColour$)
-END IF
-IF theLockRotation$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//lockRotation =", "lockRotation =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theLockRotation)s", theLockRotation$)
-END IF
-IF theUnlit$ <> "" THEN
-    aTemplate$ = ReplaceStr(aTemplate$, "//unlit =", "unlit =")
-    aTemplate$ = ReplaceStr(aTemplate$, "%(theUnlit)s", theUnlit$)
-END IF
-ringNode$ = aTemplate$
+    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
+    '#####Replicated that function with string replacement function.
+    IF theAngle$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//angle =", "angle =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theAngle)s", theAngle$)
+    END IF
+    IF theOuterRadius$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//outerRadius =", "outerRadius =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theOuterRadius)s", theOuterRadius$)
+    END IF
+    IF theInnerRadius$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//innerRadius =", "innerRadius =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theInnerRadius)s", theInnerRadius$)
+    END IF
+    IF theRingTexture$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//texture =", "texture =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theRingTexture)s", theRingTexture$)
+    END IF
+    IF theColour$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//color =", "color =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theColour)s", theColour$)
+    END IF
+    IF theLockRotation$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//lockRotation =", "lockRotation =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theLockRotation)s", theLockRotation$)
+    END IF
+    IF theUnlit$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//unlit =", "unlit =")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(theUnlit)s", theUnlit$)
+    END IF
+    ringNode$ = aTemplate$
 END FUNCTION
 
 SUB readPlanetTemplates ()
-'####2017.0201--STH
-'#This is a mess. I want something like python's dictionary
-'#Played with a multidimensional array, but can't redim it?
-'#Ended up using an array for each colum read in from the CSV
-'#Terrible technique, but I just want it to work at this point
-'###################'
-theFileName$ = "Data_Folder/TBG_Planet_Templates.csv"
-theIndex = 0
-IF _FILEEXISTS(theFileName$) THEN
-    OPEN theFileName$ FOR INPUT AS #1
-    'read through the file and get the number of lines'
-    DO UNTIL EOF(1)
-        REDIM _PRESERVE planetKey$(theIndex)
-        REDIM _PRESERVE thePlanetRadius(theIndex)
-        REDIM _PRESERVE thePlanetMass(theIndex)
-        REDIM _PRESERVE thePlanetSOI(theIndex)
-        REDIM _PRESERVE thePlanetDesc$(theIndex)
-        REDIM _PRESERVE thePlanetStock$(theIndex)
-        INPUT #1, aPlanetStock$, aPlanetName$, aPlanetRadius, aPlanetMass, aPlanetSOI, aDescription$
-        planetKey$(theIndex) = aPlanetName$
-        thePlanetRadius(theIndex) = aPlanetRadius
-        thePlanetMass(theIndex) = aPlanetMass
-        thePlanetSOI(theIndex) = aPlanetSOI
-        thePlanetDesc$(theIndex) = aDescription$
-        thePlanetStock$(theIndex) = aPlanetStock$
-        theIndex = theIndex + 1
-    LOOP
-    CLOSE #1
-END IF
+    '####2017.0201--STH
+    '#This is a mess. I want something like python's dictionary
+    '#Played with a multidimensional array, but can't redim it?
+    '#Ended up using an array for each colum read in from the CSV
+    '#Terrible technique, but I just want it to work at this point
+    '###################'
+    theFileName$ = "Data_Folder/TBG_Planet_Templates.csv"
+    theIndex = 0
+    IF _FILEEXISTS(theFileName$) THEN
+        OPEN theFileName$ FOR INPUT AS #1
+        'read through the file and get the number of lines'
+        DO UNTIL EOF(1)
+            REDIM _PRESERVE planetKey$(theIndex)
+            REDIM _PRESERVE thePlanetRadius(theIndex)
+            REDIM _PRESERVE thePlanetMass(theIndex)
+            REDIM _PRESERVE thePlanetSOI(theIndex)
+            REDIM _PRESERVE thePlanetDesc$(theIndex)
+            REDIM _PRESERVE thePlanetStock$(theIndex)
+            INPUT #1, aPlanetStock$, aPlanetName$, aPlanetRadius, aPlanetMass, aPlanetSOI, aDescription$
+            planetKey$(theIndex) = aPlanetName$
+            thePlanetRadius(theIndex) = aPlanetRadius
+            thePlanetMass(theIndex) = aPlanetMass
+            thePlanetSOI(theIndex) = aPlanetSOI
+            thePlanetDesc$(theIndex) = aDescription$
+            thePlanetStock$(theIndex) = aPlanetStock$
+            theIndex = theIndex + 1
+        LOOP
+        CLOSE #1
+    END IF
 END SUB
 
 FUNCTION AU2km (theAU)
@@ -2266,7 +2265,22 @@ FUNCTION AU2km (theAU)
 END FUNCTION
 
 FUNCTION realKM2kerbinKM (realKM)
-    realKM2kerbinKM = realKM / 10.64
+    '#from discussion with Gregrox on Kopernicus discord
+    '#one way to convert to/from kerbin space is:
+    '#Earth SMA/Kerbin SMA = 10.9999726
+    realKM2kerbinKM = realKM / 10.9999726
+END FUNCTION
+
+FUNCTION kerbinKM2realKM (kerbinKM)
+    '#from discussion with Gregrox on Kopernicus discord
+    '#one way to convert to/from kerbin space is:
+    '#Earth SMA/Kerbin SMA = 10.9999726
+    kerbinKM2realKM = kerbinKM * 10.9999726
+END FUNCTION
+
+FUNCTION realKM2Parsec (realKM)
+    '#1 km = 3.2407792896664E-14 pc
+    realKM2Parsec = realKM*3.2407792896664E-14
 END FUNCTION
 
 FUNCTION solarMass2kg (SM)
@@ -2323,9 +2337,20 @@ FUNCTION solarRadiusFromSolarMass (SM)
     solarRadiusFromSolarMass = SR
 END FUNCTION
 
-FUNCTION luminocityFromSolarMass (SM)
-    luminocityFromSolarMass = SM ^ 3.5
+FUNCTION luminosityFromSolarMass (SM)
+    luminosityFromSolarMass = SM ^ 3.5
 END FUNCTION
+
+FUNCTION absMagFromLuminosity(theLuminosity)
+    ratioLum = theLuminosity/78.70
+    theLogTen# = log(ratioLum)/log(10.#)
+    absMagFromLuminosity = -2.5 * theLogTen#
+END FUNCTION
+
+FUNCTION apparentMagFromAbsMag(absMag, theDistance)
+    '#the Distance has to be in parsecs
+    apparentMagFromAbsMag=5*LOG(theDistance/10)+absMag
+ENd FUNCTION
 
 FUNCTION solarTemp (SL, SR)
     '#returns star temp in K from solar luminocty and solar mass
@@ -2383,15 +2408,25 @@ FUNCTION hillSphere (mass_primary, mass_secondary, eccentricity_secondary, semim
     hillSphere = theRadius
 END FUNCTION
 
-FUNCTION rocheLimit (mass_primary, mass_secondary, radius_secondary)
+FUNCTION simpleRocheLimit (mass_primary)
+    '#If the orbiting body does not have a mass or radius provided
+    '#the standard roche limit calc can't be used'
+    '#use this dogshit instead.
+    '#returns units in km
+    simpleRocheLimit = (7.52E-24)*mass_primary
+END FUNCTION
+
+FUNCTION rocheLimit (mass_primary, mass_secondary, radius_primary, radius_secondary)
     '#calculate the Roche limit around a body
     '#this is the minimum distance around a primary that a secondary can maintain cohesion
     '#Any closer and you would have a ring instead
     '#https://en.wikipedia.org/wiki/Roche_limit
-    theDistance = 1.26 * radius_secondary * ((mass_primary / mass_secondary) ^ (1.0 / 3.0))
+    densityPrimary = starDensity(mass_primary, radius_primary/1000.0) '#mass in kg, radius in km so divide by 1000
+    densitySecondary = starDensity(mass_secondary, radius_secondary/1000.0) '#mass in kg, radius in km so divide by 1000
+    theDistance = 1.26 * radius_primary*((densityPrimary/densitySecondary)^(1.0/3.0))
     '#for unit test later:
     '#mass earth = 5.97E+24 kg; mass sol = 1.98855E+30 kg; radius earth = 6378 km
-    '#gives a radius of 1471536.617 km
+    '#gives a radius of 556,396.86 km
     rocheLimit = theDistance
 END FUNCTION
 
@@ -2402,7 +2437,7 @@ END FUNCTION
 
 FUNCTION solFrostLine (luminocity)
     'https://en.wikipedia.org/wiki/Frost_line_(astrophysics)
-    solFrostLine = 4.85 * (luminocity ^ 0.5)
+    solFrostLine = 4.85 * (luminocity ^ 0.5) '#returns units in AU
 END FUNCTION
 
 FUNCTION siderealRotationalVel (theRadius, rotationalPeriod)
@@ -2418,6 +2453,20 @@ FUNCTION synchronousOrbit (theRadius, theMass, rotationalPeriod)
     tmpThr = (tmpOne / tmpTwo) ^ (1.0 / 3.0)
     theAltitude = tmpThr - theRadius
     synchronousOrbit = theAltitude
+END FUNCTION
+
+'#I miss python
+FUNCTION pol2cartY(rho, theta)
+    '#theta is in degrees
+    pol2cartY = rho * sin(theta*0.017453)
+END FUNCTION
+FUNCTION pol2cartX(rho, theta)
+    '#theta is in degrees
+    pol2cartX = rho * cos(theta*0.017453)
+END FUNCTION
+
+FUNCTION theStarDistance (x1,x2,y1,y2)
+    theStarDistance = (((x2-x1)^2)+((y2-y1)^2))^0.5
 END FUNCTION
 
 '#star colour RGB from temp
@@ -2477,182 +2526,7 @@ SUB temp2RGB (tmpKelvin):
 END SUB
 
 
-SUB makeAStar (star_MassKG, star_Name$, star_Description$):
-    '#consder moving this to an imported file. STH 2017-0403
-    SHARED star_RadiusKSP
-    SHARED star_SOI
-    SHARED star_MassKSP
-    SHARED star_HillSphereRadius
-    SHARED star_FrostLineKm
-    star_MassKSP = sol2Kerbol_kg(star_MassKG)
-    star_MassSolar = kg2solarMass(star_MassKG)
-    star_RadiusSolar = solarRadiusFromSolarMass(star_MassSolar)
-    star_RadiusKm = solarRadius2km(star_RadiusSolar)
-    star_RadiusKSP = sol2Kerbol_km(star_RadiusKm * 1000) '#return m
-    star_Lum = luminocityFromSolarMass(star_MassSolar)
-    star_FrostLineAU = solFrostLine(star_Lum) '#return in AU'
-    star_FrostLineKm = AU2km(star_FrostLineAU) / 10.64 'return in km. deivide by 10.64 to get kerbal km'
-    star_TempK = solarTemp(star_Lum, star_RadiusSolar)
-    temp2RGB (star_TempK) '#I would rather get the colour back as a list, but I guess qbasic doesn't have lists? #STH 2017-0216'
-    theR = REDgb / 255.0
-    theG = rGREENb / 255.0
-    theB = rgBLUE / 255.0
-    '#===convert to hex and prefix with zero if needed'
-    hexR$ = HEX$(REDgb)
-    hexG$ = HEX$(rGREENb)
-    hexB$ = HEX$(rgBLUE)
-    IF LEN(hexR$) = 1 THEN hexR$ = "0" + hexR$
-    IF LEN(hexG$) = 1 THEN hexG$ = "0" + hexG$
-    IF LEN(hexB$) = 1 THEN hexB$ = "0" + hexB$
-    '#======='
-    star_HTMLColour$ = hexR$ + hexG$ + hexB$
-    star_Circumference = starCircumference(star_RadiusKSP) '#use KSP size
-    star_SurfaceArea = starSurfaceArea(star_RadiusKSP) '#use KSP size
-    star_Volume = starVolume(star_RadiusKSP) '#use KSP size
-    star_Density = starDensity(star_MassKSP, star_RadiusKSP / 1000.0) '#use KSP size
-    star_stdGravitationalParameter = stdGravitationalParameter(star_MassKSP) '#use KSP size
-    star_surfaceGravity = surfaceGravity(star_MassKSP, star_RadiusKSP) '#use KSP size. radius should be in km
-    star_escapeVelocity = escapeVelocity(star_MassKSP, star_RadiusKSP) '#use KSP size. radius should be in km
-    star_RotationalPeriod = 432000.00 '##20 days in hours. Kerbol. This needs to be more random. Younger stars spin faster. '#could do another normalized curve for rotation speeds
-    star_siderealRotationalVel = siderealRotationalVel(star_RadiusKSP, star_RotationalPeriod) '#m/s
-    star_theSynchronousOrbit = synchronousOrbit(star_RadiusKSP, star_MassKSP, star_RotationalPeriod) / 1000 '#km
-    '#the Roche Limit of the black hole will be the minimum distance an objct can orbit it
-    blackHole_RocheLimit = rocheLimit(blackHole_MassKSP, star_MassKSP, star_RadiusKSP)
-    '#lower limit in picking the semimajor axis has to put the star radius outside the Roche limit
-    '#add a million to put a bit more distance in
-    '#Milky Way has a radius around 6.62251e+17km
-    '#KSP galaxy radius would be 6.62251e+17km/2.6594=6.62251e+17
-    'star_semimajorAxis = random.randint(int(blackHole_RocheLimit+star_RadiusKSP+1e6), 6.62251e17)
-    star_orbitMin = INT(blackHole_RocheLimit + star_RadiusKSP + 1E6)
-    '#star_orbitMax = 1E16 '6.62251E17
-    star_orbitMax = galaxy_RadiusKSP
-    star_semimajorAxis = star_orbitMin + (RND(1) * (star_orbitMax - star_orbitMin))
-    '###if Kerbol is an analog of Sol, it is ~26kly from the galactic center
-    '###1ly = 9.461e+12km
-    '###therefore 26*9.461e12km = 2.45986e14km from center.
-    '###stellar distances seem 10.95x smaller in KSP
-    'star_semimajorAxis = 2.25e16 '#in m
-    star_HillSphereRadius = hillSphere(blackHole_MassKg, blackHole_MassKg, 0, star_semimajorAxis)
-    star_SOI = kspSOI(blackHole_MassKSP, star_MassKSP, star_semimajorAxis)
-    '###END star characteristic calculation
-    '##############################
-    '#############
-    aWikiTemplate$ = theWikiTemplate$
-    aWikiTemplate$ = wikiEntry$(aWikiTemplate$, star_HTMLColour$, star_Name$, star_RadiusKSP, star_Circumference, star_SurfaceArea, star_MassKSP, star_stdGravitationalParameter, star_Density, star_surfaceGravity, star_escapeVelocity, star_RotationalPeriod, star_siderealRotationalVel, star_theSynchronousOrbit, star_SOI, star_TempK, star_Lum)
-    PRINT #10, aWikiTemplate$
 
-
-    '########################'
-    '###Fill in property data'
-    aPropertiesTemplate$ = thePropertiesTemplate$
-    aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, star_Description$, STR$(star_RadiusKSP), STR$(star_MassKSP), STR$(star_stdGravitationalParameter), STR$(star_surfaceGravity), "True", STR$(star_RotationalPeriod), "", "", "", STR$(star_SOI))
-    'PRINT #1, aPropertiesNode$
-    '###End property data'
-    '########################'
-
-
-    '########################'
-    '###Fill in orbit data'
-    IF (GTYPE = 0 OR GTYPE = 1) THEN
-        theReferenceBody$ = "Core"
-        IF GTYPE = 0 THEN theInclination$ = STR$(INT(RND * 360))
-        IF GTYPE = 1 THEN theInclination$ = STR$(INT(RND * 25) + 1)
-        theSemiMajorAxis$ = STR$(star_semimajorAxis)
-    ELSE
-        theReferenceBody$ = STR$(INT(RND * CLUSTERNUM))
-        theInclination$ = STR$(INT(RND * 360))
-        theSemiMajorAxis$ = STR$(star_semimajorAxis)
-    END IF
-    theArgumentOfPeriapsis$ = STR$(INT(RND * 360))
-    theMeanAnomalyAtEpoch$ = STR$(0)
-    theEpoch$ = STR$(0)
-    theMode$ = "0" 'STR$(0)
-    theColour$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
-    aOrbitTemp$ = theOrbitTemplate$
-    '#FUNCTION orbitNode$ (aTemplate$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
-    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
-    '###End orbit data'
-    '########################'
-
-
-    '########################'
-    '###Fill in light data'
-    sunlightColor$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
-    sunlightIntensity$ = "0.50"
-    scaledSunlightColor$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
-    scaledSunlightIntensity$ = "0.30"
-    IVASuncolor$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
-    IVASunIntensity$ = "1.0"
-    'sunLensFlareColor$ = "0.3,0,0,1.0"
-    '#adjust some values to cover over the default yellow'
-    IF theB >= 0.9 THEN
-        theRFlare = theR / 2
-        sunLensFlareColor$ = STR$(theRFlare) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
-    ELSE
-        sunLensFlareColor$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
-    END IF
-    ambientLightColor$ = "0,0,0,1"
-    sunAU$ = STR$(star_RadiusKSP + 13338240256) 'added value is distance to kerbin from kerbol - kerbol radius. STH 2017-0309
-    luminosity$ = "0"
-    givesOffLight$ = "True"
-    aLightTemp$ = theLightTemplate$
-    aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
-    'PRINT #1, aLightNode$
-    '###End light data'
-    '########################'
-
-
-    '########################'
-    '###Fill in material data'
-    'emitColorZero$ = "0.6,0.3,0.0,1.0"
-    emitColorZero$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
-    'emitColorOne$ = "0.9,0.1,0.0,1.0"
-    emitColorOne$ = STR$(theR * 0.4) + "," + STR$(theG * 0.4) + "," + STR$(theB * 0.4) + ",1.0"
-    'sunspotColor$ = "1.0,0,0,1.0"
-    sunspotColor$ = "0.23,0.23,0.23,1.0"
-    'rimColor$ = "0.68,0.05,0.05,1.0"
-    rimColor$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
-    rimPower$ = "1"
-    rimBlend$ = "1"
-    aMaterialTemp$ = theMaterialTemplate$
-    aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
-    'PRINT #1, aMaterialNode$
-    '###End material data'
-    '########################'
-
-
-    '########################'
-    '###Fill in coronas data'
-    'https://en.wikipedia.org/wiki/Stellar_classification
-    IF (star_MassSolar >= 16) THEN
-        starColour$ = "Blue"
-    ELSEIF (star_MassSolar < 16 AND star_MassSolar >= 2.1) THEN
-        starColour$ = "Blue"
-    ELSEIF (star_MassSolar < 2.1 AND star_MassSolar >= 1.4) THEN
-        starColour$ = "White"
-    ELSEIF (star_MassSolar < 1.4 AND star_MassSolar >= 1.04) THEN
-        starColour$ = "White"
-    ELSEIF (star_MassSolar < 1.04 AND star_MassSolar >= 0.8) THEN
-        starColour$ = "Yellow"
-    ELSEIF (star_MassSolar < 0.8 AND star_MassSolar >= 0.45) THEN
-        starColour$ = "K"
-    ELSEIF (star_MassSolar < 0.45 AND star_MassSolar >= 0.08) THEN
-        starColour$ = "Red"
-    ELSE
-        starColour$ = "BlackHole"
-    END IF
-
-    aCoronaTemp$ = theCoronasTemplate$
-    aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
-    'PRINT #1, aCoronaNode$
-    '###End coronas data'
-    '########################'
-    'print #1, aOrbitNode$
-    aStarTemp$ = theStarTmp$
-    'FUNCTION starTempSubstitution$ (aTemplate$, aName$, aPropertiesNode$, aOrbitNode$, aRingNode$, aLightNode$, aMaterialNode$, aCoronaNode$, aSolarPowerCurve$)
-    aStarTmp$ = starTempSubstitution$(aStarTemp$, star_Name$, aPropertiesNode$, aOrbitNode$, "", aLightNode$, aMaterialNode$, aCoronaNode$, "")
-    PRINT #1, aStarTmp$
-END SUB
 
 FUNCTION starTempSubstitution$ (aTemplate$, aName$, aPropertiesNode$, aOrbitNode$, aRingNode$, aLightNode$, aMaterialNode$, aCoronaNode$, aSolarPowerCurve$)
     '#####STH 2017-0124. QBasic doesn't have string formatting like python.
@@ -2728,7 +2602,7 @@ FUNCTION planetTempSubstitution$ (aTemplate$, aBodyNode$, aName$, aTemplateNode$
     planetTempSubstitution$ = aTemplate$
 END FUNCTION
 
-FUNCTION wikiEntry$ (aTemplate$, star_HTMLColour$, star_Name$, star_RadiusKSP, star_Circumference, star_SurfaceArea, star_MassKSP, star_stdGravitationalParameter, star_Density, star_surfaceGravity, star_escapeVelocity, star_RotationalPeriod, star_siderealRotationalVel, star_theSynchronousOrbit, star_SOI, star_TempK, star_Lum)
+FUNCTION wikiEntry$ (aTemplate$, star_HTMLColour$, star_Name$, star_RadiusKSP, star_Circumference, star_SurfaceArea, star_MassKSP, star_stdGravitationalParameter, star_Density, star_surfaceGravity, star_escapeVelocity, star_RotationalPeriod, star_siderealRotationalVel, star_theSynchronousOrbit, star_SOI, star_FrostLine, star_TempK, star_Lum, star_AbsMag, star_semimajorAxis, star_distToKerbol, star_ApparentMag)
     '#####STH 2017-0124. QBasic doesn't have string formatting like python.
     '#####Replicated that function with string replacement function.
     '###########################'
@@ -2746,13 +2620,30 @@ FUNCTION wikiEntry$ (aTemplate$, star_HTMLColour$, star_Name$, star_RadiusKSP, s
     aTemplate$ = ReplaceStr(aTemplate$, "%(theSideralVelocity)g", STR$(star_siderealRotationalVel))
     aTemplate$ = ReplaceStr(aTemplate$, "%(theSynchronousOrbit)f", STR$(star_theSynchronousOrbit))
     aTemplate$ = ReplaceStr(aTemplate$, "%(theSOI)g", STR$(star_SOI))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theFrostLine)g", STR$(star_FrostLine))
     aTemplate$ = ReplaceStr(aTemplate$, "%(theTemp)g", STR$(star_TempK))
     aTemplate$ = ReplaceStr(aTemplate$, "%(theLuminosity)g", STR$(star_Lum))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theAbsMagnitude)g", STR$(star_AbsMag))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theApparentMagnitude)g", STR$(star_ApparentMag))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theSMA)i", STR$(star_semimajorAxis))
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theDistToKerbol)i", STR$(star_distToKerbol))
     '###########################'
     wikiEntry$ = aTemplate$
+END FUNCTION
+
+FUNCTION forResearchBodies$ (aTemplate$, ignoreStrings$, onDiscoveryStrings$, onIgnoreLevelStrings$)
+    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
+    '#####Replicated that function with string replacement function.
+    '###########################'
+    aTemplate$ = ReplaceStr(aTemplate$, "%(ignoreStrings)s", ignoreStrings$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(onDiscoveryStrings)s", onDiscoveryStrings$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(onIgnoreLevelStrings)s", onIgnoreLevelStrings$)
+    '###########################'
+    forResearchBodies$ = aTemplate$
 END FUNCTION
 
 '$INCLUDE: 'Source\MakeAsteroids.bm'
 '$INCLUDE: 'Source\MakeMoons.bm'
 '$INCLUDE: 'Source\MakePlanets.bm'
+'$INCLUDE: 'Source\MakeStars.bm'
     
