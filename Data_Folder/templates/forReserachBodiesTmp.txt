@@ -3,14 +3,100 @@ RESEARCHBODIES{
     name = To-Boldly-Go
 
     IGNORE{
-        %(ignoreStrings)s
+%(ignoreStrings)s
     }
 
     ONDISCOVERY
     {
-        %(onDiscoveryStrings)s
+%(onDiscoveryStrings)s
     }
     IGNORELEVELS{
-        %(onIgnoreLevelStrings)s
+%(onIgnoreLevelStrings)s
     }
 }
+
+Localization
+{
+    en-us
+    {           
+%(localizationText)s    
+    }
+}
+
+
+
+//##################
+//#ReseachBodies
+@PART[TrackBodiesTelescope]:FOR[ResearchBodies]:NEEDS[Kopernicus,To-Boldly-Go]
+{
+    @MODULE[ModuleTrackBodies]
+    {
+        @maxTrackDistance = 5.4e17
+    }
+}
+
+@PART[InfraredTelescope]:FOR[ResearchBodies]:NEEDS[Kopernicus,To-Boldly-Go]
+{
+    @MODULE[ModuleTrackBodies]
+    {
+        @maxTrackDistance = 3.24e16
+    }                       
+}
+
+@RESEARCHBODIES:FOR[ResearchBodies]:NEEDS[Kopernicus,To-Boldly-Go]
+{
+    @observatorylvl1range = 7.0e15
+    @observatorylvl2range = 5.0e17
+}   
+//##End ResearchBodies
+//##########################
+
+//##########################
+//#Tarsier Space Tech
+@PART[tarsierSpaceTelescope]:FOR[TarsierSpaceTech]:NEEDS[ResearchBodies,To-Boldly-Go]
+{
+    MODULE
+    {
+        name = ModuleTrackBodies
+        difficulty = 2
+        minAltitude = 200000
+        maxTrackDistance = 1.0e10
+        electricChargeRequest = 5
+        landed = false
+        viewAngle =12
+        scienceReward = 8
+    }
+}
+
+@PART[tarsierAdvSpaceTelescope]:FOR[TarsierSpaceTech]:[ResearchBodies,Kopernicus,To-Boldly-Go]
+{
+    MODULE
+    {
+        name = ModuleTrackBodies
+        difficulty = 2
+        minAltitude = 200000
+        maxTrackDistance = 9.999e17
+        electricChargeRequest = 5
+        landed = false
+        viewAngle =20
+        scienceReward = 8
+    }
+}
+
+@PART[tarsierSpaceTelescope]:FOR[TarsierSpaceTech]:NEEDS[ResearchBodies,Kopernicus,To-Boldly-Go]
+{
+    @MODULE[ModuleTrackBodies]
+    {
+        @maxTrackDistance = 5.4e17
+    }
+}
+
+@PART[tarsierAdvSpaceTelescope]:FOR[TarsierSpaceTech]:NEEDS[ResearchBodies,Kopernicus,To-Boldly-Go]
+{
+    @MODULE[ModuleTrackBodies]
+    {
+        @maxTrackDistance = 3.24e16
+    }
+}
+//#End Tarsier Space Tech
+//#######################

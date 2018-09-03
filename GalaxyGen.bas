@@ -1,4 +1,4 @@
-'To Boldly Go v0.3.0.6 - Kopernicus Procedural Galaxy Generator!"
+'To Boldly Go v0.3.1 - Kopernicus Procedural Galaxy Generator!"
 'Copyright (C) 2018  Daniel L. & Sean T. Hammond"
 '
 'This program is free software; you can redistribute it and/or modify"
@@ -15,7 +15,7 @@
 'along with this program; if not, write to the Free Software"
 'Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 
-TBG_Version$ = "0.3.0.6"
+TBG_Version$ = "0.3.1"
 _TITLE "To Boldly Go version " + TBG_Version$
 
 i& = _LOADIMAGE("Data_Folder/Galaxy-icon.png", 32) '<<<<<<< use your image file name here
@@ -49,6 +49,7 @@ DIM SHARED ASTTOG$
 DIM SHARED discoveryText$ 
 DIM SHARED ignoreBodies$ 
 DIM SHARED ignoreLevels$ 
+DIM SHARED localizationText$
 
 
 'BROWNSTARNUMBER = 1
@@ -350,7 +351,7 @@ blackHole_MassKg = 8.55E37
 blackHole_MassKSP = sol2Kerbol_kg(blackHole_MassKg)
 blackHole_RadiusKSP = 100000
 
-galaxy_RadiusKSP = 6.62251E+17
+galaxy_RadiusKSP = (6.62251E+17)/6
 
 '################################
 PRINT #1, "@Kopernicus"
@@ -867,7 +868,7 @@ FOR a_Star = 1 TO DWARFSTAR
     luminosity$ = "0"
     givesOffLight$ = "True"
     aLightTemp$ = theLightTemplate$
-    aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
+    aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$, " 0.0045")
     PRINT #1, aLightNode$
     '###End light data'
     '########################'
@@ -999,7 +1000,7 @@ FOR a_Star = 1 TO BLACKHOLE
     luminosity$ = "0"
     givesOffLight$ = "False"
     aLightTemp$ = theLightTemplate$
-    aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
+    aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$, "0.0045")
     PRINT #1, aLightNode$
     '###End light data'
     '########################'
@@ -1620,7 +1621,7 @@ NEXT
 
 
 
-tempVar$ = forResearchBodies$(theResearchBodyTemplate$, "", discoveryText$, ignoreLevels$)
+tempVar$ = forResearchBodies$(theResearchBodyTemplate$, "", discoveryText$, ignoreLevels$, localizationText$ )
 print #20, tempVar$
 '******************************************************************************
 
@@ -1674,7 +1675,7 @@ PRINT #1, "-----------------"
 CLOSE #1
 'COLOR 15
 'PRINT ""
-'PRINT "DONE! Remember to place this config file into a folder"
+'PRINT "DONE! Remember to place the config file 'galaxy.cfg' into a folder"
 'PRINT "within /Gamedata labeled 'To_Boldly_Go'"
 
 IF AGAIN$ = "n" THEN
@@ -2125,7 +2126,7 @@ FUNCTION orbitNode$ (aTemplate$, theReferenceBody$, theColour$, theMode$, theInc
     orbitNode$ = aTemplate$
 END FUNCTION
 
-FUNCTION lightNode$ (aTemplate$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
+FUNCTION lightNode$ (aTemplate$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$, skyBrightness$)
     '#####STH 2017-0124. QBasic doesn't have string formatting like python.
     '#####Replicated that function with string replacement function.
     IF sunlightColor$ <> "" THEN
@@ -2171,6 +2172,10 @@ FUNCTION lightNode$ (aTemplate$, sunlightColor$, sunlightIntensity$, scaledSunli
     IF givesOffLight$ <> "" THEN
         aTemplate$ = ReplaceStr(aTemplate$, "//givesOffLight =", "givesOffLight =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theGivesOffLight)s", givesOffLight$)
+    END IF
+    IF givesOffLight$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//key = 0", "key = 0")
+        aTemplate$ = ReplaceStr(aTemplate$, "%(skyBrightness)s", skyBrightness$)
     END IF
     lightNode$ = aTemplate$
 END FUNCTION
@@ -2631,13 +2636,14 @@ FUNCTION wikiEntry$ (aTemplate$, star_HTMLColour$, star_Name$, star_RadiusKSP, s
     wikiEntry$ = aTemplate$
 END FUNCTION
 
-FUNCTION forResearchBodies$ (aTemplate$, ignoreStrings$, onDiscoveryStrings$, onIgnoreLevelStrings$)
+FUNCTION forResearchBodies$ (aTemplate$, ignoreStrings$, onDiscoveryStrings$, onIgnoreLevelStrings$, localizationTextUS$)
     '#####STH 2017-0124. QBasic doesn't have string formatting like python.
     '#####Replicated that function with string replacement function.
     '###########################'
     aTemplate$ = ReplaceStr(aTemplate$, "%(ignoreStrings)s", ignoreStrings$)
     aTemplate$ = ReplaceStr(aTemplate$, "%(onDiscoveryStrings)s", onDiscoveryStrings$)
     aTemplate$ = ReplaceStr(aTemplate$, "%(onIgnoreLevelStrings)s", onIgnoreLevelStrings$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(localizationText)s", localizationTextUS$)
     '###########################'
     forResearchBodies$ = aTemplate$
 END FUNCTION

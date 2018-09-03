@@ -1,4 +1,4 @@
-xSUB makeAStar (star_MassKG, star_Name$, star_Description$):
+SUB makeAStar (star_MassKG, star_Name$, star_Description$):
     '#consder moving this to an imported file. STH 2017-0403
     SHARED star_RadiusKSP
     SHARED star_SOI
@@ -13,6 +13,26 @@ xSUB makeAStar (star_MassKG, star_Name$, star_Description$):
     star_RadiusKSP = sol2Kerbol_km(star_RadiusKm * 1000) '#return m, so multiply by 1000 to get km
     star_Lum = luminosityFromSolarMass(star_MassSolar)
     star_AbsMag = absMagFromLuminosity(star_Lum)
+    '#####################################################'
+    '#Calculate the apparent magnitude of the star
+    starY1 = pol2cartY(KerbolDistanceToCore, CoreArgPeriapsis)
+    starX1 = pol2cartX(KerbolDistanceToCore, CoreArgPeriapsis)
+    starY2 = pol2cartY(star_semimajorAxis, theArgumentOfPeriapsis)
+    starX2 = pol2cartX(star_semimajorAxis, theArgumentOfPeriapsis)
+    star_distToKerbol = theStarDistance(starX1,starX2,starY1,starY2) '#in meters
+    '#####TO CALCULATE APPARENT MAGNITUDE
+    star_distToKerbolRLkm = kerbinKM2realKM(star_distToKerbol/1000) '#in rl km
+    star_distToKerbolParsec = realKM2Parsec(star_distToKerbolRLkm)
+    '##########
+    '#unit test for Kerbol to Kerbin
+    '#star_AbsMag = 4.7388854 '#Kerbol absolute magnitude
+    '#star_distToKerbolParsec = 0.000005
+    '##########
+    '#qb64 doesn't have a log10 function
+    theLogTen# = log(star_distToKerbolParsec/10)/log(10.#)
+    star_ApparentMag = (5*theLogTen#)+star_AbsMag
+    '#END Calculate the apparent magnitude of the star
+    '#####################################################'
     star_FrostLineAU = solFrostLine(star_Lum) '#return in AU'
     star_FrostLineKm = AU2km(star_FrostLineAU)
     star_FrostLineKSP = realKM2kerbinKM(star_FrostLineKm)
@@ -79,7 +99,7 @@ xSUB makeAStar (star_MassKG, star_Name$, star_Description$):
         IF GTYPE = 1 THEN theInclination$ = STR$(INT(RND * 25) + 1)
         theSemiMajorAxis$ = STR$(star_semimajorAxis)
     END IF
-    IF (GTYPE < 1) THEN
+    IF (GTYPE = 2) THEN
         theReferenceBody$ = STR$(INT(RND * CLUSTERNUM))
         theInclination$ = STR$(INT(RND * 360))
         theSemiMajorAxis$ = STR$(star_semimajorAxis)
@@ -114,11 +134,24 @@ xSUB makeAStar (star_MassKG, star_Name$, star_Description$):
         sunLensFlareColor$ = STR$(theR) + "," + STR$(theG) + "," + STR$(theB) + ",1.0"
     END IF
     ambientLightColor$ = "0,0,0,1"
-    sunAU$ = STR$(star_RadiusKSP + 13338240256) 'added value is distance to kerbin from kerbol - kerbol radius. STH 2017-0309
-    luminosity$ = "0"
+    'New star radius/Kerbol radius
+    sunAUMultiplier = (star_RadiusKSP/261600000.0)
+    '# 13599840256m = Kerbin SMA
+    sunAU$ = str$(sunAUMultiplier*13599840256)
+    luminosity$ = str$(star_Lum*1367) '#just multiply the star's solar luminosity by solar constant for earth (1367)
     givesOffLight$ = "True"
+    '#############################################################################
+    '#new routine to alter the apparent magnitude of stars in the Kerbin night sky
+    '#skyBrightness = e^(-3.897121 - 0.1868262*apparentMagnitude) where e is 2.718282
+    '#0.005 is ~ the lowest value to be seen in Kerbin's night sky
+    '#3.0 is ~ the size of Kerbol in the sky
+    skyBrightness = 2.718282^(-3.897121 - 0.1868262*star_ApparentMag)
+    if skyBrightness <0.005 then
+        skyBrightness = 0.0045
+    end if 
+    '#############################################################################
     aLightTemp$ = theLightTemplate$
-    aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$)
+    aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$, str$(skyBrightness))
     '###End light data'
     '########################'
 
@@ -184,41 +217,26 @@ xSUB makeAStar (star_MassKG, star_Name$, star_Description$):
 
     '########################
     '###Generate file for ResearchBodies
-    starY1 = pol2cartY(KerbolDistanceToCore, CoreArgPeriapsis)
-    starX1 = pol2cartX(KerbolDistanceToCore, CoreArgPeriapsis)
-    starY2 = pol2cartY(star_semimajorAxis, theArgumentOfPeriapsis)
-    starX2 = pol2cartX(star_semimajorAxis, theArgumentOfPeriapsis)
-    star_distToKerbol = theStarDistance(starX1,starX2,starY1,starY2) '#in meters
-    '#####TO CALCULATE APPARENT MAGNITUDE
-    star_distToKerbolRLkm = kerbinKM2realKM(star_distToKerbol/1000) '#in rl km
-    star_distToKerbolParsec = realKM2Parsec(star_distToKerbolRLkm)
-    '##########
-    '#unit test for Kerbol to Kerbin
-    '#kerbol_AbsMag = 4.7388854
-    '#star_distToKerbolParsec = 0.000005
-    '##########
-    '#qb64 doesn't have a log10 function
-    theLogTen# = log(star_distToKerbolParsec/10)/log(10.#)
-    star_ApparentMag = (5*theLogTen#)+kerbol_AbsMag
-    '#normalCutoff = 6.5
-    '#mediumCutoff = 5.5
-    '#hardCutoff = 4.5
-    if (star_ApparentMag >=6.5) then
+    normalCutoff = 7.0
+    mediumCutoff = 5.5
+    hardCutoff = 4.5
+    if (star_ApparentMag >=normalCutoff) then
         theIgnoreLevel$ = "true false false false"
     end if
-    if (star_ApparentMag <6.5 AND star_ApparentMag >=5.5) then
+    if (star_ApparentMag <normalCutoff AND star_ApparentMag >=mediumCutoff) then
         theIgnoreLevel$ = "true true false false"
     end if
-    if (star_ApparentMag <5.5 AND star_ApparentMag >=4.5) then
+    if (star_ApparentMag <mediumCutoff AND star_ApparentMag >=hardCutoff) then
         theIgnoreLevel$ = "true true true false"
     end if
-    if (star_ApparentMag <4.5) then
+    if (star_ApparentMag <hardCutoff) then
         theIgnoreLevel$ = "true true true true"
     end if
 
     '#Maybe make the discovery text more like the wiki entries?
     '#STH 2018-0704
-    discoveryText$ = discoveryText$+ "        "+star_Name$ + " = " + star_Name$ + ": Approximately " + str$(star_distToKerbol/1e9) +" Gm from Kerbol. Apparent magnitude of "+str$(star_ApparentMag)+". "+ star_Description$ +chr$(10)
+    localizationText$ = localizationText$+ "        #autoLOC_RBodies_discovery_"+star_Name$+" = "+star_Name$ + ": Approximately" + str$(star_distToKerbol/1e9) +" Gm from Kerbol. Apparent magnitude of"+str$(star_ApparentMag)+". "+ star_Description$ +chr$(10)
+    discoveryText$ = discoveryText$+"        #autoLOC_RBodies_discovery_"+star_Name$+chr$(10)
     ignoreLevels$ = ignoreLevels$ + "        "+star_Name$ +" = "+theIgnoreLevel$+chr$(10)
 
 

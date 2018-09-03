@@ -139,8 +139,14 @@ SUB MakePlanets (star_Name$,star_MassKSP,star_RadiusKSP,parentInclination,Max_nu
 			'########################
 			'#add planet to the researchBody file
 			ignoreLevels$ = ignoreLevels$ + "        "+thePlanetName$ +" = true false false false"+chr$(10)
-			discoveryText$ = discoveryText$+ "        "+thePlanetName$ + " = " + thePlanetName$ + " -- Orbiting: "+star_Name$+"\\nn  \\nnSemimajor axis: "+str$(theSemiMajorAxis)+"m\\nn \\nnArg. of periapsis: "+theArgumentOfPeriapsis$+"°\\nn \\nnInclination: "+theInclination$+"°\\nn \\nnTidal locked: unknown\\nn \\nnHabitable zone: unknown"+chr$(10)
-
+			if PLANETRADIUS>=300500 then
+				localizationText$ = localizationText$+ "        #autoLOC_RBodies_discovery_"+thePlanetName$+ " = " + thePlanetName$ + " -- Orbiting: "+star_Name$+"\\nn  \\nnSemimajor axis: "+str$(theSemiMajorAxis)+"m\\nn \\nnArg. of periapsis: "+theArgumentOfPeriapsis$+"°\\nn \\nnInclination: "+theInclination$+"°\\nn \\nnTidal locked: unknown\\nn \\nnHabitable zone: unknown"+chr$(10)
+				
+				discoveryText$ = discoveryText$+"        #autoLOC_RBodies_discovery_"+thePlanetName$+chr$(10)
+    		end if
+    		if PLANETRADIUS<300500 then
+				discoveryText$ = discoveryText$+"        //"+thePlanetName$+" is too small"+chr$(10)
+			end if
 			'########################'
 			'####
 			'#25% chance of there being a moon

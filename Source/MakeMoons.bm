@@ -80,6 +80,19 @@ SUB MakeMoons (thePlanetName$,parentInclination,parentRadius,Max_num_moons):
 			aMoonTemp$ = planetTempSubstitution$ (aMoonTemp$, aBodyNode$, theMoonName$, templateNode$, aPropertiesNode$, aOrbitNode$, "", "", "", "", "")
 			print #1, aMoonTemp$
 
+			'########################
+			'#add moon to the researchBody file
+			ignoreLevels$ = ignoreLevels$ + "        "+theMoonName$ +" = true false false false"+chr$(10)
+			if PLANETRADI>=300500 then
+				localizationText$ = localizationText$+ "        #autoLOC_RBodies_discovery_"+theMoonName$+ " = " + theMoonName$ + " -- Orbiting: "+star_Name$+"\\nn  \\nnSemimajor axis: "+str$(theSemiMajorAxis)+"m\\nn \\nnArg. of periapsis: "+theArgumentOfPeriapsis$+"°\\nn \\nnInclination: "+theInclination$+"°\\nn \\nnTidal locked: unknown\\nn \\nnHabitable zone: unknown"+chr$(10)
+				
+				discoveryText$ = discoveryText$+"        #autoLOC_RBodies_discovery_"+theMoonName$+chr$(10)
+    		end if
+			if PLANETRADI<300500 then
+				discoveryText$ = discoveryText$+"        //"+theMoonName$+" is too small"+chr$(10)
+			end if
+			'########################'
+
 			MOBJECTNUMBER = MOBJECTNUMBER + 1
 		end if
 	NEXT
