@@ -1,4 +1,4 @@
-'To Boldly Go v0.3.1 - Kopernicus Procedural Galaxy Generator!"
+'To Boldly Go v0.3.1.1 - Kopernicus Procedural Galaxy Generator!"
 'Copyright (C) 2018  Daniel L. & Sean T. Hammond"
 '
 'This program is free software; you can redistribute it and/or modify"
@@ -15,7 +15,7 @@
 'along with this program; if not, write to the Free Software"
 'Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 
-TBG_Version$ = "0.3.1"
+TBG_Version$ = "0.3.1.1"
 _TITLE "To Boldly Go version " + TBG_Version$
 
 i& = _LOADIMAGE("Data_Folder/Galaxy-icon.png", 32) '<<<<<<< use your image file name here
@@ -2476,58 +2476,23 @@ END FUNCTION
 
 '#star colour RGB from temp
 SUB temp2RGB (tmpKelvin):
-    '#From http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/ Retrieved 2017.0110
-    '#Start with a temperature, in Kelvin, somewhere between 1000 and 40000.  (Other values may work,
-    '#but I can't make any promises about the quality of the algorithm's estimates above 40000 K.)
-    '#Note also that the temperature and color variables need to be declared as floating-point.
-    '#tmpKelvin = 113017
-    '#Temperature must fall between 1000 and 40000 degrees
-    'IF tmpKelvin < 1000 THEN tmpKelvin = 1000
-    '#if tmpKelvin > 40000 : tmpKelvin = 40000
-    '#All calculations require tmpKelvin \ 100, so only do the conversion once
-    tmpKelvin = tmpKelvin \ 100 '#integer division aka floor division'
+    '#temps in kelvins
+    '#line equations derived using blackbody values from
+    '#http://www.vendian.org/mncharity/dir3/blackbody/UnstableURLs/bbr_color.html
 
-    '#Calculate Red:
-    IF tmpKelvin <= 66 THEN
-        r = 255
-        IF tmpKelvin <= 29 THEN
-            r = tmpKelvin
-            r = 196.5 * LOG(r) - 361.8223
-        END IF
-    ELSE
-        r = tmpKelvin - 60
-        r = 329.698727446 * (r ^ -0.1332047592)
-    END IF
-    IF r < 0 THEN r = 0
-    IF r > 255 THEN r = 255
-
-    '#Calculate Green:
-    IF tmpKelvin <= 66 THEN
-        g = tmpKelvin
-        g = 99.4708025861 * LOG(g) - 161.1195681661
-    ELSE:
-        g = tmpKelvin - 60
-        g = 288.1221695283 * (g ^ -0.0755148492)
-    END IF
-    IF g < 0 THEN g = 0
-    IF g > 255 THEN g = 255
-
-    '#Calculate Blue:
-    IF tmpKelvin >= 66 THEN
+    if tmpKelvin<1900 then b = 0
+    if tmpKelvin>=1900 and tmpKelvin<=6600 then
+        b = int(-1479.374+(196.95357*log(tmpKelvin)))
+    end if
+    if tmpKelvin<=6600 then 
+        r = 255  
+        g = int(2.71828^(5.7834281-(1686.3889*(1.0/tmpKelvin))))
+    end if
+    if tmpKelvin>6600 then
+        r = int(1.0/(0.0066897-(18.585712*(1.0/tmpKelvin))))
+        g = int(1.0/(0.0057629-(11.79832*(1.0/tmpKelvin))))
         b = 255
-    ELSE:
-        IF tmpKelvin <= 19 THEN
-            b = 0
-        ELSE:
-            b = tmpKelvin - 10
-            b = 138.5177312231 * LOG(b) - 305.0447927307
-            IF b < 0 THEN b = 0
-            IF b > 255 THEN b = 255
-        END IF
-    END IF
-    REDgb = r
-    rGREENb = g
-    rgBLUE = b
+    end if
 END SUB
 
 
