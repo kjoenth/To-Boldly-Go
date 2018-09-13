@@ -11,7 +11,7 @@
                     scaleSpeed = 0.007
                     Material
                     {
-                        texture = To_Boldly_Go/coronae/%(theTexture)sCorona
+                        texture = To_Boldly_Go/Coronae/%(theTexture)sCorona
                         inverseFade = 2.553731
                     }
                 }
@@ -25,7 +25,7 @@
                     scaleSpeed = 0.009
                     Material
                     {
-                        texture = To_Boldly_Go/coronae/%(theTexture)sCorona
+                        texture = To_Boldly_Go/Coronae/%(theTexture)sCorona
                         inverseFade = 2.553731
                     }
                 }

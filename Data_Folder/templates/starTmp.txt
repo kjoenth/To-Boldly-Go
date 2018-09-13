@@ -23,7 +23,7 @@
         {
         //%(theLightData)s
         //%(theMaterialData)s
-        //(theCoronasData)s
+        //%(theCoronasData)s
         }
         //%(theSolarPowerCurve)s
     }
