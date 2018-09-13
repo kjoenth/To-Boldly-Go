@@ -188,16 +188,16 @@ SUB makeAStar (star_MassKG, star_Name$, star_Description$):
         starColour$ = "White"
     END IF
     IF (star_MassSolar < 1.4 AND star_MassSolar >= 1.04) THEN
-        starColour$ = "White"
-    END IF
-    IF (star_MassSolar < 1.04 AND star_MassSolar >= 0.8) THEN
         starColour$ = "Yellow"
     END IF
+    IF (star_MassSolar < 1.04 AND star_MassSolar >= 0.8) THEN
+        starColour$ = "Orange"
+    END IF
     IF (star_MassSolar < 0.8 AND star_MassSolar >= 0.45) THEN
-        starColour$ = "K"
+        starColour$ = "Red"
     END IF
     IF (star_MassSolar < 0.45 AND star_MassSolar >= 0.08) THEN
-        starColour$ = "Red"
+        starColour$ = "Brown"
     END IF
     IF (star_MassSolar < 0.08) THEN
         starColour$ = "BlackHole"
