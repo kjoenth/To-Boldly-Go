@@ -2493,6 +2493,9 @@ SUB temp2RGB (tmpKelvin):
         g = int(1.0/(0.0057629-(11.79832*(1.0/tmpKelvin))))
         b = 255
     end if
+    REDgb = r
+    rGREENb = g
+    rgBLUE = b
 END SUB
 
 
