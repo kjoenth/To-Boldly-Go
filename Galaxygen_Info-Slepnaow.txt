@@ -6,28 +6,28 @@
     |_|\___/  |____/ \___/|_|\__,_|_|\__, |  \_____|\___/
                                       __/ |
                                      |___/
-*****MaxwellsCluster***** v0.3.1
-Creation Date: 17:32:24 07-28-2018
+*****Slepnaow***** v0.3.1.2
+Creation Date: 21:22:12 09-22-2018
 Generation Mode: c
-Seed: 2.018073E+13 
+Seed: 2.018092E+13 
 Galaxy Type: 1 
 Galaxy Age: 1 
 Cluster Number: 0 
 Planets: y
-Asteroids: y
-L to Y class (~Brown~): 4 
-M class (~Red~): 5 
+Asteroids: n
+L to Y class (~Brown~): 8 
+M class (~Red~): 14 
 K class (~Orange~): 20 
-G class (~Yellow~): 24 
-F class (~Yellow-white~): 20 
-A class (~White~): 5 
-B class (~Blue-White~): 1 
-O class (~Blue~): 1 
+G class (~Yellow~): 14 
+F class (~Yellow-white~): 0 
+A class (~White~): 8 
+B class (~Blue-White~): 2 
+O class (~Blue~): 0 
 White Dwarves: 1 
 -----------------
- 80 Stars
- 154 Planets
- 122 Moons
- 27 Asteroids
- 383  Total
+ 66 Stars
+ 129 Planets
+ 103 Moons
+ 0 Asteroids
+ 298  Total
 -----------------
