@@ -18,10 +18,10 @@
 TBG_Version$ = "0.3.1.2"
 _TITLE "To Boldly Go version " + TBG_Version$
 
-i& = _LOADIMAGE("Data_Folder/Galaxy-icon.png", 32) '<<<<<<< use your image file name here
+i& = _LOADIMAGE("Data_Folder/Galaxy-icon.png", 32) #'<<<<<<< use your image file name here
 IF i& < -1 THEN
     _ICON i&
-    _FREEIMAGE i& ' release image handle after setting icon
+    _FREEIMAGE i& #' release image handle after setting icon
 END IF
 
 888 PRINT
@@ -65,7 +65,7 @@ CLUSTERCORENUMBER = 1
 CORESTARNUMBER = 1
 
 DIM SHARED GTYPE AS INTEGER
-CLS 'clears the screen
+CLS #'clears the screen
 OPEN "galaxy.cfg" FOR OUTPUT AS #1 'Creates the config file
 #
 #*******************************************************************************#
@@ -75,7 +75,7 @@ SCREEN _NEWIMAGE(700, 518, 32)
 Backdrop = _LOADIMAGE("Data_folder/Background2.png")
 _PUTIMAGE (0, 0), Backdrop
 
-_FONT _LOADFONT("Data_folder/Commodore_Rounded_v1.2.ttf", 15, "MONOSPACE") 'select monospace font
+_FONT _LOADFONT("Data_folder/Commodore_Rounded_v1.2.ttf", 15, "MONOSPACE") #'select monospace font
 _PRINTMODE _KEEPBACKGROUND#
 #*******************************************************************************#
 #*******************************************************************************
@@ -111,7 +111,7 @@ PRINT ""
 INPUT "Name your Galaxy:", GNAME$
 2222 INPUT " (CUSTOM/AUTO)(c/a):", CUSTOM$
 
-INPUT " Input Seed:", SEED 'asks the user for a random seed.
+INPUT " Input Seed:", SEED #'asks the user for a random seed.
 RANDOMIZE SEED
 
 SOBJECTNUMBER = 0
@@ -128,71 +128,71 @@ CLUSTER = 0
 
 IF CUSTOM$ = "c" THEN
     INPUT "Galaxy Age (0-5. 1 is recommended):", AGE
-    INPUT "Planets? (y/n):", PENABLE$ 'Asks the user whether they want to have planets or not
-    '*******************************************************************************
-    INPUT "Asteroids? (y/n):", ASTTOG$ 'Asks the user whether they want to have asteroids or not
-    '*******************************************************************************
+    INPUT "Planets? (y/n):", PENABLE$ #'Asks the user whether they want to have planets or not
+    #*******************************************************************************
+    INPUT "Asteroids? (y/n):", ASTTOG$ #'Asks the user whether they want to have asteroids or not
+    #*******************************************************************************
     PRINT "What Galaxy type do you want?:"
-    999 INPUT "Ellipse-0, Disk-1, Cluster-2:", GTYPE 'Asks the user what kind of galaxy they want.
+    999 INPUT "Ellipse-0, Disk-1, Cluster-2:", GTYPE #'Asks the user what kind of galaxy they want.
     IF GTYPE > 2 THEN
         GOTO 999
     END IF
-    '*******************************************************************************
+    #*******************************************************************************
     INPUT "advanced settings? (y/n):", ADVANCED$
 
     IF ADVANCED$ = "y" THEN
-        '*******************************************************************************
+        #*******************************************************************************
         IF GTYPE = 2 THEN
-            INPUT "Clusters:", CLUSTER 'Asks the user how many star clusters they want
+            INPUT "Clusters:", CLUSTER #'Asks the user how many star clusters they want
         END IF
         PRINT ""
-        '*******************************************************************************
-        INPUT "Brown Dwarves:", LSTAR 'Asks the user how many brown stars they want to generate.
+        #*******************************************************************************
+        INPUT "Brown Dwarves:", LSTAR #'Asks the user how many brown stars they want to generate.
         LSTAR = LSTAR + 0
-        '*******************************************************************************
-        INPUT "Red Dwarves:", MSTAR 'Asks the user how many red stars they want to generate.
+        #*******************************************************************************
+        INPUT "Red Dwarves:", MSTAR #'Asks the user how many red stars they want to generate.
         MSTAR = MSTAR + 0
-        '*******************************************************************************
-        INPUT "Orange Dwarves:", KSTAR 'Asks the user how many orange stars they want to generate.
+        #*******************************************************************************
+        INPUT "Orange Dwarves:", KSTAR #'Asks the user how many orange stars they want to generate.
         KSTAR = KSTAR + 0
-        '*******************************************************************************
-        INPUT "Yellow Dwarves:", GSTAR 'Asks the user how many yellow stars they want to generate.
+        #*******************************************************************************
+        INPUT "Yellow Dwarves:", GSTAR #'Asks the user how many yellow stars they want to generate.
         GSTAR = GSTAR + 0
-        '*******************************************************************************
-        INPUT "Yellow-White Dwarves:", FSTAR 'Asks the user how many yellow stars they want to generate.
+        #*******************************************************************************
+        INPUT "Yellow-White Dwarves:", FSTAR #'Asks the user how many yellow stars they want to generate.
         FSTAR = FSTAR + 0
-        '*******************************************************************************
-        INPUT "White Stars:", ASTAR 'Asks the user how many white stars they want to generate.
+        #*******************************************************************************
+        INPUT "White Stars:", ASTAR #'Asks the user how many white stars they want to generate.
         ASTAR = ASTAR + 0
-        '*******************************************************************************
-        INPUT "Blue-White Giants:", BSTAR 'Asks the user how many blue stars they want to generate.
+        #*******************************************************************************
+        INPUT "Blue-White Giants:", BSTAR #'Asks the user how many blue stars they want to generate.
         BSTAR = BSTAR + 0
-        '*******************************************************************************
-        INPUT "Blue Giants:", OSTAR 'Asks the user how many blue stars they want to generate.
+        #*******************************************************************************
+        INPUT "Blue Giants:", OSTAR #'Asks the user how many blue stars they want to generate.
         OSTAR = OSTAR + 0
-        '*******************************************************************************
-        INPUT "White Dwarves:", DWARFSTAR 'Asks the user how many white dwarves they want to generate.
+        #*******************************************************************************
+        INPUT "White Dwarves:", DWARFSTAR #'Asks the user how many white dwarves they want to generate.
         DWARFSTAR = DWARFSTAR + 0
-        '*******************************************************************************
-        'INPUT " BLACK HOLES:", BLACKHOLE 'Asks the user how many black holes they want to generate.
-        'BLACKHOLE = BLACKHOLE + 0
-        '*******************************************************************************
-        'INPUT " ROGUE PLANETS:", ROGUE 'Asks the user how many rogue planets they want to generate.
-        'ROGUE = ROGUE + 0
-        '*******************************************************************************
+        #*******************************************************************************
+        #INPUT " BLACK HOLES:", BLACKHOLE 'Asks the user how many black holes they want to generate.
+        #BLACKHOLE = BLACKHOLE + 0
+        #*******************************************************************************
+        #INPUT " ROGUE PLANETS:", ROGUE 'Asks the user how many rogue planets they want to generate.
+        #ROGUE = ROGUE + 0
+        #*******************************************************************************
         CLS
         _PUTIMAGE (0, 0), Backdrop
         FOR i = 1 TO 11
             PRINT ""
         NEXT
     ELSE
-        'AGE = INT(RND * 5)
-        'GTYPE = INT(RND * 2)
+        #'AGE = INT(RND * 5)
+        #'GTYPE = INT(RND * 2)
         IF GTYPE = 2 THEN
             CLUSTER = INT(RND * 4) + 1
-            ''    GTYPE = GTYPE + 1
-            'ELSE
-            ''    GTYPE = GTYPE + 1
+            #''    GTYPE = GTYPE + 1
+            #'ELSE
+            #''    GTYPE = GTYPE + 1
         END IF
         SELECT CASE AGE
             CASE 0
@@ -236,13 +236,13 @@ ELSE
         GTYPE = INT(RND * 2)
         IF GTYPE = 2 THEN
             CLUSTER = INT(RND * 4) + 1
-            ''    GTYPE = GTYPE + 1
-            'ELSE
-            ''    GTYPE = GTYPE + 1
+            #''    GTYPE = GTYPE + 1
+            #'ELSE
+            #''    GTYPE = GTYPE + 1
         END IF
-        'IF GTYPE = 0 THEN
-        'GTYPE = 1
-        'END IF
+        #'IF GTYPE = 0 THEN
+        #'GTYPE = 1
+        #'END IF
         PENABLE$ = "y"
         ASTTOG$ = "y"
 
@@ -281,8 +281,8 @@ ELSE
                 LSTAR = INT(RND * 15)
                 DWARFSTAR = INT(RND * 60) + 10
         END SELECT
-        'BLACKHOLE = INT(RND * 3)
-        'ROGUE = INT(RND * 10)
+        #'BLACKHOLE = INT(RND * 3)
+        #'ROGUE = INT(RND * 10)
     ELSE
         GOTO 2222
     END IF
@@ -532,27 +532,27 @@ IF GTYPE = 2 THEN
         PRINT #1, "{"
         PRINT #1, "    Body"
         PRINT #1, "    {"
-        'CLS
+        #'CLS
         aName$ = starNameList$(CLUSTERNUM)
-        'aName$ = theStarName$(numbRequestedStars) #Calls the function "theStarName"
+        #'aName$ = theStarName$(numbRequestedStars) #Calls the function "theStarName"
         PRINT #1, "        name = "; CLUSTERNUM; ""
         PRINT #1, "        cbNameLater = "; aName$; " Galaxy"
         PRINT #1, "        Template"
         PRINT #1, "        {"
         PRINT #1, "            name = Sun"
         PRINT #1, "        }"
-        'theDescription$ = aName$
-        'theStarRadius = 10000
-        'theStarSphereOfInfluence = 90118820000 'this is very small for a black hole I think. STH
-        'aPropertiesTemplate$ = thePropertiesTemplate$
-        'aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, STR$(theStarRadius), "", "", "", "", "", "", "", "", STR$(theStarSphereOfInfluence))
+        #'theDescription$ = aName$
+        #'theStarRadius = 10000
+        #'theStarSphereOfInfluence = 90118820000 'this is very small for a black hole I think. STH
+        #'aPropertiesTemplate$ = thePropertiesTemplate$
+        #'aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, STR$(theStarRadius), "", "", "", "", "", "", "", "", STR$(theStarSphereOfInfluence))
         PRINT #1, "        Properties"
         PRINT #1, "        {"
         PRINT #1, "            description = "; aName$; " Galaxy"
-        'PRINT #1, "            sphereOfInfluence = 46992481203007510000" 220118820000
+        #'PRINT #1, "            sphereOfInfluence = 46992481203007510000" 220118820000
         #it appears that giving a big SOI to CORE breaks the ability to orbit the stock Sun
         # STH 2017-0320'
-        'PRINT #1, "            sphereOfInfluence = 220118820000"
+        #'PRINT #1, "            sphereOfInfluence = 220118820000"
         PRINT #1, "            sphereOfInfluence ="; (galaxy_RadiusKSP - 2E+12) / CLUSTER
         PRINT #1, "        }"
 
@@ -861,7 +861,7 @@ FOR a_Star = 1 TO DWARFSTAR
     scaledSunlightIntensity$ = "0.20"
     IVASuncolor$ = "1.0,1.0,1.0,1.0"
     IVASunIntensity$ = "0.5"
-    'sunLensFlareColor$ = "0.2303371,0.4494382,1,1.0"
+    #'sunLensFlareColor$ = "0.2303371,0.4494382,1,1.0"
     sunLensFlareColor$ = "1.0,1.0,1.0,1.0,1.0"
     ambientLightColor$ = "0,0,0,1"
     sunAU$ = "135998402"
@@ -907,16 +907,16 @@ NEXT
 #******************************************************************************
 
 FOR a_Star = 1 TO BLACKHOLE
-    'star_MassKg = 4.17596e30 +(RND(1)*(3.18168e31-4.17596e30)) ###pick a star mass in the B stellar class range'
-    'star_MassKg = 2.78397E30 +(RND(1)*(4.17596E30-2.78397E30)) ###pick a star mass in the A stellar class range'
-    'star_MassKg = 2.06809E30 +(RND(1)*(2.78397E30-2.06809E30)) ###pick a star mass in the F stellar class range'
-    'star_MassKg = 1.59084E30 +(RND(1)*(2.06809E30-1.59084E30)) ###pick a star mass in the G stellar class range'
-    'star_MassKg = 8.94848E29 +(RND(1)*(1.59084E30-8.94848E29)) ###pick a star mass in the K stellar class range'
+    #'star_MassKg = 4.17596e30 +(RND(1)*(3.18168e31-4.17596e30)) ###pick a star mass in the B stellar class range'
+    #'star_MassKg = 2.78397E30 +(RND(1)*(4.17596E30-2.78397E30)) ###pick a star mass in the A stellar class range'
+    #'star_MassKg = 2.06809E30 +(RND(1)*(2.78397E30-2.06809E30)) ###pick a star mass in the F stellar class range'
+    #'star_MassKg = 1.59084E30 +(RND(1)*(2.06809E30-1.59084E30)) ###pick a star mass in the G stellar class range'
+    #'star_MassKg = 8.94848E29 +(RND(1)*(1.59084E30-8.94848E29)) ###pick a star mass in the K stellar class range'
     star_MassKg = 1.59084E29 + (RND(1) * (8.94848E29 - 1.59084E29)) ###pick a star mass in the M stellar class range'
-    'star_MassKg = 2.46740E28 +(RND(1)*(1.59084E29-2.46740E28)) ###pick a star mass in the Y to L stellar class range'
+    #'star_MassKg = 2.46740E28 +(RND(1)*(1.59084E29-2.46740E28)) ###pick a star mass in the Y to L stellar class range'
     #test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
     #star_MassKg = 1.7565459e28*113.2393
-    'star_MassKg = RND*(3.18168e31) ###pick a star mass in the Y to L stellar class range'
+    #'star_MassKg = RND*(3.18168e31) ###pick a star mass in the Y to L stellar class range'
 
     ###########################'
     ###STH 2017-0209 Do calculations to get star characteristics
@@ -938,7 +938,7 @@ FOR a_Star = 1 TO BLACKHOLE
     PRINT #1, "        }"
     ########################'
     ###Fill in property data'
-    'theDescription$ = "BILLYBOB -" + STR$(BLACKHOLENUMBER) + "is a black hole. An infinitely dense singularity encapsulated by the event horizon."
+    #'theDescription$ = "BILLYBOB -" + STR$(BLACKHOLENUMBER) + "is a black hole. An infinitely dense singularity encapsulated by the event horizon."
     theDescription$ = aStarName$ + "is a black hole. An infinitely dense singularity encapsulated by the event horizon."
     theRadius$ = STR$(INT(RND * 700000) + 300000)
     theSphereOfInfluence$ = STR$(90118820000.5)
@@ -964,7 +964,7 @@ FOR a_Star = 1 TO BLACKHOLE
     theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
     theMeanAnomalyAtEpoch$ = STR$(0)
     theEpoch$ = STR$(0)
-    theMode$ = "" 'STR$(0)
+    theMode$ = "" #'STR$(0)
     theColour$ = "0.2,0.2,0.2,1"
     aOrbitTemp$ = theOrbitTemplate$
     aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
@@ -1061,7 +1061,7 @@ FOR a_Star = 1 TO ROGUE
     theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
     theMeanAnomalyAtEpoch$ = STR$(0)
     theEpoch$ = STR$(0)
-    theMode$ = "" 'STR$(0)
+    theMode$ = "" #'STR$(0)
     theColour$ = "1,1,0,1"
     aOrbitTemp$ = theOrbitTemplate$
     aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
@@ -1707,7 +1707,7 @@ SYSTEM
 
 
 
-_FONT _LOADFONT("font.ttf", 12, "MONOSPACE") 'select monospace font
+_FONT _LOADFONT("font.ttf", 12, "MONOSPACE") #'select monospace font
 _PRINTMODE _KEEPBACKGROUND
 
 DIM Button(2) AS Button, Mouse(2) AS MouseInfo
@@ -1735,48 +1735,48 @@ DO
     FOR I% = 0 TO 2
         IF VQB_Button_Click(Button(I%), Mouse(0)) THEN
             SELECT CASE I%
-                CASE 0 '// Exit
+                CASE 0 #'// Exit
 
                     IF PTOGGLE = 0 THEN
                         PTOGGLE = 1
                         DIM PONBUTTON AS LONG
                         PONBUTTON = _LOADIMAGE("TOGLIGHTON.png")
                         _PUTIMAGE (11, 96), PONBUTTON
-                        '_SNDPLAYFILE "click.wav", .5
-                        'PRINT "1"
+                        #'_SNDPLAYFILE "click.wav", .5
+                        #'PRINT "1"
                     ELSE
                         PTOGGLE = 0
 
                         DIM POFFBUTTON AS LONG
                         POFFBUTTON = _LOADIMAGE("TOGLIGHTOFF.png")
                         _PUTIMAGE (11, 96), POFFBUTTON
-                        '_SNDPLAYFILE "click.wav", .5
-                        'PRINT "0"
+                        #'_SNDPLAYFILE "click.wav", .5
+                        #'PRINT "0"
                     END IF
                     _DELAY 0.3
-                CASE 1 '// another exit
+                CASE 1 #'// another exit
 
                     IF ATOGGLE = 0 THEN
                         ATOGGLE = 1
                         DIM AONBUTTON AS LONG
                         AONBUTTON = _LOADIMAGE("ASTOGON.png")
                         _PUTIMAGE (146, 96), AONBUTTON
-                        '_SNDPLAYFILE "click.wav", .5
-                        'PRINT "1"
+                        #'_SNDPLAYFILE "click.wav", .5
+                        #'PRINT "1"
                     ELSE
                         ATOGGLE = 0
 
                         DIM AOFFBUTTON AS LONG
                         AOFFBUTTON = _LOADIMAGE("ASTOGOFF.png")
                         _PUTIMAGE (146, 96), AOFFBUTTON
-                        '_SNDPLAYFILE "click.wav", .5
-                        'PRINT "0"
+                        #'_SNDPLAYFILE "click.wav", .5
+                        #'PRINT "0"
                     END IF
                     _DELAY 0.3
                 CASE 2
                     GOTO 778
             END SELECT
-            '_SNDPLAYFILE "click.wav", .5
+            #'_SNDPLAYFILE "click.wav", .5
             EXIT FOR
         END IF
     NEXT
@@ -1785,11 +1785,11 @@ LOOP
 
 
 TYPE Button
-    Shape AS INTEGER '// 1=Square, 2=Ellipse
-    X AS INTEGER '// Top left if square, Centre if ellipse
+    Shape AS INTEGER #'// 1=Square, 2=Ellipse
+    X AS INTEGER #'// Top left if square, Centre if ellipse
     Y AS INTEGER
-    Width AS INTEGER '// Used as XRadius! if ellipse
-    Height AS INTEGER '// Used as YRadius! if ellipse
+    Width AS INTEGER #'// Used as XRadius! if ellipse
+    Height AS INTEGER #'// Used as YRadius! if ellipse
     CLR AS LONG
     TextCLR AS LONG
     Text AS STRING * 24
@@ -1843,11 +1843,11 @@ END SUB
 
 SUB VQB_Button_Draw (Button AS Button)
     OldClr& = Button.CLR
-    IF Button.Shape = 1 THEN '// Square button
+    IF Button.Shape = 1 THEN #'// Square button
         VQB_Frame Button.X, Button.Y, Button.Width, Button.Height, Button.CLR
         COLOR Button.TextCLR, _RGBA(0, 0, 0, 0)
         _PRINTSTRING (Button.X + (Button.Width / 2) - (_PRINTWIDTH(RTRIM$(Button.Text)) / 2), Button.Y + (_FONTHEIGHT / 4)), Button.Text
-    ELSEIF Button.Shape = 2 THEN '// Ellipse button
+    ELSEIF Button.Shape = 2 THEN #'// Ellipse button
         EllipseXS Button.X, Button.Y, Button.Width, Button.Height, 1, Button.CLR, _RGB(7, 7, 7)
         PAINT (Button.X, Button.Y), Button.CLR, Button.CLR
         EllipseXS Button.X, Button.Y, Button.Width, Button.Height, 12, Button.CLR, _RGB(7, 7, 7)
@@ -1869,8 +1869,8 @@ IF Mouse.LMB THEN
             END IF
         END IF
     ELSEIF Button.Shape = 2 THEN
-        '// Ellipse detection adapted from a function created by DarthWho
-        '// http://www.qb64.net/forum/index.php?topic=3154.15
+        #'// Ellipse detection adapted from a function created by DarthWho
+        #'// http://www.qb64.net/forum/index.php?topic=3154.15
         Xrad% = Button.Width + 12
         Yrad% = Button.Height + 12
         IF (Mouse.Y - Button.Y) ^ 2 + ((Mouse.X - Button.X) * Yrad% / Xrad%) ^ 2 <= Yrad% * Yrad% THEN
@@ -1892,7 +1892,7 @@ FOR j% = 0 TO Wide% - 1
     IF _GREEN(CLR&) <= 255 AND _GREEN(ShadeClr&) > 0 THEN newgreen& = _GREEN(CLR&) - _GREEN(ShadeClr&)
     CLR& = _RGB(newred&, newgreen&, newblue&)
     IF XRadius! > YRadius! THEN Radius! = XRadius! ELSE Radius! = YRadius!
-    MinStep! = 1 / (2 * 3.1415926535 * Radius!) '<<< Thanks to CodeGuy for this optimisation.
+    MinStep! = 1 / (2 * 3.1415926535 * Radius!) #'<<< Thanks to CodeGuy for this optimisation.
     FOR i = 0 TO 8 * ATN(1) STEP MinStep!
         pointx% = X% + (XRadius! * COS(i))
         pointy% = Y% + (YRadius! * SIN(i))
@@ -2008,17 +2008,17 @@ END FUNCTION
 ########http://www.qb64.net/wiki/index.php/LEFT$
 FUNCTION ReplaceStr$ (text$, old$, new$)
     DO
-        find = INSTR(start + 1, text$, old$) 'find location of a word in text
+        find = INSTR(start + 1, text$, old$) #'find location of a word in text
         IF find THEN
             count = count + 1
-            first$ = LEFT$(text$, find - 1) 'text before word including spaces
-            last$ = RIGHT$(text$, LEN(text$) - (find + LEN(old$) - 1)) 'text after word
+            first$ = LEFT$(text$, find - 1) #'text before word including spaces
+            last$ = RIGHT$(text$, LEN(text$) - (find + LEN(old$) - 1)) #'text after word
             text$ = first$ + new$ + last$
         END IF
         start = find
     LOOP WHILE find
-    'Replace = count 'function returns the number of replaced words. Comment out in SUB
-    'Replace = text$
+    #'Replace = count 'function returns the number of replaced words. Comment out in SUB
+    #'Replace = text$
     ReplaceStr$ = text$
 END FUNCTION
 
@@ -2441,7 +2441,7 @@ FUNCTION kspSOI (mass_primary, mass_secondary, semimajorAxis_secondary)
 END FUNCTION
 
 FUNCTION solFrostLine (luminocity)
-    'https://en.wikipedia.org/wiki/Frost_line_(astrophysics)
+    #https://en.wikipedia.org/wiki/Frost_line_(astrophysics)
     solFrostLine = 4.85 * (luminocity ^ 0.5) #returns units in AU
 END FUNCTION
 
