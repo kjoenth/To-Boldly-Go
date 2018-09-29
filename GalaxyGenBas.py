@@ -1,19 +1,19 @@
-'To Boldly Go v0.3.1.2 - Kopernicus Procedural Galaxy Generator!"
-'Copyright (C) 2018  Daniel L. & Sean T. Hammond"
-'
-'This program is free software; you can redistribute it and/or modify"
-'it under the terms of the GNU General Public License as published by"
-'the Free Software Foundation; either version 2 of the License, or"
-'(at your option) any later version."
-'PRINT
-'This program is distributed in the hope that it will be useful,"
-'but WITHOUT ANY WARRANTY; without even the implied warranty of"
-'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the"
-'PGNU General Public License for more details."
-'
-'You should have received a copy of the GNU General Public License"
-'along with this program; if not, write to the Free Software"
-'Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
+#To Boldly Go v0.3.1.2 - Kopernicus Procedural Galaxy Generator!"
+#Copyright (C) 2018  Daniel L. & Sean T. Hammond"
+#
+#This program is free software; you can redistribute it and/or modify"
+#it under the terms of the GNU General Public License as published by"
+#the Free Software Foundation; either version 2 of the License, or"
+#(at your option) any later version."
+#PRINT
+#This program is distributed in the hope that it will be useful,"
+#but WITHOUT ANY WARRANTY; without even the implied warranty of"
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the"
+#PGNU General Public License for more details."
+#
+#You should have received a copy of the GNU General Public License"
+#along with this program; if not, write to the Free Software"
+#Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 
 TBG_Version$ = "0.3.1.2"
 _TITLE "To Boldly Go version " + TBG_Version$
@@ -27,10 +27,10 @@ END IF
 888 PRINT
 CLS
 
-'################'
-'#2017-0201 STH
-'#Call a subroutine that reads in planet template names, radii, SOI, and descriptions
-'#Will be used in the functions that make planets
+################'
+#2017-0201 STH
+#Call a subroutine that reads in planet template names, radii, SOI, and descriptions
+#Will be used in the functions that make planets
 REDIM SHARED planetKey$(-1)
 REDIM SHARED thePlanetRadius(-1)
 REDIM SHARED thePlanetMass(-1)
@@ -38,7 +38,7 @@ REDIM SHARED thePlanetSOI(-1)
 REDIM SHARED thePlanetDesc$(-1)
 REDIM SHARED thePlanetStock$(-1)
 readPlanetTemplates
-'###################
+###################
 
 DIM SHARED SOBJECTNUMBER AS INTEGER
 DIM SHARED POBJECTNUMBER AS INTEGER
@@ -51,13 +51,13 @@ DIM SHARED ignoreBodies$
 DIM SHARED ignoreLevels$ 
 DIM SHARED localizationText$
 
-
-'BROWNSTARNUMBER = 1
-'REDSTARNUMBER = 1
-'KSTARNUMBER = 1
-'YELLOWSTARNUMBER = 1
-'WHITESTARNUMBER = 1
-'BLUESTARNUMBER = 1'
+#
+#BROWNSTARNUMBER = 1#
+#REDSTARNUMBER = 1#
+#KSTARNUMBER = 1#
+#YELLOWSTARNUMBER = 1#
+#WHITESTARNUMBER = 1#
+#BLUESTARNUMBER = 1'
 DWARFSTARNUMBER = 1
 NEUTRONSTARNUMBER = 1
 BLACKHOLENUMBER = 1
@@ -67,24 +67,24 @@ CORESTARNUMBER = 1
 DIM SHARED GTYPE AS INTEGER
 CLS 'clears the screen
 OPEN "galaxy.cfg" FOR OUTPUT AS #1 'Creates the config file
-
-'*******************************************************************************
-'*******************************************************************************
+#
+#*******************************************************************************#
+#*******************************************************************************
 DIM Backdrop AS LONG
 SCREEN _NEWIMAGE(700, 518, 32)
 Backdrop = _LOADIMAGE("Data_folder/Background2.png")
 _PUTIMAGE (0, 0), Backdrop
 
 _FONT _LOADFONT("Data_folder/Commodore_Rounded_v1.2.ttf", 15, "MONOSPACE") 'select monospace font
-_PRINTMODE _KEEPBACKGROUND
-'*******************************************************************************
-'*******************************************************************************
+_PRINTMODE _KEEPBACKGROUND#
+#*******************************************************************************#
+#*******************************************************************************
 
 PRINT ""
 
-778 PRINT
-'_FONT _LOADFONT("Data_folder/DejaVuSans.ttf", 15, "MONOSPACE") 'select monospace font
-'_PRINTMODE _KEEPBACKGROUND
+778 PRINT#
+#_FONT _LOADFONT("Data_folder/DejaVuSans.ttf", 15, "MONOSPACE") 'select monospace font#
+#_PRINTMODE _KEEPBACKGROUND
 
 
 IF PTOGGLE = 1 THEN
@@ -94,8 +94,8 @@ END IF
 IF ATOGGLE = 1 THEN
     ASTTOG$ = "y"
 END IF
-
-'COLOR _RGB(255, 255, 255), _RGB(0, 0, 0)
+#
+#COLOR _RGB(255, 255, 255), _RGB(0, 0, 0)
 COLOR _RGB(88, 139, 175), _RGB(0, 0, 0)
 
 FOR i = 1 TO 2
@@ -291,35 +291,35 @@ END IF
 numbRequestedStars = OSTAR + BSTAR + ASTAR + FSTAR + GSTAR + KSTAR + MSTAR + LSTAR + DWARFSTAR + CLUSTER
 DIM SHARED starNameList$(0 TO numbRequestedStars)
 CALL makeStarNameList(numbRequestedStars)
-'################################
-'#Make the cfg header text
-'###Insert 10 empty lines
+################################
+#Make the cfg header text
+###Insert 10 empty lines
 FOR i = 1 TO 10
     PRINT #1, ""
 NEXT
 PRINT #1, "// WARNING! SPOILERS!"
 PRINT #1, "// This file contains spoilers. If you don't want to have your surprises ruined, you should stop reading now."
-'###Insert 34 empty lines'
+###Insert 34 empty lines'
 FOR i = 1 TO 34
     PRINT #1, ""
 NEXT
 PRINT #1, "// Seriously, it's a lot more fun to find this stuff out in the game."
 PRINT #1, "// Last chance to turn back."
-'###Insert 28 empty lines'
+###Insert 28 empty lines'
 FOR i = 1 TO 28
     PRINT #1, ""
 NEXT
 PRINT #1, "// I did warn you."
-'###Insert 6 empty lines'
+###Insert 6 empty lines'
 FOR i = 1 TO 6
     PRINT #1, ""
 NEXT
 
 PRINT #1, "//Generated by To Boldly Go, version " + TBG_Version$
 PRINT #1, "//Seed: " + STR$(SEED)
-'#End the cfg header text'
-'#############################
-'###Read in the string templates
+#End the cfg header text'
+#############################
+###Read in the string templates
 DIM SHARED thePropertiesTemplate$, theOrbitTemplate$, theLightTemplate$, theMaterialTemplate$, theCoronasTemplate$
 DIM SHARED theGasGiantTemplate$, theRingsTemplate$, theOceanTemplate$, thePlanetTemplate$, theStarTmp$, theWikiTemplate$
 thePropertiesTemplate$ = fileAsString("propertiesTmp.txt")
@@ -334,8 +334,8 @@ thePlanetTemplate$ = fileAsString("planetTmp.txt")
 theStarTmp$ = fileAsString("starTmp.txt")
 theWikiTemplate$ = fileAsString("wikiTemplate.html")
 
-'###############################
-'#Template files for integration with other mods
+###############################
+#Template files for integration with other mods
 DIM SHARED theResearchBodyTemplate$
 theResearchBodyTemplate$ = fileAsString("forReserachBodiesTmp.txt")
 
@@ -353,7 +353,7 @@ blackHole_RadiusKSP = 100000
 
 galaxy_RadiusKSP = (6.62251E+17)/6
 
-'################################
+################################
 PRINT #1, "@Kopernicus"
 PRINT #1, "{"
 PRINT #1, "    Body"
@@ -365,11 +365,11 @@ PRINT #1, "            name = Sun"
 PRINT #1, "        }"
 PRINT #1, "        Properties"
 PRINT #1, "        {"
-PRINT #1, "            description = The Kraken's Lair"
-'PRINT #1, "            sphereOfInfluence = 46992481203007510000" 220118820000
-'#it appears that giving a big SOI to CORE breaks the ability to orbit the stock Sun
-'# STH 2017-0320'
-'PRINT #1, "            sphereOfInfluence = 220118820000"
+PRINT #1, "            description = The Kraken's Lair"#
+#PRINT #1, "            sphereOfInfluence = 46992481203007510000" 220118820000
+#it appears that giving a big SOI to CORE breaks the ability to orbit the stock Sun
+# STH 2017-0320'#
+#PRINT #1, "            sphereOfInfluence = 220118820000"
 PRINT #1, "            sphereOfInfluence ="; galaxy_RadiusKSP - 2E+12; ""
 PRINT #1, "        }"
 PRINT #1, "        Orbit"
@@ -377,24 +377,24 @@ PRINT #1, "        {"
 PRINT #1, "            referenceBody = Sun"
 
 IF GTYPE = 0 THEN
-    '#spherical
-    '#theSemimajorAxis =  INT(RND * 1D+16) + 100000000000000
+    #spherical
+    #theSemimajorAxis =  INT(RND * 1D+16) + 100000000000000
     theSemimajorAxis = galaxy_RadiusKSP
     theInclination = INT(RND * 360)
     theArgPeriapsis = INT(RND * 360)
 END IF
 
 IF GTYPE = 1 THEN
-    '#disc
-    '#theSemimajorAxis =  INT(RND * 1D+16) + 100000000000000
+    #disc
+    #theSemimajorAxis =  INT(RND * 1D+16) + 100000000000000
     theSemimajorAxis = galaxy_RadiusKSP
     theInclination = INT(RND * 50) - 25
     theArgPeriapsis = INT(RND * 360)
 END IF
 
 IF GTYPE = 2 THEN
-    '#spherical but smaller
-    '#theSemimajorAxis = INT(RND * 10000000000000) + 10000000000
+    #spherical but smaller
+    #theSemimajorAxis = INT(RND * 10000000000000) + 10000000000
     theSemimajorAxis = galaxy_RadiusKSP
     theInclination = INT(RND * 360)
     theArgPeriapsis = INT(RND * 360)
@@ -452,9 +452,9 @@ PRINT #1, "        }"
 PRINT #1, "    }"
 PRINT #1, "}"
 
-'#This transition from Kerbol to other star's SOIs is such a PITA. STH 2017-0902
-'star_SOI = kspSOI(blackHole_MassKSP, 1.75656696858329E+28, theSemimajorAxis)
-'star_SOI = 2.0e+11
+#This transition from Kerbol to other star's SOIs is such a PITA. STH 2017-0902#
+#star_SOI = kspSOI(blackHole_MassKSP, 1.75656696858329E+28, theSemimajorAxis)#
+#star_SOI = 2.0e+11
 
 PRINT #1, "@Kopernicus:AFTER[Kopernicus]"
 PRINT #1, "{"
@@ -462,13 +462,13 @@ PRINT #1, "    %Body[Sun]"
 PRINT #1, "    {"
 PRINT #1, "        %Properties"
 PRINT #1, "        {"
-PRINT #1, "            %description = The Sun is the most well known object in the daytime sky. Scientists have noted a particular burning sensation and potential loss of vision if it is stared at for long periods of time. This is especially important to keep in mind considering the effect shiny objects have on the average Kerbal."
-'PRINT #1, "            %sphereOfInfluence =  "; star_SOI;""
+PRINT #1, "            %description = The Sun is the most well known object in the daytime sky. Scientists have noted a particular burning sensation and potential loss of vision if it is stared at for long periods of time. This is especially important to keep in mind considering the effect shiny objects have on the average Kerbal."#
+#PRINT #1, "            %sphereOfInfluence =  "; star_SOI;""
 PRINT #1, "        }"
 PRINT #1, "        %ScaledVersion"
 PRINT #1, "        {"
-'#This is a TERRIBLE way to do this. It should be using a template
-'#STH 2018-0302
+#This is a TERRIBLE way to do this. It should be using a template
+#STH 2018-0302
 PRINT #1, "            %Light"
 PRINT #1, "            {"
 PRINT #1, "                %IntensityCurve"
@@ -534,7 +534,7 @@ IF GTYPE = 2 THEN
         PRINT #1, "    {"
         'CLS
         aName$ = starNameList$(CLUSTERNUM)
-        'aName$ = theStarName$(numbRequestedStars) '#Calls the function "theStarName"
+        'aName$ = theStarName$(numbRequestedStars) #Calls the function "theStarName"
         PRINT #1, "        name = "; CLUSTERNUM; ""
         PRINT #1, "        cbNameLater = "; aName$; " Galaxy"
         PRINT #1, "        Template"
@@ -550,8 +550,8 @@ IF GTYPE = 2 THEN
         PRINT #1, "        {"
         PRINT #1, "            description = "; aName$; " Galaxy"
         'PRINT #1, "            sphereOfInfluence = 46992481203007510000" 220118820000
-        '#it appears that giving a big SOI to CORE breaks the ability to orbit the stock Sun
-        '# STH 2017-0320'
+        #it appears that giving a big SOI to CORE breaks the ability to orbit the stock Sun
+        # STH 2017-0320'
         'PRINT #1, "            sphereOfInfluence = 220118820000"
         PRINT #1, "            sphereOfInfluence ="; (galaxy_RadiusKSP - 2E+12) / CLUSTER
         PRINT #1, "        }"
@@ -634,179 +634,179 @@ END IF
 
 
 
-'###########
-'###Make the wiki file
-OPEN "wikiEntry.html" FOR OUTPUT AS #10 '#Creates the wiki file
+###########
+###Make the wiki file
+OPEN "wikiEntry.html" FOR OUTPUT AS #10 #Creates the wiki file
 
-'###########
-'###Make the researchBodies mod file
-OPEN "TBG-ResearchBodies.cfg" FOR OUTPUT AS #20 '#Creates the researchBodies mod file
-
-'******************************************************************************
+###########
+###Make the researchBodies mod file
+OPEN "TBG-ResearchBodies.cfg" FOR OUTPUT AS #20 #Creates the researchBodies mod file
+#
+#******************************************************************************
 FOR a_Star = 1 TO OSTAR
-    star_MassKg = 3.18168E+31 + (RND(1) * (3.18168E+32 - 3.18168E+31)) '###pick a star mass in the O stellar class range'
-    '#test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
-    '#star_MassKg = 1.7565459e28*113.2393
+    star_MassKg = 3.18168E+31 + (RND(1) * (3.18168E+32 - 3.18168E+31)) ###pick a star mass in the O stellar class range'
+    #test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
+    #star_MassKg = 1.7565459e28*113.2393
 
-    '###########################'
-    '###STH 2017-0209 Do calculations to get star characteristics
+    ###########################'
+    ###STH 2017-0209 Do calculations to get star characteristics
     star_Name$ = starNameList$(SOBJECTNUMBER)
     star_Description$ = star_Name$ + " is a main sequence blue giant star."
-    CALL makeAStar(star_MassKg, star_Name$, star_Description$) '#call the subroutinue to make a star'
+    CALL makeAStar(star_MassKg, star_Name$, star_Description$) #call the subroutinue to make a star'
 
     maxPlanets = 0
     IF PENABLE$ = "y" THEN
-        '# parent name, number of planets (max), minimum distance from star, maximum distance from star
+        # parent name, number of planets (max), minimum distance from star, maximum distance from star
         star_OrbitalInclination = INT(RND * 360)
         CALL MakePlanets(star_Name$, star_MassKSP, star_RadiusKSP, star_OrbitalInclination, 5, 0.5 * star_HillSphereRadius, star_FrostLineKSP*1000)
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
-NEXT
-'******************************************************************************
+NEXT#
+#******************************************************************************
 FOR a_Star = 1 TO BSTAR
-    star_MassKg = 4.17596E+30 + (RND(1) * (3.18168E+31 - 4.17596E+30)) '###pick a star mass in the B stellar class range'
-    '#test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
-    '#star_MassKg = 1.7565459e28*113.2393
+    star_MassKg = 4.17596E+30 + (RND(1) * (3.18168E+31 - 4.17596E+30)) ###pick a star mass in the B stellar class range'
+    #test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
+    #star_MassKg = 1.7565459e28*113.2393
 
-    '###########################'
-    '###STH 2017-0209 Do calculations to get star characteristics
+    ###########################'
+    ###STH 2017-0209 Do calculations to get star characteristics
     star_Name$ = starNameList$(SOBJECTNUMBER)
     star_Description$ = star_Name$ + " is a main sequence blue-white giant star."
-    CALL makeAStar(star_MassKg, star_Name$, star_Description$) '#call the subroutinue to make a star'
+    CALL makeAStar(star_MassKg, star_Name$, star_Description$) #call the subroutinue to make a star'
 
     IF PENABLE$ = "y" THEN
-        '# parent name, number of planets (max), minimum distance from star, maximum distance from star
+        # parent name, number of planets (max), minimum distance from star, maximum distance from star
         star_OrbitalInclination = INT(RND * 360)
         CALL MakePlanets(star_Name$, star_MassKSP, star_RadiusKSP, star_OrbitalInclination, 5, 0.5 * star_HillSphereRadius, star_FrostLineKSP*1000)
 
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
-NEXT
-'******************************************************************************
+NEXT#
+#******************************************************************************
 FOR a_Star = 1 TO ASTAR
-    star_MassKg = 2.78397E+30 + (RND(1) * (4.17596E+30 - 2.78397E+30)) '###pick a star mass in the A stellar class range'
-    '#test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
-    '#star_MassKg = 1.7565459e28*113.2393
+    star_MassKg = 2.78397E+30 + (RND(1) * (4.17596E+30 - 2.78397E+30)) ###pick a star mass in the A stellar class range'
+    #test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
+    #star_MassKg = 1.7565459e28*113.2393
 
-    '###########################'
-    '###STH 2017-0209 Do calculations to get star characteristics
+    ###########################'
+    ###STH 2017-0209 Do calculations to get star characteristics
     star_Name$ = starNameList$(SOBJECTNUMBER)
     star_Description$ = star_Name$ + " is a main sequence white dwarf star, though not a white-dwarf star. It's complicated."
-    CALL makeAStar(star_MassKg, star_Name$, star_Description$) '#call the subroutinue to make a star'
+    CALL makeAStar(star_MassKg, star_Name$, star_Description$) #call the subroutinue to make a star'
 
     IF PENABLE$ = "y" THEN
-        '# parent name, number of planets (max), minimum distance from star, maximum distance from star
+        # parent name, number of planets (max), minimum distance from star, maximum distance from star
         star_OrbitalInclination = INT(RND * 360)
         CALL MakePlanets(star_Name$, star_MassKSP, star_RadiusKSP, star_OrbitalInclination, 5, 0.5 * star_HillSphereRadius, star_FrostLineKSP*1000)
         
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
-NEXT
-'*****************************************************************************
+NEXT#
+#*****************************************************************************
 FOR a_Star = 1 TO FSTAR
-    star_MassKg = 2.06809E+30 + (RND(1) * (2.78397E+30 - 2.06809E+30)) '###pick a star mass in the F stellar class range'
-    '#test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
-    '#star_MassKg = 1.7565459e28*113.2393
+    star_MassKg = 2.06809E+30 + (RND(1) * (2.78397E+30 - 2.06809E+30)) ###pick a star mass in the F stellar class range'
+    #test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
+    #star_MassKg = 1.7565459e28*113.2393
 
-    '###########################'
-    '###STH 2017-0209 Do calculations to get star characteristics
+    ###########################'
+    ###STH 2017-0209 Do calculations to get star characteristics
     star_Name$ = starNameList$(SOBJECTNUMBER)
     star_Description$ = star_Name$ + " is a main sequence yellow-white dwarf star."
-    CALL makeAStar(star_MassKg, star_Name$, star_Description$) '#call the subroutinue to make a star'
+    CALL makeAStar(star_MassKg, star_Name$, star_Description$) #call the subroutinue to make a star'
 
     IF PENABLE$ = "y" THEN
-        '# parent name, number of planets (max), minimum distance from star, maximum distance from star
+        # parent name, number of planets (max), minimum distance from star, maximum distance from star
         star_OrbitalInclination = INT(RND * 360)
         CALL MakePlanets(star_Name$, star_MassKSP, star_RadiusKSP, star_OrbitalInclination, 5, 0.5 * star_HillSphereRadius, star_FrostLineKSP*1000)
         
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
-NEXT
-'*****************************************************************************
+NEXT#
+#*****************************************************************************
 FOR a_Star = 1 TO GSTAR
-    star_MassKg = 1.59084E+30 + (RND(1) * (2.06809E+30 - 1.59084E+30)) '###pick a star mass in the G stellar class range'
-    '#test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
-    '#star_MassKg = 1.7565459e28*113.2393
+    star_MassKg = 1.59084E+30 + (RND(1) * (2.06809E+30 - 1.59084E+30)) ###pick a star mass in the G stellar class range'
+    #test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
+    #star_MassKg = 1.7565459e28*113.2393
 
-    '###########################'
-    '###STH 2017-0209 Do calculations to get star characteristics
+    ###########################'
+    ###STH 2017-0209 Do calculations to get star characteristics
     star_Name$ = starNameList$(SOBJECTNUMBER)
     star_Description$ = star_Name$ + " is a main sequence yellow dwarf star."
-    CALL makeAStar(star_MassKg, star_Name$, star_Description$) '#call the subroutinue to make a star'
+    CALL makeAStar(star_MassKg, star_Name$, star_Description$) #call the subroutinue to make a star'
 
     IF PENABLE$ = "y" THEN
-        '# parent name, number of planets (max), minimum distance from star, maximum distance from star
+        # parent name, number of planets (max), minimum distance from star, maximum distance from star
         star_OrbitalInclination = INT(RND * 360)
         CALL MakePlanets(star_Name$, star_MassKSP, star_RadiusKSP, star_OrbitalInclination, 5, 0.5 * star_HillSphereRadius, star_FrostLineKSP*1000)
         
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
-NEXT
-'*****************************************************************************
+NEXT#
+#*****************************************************************************
 FOR a_Star = 1 TO KSTAR
-    star_MassKg = 8.94848E+29 + (RND(1) * (1.59084E+30 - 8.94848E+29)) '###pick a star mass in the K stellar class range'
-    '#test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
-    '#star_MassKg = 1.7565459e28*113.2393
+    star_MassKg = 8.94848E+29 + (RND(1) * (1.59084E+30 - 8.94848E+29)) ###pick a star mass in the K stellar class range'
+    #test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
+    #star_MassKg = 1.7565459e28*113.2393
 
-    '###########################'
-    '###STH 2017-0209 Do calculations to get star characteristics
+    ###########################'
+    ###STH 2017-0209 Do calculations to get star characteristics
     star_Name$ = starNameList$(SOBJECTNUMBER)
     star_Description$ = star_Name$ + " is a main sequence orange dwarf star."
-    CALL makeAStar(star_MassKg, star_Name$, star_Description$) '#call the subroutinue to make a star'
+    CALL makeAStar(star_MassKg, star_Name$, star_Description$) #call the subroutinue to make a star'
 
     IF PENABLE$ = "y" THEN
-        '# parent name, number of planets (max), minimum distance from star, maximum distance from star
+        # parent name, number of planets (max), minimum distance from star, maximum distance from star
         star_OrbitalInclination = INT(RND * 360)
         CALL MakePlanets(star_Name$, star_MassKSP, star_RadiusKSP, star_OrbitalInclination, 5, 0.5 * star_HillSphereRadius, star_FrostLineKSP*1000)
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
-NEXT
-'*****************************************************************************
+NEXT#
+#*****************************************************************************
 FOR a_Star = 1 TO MSTAR
-    star_MassKg = 1.491825E+29 + (RND(1) * (8.94848E+29 - 1.491825E+29)) '###pick a star mass in the M stellar class range'
-    '#test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
-    '#star_MassKg = 1.7565459e28*113.2393
+    star_MassKg = 1.491825E+29 + (RND(1) * (8.94848E+29 - 1.491825E+29)) ###pick a star mass in the M stellar class range'
+    #test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
+    #star_MassKg = 1.7565459e28*113.2393
 
-    '###########################'
-    '###STH 2017-0209 Do calculations to get star characteristics
+    ###########################'
+    ###STH 2017-0209 Do calculations to get star characteristics
     star_Name$ = starNameList$(SOBJECTNUMBER)
     star_Description$ = star_Name$ + " is a main sequence red dwarf star."
-    CALL makeAStar(star_MassKg, star_Name$, star_Description$) '#call the subroutinue to make a star'
+    CALL makeAStar(star_MassKg, star_Name$, star_Description$) #call the subroutinue to make a star'
 
     IF PENABLE$ = "y" THEN
-        '# parent name, number of planets (max), minimum distance from star, maximum distance from star
+        # parent name, number of planets (max), minimum distance from star, maximum distance from star
         star_OrbitalInclination = INT(RND * 360)
         CALL MakePlanets(star_Name$, star_MassKSP, star_RadiusKSP, star_OrbitalInclination, 5, 0.5 * star_HillSphereRadius, star_FrostLineKSP*1000)
 
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
-NEXT
-'*****************************************************************************
+NEXT#
+#*****************************************************************************
 FOR a_Star = 1 TO LSTAR
-    star_MassKg = 1.2337E+29 + (RND(1) * (1.491825E29 - 1.2337E+29)) '###pick a star mass in the L stellar class range'
-    '#test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
-    '#star_MassKg = 1.7565459e28*113.2393
+    star_MassKg = 1.2337E+29 + (RND(1) * (1.491825E29 - 1.2337E+29)) ###pick a star mass in the L stellar class range'
+    #test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
+    #star_MassKg = 1.7565459e28*113.2393
 
-    '###########################'
-    '###STH 2017-0209 Do calculations to get star characteristics
+    ###########################'
+    ###STH 2017-0209 Do calculations to get star characteristics
     star_Name$ = starNameList$(SOBJECTNUMBER)
     star_Description$ = star_Name$ + ": not quite a star, too big for a planet. A bug in the code of the universe."
-    CALL makeAStar(star_MassKg, star_Name$, star_Description$) '#call the subroutinue to make a star'
+    CALL makeAStar(star_MassKg, star_Name$, star_Description$) #call the subroutinue to make a star'
 
     IF PENABLE$ = "y" THEN
-        '# parent name, number of planets (max), minimum distance from star, maximum distance from star
+        # parent name, number of planets (max), minimum distance from star, maximum distance from star
         star_OrbitalInclination = INT(RND * 360)
         CALL MakePlanets(star_Name$, star_MassKSP, star_RadiusKSP, star_OrbitalInclination, 5, 0.5 * star_HillSphereRadius, star_FrostLineKSP*1000)
 
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
 NEXT
-
-'******************************************************************************
+#
+#******************************************************************************
 FOR a_Star = 1 TO DWARFSTAR
-    '###These print statements can go away once the starTemplate can be used
-    '###Need to get planet and moon template generation working in basic first
-    '###STH 2017-0127
+    ###These print statements can go away once the starTemplate can be used
+    ###Need to get planet and moon template generation working in basic first
+    ###STH 2017-0127
     star_Name$ = starNameList$(SOBJECTNUMBER)
     PRINT #1, "@Kopernicus"
     PRINT #1, "{"
@@ -818,23 +818,23 @@ FOR a_Star = 1 TO DWARFSTAR
     PRINT #1, "        {"
     PRINT #1, "            name = Sun"
     PRINT #1, "        }"
-    '########################'
-    '###Fill in property data'
+    ########################'
+    ###Fill in property data'
     star_Description$ = star_Name$ + " is a white dwarf stellar core remnant."
     star_RadiusKSP = INT(RND * 700000) + 300000
     star_SOI = 90118820000
     aPropertiesTemplate$ = thePropertiesTemplate$
     aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, star_Description$, STR$(star_RadiusKSP), "", "", "", "", "", "", "", "", STR$(star_SOI))
     PRINT #1, aPropertiesNode$
-    '###End property data'
-    '########################'
-    '########################'
-    '###Fill in orbit data'
+    ###End property data'
+    ########################'
+    ########################'
+    ###Fill in orbit data'
     IF (GTYPE = 0 OR GTYPE = 1) THEN
         theReferenceBody$ = "Core"
         IF GTYPE = 0 THEN theInclination$ = STR$(INT(RND * 360))
         IF GTYPE = 1 THEN theInclination$ = STR$(INT(RND * 25) + 1)
-        '#theSemiMajorAxis$ = STR$(INT(RND * 1D+16) + 100000000000000#)
+        #theSemiMajorAxis$ = STR$(INT(RND * 1D+16) + 100000000000000#)
         theSemimajorAxis$ = str$(galaxy_RadiusKSP)
     ELSE
         theReferenceBody$ = STR$(INT(RND * CLUSTERNUM))
@@ -849,12 +849,12 @@ FOR a_Star = 1 TO DWARFSTAR
     aOrbitTemp$ = theOrbitTemplate$
     aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
     PRINT #1, aOrbitNode$
-    '###End orbit data'
-    '########################'
+    ###End orbit data'
+    ########################'
     PRINT #1, "        ScaledVersion"
     PRINT #1, "        {"
-    '########################'
-    '###Fill in light data'
+    ########################'
+    ###Fill in light data'
     sunlightColor$ = "1.0,1.0,1.0,1.0"
     sunlightIntensity$ = "0.5"
     scaledSunlightColor$ = "1.0,1.0,1.0,1.0"
@@ -870,10 +870,10 @@ FOR a_Star = 1 TO DWARFSTAR
     aLightTemp$ = theLightTemplate$
     aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$, " 0.0045")
     PRINT #1, aLightNode$
-    '###End light data'
-    '########################'
-    '########################'
-    '###Fill in material data'
+    ###End light data'
+    ########################'
+    ########################'
+    ###Fill in material data'
     emitColorZero$ = "1.0,1.0,1.0,1.0"
     emitColorOne$ = "1.0,1.0,1.0,1.0"
     sunspotColor$ = "1.0,1.0,1.0,1.0"
@@ -883,16 +883,16 @@ FOR a_Star = 1 TO DWARFSTAR
     aMaterialTemp$ = theMaterialTemplate$
     aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
     PRINT #1, aMaterialNode$
-    '###End material data'
-    '########################'
-    '########################'
-    '###Fill in coronas data'
+    ###End material data'
+    ########################'
+    ########################'
+    ###Fill in coronas data'
     starColour$ = "White"
     aCoronaTemp$ = theCoronasTemplate$
     aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
     PRINT #1, aCoronaNode$
-    '###End coronas data'
-    '########################'
+    ###End coronas data'
+    ########################'
     PRINT #1, "        }"
     PRINT #1, "    }"
 
@@ -903,30 +903,30 @@ FOR a_Star = 1 TO DWARFSTAR
     SOBJECTNUMBER = SOBJECTNUMBER + 1
     DWARFSTARNUMBER = DWARFSTARNUMBER + 1
 NEXT
-
-'******************************************************************************
+#
+#******************************************************************************
 
 FOR a_Star = 1 TO BLACKHOLE
-    'star_MassKg = 4.17596e30 +(RND(1)*(3.18168e31-4.17596e30)) '###pick a star mass in the B stellar class range'
-    'star_MassKg = 2.78397E30 +(RND(1)*(4.17596E30-2.78397E30)) '###pick a star mass in the A stellar class range'
-    'star_MassKg = 2.06809E30 +(RND(1)*(2.78397E30-2.06809E30)) '###pick a star mass in the F stellar class range'
-    'star_MassKg = 1.59084E30 +(RND(1)*(2.06809E30-1.59084E30)) '###pick a star mass in the G stellar class range'
-    'star_MassKg = 8.94848E29 +(RND(1)*(1.59084E30-8.94848E29)) '###pick a star mass in the K stellar class range'
-    star_MassKg = 1.59084E29 + (RND(1) * (8.94848E29 - 1.59084E29)) '###pick a star mass in the M stellar class range'
-    'star_MassKg = 2.46740E28 +(RND(1)*(1.59084E29-2.46740E28)) '###pick a star mass in the Y to L stellar class range'
-    '#test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
-    '#star_MassKg = 1.7565459e28*113.2393
-    'star_MassKg = RND*(3.18168e31) '###pick a star mass in the Y to L stellar class range'
+    'star_MassKg = 4.17596e30 +(RND(1)*(3.18168e31-4.17596e30)) ###pick a star mass in the B stellar class range'
+    'star_MassKg = 2.78397E30 +(RND(1)*(4.17596E30-2.78397E30)) ###pick a star mass in the A stellar class range'
+    'star_MassKg = 2.06809E30 +(RND(1)*(2.78397E30-2.06809E30)) ###pick a star mass in the F stellar class range'
+    'star_MassKg = 1.59084E30 +(RND(1)*(2.06809E30-1.59084E30)) ###pick a star mass in the G stellar class range'
+    'star_MassKg = 8.94848E29 +(RND(1)*(1.59084E30-8.94848E29)) ###pick a star mass in the K stellar class range'
+    star_MassKg = 1.59084E29 + (RND(1) * (8.94848E29 - 1.59084E29)) ###pick a star mass in the M stellar class range'
+    'star_MassKg = 2.46740E28 +(RND(1)*(1.59084E29-2.46740E28)) ###pick a star mass in the Y to L stellar class range'
+    #test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
+    #star_MassKg = 1.7565459e28*113.2393
+    'star_MassKg = RND*(3.18168e31) ###pick a star mass in the Y to L stellar class range'
 
-    '###########################'
-    '###STH 2017-0209 Do calculations to get star characteristics
+    ###########################'
+    ###STH 2017-0209 Do calculations to get star characteristics
     star_Name$ = starNameList$(SOBJECTNUMBER)
     star_Description$ = "Dim light, Yet so bright. A lonely outpost in the deep dark night. Travelers come far shall know where they are. A new land, A new star, How much pain and suffering it must have took to go this far. For at " + star_Name$ + " your journey might be done. And you will be free."
-    CALL makeAStar(star_MassKg, star_Name$, star_Description$) '#call the subroutinue to make a star'
-    '###These print statements can go away once the starTemplate can be used
-    '###Need to get planet and moon template generation working in basic first
-    '###STH 2017-0127
-    aStarName$ = theStarName$ '#Calls the function "theStarName"
+    CALL makeAStar(star_MassKg, star_Name$, star_Description$) #call the subroutinue to make a star'
+    ###These print statements can go away once the starTemplate can be used
+    ###Need to get planet and moon template generation working in basic first
+    ###STH 2017-0127
+    aStarName$ = theStarName$ #Calls the function "theStarName"
     PRINT #1, "@Kopernicus"
     PRINT #1, "{"
     PRINT #1, "    Body"
@@ -936,8 +936,8 @@ FOR a_Star = 1 TO BLACKHOLE
     PRINT #1, "        {"
     PRINT #1, "            name = Sun"
     PRINT #1, "        }"
-    '########################'
-    '###Fill in property data'
+    ########################'
+    ###Fill in property data'
     'theDescription$ = "BILLYBOB -" + STR$(BLACKHOLENUMBER) + "is a black hole. An infinitely dense singularity encapsulated by the event horizon."
     theDescription$ = aStarName$ + "is a black hole. An infinitely dense singularity encapsulated by the event horizon."
     theRadius$ = STR$(INT(RND * 700000) + 300000)
@@ -946,15 +946,15 @@ FOR a_Star = 1 TO BLACKHOLE
     aPropertiesTemplate$ = thePropertiesTemplate$
     aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, "", "", theGeeASL$, "", "", "", "", "", theSphereOfInfluence$)
     PRINT #1, aPropertiesNode$
-    '###End property data'
-    '########################'
-    '########################'
-    '###Fill in orbit data'
+    ###End property data'
+    ########################'
+    ########################'
+    ###Fill in orbit data'
     IF (GTYPE = 0 OR GTYPE = 1) THEN
         theReferenceBody$ = "Core"
         IF GTYPE = 0 THEN theInclination$ = STR$(INT(RND * 360))
         IF GTYPE = 1 THEN theInclination$ = STR$(INT(RND * 25) + 1)
-        '#theSemiMajorAxis$ = STR$(INT(RND * 1D+16) + 100000000000000#)
+        #theSemiMajorAxis$ = STR$(INT(RND * 1D+16) + 100000000000000#)
         theSemimajorAxis = galaxy_RadiusKSP
     ELSE
         theReferenceBody$ = STR$(INT(RND * CLUSTERNUM))
@@ -969,9 +969,9 @@ FOR a_Star = 1 TO BLACKHOLE
     aOrbitTemp$ = theOrbitTemplate$
     aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
     PRINT #1, aOrbitNode$
-    '###End orbit data'
-    '########################'
-    '###Fill in Ring Data'
+    ###End orbit data'
+    ########################'
+    ###Fill in Ring Data'
     theAngle$ = "0"
     theOuterRadius$ = "72000"
     theInnerRadius$ = "200"
@@ -982,12 +982,12 @@ FOR a_Star = 1 TO BLACKHOLE
     aRingsTemp$ = theRingsTemplate$
     aRingsNode$ = ringNode$(aRingsTemp$, theAngle$, theOuterRadius$, theInnerRadius$, theRingTexture$, theColour$, theLockRotation$, theUnlit$)
     PRINT #1, aRingsNode$
-    '###End ring data'
-    '########################'
+    ###End ring data'
+    ########################'
     PRINT #1, "        ScaledVersion"
     PRINT #1, "        {"
-    '########################'
-    '###Fill in light data'
+    ########################'
+    ###Fill in light data'
     sunlightColor$ = "1.0,1.0,1.0,1.0"
     sunlightIntensity$ = "0.45"
     scaledSunlightColor$ = "1.0,1.0,1.0,1.0"
@@ -1002,10 +1002,10 @@ FOR a_Star = 1 TO BLACKHOLE
     aLightTemp$ = theLightTemplate$
     aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$, "0.0045")
     PRINT #1, aLightNode$
-    '###End light data'
-    '########################'
-    '########################'
-    '###Fill in material data'
+    ###End light data'
+    ########################'
+    ########################'
+    ###Fill in material data'
     emitColorZero$ = "0.0,0.0,0.0,1.0"
     emitColorOne$ = "0.0,0.0,0.0,1.0"
     sunspotColor$ = "0.0,0.0,0.0,1.0"
@@ -1015,16 +1015,16 @@ FOR a_Star = 1 TO BLACKHOLE
     aMaterialTemp$ = theMaterialTemplate$
     aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
     PRINT #1, aMaterialNode$
-    '###End material data'
-    '########################'
-    '########################'
-    '###Fill in coronas data'
+    ###End material data'
+    ########################'
+    ########################'
+    ###Fill in coronas data'
     starColour$ = "BlackHoleCorona"
     aCoronaTemp$ = theCoronasTemplate$
     aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
     PRINT #1, aCoronaNode$
-    '###End coronas data'
-    '########################'
+    ###End coronas data'
+    ########################'
     PRINT #1, "        }"
     PRINT #1, "    }"
 
@@ -1035,23 +1035,23 @@ FOR a_Star = 1 TO BLACKHOLE
     SOBJECTNUMBER = SOBJECTNUMBER + 1
     BLACKHOLENUMBER = BLACKHOLENUMBER + 1
 NEXT
-
-'******************************************************************************
+#
+#******************************************************************************
 
 FOR a_Star = 1 TO ROGUE
-    aStarName$ = theStarName$ '#Calls the function "theStarName"
+    aStarName$ = theStarName$ #Calls the function "theStarName"
     PRINT #1, "@Kopernicus"
     PRINT #1, "{"
     PRINT #1, "    Body"
     PRINT #1, "    {"
     PRINT #1, "         name = "; aStarName$
-    '########################'
-    '###Fill in orbit data'
+    ########################'
+    ###Fill in orbit data'
     IF (GTYPE = 0 OR GTYPE = 1) THEN
         theReferenceBody$ = "Sun"
         IF GTYPE = 0 THEN theInclination$ = STR$(INT(RND * 360))
         IF GTYPE = 1 THEN theInclination$ = STR$(INT(RND * 25) + 1)
-        '#theSemiMajorAxis$ = STR$(INT(RND * 1D+16) + 100000000000000#)
+        #theSemiMajorAxis$ = STR$(INT(RND * 1D+16) + 100000000000000#)
         theSemimajorAxis = galaxy_RadiusKSP
     ELSE
         theReferenceBody$ = STR$(INT(RND * CLUSTERNUM))
@@ -1066,8 +1066,8 @@ FOR a_Star = 1 TO ROGUE
     aOrbitTemp$ = theOrbitTemplate$
     aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
     PRINT #1, aOrbitNode$
-    '###End property data'
-    '########################'
+    ###End property data'
+    ########################'
 
     PRINT #1, "         Template"
     PRINT #1, "         {"
@@ -1622,8 +1622,8 @@ NEXT
 
 
 tempVar$ = forResearchBodies$(theResearchBodyTemplate$, "", discoveryText$, ignoreLevels$, localizationText$ )
-print #20, tempVar$
-'******************************************************************************
+print #20, tempVar$#
+#******************************************************************************
 
 PRINT ""
 PRINT ""; SOBJECTNUMBER; "Stars"
@@ -1672,11 +1672,11 @@ PRINT #1, MOBJECTNUMBER; "Moons"
 PRINT #1, AOBJECTNUMBER; "Asteroids"
 PRINT #1, SOBJECTNUMBER + POBJECTNUMBER + MOBJECTNUMBER + AOBJECTNUMBER; " Total"
 PRINT #1, "-----------------"
-CLOSE #1
-'COLOR 15
-'PRINT ""
-'PRINT "DONE! Remember to place the config file 'galaxy.cfg' into a folder"
-'PRINT "within /Gamedata labeled 'To_Boldly_Go'"
+CLOSE #1#
+#COLOR 15#
+#PRINT ""#
+#PRINT "DONE! Remember to place the config file 'galaxy.cfg' into a folder"#
+#PRINT "within /Gamedata labeled 'To_Boldly_Go'"
 
 IF AGAIN$ = "n" THEN
     GOTO 888
@@ -1826,8 +1826,8 @@ SUB VQB_Frame (X%, Y%, Width%, Height%, CLR&)
     CLR& = OldCLR&
 END SUB
 
-
-'// Buttons
+#
+#// Buttons
 
 SUB VQB_Button_New (Button AS Button, X%, Y%, Width%, Height%, CLR&, TextClr&, Text$, Shape%)
     Button.X = X%
@@ -1883,8 +1883,8 @@ END IF
 VQB_ButtonClick = 0
 END FUNCTION
 
-
-'// Graphics feature extracted from GDK_Draw 01
+#
+#// Graphics feature extracted from GDK_Draw 01
 SUB EllipseXS (X%, Y%, XRadius!, YRadius!, Wide%, CLR&, ShadeClr&)
 FOR j% = 0 TO Wide% - 1
     IF _RED(CLR&) <= 255 AND _RED(ShadeClr&) > 0 THEN newred& = _RED(CLR&) - _RED(ShadeClr&)
@@ -1903,8 +1903,8 @@ FOR j% = 0 TO Wide% - 1
 NEXT
 END SUB
 
-
-'// Mouse Input
+#
+#// Mouse Input
 
 SUB VQB_Mouse_GetInfo (Mouse AS MouseInfo)
 DO
@@ -1916,8 +1916,8 @@ LOOP WHILE _MOUSEINPUT
 END SUB
 
 SUB makeStarNameList (numbRequestedStars)
-    '###########################
-    '#read in star name prefixes
+    ###########################
+    #read in star name prefixes
     REDIM arrayPrefixes$(0)
     theFileName$ = "Data_Folder/TBG_Prefixes.txt"
     IF _FILEEXISTS(theFileName$) THEN
@@ -1931,8 +1931,8 @@ SUB makeStarNameList (numbRequestedStars)
         LOOP
         CLOSE #2
     END IF
-    '###########################
-    '#read in star name suffixes
+    ###########################
+    #read in star name suffixes
     REDIM arraySuffixes$(0)
     theFileName$ = "Data_Folder/TBG_Suffixes.txt"
     IF _FILEEXISTS(theFileName$) THEN
@@ -1946,11 +1946,11 @@ SUB makeStarNameList (numbRequestedStars)
         LOOP
         CLOSE #2
     END IF
-    '########################################################
-    '# pick a random index from the prefix and suffix arrays'
-    '# the equiv in python would be:
-    '# PREFIX = random.choice(thePrefixes)
-    '# SUFFIX = random.choice(theSuffixes)
+    ########################################################
+    # pick a random index from the prefix and suffix arrays'
+    # the equiv in python would be:
+    # PREFIX = random.choice(thePrefixes)
+    # SUFFIX = random.choice(theSuffixes)
     FOR i = 0 TO numbRequestedStars
         lengArrayPrefixes% = UBOUND(arrayPrefixes$)
         lengArraySuffixes% = UBOUND(arraySuffixes$)
@@ -1958,17 +1958,17 @@ SUB makeStarNameList (numbRequestedStars)
         indexSuffixes% = INT(RND * lengArraySuffixes%)
         PREFIX$ = arrayPrefixes$(indexPrefixes%)
         SUFFIX$ = arraySuffixes$(indexSuffixes%)
-        '##############################################
-        '# combine the prefix and suffix to make a name
+        ##############################################
+        # combine the prefix and suffix to make a name
         fullStarName$ = PREFIX$ + SUFFIX$
-        '#hard coded avoidance of 'sun' and 'core'
+        #hard coded avoidance of 'sun' and 'core'
         IF fullStarName$ = "Sun" OR fullStarName$ = "Core" THEN
             indexSuffixes% = INT(RND * lengArraySuffixes%)
             SUFFIX$ = arraySuffixes$(indexSuffixes%)
             fullStarName$ = fullStarName$ + "o'" + SUFFIX$
         END IF
-        '#I guess qbasic doesn't have a way of boolean testing to see if a value is in an array?
-        '####First look and see if the proposed name is in the template name array'
+        #I guess qbasic doesn't have a way of boolean testing to see if a value is in an array?
+        ####First look and see if the proposed name is in the template name array'
         FOR j = 1 TO UBOUND(planetKey$)
             DO UNTIL fullStarName$ <> planetKey$(j)
                 indexSuffixes% = INT(RND * lengArraySuffixes%)
@@ -1976,7 +1976,7 @@ SUB makeStarNameList (numbRequestedStars)
                 fullStarName$ = fullStarName$ + "o'" + SUFFIX$
             LOOP
         NEXT
-        '#do the same sort of check and make sure the star name hasn't been used already
+        #do the same sort of check and make sure the star name hasn't been used already
         FOR j = 1 TO UBOUND(starNameList$)
             DO UNTIL fullStarName$ <> starNameList$(j)
                 indexSuffixes% = INT(RND * lengArraySuffixes%)
@@ -1989,8 +1989,8 @@ SUB makeStarNameList (numbRequestedStars)
 END SUB
 
 FUNCTION fileAsString$ (fileName$)
-    '###########################
-    '#read in string template
+    ###########################
+    #read in string template
     theFileName$ = "Data_Folder/templates/" + fileName$
     wholeTxt$ = ""
     IF _FILEEXISTS(theFileName$) THEN
@@ -2004,8 +2004,8 @@ FUNCTION fileAsString$ (fileName$)
     fileAsString$ = wholeTxt$
 END FUNCTION
 
-'################################################
-'########http://www.qb64.net/wiki/index.php/LEFT$
+################################################
+########http://www.qb64.net/wiki/index.php/LEFT$
 FUNCTION ReplaceStr$ (text$, old$, new$)
     DO
         find = INSTR(start + 1, text$, old$) 'find location of a word in text
@@ -2023,16 +2023,16 @@ FUNCTION ReplaceStr$ (text$, old$, new$)
 END FUNCTION
 
 FUNCTION propertyNode$ (aTemplate$, theDescription$, theRadius$, theMass$, theGravParam$, theGeeASL$, theDoesRotate$, theRotationPeriod$, theInitialRotation$, theIsTidallyLocked$, theIsHomeWord$, theSOI$)
-    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
-    '#####Replicated that function with string replacement function.
-    '###########################'
-    '##Uncomment properties if data is present
+    #####STH 2017-0124. QBasic doesn't have string formatting like python.
+    #####Replicated that function with string replacement function.
+    ###########################'
+    ##Uncomment properties if data is present
     IF theDescription$ <> "" THEN
         aTemplate$ = ReplaceStr(aTemplate$, "//%description =", "%description =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theDescription)s", theDescription$)
     END IF
-    '#STH 2018-0516. More dogshit code. 
-    '#Why doesn't "IF (theRadius$ <> "" THEN IF val(theRadius$) <> 0) THEN" work?
+    #STH 2018-0516. More dogshit code. 
+    #Why doesn't "IF (theRadius$ <> "" THEN IF val(theRadius$) <> 0) THEN" work?
     IF theRadius$ <> "" THEN IF val(theRadius$) > 0 THEN
             aTemplate$ = ReplaceStr(aTemplate$, "//%radius =", "%radius =")
             aTemplate$ = ReplaceStr(aTemplate$, "%(theRadius)s", str$(val(theRadius$)+1))
@@ -2076,13 +2076,13 @@ FUNCTION propertyNode$ (aTemplate$, theDescription$, theRadius$, theMass$, theGr
         aTemplate$ = ReplaceStr(aTemplate$, "%(theSphereOfInfluence)s", theSOI$)
     END IF
     END if
-    '###########################'
+    ###########################'
     propertyNode$ = aTemplate$
 END FUNCTION
 
 FUNCTION orbitNode$ (aTemplate$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
-    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
-    '#####Replicated that function with string replacement function.
+    #####STH 2017-0124. QBasic doesn't have string formatting like python.
+    #####Replicated that function with string replacement function.
     IF theReferenceBody$ <> "" THEN
         aTemplate$ = ReplaceStr(aTemplate$, "//%referenceBody =", "%referenceBody =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theReferenceBody)s", theReferenceBody$)
@@ -2127,8 +2127,8 @@ FUNCTION orbitNode$ (aTemplate$, theReferenceBody$, theColour$, theMode$, theInc
 END FUNCTION
 
 FUNCTION lightNode$ (aTemplate$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$, skyBrightness$)
-    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
-    '#####Replicated that function with string replacement function.
+    #####STH 2017-0124. QBasic doesn't have string formatting like python.
+    #####Replicated that function with string replacement function.
     IF sunlightColor$ <> "" THEN
         aTemplate$ = ReplaceStr(aTemplate$, "//sunlightColor =", "sunlightColor =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theSunlightColor)s", sunlightColor$)
@@ -2181,8 +2181,8 @@ FUNCTION lightNode$ (aTemplate$, sunlightColor$, sunlightIntensity$, scaledSunli
 END FUNCTION
 
 FUNCTION materialNode$ (aTemplate$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
-    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
-    '#####Replicated that function with string replacement function.
+    #####STH 2017-0124. QBasic doesn't have string formatting like python.
+    #####Replicated that function with string replacement function.
     aTemplate$ = ReplaceStr(aTemplate$, "%(theEmitColor0)s", emitColorZero$)
     aTemplate$ = ReplaceStr(aTemplate$, "%(theEmitColor1)s", emitColorOne$)
     aTemplate$ = ReplaceStr(aTemplate$, "%(theSunspotColor)s", sunspotColor$)
@@ -2193,15 +2193,15 @@ FUNCTION materialNode$ (aTemplate$, emitColorZero$, emitColorOne$, sunspotColor$
 END FUNCTION
 
 FUNCTION coronaNode$ (aTemplate$, starColour$)
-    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
-    '#####Replicated that function with string replacement function.
+    #####STH 2017-0124. QBasic doesn't have string formatting like python.
+    #####Replicated that function with string replacement function.
     aTemplate$ = ReplaceStr(aTemplate$, "%(theTexture)s", starColour$)
     coronaNode$ = aTemplate$
 END FUNCTION
 
 FUNCTION ringNode$ (aTemplate$, theAngle$, theOuterRadius$, theInnerRadius$, theRingTexture$, theColour$, theLockRotation$, theUnlit$)
-    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
-    '#####Replicated that function with string replacement function.
+    #####STH 2017-0124. QBasic doesn't have string formatting like python.
+    #####Replicated that function with string replacement function.
     IF theAngle$ <> "" THEN
         aTemplate$ = ReplaceStr(aTemplate$, "//angle =", "angle =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theAngle)s", theAngle$)
@@ -2234,12 +2234,12 @@ FUNCTION ringNode$ (aTemplate$, theAngle$, theOuterRadius$, theInnerRadius$, the
 END FUNCTION
 
 SUB readPlanetTemplates ()
-    '####2017.0201--STH
-    '#This is a mess. I want something like python's dictionary
-    '#Played with a multidimensional array, but can't redim it?
-    '#Ended up using an array for each colum read in from the CSV
-    '#Terrible technique, but I just want it to work at this point
-    '###################'
+    ####2017.0201--STH
+    #This is a mess. I want something like python's dictionary
+    #Played with a multidimensional array, but can't redim it?
+    #Ended up using an array for each colum read in from the CSV
+    #Terrible technique, but I just want it to work at this point
+    ###################'
     theFileName$ = "Data_Folder/TBG_Planet_Templates.csv"
     theIndex = 0
     IF _FILEEXISTS(theFileName$) THEN
@@ -2270,70 +2270,70 @@ FUNCTION AU2km (theAU)
 END FUNCTION
 
 FUNCTION realKM2kerbinKM (realKM)
-    '#from discussion with Gregrox on Kopernicus discord
-    '#one way to convert to/from kerbin space is:
-    '#Earth SMA/Kerbin SMA = 10.9999726
+    #from discussion with Gregrox on Kopernicus discord
+    #one way to convert to/from kerbin space is:
+    #Earth SMA/Kerbin SMA = 10.9999726
     realKM2kerbinKM = realKM / 10.9999726
 END FUNCTION
 
 FUNCTION kerbinKM2realKM (kerbinKM)
-    '#from discussion with Gregrox on Kopernicus discord
-    '#one way to convert to/from kerbin space is:
-    '#Earth SMA/Kerbin SMA = 10.9999726
+    #from discussion with Gregrox on Kopernicus discord
+    #one way to convert to/from kerbin space is:
+    #Earth SMA/Kerbin SMA = 10.9999726
     kerbinKM2realKM = kerbinKM * 10.9999726
 END FUNCTION
 
 FUNCTION realKM2Parsec (realKM)
-    '#1 km = 3.2407792896664E-14 pc
+    #1 km = 3.2407792896664E-14 pc
     realKM2Parsec = realKM*3.2407792896664E-14
 END FUNCTION
 
 FUNCTION solarMass2kg (SM)
-    '#use Sol's solar mass and kg mass to convert
-    '#Sol is ~1.989e30kg
+    #use Sol's solar mass and kg mass to convert
+    #Sol is ~1.989e30kg
     solarMass2kg = 1.98855E30 * SM
 END FUNCTION
 
 FUNCTION kg2solarMass (the_kg)
-    '#use Sol's solar mass and kg mass to convert
-    '#Sol is ~1.989e30kg
+    #use Sol's solar mass and kg mass to convert
+    #Sol is ~1.989e30kg
     kg2solarMass = the_kg / 1.98855E30
 END FUNCTION
 
 FUNCTION sol2Kerbol_kg (the_kg)
-    '#The start Kerbol is 113.2393x less massiv than Sol
+    #The start Kerbol is 113.2393x less massiv than Sol
     sol2Kerbol_kg = the_kg / 113.2393
 END FUNCTION
 
 FUNCTION kerbol2Sol_kg (the_kg)
-    '#The start Kerbol is 113.2393x less massiv than Sol
+    #The start Kerbol is 113.2393x less massiv than Sol
     kerbol2Sol_kg = the_kg * 113.2393
 END FUNCTION
 
 FUNCTION sol2Kerbol_km (the_km)
-    '#The start Kerbol is 2.6594x smaller in radius than Sol
+    #The start Kerbol is 2.6594x smaller in radius than Sol
     sol2Kerbol_km = the_km / 2.6594
 END FUNCTION
 
 FUNCTION kerbol2Sol_km (the_km)
-    '#The start Kerbol is 2.6594x smaller in radius than Sol
+    #The start Kerbol is 2.6594x smaller in radius than Sol
     kerbol2Sol_km = the_km * 2.6594
 END FUNCTION
 
 FUNCTION solarRadius2km (SR)
-    '#use Sol's solar radius and km radius to convert
-    '#Sol is ~695700km
+    #use Sol's solar radius and km radius to convert
+    #Sol is ~695700km
     solarRadius2km = 695700.0 * SR
 END FUNCTION
 
 FUNCTION km2solarRadius (SR)
-    '#use Sol's solar radius and km radius to convert
-    '#Sol is ~695700km
+    #use Sol's solar radius and km radius to convert
+    #Sol is ~695700km
     km2solarRadius = SR / 695700.0
 END FUNCTION
 
 FUNCTION solarRadiusFromSolarMass (SM)
-    '#need a good reference for this
+    #need a good reference for this
     IF SM < 1 THEN
         SR = SM ^ 0.5
     ELSE
@@ -2353,12 +2353,12 @@ FUNCTION absMagFromLuminosity(theLuminosity)
 END FUNCTION
 
 FUNCTION apparentMagFromAbsMag(absMag, theDistance)
-    '#the Distance has to be in parsecs
+    #the Distance has to be in parsecs
     apparentMagFromAbsMag=5*LOG(theDistance/10)+absMag
 ENd FUNCTION
 
 FUNCTION solarTemp (SL, SR)
-    '#returns star temp in K from solar luminocty and solar mass
+    #returns star temp in K from solar luminocty and solar mass
     solarTemp = ((SL / (SR ^ 2.0)) ^ 0.25) * 5778
 END FUNCTION
 
@@ -2371,7 +2371,7 @@ FUNCTION starSurfaceArea (radius_km)
 END FUNCTION
 
 FUNCTION starVolume (radius_km)
-    '#return in m^3
+    #return in m^3
     radius_m = radius_km * 1000.0
     starVolume = (4.0 / 3.0) * _PI * (radius_m ^ 3.0)
 END FUNCTION
@@ -2382,13 +2382,13 @@ FUNCTION starDensity (mass_kg, radius_km)
 END FUNCTION
 
 FUNCTION stdGravitationalParameter (mass_kg)
-    '#https://en.wikipedia.org/wiki/Standard_gravitational_parameter
+    #https://en.wikipedia.org/wiki/Standard_gravitational_parameter
     G = 6.674E-11
     stdGravitationalParameter = (mass_kg * G)
 END FUNCTION
 
 FUNCTION surfaceGravity (mass_kg, radius_km)
-    '#https://en.wikipedia.org/wiki/Surface_gravity
+    #https://en.wikipedia.org/wiki/Surface_gravity
     G = 6.674E-11
     surfaceGravity = G * (mass_kg / (radius_km ^ 2.0))
 END FUNCTION
@@ -2401,48 +2401,48 @@ FUNCTION escapeVelocity (mass_kg, radius_km)
 END FUNCTION
 
 FUNCTION hillSphere (mass_primary, mass_secondary, eccentricity_secondary, semimajorAxis_secondary)
-    '#calculate the radius of the Hill sphere
-    '#https://en.wikipedia.org/wiki/Hill_sphere
+    #calculate the radius of the Hill sphere
+    #https://en.wikipedia.org/wiki/Hill_sphere
     partOne = (semimajorAxis_secondary * (1.0 - eccentricity_secondary))
     partTwo = (mass_secondary / (3.0 * mass_primary)) ^ (1.0 / 3.0)
     theRadius = partOne * partTwo
-    '#for unit test later:
-    '#mass earth = 5.97E+24 kg; mass sol = 1.98855E+30 kg; semi-major axis earth = 149,598,023 km; eccentricity earth = 0.0167086
-    '#gives a radius of 1471536.617 km
-    '#mass blackhole @ center of milky way: 8.55E+37 kg
+    #for unit test later:
+    #mass earth = 5.97E+24 kg; mass sol = 1.98855E+30 kg; semi-major axis earth = 149,598,023 km; eccentricity earth = 0.0167086
+    #gives a radius of 1471536.617 km
+    #mass blackhole @ center of milky way: 8.55E+37 kg
     hillSphere = theRadius
 END FUNCTION
 
 FUNCTION simpleRocheLimit (mass_primary)
-    '#If the orbiting body does not have a mass or radius provided
-    '#the standard roche limit calc can't be used'
-    '#use this dogshit instead.
-    '#returns units in km
+    #If the orbiting body does not have a mass or radius provided
+    #the standard roche limit calc can't be used'
+    #use this dogshit instead.
+    #returns units in km
     simpleRocheLimit = (7.52E-24)*mass_primary
 END FUNCTION
 
 FUNCTION rocheLimit (mass_primary, mass_secondary, radius_primary, radius_secondary)
-    '#calculate the Roche limit around a body
-    '#this is the minimum distance around a primary that a secondary can maintain cohesion
-    '#Any closer and you would have a ring instead
-    '#https://en.wikipedia.org/wiki/Roche_limit
-    densityPrimary = starDensity(mass_primary, radius_primary/1000.0) '#mass in kg, radius in km so divide by 1000
-    densitySecondary = starDensity(mass_secondary, radius_secondary/1000.0) '#mass in kg, radius in km so divide by 1000
+    #calculate the Roche limit around a body
+    #this is the minimum distance around a primary that a secondary can maintain cohesion
+    #Any closer and you would have a ring instead
+    #https://en.wikipedia.org/wiki/Roche_limit
+    densityPrimary = starDensity(mass_primary, radius_primary/1000.0) #mass in kg, radius in km so divide by 1000
+    densitySecondary = starDensity(mass_secondary, radius_secondary/1000.0) #mass in kg, radius in km so divide by 1000
     theDistance = 1.26 * radius_primary*((densityPrimary/densitySecondary)^(1.0/3.0))
-    '#for unit test later:
-    '#mass earth = 5.97E+24 kg; mass sol = 1.98855E+30 kg; radius earth = 6378 km
-    '#gives a radius of 556,396.86 km
+    #for unit test later:
+    #mass earth = 5.97E+24 kg; mass sol = 1.98855E+30 kg; radius earth = 6378 km
+    #gives a radius of 556,396.86 km
     rocheLimit = theDistance
 END FUNCTION
 
 FUNCTION kspSOI (mass_primary, mass_secondary, semimajorAxis_secondary)
-    '#http://wiki.kerbalspaceprogram.com/wiki/Sphere_of_influence
+    #http://wiki.kerbalspaceprogram.com/wiki/Sphere_of_influence
     kspSOI = (semimajorAxis_secondary * ((mass_secondary / mass_primary) ^ (2.0 / 5.0)))
 END FUNCTION
 
 FUNCTION solFrostLine (luminocity)
     'https://en.wikipedia.org/wiki/Frost_line_(astrophysics)
-    solFrostLine = 4.85 * (luminocity ^ 0.5) '#returns units in AU
+    solFrostLine = 4.85 * (luminocity ^ 0.5) #returns units in AU
 END FUNCTION
 
 FUNCTION siderealRotationalVel (theRadius, rotationalPeriod)
@@ -2451,7 +2451,7 @@ FUNCTION siderealRotationalVel (theRadius, rotationalPeriod)
 END FUNCTION
 
 FUNCTION synchronousOrbit (theRadius, theMass, rotationalPeriod)
-    '#returns the altitude of geosync orbit above sea level
+    #returns the altitude of geosync orbit above sea level
     G = 6.674E-11
     tmpOne = (G * theMass * (rotationalPeriod ^ 2.0))
     tmpTwo = 4.0 * (_PI ^ 2.0)
@@ -2460,13 +2460,13 @@ FUNCTION synchronousOrbit (theRadius, theMass, rotationalPeriod)
     synchronousOrbit = theAltitude
 END FUNCTION
 
-'#I miss python
+#I miss python
 FUNCTION pol2cartY(rho, theta)
-    '#theta is in degrees
+    #theta is in degrees
     pol2cartY = rho * sin(theta*0.017453)
 END FUNCTION
 FUNCTION pol2cartX(rho, theta)
-    '#theta is in degrees
+    #theta is in degrees
     pol2cartX = rho * cos(theta*0.017453)
 END FUNCTION
 
@@ -2474,11 +2474,11 @@ FUNCTION theStarDistance (x1,x2,y1,y2)
     theStarDistance = (((x2-x1)^2)+((y2-y1)^2))^0.5
 END FUNCTION
 
-'#star colour RGB from temp
+#star colour RGB from temp
 SUB temp2RGB (tmpKelvin):
-    '#temps in kelvins
-    '#line equations derived using blackbody values from
-    '#http://www.vendian.org/mncharity/dir3/blackbody/UnstableURLs/bbr_color.html
+    #temps in kelvins
+    #line equations derived using blackbody values from
+    #http://www.vendian.org/mncharity/dir3/blackbody/UnstableURLs/bbr_color.html
 
     if tmpKelvin<1900 then b = 0
     if tmpKelvin>=1900 and tmpKelvin<=6600 then
@@ -2502,9 +2502,9 @@ END SUB
 
 
 FUNCTION starTempSubstitution$ (aTemplate$, aName$, aPropertiesNode$, aOrbitNode$, aRingNode$, aLightNode$, aMaterialNode$, aCoronaNode$, aSolarPowerCurve$)
-    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
-    '#####Replicated that function with string replacement function.
-    '###########################'
+    #####STH 2017-0124. QBasic doesn't have string formatting like python.
+    #####Replicated that function with string replacement function.
+    ###########################'
     IF aName$ <> "" THEN
         aTemplate$ = ReplaceStr(aTemplate$, "//%name =", "%name =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(theName)s", aName$)
@@ -2531,14 +2531,14 @@ FUNCTION starTempSubstitution$ (aTemplate$, aName$, aPropertiesNode$, aOrbitNode
         aTemplate$ = ReplaceStr(aTemplate$, "//%(theSolarPowerCurve)s", aSolarPowerCurve$)
     END IF
 
-    '###########################'
+    ###########################'
     starTempSubstitution$ = aTemplate$
 END FUNCTION
 
 FUNCTION planetTempSubstitution$ (aTemplate$, aBodyNode$, aName$, aTemplateNode$, aPropertiesNode$, aOrbitNode$, aScaledVerionNode$, aRingNode$, aAtmosphereNode$, aPQSNode$, aOceanNode$)
-    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
-    '#####Replicated that function with string replacement function.
-    '###########################'
+    #####STH 2017-0124. QBasic doesn't have string formatting like python.
+    #####Replicated that function with string replacement function.
+    ###########################'
     IF aBodyNode$ <> "" THEN
         aTemplate$ = ReplaceStr(aTemplate$, "//%(theBodyData)s", aBodyNode$)
     END IF
@@ -2571,14 +2571,14 @@ FUNCTION planetTempSubstitution$ (aTemplate$, aBodyNode$, aName$, aTemplateNode$
         aTemplate$ = ReplaceStr(aTemplate$, "//%(theOcean)s", aOceanNode$)
     END IF
 
-    '###########################'
+    ###########################'
     planetTempSubstitution$ = aTemplate$
 END FUNCTION
 
 FUNCTION wikiEntry$ (aTemplate$, star_HTMLColour$, star_Name$, star_RadiusKSP, star_Circumference, star_SurfaceArea, star_MassKSP, star_stdGravitationalParameter, star_Density, star_surfaceGravity, star_escapeVelocity, star_RotationalPeriod, star_siderealRotationalVel, star_theSynchronousOrbit, star_SOI, star_FrostLine, star_TempK, star_Lum, star_AbsMag, star_semimajorAxis, star_distToKerbol, star_ApparentMag)
-    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
-    '#####Replicated that function with string replacement function.
-    '###########################'
+    #####STH 2017-0124. QBasic doesn't have string formatting like python.
+    #####Replicated that function with string replacement function.
+    ###########################'
     aTemplate$ = ReplaceStr(aTemplate$, "%(htmlColour)s", star_HTMLColour$)
     aTemplate$ = ReplaceStr(aTemplate$, "%(starName)s", star_Name$)
     aTemplate$ = ReplaceStr(aTemplate$, "%(theRadius)i", STR$(star_RadiusKSP))
@@ -2600,24 +2600,24 @@ FUNCTION wikiEntry$ (aTemplate$, star_HTMLColour$, star_Name$, star_RadiusKSP, s
     aTemplate$ = ReplaceStr(aTemplate$, "%(theApparentMagnitude)g", STR$(star_ApparentMag))
     aTemplate$ = ReplaceStr(aTemplate$, "%(theSMA)i", STR$(star_semimajorAxis))
     aTemplate$ = ReplaceStr(aTemplate$, "%(theDistToKerbol)i", STR$(star_distToKerbol))
-    '###########################'
+    ###########################'
     wikiEntry$ = aTemplate$
 END FUNCTION
 
 FUNCTION forResearchBodies$ (aTemplate$, ignoreStrings$, onDiscoveryStrings$, onIgnoreLevelStrings$, localizationTextUS$)
-    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
-    '#####Replicated that function with string replacement function.
-    '###########################'
+    #####STH 2017-0124. QBasic doesn't have string formatting like python.
+    #####Replicated that function with string replacement function.
+    ###########################'
     aTemplate$ = ReplaceStr(aTemplate$, "%(ignoreStrings)s", ignoreStrings$)
     aTemplate$ = ReplaceStr(aTemplate$, "%(onDiscoveryStrings)s", onDiscoveryStrings$)
     aTemplate$ = ReplaceStr(aTemplate$, "%(onIgnoreLevelStrings)s", onIgnoreLevelStrings$)
     aTemplate$ = ReplaceStr(aTemplate$, "%(localizationText)s", localizationTextUS$)
-    '###########################'
+    ###########################'
     forResearchBodies$ = aTemplate$
 END FUNCTION
-
-'$INCLUDE: 'Source\MakeAsteroids.bm'
-'$INCLUDE: 'Source\MakeMoons.bm'
-'$INCLUDE: 'Source\MakePlanets.bm'
-'$INCLUDE: 'Source\MakeStars.bm'
+#
+#$INCLUDE: 'Source\MakeAsteroids.bm'#
+#$INCLUDE: 'Source\MakeMoons.bm'#
+#$INCLUDE: 'Source\MakePlanets.bm'#
+#$INCLUDE: 'Source\MakeStars.bm'
     
