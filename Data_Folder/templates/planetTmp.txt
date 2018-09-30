@@ -1,9 +1,9 @@
 @Kopernicus:FINAL
 {
-    //%(theBodyData)s
+    //%%(theBodyData)s
     {
         //https://github.com/Kopernicus/Kopernicus/wiki/Syntax-for-planets
-        //%name = %(theName)s
+        //%%name = %(theName)s
         //%(theTemplateData)s
         //%(theProperties)s
         //%(theOrbitData)s

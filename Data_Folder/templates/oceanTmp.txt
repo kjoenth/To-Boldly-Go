@@ -1,4 +1,4 @@
-%Ocean
+%%Ocean
         {
             //https://forum.kerbalspaceprogram.com/index.php?/topic/129540-a-beginners-guide-to-kopernicus-the-basics/
             //leave 'maxQuadLengtsPerFrame', 'minLevel', 'maxLevel' and 'minDetailDistance' as is unless you know what you're doing.
