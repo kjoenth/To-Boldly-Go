@@ -1,0 +1,33 @@
+  _______      ____        _     _ _          _____
+ |__   __|    |  _ \      | |   | | |        / ____|
+    | | ___   | |_) | ___ | | __| | |_   _  | |  __  ___
+    | |/ _ \  |  _ < / _ \| |/ _` | | | | | | | |_ |/ _ \
+    | | (_) | | |_) | (_) | | (_| | | |_| | | |__| | (_) |
+    |_|\___/  |____/ \___/|_|\__,_|_|\__, |  \_____|\___/
+                                      __/ |
+                                     |___/
+***** %(GNAME)s ***** v%(TBG_Version)s
+Creation Date: TIME DATE
+Generation Mode: %(CUSTOM)s
+Seed: %(SEED)i
+Galaxy Type: %(GTYPE)i
+Galaxy Age: %(AGE)i
+Cluster Number: %(CLUSTERNUM)i
+Planets: %(PENABLE)s
+Asteroids: %(ASTTOG)s
+L to Y class (~Brown~): %(LSTAR)i
+M class (~Red~): %(MSTAR)i
+K class (~Orange~): %(KSTAR)i
+G class (~Yellow~): %(GSTAR)i
+F class (~Yellow-white~): %(FSTAR)i
+A class (~White~): %(ASTAR)i
+B class (~Blue-White~): %(BSTAR)i
+O class (~Blue~): %(OSTAR)i
+White Dwarves: %(DWARFSTAR)i
+-----------------"
+SOBJECTNUMBER; "Stars"
+POBJECTNUMBER; "Planets"
+MOBJECTNUMBER; "Moons"
+AOBJECTNUMBER; "Asteroids"
+SOBJECTNUMBER + POBJECTNUMBER + MOBJECTNUMBER + AOBJECTNUMBER; " Total"
+-----------------"
