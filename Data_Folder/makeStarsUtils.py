@@ -1,6 +1,34 @@
+import math
+import random
 import astroUtils
-global kerbolDistanceToCore
-global coreArgPeriapsis
+blackHole_MassKg = 8.55E37
+blackHole_MassKSP = astroUtils.sol2Kerbol_kg(blackHole_MassKg)
+blackHole_RadiusKSP = 100000
+#Milky Way has a radius around 6.62251e+17km
+#KSP galaxy radius would be 6.62251e+17km/2.6594=2.49E+17
+galaxy_RadiusKSP = (2.49E+17)/6
+#sphereOfInfluence = galaxy_RadiusKSP - 2E+12
+
+#############################
+#to be filled in by galaxyGen
+kerbolDistanceToCore = -1 
+coreArgPeriapsis = -1     
+
+thePropertiesTemplate = ""
+theOrbitTemplate = ""
+theLightTemplate = ""
+theMaterialTemplate = ""
+theCoronasTemplate = ""
+theGasGiantTemplate = ""
+theRingsTemplate = ""
+theOceanTemplate = ""
+thePlanetTemplate = ""
+theStarTmp = ""
+
+theWikiTemplate = ""
+theResearchBodyTemplate = ""
+#############################
+
 
 def makeAStar(star_MassKG, star_Name, star_Description):
     #consder moving this to an imported file. STH 2017-0403
@@ -12,31 +40,38 @@ def makeAStar(star_MassKG, star_Name, star_Description):
     star_Lum = astroUtils.luminosityFromSolarMass(star_MassSolar)
     star_AbsMag = astroUtils.absMagFromLuminosity(star_Lum)
 
+
+    blackHole_RocheLimit = astroUtils.rocheLimit(blackHole_MassKSP, star_MassKSP, blackHole_RadiusKSP, star_RadiusKSP)
+    #lower limit in picking the semimajor axis has to put the star radius outside the Roche limit
+    #add a million to put a bit more distance in
+    #Milky Way has a radius around 6.62251e+17km
+    #KSP galaxy radius would be 6.62251e+17km/2.6594=6.62251e+17
+    star_orbitMin = int(blackHole_RocheLimit + star_RadiusKSP + 1E6)
+    star_orbitMax = galaxy_RadiusKSP
+    star_semimajorAxis = random.randint(star_orbitMin, star_orbitMax)
+    star_argumentOfPeriapsis = random.randint(0,360)
+
+    
     #####################################################'
     #Calculate the apparent magnitude of the star
     starY1 = astroUtils.pol2cartY(kerbolDistanceToCore, coreArgPeriapsis)
     starX1 = astroUtils.pol2cartX(kerbolDistanceToCore, coreArgPeriapsis)
-    #starY2 = astroUtils.pol2cartY(star_semimajorAxis, theArgumentOfPeriapsis)
-    #starX2 = astroUtils.pol2cartX(star_semimajorAxis, theArgumentOfPeriapsis)
-    #star_distToKerbol = astroUtils.theStarDistance(starX1,starX2,starY1,starY2) #in meters
-    #print star_distToKerbol
-#     #####TO CALCULATE APPARENT MAGNITUDE
-#     star_distToKerbolRLkm = kerbinKM2realKM(star_distToKerbol/1000) #in rl km
-#     star_distToKerbolParsec = realKM2Parsec(star_distToKerbolRLkm)
-#     ##########
-#     #unit test for Kerbol to Kerbin
-#     #star_AbsMag = 4.7388854 #Kerbol absolute magnitude
-#     #star_distToKerbolParsec = 0.000005
-#     ##########
-#     #qb64 doesn't have a log10 function
-#     theLogTen# = log(star_distToKerbolParsec/10)/log(10.#)
-#     star_ApparentMag = (5*theLogTen#)+star_AbsMag
-#     #END Calculate the apparent magnitude of the star
-#     #####################################################'
-#     star_FrostLineAU = solFrostLine(star_Lum) #return in AU'
-#     star_FrostLineKm = AU2km(star_FrostLineAU)
-#     star_FrostLineKSP = realKM2kerbinKM(star_FrostLineKm)
-#     star_TempK = solarTemp(star_Lum, star_RadiusSolar)
+    starY2 = astroUtils.pol2cartY(star_semimajorAxis, star_argumentOfPeriapsis)
+    starX2 = astroUtils.pol2cartX(star_semimajorAxis, star_argumentOfPeriapsis)
+    star_distToKerbol = astroUtils.theStarDistance(starX1,starX2,starY1,starY2) #in meters
+    star_distToKerbolRLkm = astroUtils.kerbinKM2realKM(star_distToKerbol/1000) #in rl km
+    star_distToKerbolParsec = astroUtils.realKM2Parsec(star_distToKerbolRLkm)
+    ##########
+    #test for Kerbol to Kerbin
+    #star_AbsMag = 4.7388854 #Kerbol absolute magnitude
+    #star_distToKerbolParsec = 4.85E-06
+    ##########
+    star_ApparentMag = astroUtils.apparentMagFromAbsMag(star_AbsMag,star_distToKerbolParsec)
+    #####################################################'
+    star_FrostLineAU = astroUtils.solFrostLine(star_Lum) #return in AU'
+    star_FrostLineKm = astroUtils.AU2km(star_FrostLineAU)
+    star_FrostLineKSP = astroUtils.realKM2kerbinKM(star_FrostLineKm)
+    star_TempK = astroUtils.solarTemp(star_Lum, star_RadiusSolar)
 #     temp2RGB (star_TempK) #I would rather get the colour back as a list, but I guess qbasic doesn't have lists? #STH 2017-0216'
 #     theR = REDgb / 255.0
 #     theG = rGREENb / 255.0
@@ -50,45 +85,32 @@ def makeAStar(star_MassKG, star_Name, star_Description):
 #     IF LEN(hexB$) = 1 THEN hexB$ = "0" + hexB$
 #     #======='
 #     star_HTMLColour$ = hexR$ + hexG$ + hexB$
-#     star_Circumference = starCircumference(star_RadiusKSP) #use KSP size
-#     star_SurfaceArea = starSurfaceArea(star_RadiusKSP) #use KSP size
-#     star_Volume = starVolume(star_RadiusKSP) #use KSP size
-#     star_Density = starDensity(star_MassKSP, star_RadiusKSP / 1000.0) #use KSP size
-#     star_stdGravitationalParameter = stdGravitationalParameter(star_MassKSP) #use KSP size
-#     star_surfaceGravity = surfaceGravity(star_MassKSP, star_RadiusKSP) #use KSP size. radius should be in km
-#     star_escapeVelocity = escapeVelocity(star_MassKSP, star_RadiusKSP) #use KSP size. radius should be in km
-#     star_RotationalPeriod = 432000.00 ##20 days in hours. Kerbol. This needs to be more random. Younger stars spin faster. #could do another normalized curve for rotation speeds
-#     star_siderealRotationalVel = siderealRotationalVel(star_RadiusKSP, star_RotationalPeriod) #m/s
-#     star_theSynchronousOrbit = synchronousOrbit(star_RadiusKSP, star_MassKSP, star_RotationalPeriod) / 1000 #km
-#     #the Roche Limit of the black hole will be the minimum distance an objct can orbit it
-#     blackHole_RocheLimit = rocheLimit(blackHole_MassKSP, star_MassKSP, blackHole_RadiusKSP, star_RadiusKSP)
-#     #lower limit in picking the semimajor axis has to put the star radius outside the Roche limit
-#     #add a million to put a bit more distance in
-#     #Milky Way has a radius around 6.62251e+17km
-#     #KSP galaxy radius would be 6.62251e+17km/2.6594=6.62251e+17
-#     'star_semimajorAxis = random.randint(int(blackHole_RocheLimit+star_RadiusKSP+1e6), 6.62251e17)
-#     star_orbitMin = INT(blackHole_RocheLimit + star_RadiusKSP + 1E6)
-#     #star_orbitMax = 1E16 '6.62251E17
-#     star_orbitMax = galaxy_RadiusKSP
-#     star_semimajorAxis = star_orbitMin + (RND(1) * (star_orbitMax - star_orbitMin))
-#     ###if Kerbol is an analog of Sol, it is ~26kly from the galactic center
-#     ###1ly = 9.461e+12km
-#     ###therefore 26*9.461e12km = 2.45986e14km from center.
-#     ###stellar distances seem 10.95x smaller in KSP
-#     'star_semimajorAxis = 2.25e16 #in m
-#     star_HillSphereRadius = hillSphere(blackHole_MassKSP, star_MassKSP, 0, star_semimajorAxis)
-#     star_SOI = kspSOI(blackHole_MassKSP, star_MassKSP, star_semimajorAxis)
-#     ###END star characteristic calculation
-#     ##############################
+    star_Circumference = astroUtils.starCircumference(star_RadiusKSP) #use KSP size
+    star_SurfaceArea = astroUtils.starSurfaceArea(star_RadiusKSP) #use KSP size
+    star_Volume = astroUtils.starVolume(star_RadiusKSP) #use KSP size
+    star_Density = astroUtils.starDensity(star_MassKSP, star_RadiusKSP / 1000.0) #use KSP size
+    star_stdGravitationalParameter = astroUtils.stdGravitationalParameter(star_MassKSP) #use KSP size
+    star_surfaceGravity = astroUtils.surfaceGravity(star_MassKSP, star_RadiusKSP) #use KSP size. radius should be in km
+    star_escapeVelocity = astroUtils.escapeVelocity(star_MassKSP, star_RadiusKSP) #use KSP size. radius should be in km
+    star_RotationalPeriod = 432000.00 ##20 days in hours. Kerbol. This needs to be more random. Younger stars spin faster. #could do another normalized curve for rotation speeds
+    star_siderealRotationalVel = astroUtils.siderealRotationalVel(star_RadiusKSP, star_RotationalPeriod) #m/s
+    star_theSynchronousOrbit = astroUtils.synchronousOrbit(star_RadiusKSP, star_MassKSP, star_RotationalPeriod) / 1000 #km
+    star_HillSphereRadius = astroUtils.hillSphere(blackHole_MassKSP, star_MassKSP, 0, star_semimajorAxis)
+    star_SOI = astroUtils.kspSOI(blackHole_MassKSP, star_MassKSP, star_semimajorAxis)
+    ###END star characteristic calculation
+    ##############################
 
 
-#     ########################'
-#     ###Fill in property data'
-#     aPropertiesTemplate$ = thePropertiesTemplate$
-#     aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, star_Description$, STR$(star_RadiusKSP), STR$(star_MassKSP), STR$(star_stdGravitationalParameter), STR$(star_surfaceGravity), "True", STR$(star_RotationalPeriod), "", "", "", STR$(star_SOI))
-#     'PRINT #1, aPropertiesNode$
-#     ###End property data'
-#     ########################'
+    ########################'
+    ###Fill in property data'
+    aPropertiesNode = thePropertiesTemplate
+    aPropertiesNode =  aPropertiesNode % {'theDescription':star_Description, 'theRadius':star_RadiusKSP, 'theMass':star_MassKSP, 'theGravParameter':star_stdGravitationalParameter, 'theGeeASL':star_surfaceGravity, 'doesRotate':"True", 'rotationPeriod':star_RotationalPeriod, 'initialRotation':0.0, 'isTidallyLocked':"False", 'isHomeWorld':"False", 'theSphereOfInfluence':star_SOI}
+    activeProperties = ["description", "radius", "mass", "gravParameter", "geeASL", "rotates", "rotationPeriod", "sphereOfInfluence"]
+    for aProp in activeProperties:
+        aPropertiesNode = aPropertiesNode.replace("//%"+aProp, "%"+aProp)
+    print aPropertiesNode
+    ###End property data'
+    ########################'
 
 
 #     ########################'
@@ -209,10 +231,10 @@ def makeAStar(star_MassKG, star_Name, star_Description):
 #     ########################'
 
 
-#     aStarTemp$ = theStarTmp$
-#     'FUNCTION starTempSubstitution$ (aTemplate$, aName$, aPropertiesNode$, aOrbitNode$, aRingNode$, aLightNode$, aMaterialNode$, aCoronaNode$, aSolarPowerCurve$)
-#     aStarTmp$ = starTempSubstitution$(aStarTemp$, star_Name$, aPropertiesNode$, aOrbitNode$, "", aLightNode$, aMaterialNode$, aCoronaNode$, "")
-#     PRINT #1, aStarTmp$
+    # aStarTemp = theStarTmp
+    # #'FUNCTION starTempSubstitution$ (aTemplate$, aName$, aPropertiesNode$, aOrbitNode$, aRingNode$, aLightNode$, aMaterialNode$, aCoronaNode$, aSolarPowerCurve$)
+    # aStarTmp = aStarTemp % (star_Name, aPropertiesNode, aOrbitNode, "", aLightNode, aMaterialNode, aCoronaNode, "")
+    # print aStarTmp
 
 
 #     ########################
