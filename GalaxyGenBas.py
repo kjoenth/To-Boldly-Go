@@ -22,6 +22,8 @@ import csv
 import sys
 
 sys.path.append("Data_Folder")
+import MakeStars
+import astroUtils
 
 def fileAsString(theFileName):
     ###########################
@@ -278,8 +280,11 @@ else:
     theInclination = random.randint(0, 360)
     theArgPeriapsis = random.randint(0, 360)
 
-#kerbolDistanceToCore = theSemimajorAxis
-#coreArgPeriapsis = theArgPeriapsis
+#used for calcs of apparent magnitude
+#global kerbolDistanceToCore
+#global coreArgPeriapsis
+MakeStars.kerbolDistanceToCore = theSemimajorAxis
+MakeStars.coreArgPeriapsis = theArgPeriapsis
 
 theFileName = "galaxyFileTmp"
 print "  Reading in %s template..." % (theFileName)
@@ -289,7 +294,7 @@ theFile.close
 
 #print theInfoTemp % {"TBG_Version":TBG_Version, "SEED":SEED, "sphereOfInfluence":sphereOfInfluence, "semiMajorAxis":theSemimajorAxis, "theInclination":theInclination, "argumentOfPeriapsis":theArgPeriapsis}
 
-
+#THIS NEEDS TO BE ABSTRACTED AS A TEMPLATE
 # IF GTYPE = 2 THEN
 #     CLUSTERNUM = 0
 #     FOR a_Cluster = 1 TO CLUSTER
@@ -401,34 +406,30 @@ theFile.close
 
 
 
-# ###########
-# ###Make the wiki file
-# OPEN "wikiEntry.html" FOR OUTPUT AS #10 #Creates the wiki file
 
-# ###########
-# ###Make the researchBodies mod file
-# OPEN "TBG-ResearchBodies.cfg" FOR OUTPUT AS #20 #Creates the researchBodies mod file
-# #
-# #******************************************************************************
-# FOR a_Star = 1 TO OSTAR
-#     star_MassKg = 3.18168E+31 + (RND(1) * (3.18168E+32 - 3.18168E+31)) ###pick a star mass in the O stellar class range'
-#     #test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
-#     #star_MassKg = 1.7565459e28*113.2393
 
-#     ###########################'
-#     ###STH 2017-0209 Do calculations to get star characteristics
-#     star_Name$ = starNameList$(SOBJECTNUMBER)
-#     star_Description$ = star_Name$ + " is a main sequence blue giant star."
-#     CALL makeAStar(star_MassKg, star_Name$, star_Description$) #call the subroutinue to make a star'
+#******************************************************************************
+OSTAR = 1
+for a_Star in range(OSTAR):
+    star_MassKg = random.randint(3.18168E+31, 3.18168E+32) ###pick a star mass in the O stellar class range'
+    #test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
+    star_MassKg = 1.7565459e28*113.2393
 
-#     maxPlanets = 0
-#     IF PENABLE$ = "y" THEN
-#         # parent name, number of planets (max), minimum distance from star, maximum distance from star
-#         star_OrbitalInclination = INT(RND * 360)
-#         CALL MakePlanets(star_Name$, star_MassKSP, star_RadiusKSP, star_OrbitalInclination, 5, 0.5 * star_HillSphereRadius, star_FrostLineKSP*1000)
-#     END IF
-#     SOBJECTNUMBER = SOBJECTNUMBER + 1
-# NEXT#
+    ###########################'
+    ###STH 2017-0209 Do calculations to get star characteristics
+    star_Name = starNameList[SOBJECTNUMBER]
+    #description could be fancier and include mass and other info
+    star_Description =  "%s is a main sequence blue giant star." % (star_Name)
+
+    MakeStars.makeAStar(star_MassKg, star_Name, star_Description) #call the subroutinue to make a star'
+
+    #maxPlanets = 0
+    # if PENABLE == "y":
+    #     # parent name, number of planets (max), minimum distance from star, maximum distance from star
+    #     star_OrbitalInclination = INT(RND * 360)
+    #     CALL MakePlanets(star_Name$, star_MassKSP, star_RadiusKSP, star_OrbitalInclination, 5, 0.5 * star_HillSphereRadius, star_FrostLineKSP*1000)
+    SOBJECTNUMBER = SOBJECTNUMBER + 1
+
 # #******************************************************************************
 # FOR a_Star = 1 TO BSTAR
 #     star_MassKg = 4.17596E+30 + (RND(1) * (3.18168E+31 - 4.17596E+30)) ###pick a star mass in the B stellar class range'
@@ -1399,12 +1400,19 @@ theFile.close
 #TBG-ResearchBodies.cfg
 #GalaxyGen_Info-%galaxyName.txt
 #This would probably be better as a list that is looped over
+
+
+
 theWriteFile=open('galaxy.cfg', 'w')
 theWriteFile.close()
+###########
+###Make the wiki file
 theWriteFile=open('wikiEntry.html', 'w')
 theWriteFile.close()
 theWriteFile=open('TBG-ResearchBodies.cfg', 'w')
 theWriteFile.close()
+###########
+###Make the researchBodies mod file
 theWriteFile=open('GalaxyGen_Info-%sgalaxyName.txt', 'w')
 theWriteFile.close()
 
@@ -1452,94 +1460,7 @@ print theInfoTemp % {"GNAME":GNAME, "TBG_Version":TBG_Version, "CUSTOM":CUSTOM, 
 
 
 
-# SUB makeStarNameList (numbRequestedStars)
-#     ###########################
-#     #read in star name prefixes
-#     REDIM arrayPrefixes$(0)
-#     theFileName$ = "Data_Folder/TBG_Prefixes.txt"
-#     IF _FILEEXISTS(theFileName$) THEN
-#         OPEN theFileName$ FOR INPUT AS #2
-#         filecount% = 0
-#         DO UNTIL EOF(2)
-#             LINE INPUT #2, file$ 'read entire text file line
-#             arrayPrefixes$(filecount%) = file$
-#             filecount% = filecount% + 1
-#             REDIM _PRESERVE arrayPrefixes$(filecount%)
-#         LOOP
-#         CLOSE #2
-#     END IF
-#     ###########################
-#     #read in star name suffixes
-#     REDIM arraySuffixes$(0)
-#     theFileName$ = "Data_Folder/TBG_Suffixes.txt"
-#     IF _FILEEXISTS(theFileName$) THEN
-#         OPEN theFileName$ FOR INPUT AS #2
-#         filecount% = 0
-#         DO UNTIL EOF(2)
-#             LINE INPUT #2, file$ 'read entire text file line
-#             arraySuffixes$(filecount%) = file$
-#             filecount% = filecount% + 1
-#             REDIM _PRESERVE arraySuffixes$(filecount%)
-#         LOOP
-#         CLOSE #2
-#     END IF
-#     ########################################################
-#     # pick a random index from the prefix and suffix arrays'
-#     # the equiv in python would be:
-#     # PREFIX = random.choice(thePrefixes)
-#     # SUFFIX = random.choice(theSuffixes)
-#     FOR i = 0 TO numbRequestedStars
-#         lengArrayPrefixes% = UBOUND(arrayPrefixes$)
-#         lengArraySuffixes% = UBOUND(arraySuffixes$)
-#         indexPrefixes% = INT(RND * lengArrayPrefixes%)
-#         indexSuffixes% = INT(RND * lengArraySuffixes%)
-#         PREFIX$ = arrayPrefixes$(indexPrefixes%)
-#         SUFFIX$ = arraySuffixes$(indexSuffixes%)
-#         ##############################################
-#         # combine the prefix and suffix to make a name
-#         fullStarName$ = PREFIX$ + SUFFIX$
-#         #hard coded avoidance of 'sun' and 'core'
-#         IF fullStarName$ = "Sun" OR fullStarName$ = "Core" THEN
-#             indexSuffixes% = INT(RND * lengArraySuffixes%)
-#             SUFFIX$ = arraySuffixes$(indexSuffixes%)
-#             fullStarName$ = fullStarName$ + "o'" + SUFFIX$
-#         END IF
-#         #I guess qbasic doesn't have a way of boolean testing to see if a value is in an array?
-#         ####First look and see if the proposed name is in the template name array'
-#         FOR j = 1 TO UBOUND(planetKey$)
-#             DO UNTIL fullStarName$ <> planetKey$(j)
-#                 indexSuffixes% = INT(RND * lengArraySuffixes%)
-#                 SUFFIX$ = arraySuffixes$(indexSuffixes%)
-#                 fullStarName$ = fullStarName$ + "o'" + SUFFIX$
-#             LOOP
-#         NEXT
-#         #do the same sort of check and make sure the star name hasn't been used already
-#         FOR j = 1 TO UBOUND(starNameList$)
-#             DO UNTIL fullStarName$ <> starNameList$(j)
-#                 indexSuffixes% = INT(RND * lengArraySuffixes%)
-#                 SUFFIX$ = arraySuffixes$(indexSuffixes%)
-#                 fullStarName$ = fullStarName$ + "a'" + SUFFIX$
-#             LOOP
-#         NEXT
-#         starNameList$(i) = fullStarName$
-#     NEXT
-# END SUB
 
-# FUNCTION fileAsString$ (fileName$)
-#     ###########################
-#     #read in string template
-#     theFileName$ = "Data_Folder/templates/" + fileName$
-#     wholeTxt$ = ""
-#     IF _FILEEXISTS(theFileName$) THEN
-#         OPEN theFileName$ FOR INPUT AS #3
-#         DO UNTIL EOF(3)
-#             LINE INPUT #3, fileLine$ 'read entire text file line
-#             wholeTxt$ = wholeTxt$ + fileLine$ + CHR$(10)
-#         LOOP
-#         CLOSE #3
-#     END IF
-#     fileAsString$ = wholeTxt$
-# END FUNCTION
 
 # ################################################
 # ########http://www.qb64.net/wiki/index.php/LEFT$
