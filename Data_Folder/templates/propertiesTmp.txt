@@ -1,16 +1,16 @@
 %%Properties
         {
             //https://github.com/Kopernicus/Kopernicus/wiki/Properties
-            //%description = %(theDescription)s
-            //%radius = %(theRadius)s
-            //%mass = %(theMass)s
-            //%gravParameter = %(theGravParameter)s
-            //%geeASL = %(theGeeASL)s
-            //%rotates = %(doesRotate)s
-            //%rotationPeriod = %(rotationPeriod)s 
-            //%initialRotation = %(initialRotation)s
-            //%tidallyLocked = %(isTidallyLocked)s
-            //%isHomeWorld =   %(isHomeWorld)s 
-            //%timewarpAltitudeLimits = 0 30000 30000 60000 100000 300000 600000 800000
-            //%sphereOfInfluence = %(theSphereOfInfluence)s
+            //%%description = %(theDescription)s
+            //%%radius = %(theRadius)s
+            //%%mass = %(theMass)s
+            //%%gravParameter = %(theGravParameter)s
+            //%%geeASL = %(theGeeASL)s
+            //%%rotates = %(doesRotate)s
+            //%%rotationPeriod = %(rotationPeriod)s 
+            //%%initialRotation = %(initialRotation)s
+            //%%tidallyLocked = %(isTidallyLocked)s
+            //%%isHomeWorld =   %(isHomeWorld)s 
+            //%%timewarpAltitudeLimits = 0 30000 30000 60000 100000 300000 600000 800000
+            //%%sphereOfInfluence = %(theSphereOfInfluence)s
         }
