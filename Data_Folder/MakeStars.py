@@ -1,25 +1,25 @@
-# SUB makeAStar (star_MassKG, star_Name$, star_Description$):
-#     #consder moving this to an imported file. STH 2017-0403
-#     SHARED star_RadiusKSP
-#     SHARED star_SOI
-#     SHARED star_MassKSP
-#     SHARED star_HillSphereRadius
-#     SHARED star_FrostLineKSP
-#     SHARED star_semimajorAxis
-#     star_MassKSP = sol2Kerbol_kg(star_MassKG)
-#     star_MassSolar = kg2solarMass(star_MassKG)
-#     star_RadiusSolar = solarRadiusFromSolarMass(star_MassSolar)
-#     star_RadiusKm = solarRadius2km(star_RadiusSolar)
-#     star_RadiusKSP = sol2Kerbol_km(star_RadiusKm * 1000) #return m, so multiply by 1000 to get km
-#     star_Lum = luminosityFromSolarMass(star_MassSolar)
-#     star_AbsMag = absMagFromLuminosity(star_Lum)
-#     #####################################################'
-#     #Calculate the apparent magnitude of the star
-#     starY1 = pol2cartY(KerbolDistanceToCore, CoreArgPeriapsis)
-#     starX1 = pol2cartX(KerbolDistanceToCore, CoreArgPeriapsis)
-#     starY2 = pol2cartY(star_semimajorAxis, theArgumentOfPeriapsis)
-#     starX2 = pol2cartX(star_semimajorAxis, theArgumentOfPeriapsis)
-#     star_distToKerbol = theStarDistance(starX1,starX2,starY1,starY2) #in meters
+import astroUtils
+global kerbolDistanceToCore
+global coreArgPeriapsis
+
+def makeAStar(star_MassKG, star_Name, star_Description):
+    #consder moving this to an imported file. STH 2017-0403
+    star_MassKSP = astroUtils.sol2Kerbol_kg(star_MassKG)
+    star_MassSolar = astroUtils.kg2solarMass(star_MassKG)
+    star_RadiusSolar = astroUtils.solarRadiusFromSolarMass(star_MassSolar)
+    star_RadiusKm = astroUtils.solarRadius2km(star_RadiusSolar)
+    star_RadiusKSP = astroUtils.sol2Kerbol_km(star_RadiusKm * 1000) #return m, so multiply by 1000 to get km
+    star_Lum = astroUtils.luminosityFromSolarMass(star_MassSolar)
+    star_AbsMag = astroUtils.absMagFromLuminosity(star_Lum)
+
+    #####################################################'
+    #Calculate the apparent magnitude of the star
+    starY1 = astroUtils.pol2cartY(kerbolDistanceToCore, coreArgPeriapsis)
+    starX1 = astroUtils.pol2cartX(kerbolDistanceToCore, coreArgPeriapsis)
+    #starY2 = astroUtils.pol2cartY(star_semimajorAxis, theArgumentOfPeriapsis)
+    #starX2 = astroUtils.pol2cartX(star_semimajorAxis, theArgumentOfPeriapsis)
+    #star_distToKerbol = astroUtils.theStarDistance(starX1,starX2,starY1,starY2) #in meters
+    #print star_distToKerbol
 #     #####TO CALCULATE APPARENT MAGNITUDE
 #     star_distToKerbolRLkm = kerbinKM2realKM(star_distToKerbol/1000) #in rl km
 #     star_distToKerbolParsec = realKM2Parsec(star_distToKerbolRLkm)
