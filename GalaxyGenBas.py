@@ -22,7 +22,7 @@ import csv
 import sys
 
 sys.path.append("Data_Folder")
-import MakeStars
+import makeStarsUtils
 import astroUtils
 
 def fileAsString(theFileName):
@@ -240,29 +240,24 @@ starNameList = makeStarNameList(numbRequestedStars)
 
 #############################
 ###Read in the string templates
-thePropertiesTemplate = fileAsString("propertiesTmp.txt")
-theOrbitTemplate = fileAsString("orbitTmp.txt")
-theLightTemplate = fileAsString("lightTmp.txt")
-theMaterialTemplate = fileAsString("materialTmp.txt")
-theCoronasTemplate = fileAsString("coronaTmp.txt")
-theGasGiantTemplate = fileAsString("gasGiantScaledVersionTmp.txt")
-theRingsTemplate = fileAsString("ringsTmp.txt")
-theOceanTemplate = fileAsString("oceanTmp.txt")
-thePlanetTemplate = fileAsString("planetTmp.txt")
-theStarTmp = fileAsString("starTmp.txt")
-theWikiTemplate = fileAsString("wikiTemplate.html")
+makeStarsUtils.thePropertiesTemplate = fileAsString("propertiesTmp.txt")
+makeStarsUtils.theOrbitTemplate = fileAsString("orbitTmp.txt")
+makeStarsUtils.theLightTemplate = fileAsString("lightTmp.txt")
+makeStarsUtils.theMaterialTemplate = fileAsString("materialTmp.txt")
+makeStarsUtils.theCoronasTemplate = fileAsString("coronaTmp.txt")
+makeStarsUtils.theGasGiantTemplate = fileAsString("gasGiantScaledVersionTmp.txt")
+makeStarsUtils.theRingsTemplate = fileAsString("ringsTmp.txt")
+makeStarsUtils.theOceanTemplate = fileAsString("oceanTmp.txt")
+makeStarsUtils.thePlanetTemplate = fileAsString("planetTmp.txt")
+makeStarsUtils.theStarTmp = fileAsString("starTmp.txt")
+makeStarsUtils.theWikiTemplate = fileAsString("wikiTemplate.html")
 
 ###############################
 #Template files for integration with other mods
-theResearchBodyTemplate = fileAsString("forReserachBodiesTmp.txt")
+makeStarsUtils.theResearchBodyTemplate = fileAsString("forReserachBodiesTmp.txt")
 
-#blackHole_MassKg = 8.55E37
-#blackHole_MassKSP = sol2Kerbol_kg(blackHole_MassKg)
-#blackHole_RadiusKSP = 100000
-
-galaxy_RadiusKSP = (6.62251E+17)/6
-
-sphereOfInfluence = galaxy_RadiusKSP - 2E+12
+galaxy_RadiusKSP=makeStarsUtils.galaxy_RadiusKSP
+core_sphereOfInfluence=galaxy_RadiusKSP - 2E+12
 
 if GTYPE == 0:
     #spherical
@@ -283,8 +278,7 @@ else:
 #used for calcs of apparent magnitude
 #global kerbolDistanceToCore
 #global coreArgPeriapsis
-MakeStars.kerbolDistanceToCore = theSemimajorAxis
-MakeStars.coreArgPeriapsis = theArgPeriapsis
+
 
 theFileName = "galaxyFileTmp"
 print "  Reading in %s template..." % (theFileName)
@@ -292,7 +286,9 @@ theFile=open("Data_Folder/templates/%s.txt" % (theFileName),'r')
 theInfoTemp=theFile.read()
 theFile.close
 
-#print theInfoTemp % {"TBG_Version":TBG_Version, "SEED":SEED, "sphereOfInfluence":sphereOfInfluence, "semiMajorAxis":theSemimajorAxis, "theInclination":theInclination, "argumentOfPeriapsis":theArgPeriapsis}
+theInfoTemp = theInfoTemp % {"TBG_Version":TBG_Version, "SEED":SEED, "sphereOfInfluence":core_sphereOfInfluence, "semiMajorAxis":theSemimajorAxis, "theInclination":theInclination, "argumentOfPeriapsis":theArgPeriapsis}
+makeStarsUtils.kerbolDistanceToCore = theSemimajorAxis
+makeStarsUtils.coreArgPeriapsis = theArgPeriapsis
 
 #THIS NEEDS TO BE ABSTRACTED AS A TEMPLATE
 # IF GTYPE = 2 THEN
@@ -421,7 +417,7 @@ for a_Star in range(OSTAR):
     #description could be fancier and include mass and other info
     star_Description =  "%s is a main sequence blue giant star." % (star_Name)
 
-    MakeStars.makeAStar(star_MassKg, star_Name, star_Description) #call the subroutinue to make a star'
+    makeStarsUtils.makeAStar(star_MassKg, star_Name, star_Description) #call the subroutinue to make a star'
 
     #maxPlanets = 0
     # if PENABLE == "y":
