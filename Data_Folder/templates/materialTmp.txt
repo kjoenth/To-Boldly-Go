@@ -1,10 +1,10 @@
-    Material
-            {
-            	//https://github.com/Kopernicus/Kopernicus/wiki/ScaledVersion_Material
-                emitColor0 = %(theEmitColor0)s
-                emitColor1 = %(theEmitColor1)s
-                sunspotColor = %(theSunspotColor)s
-                rimColor = %(theRimColor)s
-                rimPower = %(theRimPower)s
-                rimBlend = %(theRimBlend)s
-            }
+%%Material
+        {
+        	//https://github.com/Kopernicus/Kopernicus/wiki/ScaledVersion_Material
+            emitColor0 = %(theEmitColor0)s
+            emitColor1 = %(theEmitColor1)s
+            sunspotColor = %(theSunspotColor)s
+            rimColor = %(theRimColor)s
+            rimPower = %(theRimPower)s
+            rimBlend = %(theRimBlend)s
+        }

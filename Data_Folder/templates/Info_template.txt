@@ -24,10 +24,10 @@ A class (~White~): %(ASTAR)i
 B class (~Blue-White~): %(BSTAR)i
 O class (~Blue~): %(OSTAR)i
 White Dwarves: %(DWARFSTAR)i
------------------"
+-----------------
 SOBJECTNUMBER; "Stars"
 POBJECTNUMBER; "Planets"
 MOBJECTNUMBER; "Moons"
 AOBJECTNUMBER; "Asteroids"
 SOBJECTNUMBER + POBJECTNUMBER + MOBJECTNUMBER + AOBJECTNUMBER; " Total"
------------------"
+-----------------

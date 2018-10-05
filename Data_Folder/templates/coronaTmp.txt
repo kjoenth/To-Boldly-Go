@@ -1,32 +1,32 @@
-    Coronas
+%%Coronas
+        {
+            //https://github.com/Kopernicus/Kopernicus/wiki/Coronas
+            Corona
             {
-                //https://github.com/Kopernicus/Kopernicus/wiki/Coronas
-                Corona
+                rotation = 0
+                speed = -1
+                updateInterval = 5
+                scaleLimitX = 5
+                scaleLimitY = 5
+                scaleSpeed = 0.007
+                Material
                 {
-                    rotation = 0
-                    speed = -1
-                    updateInterval = 5
-                    scaleLimitX = 5
-                    scaleLimitY = 5
-                    scaleSpeed = 0.007
-                    Material
-                    {
-                        texture = To-Boldly-Go/Coronae/%(theTexture)sCorona
-                        inverseFade = 2.553731
-                    }
-                }
-                Corona
-                {
-                    rotation = 0
-                    speed = 1
-                    updateInterval = 5
-                    scaleLimitX = 5
-                    scaleLimitY = 5
-                    scaleSpeed = 0.009
-                    Material
-                    {
-                        texture = To-Boldly-Go/Coronae/%(theTexture)sCorona
-                        inverseFade = 2.553731
-                    }
+                    texture = To-Boldly-Go/Coronae/%(theTexture)sCorona
+                    inverseFade = 2.553731
                 }
             }
+            Corona
+            {
+                rotation = 0
+                speed = 1
+                updateInterval = 5
+                scaleLimitX = 5
+                scaleLimitY = 5
+                scaleSpeed = 0.009
+                Material
+                {
+                    texture = To-Boldly-Go/Coronae/%(theTexture)sCorona
+                    inverseFade = 2.553731
+                }
+            }
+        }
