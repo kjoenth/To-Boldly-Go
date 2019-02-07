@@ -1,0 +1,77 @@
+%Ocean
+        {
+            //https://forum.kerbalspaceprogram.com/index.php?/topic/129540-a-beginners-guide-to-kopernicus-the-basics/
+            //leave 'maxQuadLengtsPerFrame', 'minLevel', 'maxLevel' and 'minDetailDistance' as is unless you know what you're doing.
+            maxQuadLengthsPerFrame = 0.03
+            minLevel = 2
+            maxLevel = 16
+            //'oceanColor', you can set your ocean's color. Just input the wanted color, then copy 
+            //that code and replace the color codes under 'Material' and 'FallbackMaterial'.
+            oceanColor = 0.15,0.25,0.35,1
+            minDetailDistance = 16           
+            Material
+            {
+                //'oceanColor', you can set your ocean's color. Just input the wanted color, then copy 
+                //that code and replace the color codes under 'Material' and 'FallbackMaterial'.
+                colorFromSpace = 0.15,0.25,0.35,1
+                color = 0.15,0.25,0.35,1
+            }
+            FallbackMaterial
+            {
+                //'oceanColor', you can set your ocean's color. Just input the wanted color, then copy 
+                //that code and replace the color codes under 'Material' and 'FallbackMaterial'.
+                colorFromSpace = 0.15,0.25,0.35,1
+                color = 0.15,0.25,0.35,1
+            }
+            Mods
+            {
+                AerialPerspectiveMaterial
+                {
+                    //I don't recommend changing anything under 'AerialPerspectiveMaterial' unless you know what you're doing.
+                    globalDensity = -0.00001
+                    heightFalloff = 6.75
+                    atmosphereDepth = 150000
+                    DEBUG_SetEveryFrame = true
+                    cameraAlt = 0
+                    cameraAtmosAlt = 0
+                    heightDensAtViewer = 0
+                    enabled = true
+                    order = 200
+                }
+                OceanFX
+                {
+                    Watermain
+                    {
+                        //You can use the BUILTIN textures specified in the example to get the same ocean textures as Eve, Kerbin 
+                        //and Laythe, or you could make your own ocean textures and create filepaths to those.
+                        waterTex-0 = BUILTIN/sea-water1
+                        waterTex-1 = BUILTIN/sea-water2
+                        waterTex-2 = BUILTIN/sea-water3
+                        waterTex-3 = BUILTIN/sea-water4
+                        waterTex-4 = BUILTIN/sea-water5
+                        waterTex-5 = BUILTIN/sea-water6
+                        waterTex-6 = BUILTIN/sea-water7
+                        waterTex-7 = BUILTIN/sea-water8
+                    }
+                    //Again, I don't recommend touching the rest of the values unless you know what you're doing.
+                    framesPerSecond = 1
+                    spaceAltitude = 150000
+                    blendA = 0
+                    blendB = 0
+                    texBlend = 0
+                    angle = 0
+                    specColor = 0.0,0.0,-1,1
+                    oceanOpacity = 0
+                    spaceSurfaceBlend = 0
+                    enabled = true
+                    order = 200
+                }
+            }
+            Fog
+            {
+                //This...adds underwater fog. Just punch in the same colors as 'oceanColor'.
+                fogColorEnd = 0.15,0.25,0.35,1
+                fogColorStart = 0.15,0.25,0.35,1
+                skyColorOpacityBase = 0.7
+            }
+        }

@@ -7,10 +7,11 @@
         //%(theTemplateData)s
         //%(theProperties)s
         //%(theOrbitData)s
-        //%(ScaledVersion)s
+        //%(theScaledVersion)s
         //%(theRingData)s
         //%(theAtmosphere)s
         //%(thePQS)s
         //%(theOcean)s
+        //%(theDebug)s
     }
 }

@@ -1,0 +1,41 @@
+City2
+                {
+                    enabled = True
+                    order = 1000
+                    snapToSurface = True
+                    alt = %(city2Altitude)s //-600000
+                    lat = %(city2Latitude)s
+                    lon = %(city2Longitude)s
+                    objectName = Test
+                    up = 0,1,0
+                    rotation = 0
+                    snapHeightOffset = 0
+                    commnetStation = %(city2isCommnetStation)s
+                    isKSC = %(city2isKSC)s
+                    name = %(city2Name)s
+                    //name = Mohole
+                    //name = CommNetDish
+                    //name = Woomerang_Launch_Site
+                    //name = Larkes
+                    //name = Woomerang_GroundObjects
+                    //name = Desert_Airfield
+                    //name = Desert_Launch_Site
+                    //name = Desert_GroundObjects
+                    LOD
+                    {
+                        Value
+                        {
+                            visibleRange = 30000
+                            keepActive = False
+                            model = %(city2ModelPath)s //Squad/Parts/FuelTank/Size3Tanks/Size3LargeTank
+                            //model = BUILTIN/dish1
+                            //model = BUILTIN/dish_antenna
+                            //model = BUILTIN/Dish
+                            //model = BUILTIN/New Game Object //Desert_Airfield
+                            //model = BUILTIN/Objects //Woomerang_GroundObjects
+                            //model = BUILTIN/MobileLaunchPad //Woomerang_Launch_Site
+                            scale = %(city2Scale)s//10,10,10
+                            delete = False
+                        }
+                    }
+                }

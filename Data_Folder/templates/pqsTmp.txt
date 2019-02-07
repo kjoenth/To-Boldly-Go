@@ -1,0 +1,212 @@
+%PQS
+        {
+            minLevel = 2
+            maxLevel = 10
+            //minDetailDistance = 8
+            //maxQuadLengthsPerFrame = 0.03
+            //fadeStart = 110000
+            //fadeEnd = 115000
+            //deactivateAltitude = 130000
+            //mapMaxHeight = 10000
+            materialType = AtmosphericOptimized
+            PhysicsMaterial
+            {
+                bounceCombine = Average
+                frictionCombine = Maximum
+                bounciness = 0
+                staticFriction = 0.8
+                dynamicFriction = 0.6
+            }
+            Material
+            {
+                //Bump maps:
+                //  RockyGround2
+                //  quiet
+                //  Cliff (Layered Rock)_NRM
+                //  Waterbump
+                //  cloud_normal
+                //  05_NORMAL
+                //  bouldernormal
+
+                //textures:
+                //  RockyGround
+                //  distantground
+                //  terrain_rock00
+                //  Cliffs0149_18_S
+                //  terrain_sand00
+                //  snow
+                //  SandyGround
+                //  terrain_grass00_new
+                //  terrain_snow00
+                //  Cliff (Layered Rock)
+                //  lunar cliff face
+                //  ice
+                //  rock00
+                //  brown_cliff
+                //  red_cliff
+                //  crackedground
+                //  debris_alpha_01
+                saturation = 1
+                contrast = 1
+                tintColor = 0.514705896,0.514705896,0.514705896,0
+                powerNear = 0.5
+                powerFar = 0.5
+                groundTexStart = 0
+                groundTexEnd = 10000
+                steepPower = 1
+                steepTexStart = 10000
+                steepTexEnd = 100000
+                steepTex = BUILTIN/Cliff (Layered Rock)
+                steepBumpMap = BUILTIN/Cliff (Layered Rock)_NRM
+                steepNearTiling = 2000
+                steepTiling = 100
+                lowTex = BUILTIN/SandyGround
+                lowNearTiling = 2000
+                lowMultiFactor = 8
+                midTex = BUILTIN/RockyGround
+                midBumpMap = BUILTIN/cloud_normal
+                midNearTiling = 1000
+                midMultiFactor = 2
+                midBumpNearTiling = 1000
+                highTex = BUILTIN/snow
+                highNearTiling = 1000
+                highMultiFactor = 2
+                lowStart = 0.2
+                lowEnd = 0.4
+                highStart = 0.6
+                highEnd = 0.9
+                globalDensity = -8E-06
+                fogColorRamp = BUILTIN/blue_atmogradient
+                planetOpacity = 1
+                oceanFogDistance = 1000
+            }
+            Mods
+            {
+                VertexHeightOffset﻿
+                {
+                    enabled = true
+                    order = 2
+                    offset = -5000 //match up with other deformities
+                }﻿﻿
+                VertexSimplexHeightAbsolute
+                {
+                    enabled = true
+                    name = HeightMod1
+                    order = 3
+                    seed = %(vertexSimplexHeightAbsoluteSeed)s //123 // The seed of the simplex height
+                    deformity = 5000 // The deformity of the simplex terrain
+                    octaves = 3 // Octaves of the simplex height
+                    persistence = 0.5 // Persistence of the simplex height
+                    frequency = 1 // The frequency of the simplex terrain
+                }
+                VertexHeightNoise
+                {
+                    enabled = true
+                    name = HeightNoise
+                    order = 3  
+                    deformity = 5000 //2000
+                    frequency = 12
+                    octaves = 4
+                    persistence = 0.7
+                    seed = %(vertexHeightNoiseSeed)s //1
+                    noiseType = RidgedMultifractal
+                    mode = Low
+                    lacunarity = 3
+                }
+                HeightColorMap
+                {
+                    blend = 0.75
+                    order = 999999
+                    enabled = True
+                    LandClasses
+                    {
+                        Class
+                        {
+                            name = Lvl1
+                            color = 0.8, 0.8, 0.5,8
+                            altitudeStart = 0
+                            altitudeEnd = 0.25
+                            lerpToNext = True
+                            delete = False
+                        }
+                        Class
+                        {
+                            name = Lvl2
+                            color = 0.7, 0.7, 0.4,7
+                            altitudeStart = 0.25
+                            altitudeEnd = 0.3
+                            lerpToNext = True
+                            delete = False
+                        }
+                        Class
+                        {
+                            name = Lvl3
+                            color = 0.6, 0.6, 0.3,6
+                            altitudeStart = 0.3
+                            altitudeEnd = 0.4
+                            lerpToNext = True
+                            delete = False
+                        }
+                        Class
+                        {
+                            name = Lvl4
+                            color = 0.5, 0.5, 0,2
+                            altitudeStart = 0.4
+                            altitudeEnd = 0.5
+                            lerpToNext = True
+                            delete = False
+                        }
+                        Class
+                        {
+                            name = Lvl5
+                            color = 0.4, 0.4, 0.1,4
+                            altitudeStart = 0.5
+                            altitudeEnd = 0.65
+                            lerpToNext = True
+                            delete = False
+                        }
+                        Class
+                        {
+                            name = Lvl6
+                            color = 0.3, 0.3, 0.1,4
+                            altitudeStart = 0.65
+                            altitudeEnd = 2
+                            lerpToNext = False
+                            delete = False
+                        }
+                    }
+                }
+                VoronoiCraters
+                {
+                    name = 4
+                    enabled = True
+                    order = 103
+                    colorOpacity = 1
+                    DebugColorMapping = False
+                    deformation =  482.6219 //values between 99 and 500
+                    jitter = 0.1
+                    jitterHeight = 3 //values between 2 and 3
+                    rFactor = 1
+                    rOffset = 1 //values between 1 and 1.1
+                    simplexFrequency = 120 //values between 120 and 300
+                    simplexOctaves = 3 
+                    simplexPersistence = 0.5
+                    simplexSeed = %(voronoiCratersSimplexSeed)s //123123
+                    voronoiDisplacement = 0
+                    voronoiFrequency = 7 //values between 7 and 50
+                    voronoiSeed =  %(voronoiCratersVoronoiSeed)s //915 
+                    CraterCurve
+                    {
+                        key = -0.9982381 -0.741178 -0.4099868 -0.4099868
+                        key = -0.9332262 -0.767832 3.078513 3.078513
+                        key = -0.8990405 -0.543334 11.04789 11.04789
+                        key = -0.7445966 1.854991 6.299723 6.299723
+                        key = -0.4015177 0.85 -4.159815 -4.159815
+                        key = -0.2297457 0.4 -1.548222 -1.548222
+                        key = 0.2724952 0.004238 -0.3350353 -0.3350353
+                        key = 0.9998434 0.004091 -0.000202104 -0.000202104
+                    }
+                }
+                //%(theCity2)s
+            }
+        }

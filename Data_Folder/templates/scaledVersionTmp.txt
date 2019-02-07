@@ -1,0 +1,15 @@
+%ScaledVersion
+        {
+            Material
+            {
+                color = 1,1,1,1
+                specColor = 0.305970132,0.305970132,0.305970132,1
+                shininess = 0.1661175
+                texture = To-Boldly-Go/solidplanettextures/greycolor.png
+                normals = To-Boldly-Go/solidplanettextures/greycolor.png
+                opacity = 0.5
+                rimPower = 5
+                rimBlend = 1
+                rimColorRamp = BUILTIN/AerialRampKerbin2
+            }
+        }

@@ -11,6 +11,8 @@
             //%initialRotation = %(initialRotation)s
             //%tidallyLocked = %(isTidallyLocked)s
             //%isHomeWorld =   %(isHomeWorld)s 
+            //inLWHZ = %(inLWHZ)s 
+            //inLMHZ = %(inLMHZ)s 
             //%timewarpAltitudeLimits = 0 30000 30000 60000 100000 300000 600000 800000
             //%sphereOfInfluence = %(theSphereOfInfluence)s
         }

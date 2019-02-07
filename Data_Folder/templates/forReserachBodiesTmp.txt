@@ -53,7 +53,7 @@ Localization
 
 //##########################
 //#Tarsier Space Tech
-@PART[tarsierSpaceTelescope]:FOR[TarsierSpaceTech]:NEEDS[ResearchBodies,To-Boldly-Go]
+@PART[tarsierSpaceTelescope]:FOR[TarsierSpaceTech]:NEEDS[TarsierSpaceTech,ResearchBodies,Kopernicus,To-Boldly-Go]
 {
     MODULE
     {
@@ -68,34 +68,18 @@ Localization
     }
 }
 
-@PART[tarsierAdvSpaceTelescope]:FOR[TarsierSpaceTech]:[ResearchBodies,Kopernicus,To-Boldly-Go]
+@PART[tarsierAdvSpaceTelescope]:FOR[TarsierSpaceTech]:NEEDS[TarsierSpaceTech,ResearchBodies,Kopernicus,To-Boldly-Go]
 {
     MODULE
     {
         name = ModuleTrackBodies
         difficulty = 2
         minAltitude = 200000
-        maxTrackDistance = 9.999e17
+        maxTrackDistance = 5.4e17
         electricChargeRequest = 5
         landed = false
         viewAngle =20
         scienceReward = 8
-    }
-}
-
-@PART[tarsierSpaceTelescope]:FOR[TarsierSpaceTech]:NEEDS[ResearchBodies,Kopernicus,To-Boldly-Go]
-{
-    @MODULE[ModuleTrackBodies]
-    {
-        @maxTrackDistance = 5.4e17
-    }
-}
-
-@PART[tarsierAdvSpaceTelescope]:FOR[TarsierSpaceTech]:NEEDS[ResearchBodies,Kopernicus,To-Boldly-Go]
-{
-    @MODULE[ModuleTrackBodies]
-    {
-        @maxTrackDistance = 3.24e16
     }
 }
 //#End Tarsier Space Tech

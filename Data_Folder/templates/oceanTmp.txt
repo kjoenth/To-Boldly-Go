@@ -1,77 +1,117 @@
 %Ocean
         {
-            //https://forum.kerbalspaceprogram.com/index.php?/topic/129540-a-beginners-guide-to-kopernicus-the-basics/
-            //leave 'maxQuadLengtsPerFrame', 'minLevel', 'maxLevel' and 'minDetailDistance' as is unless you know what you're doing.
+            ocean = True
+            oceanColor = 0.116715364,0.12626785,0.156716406,1
+            oceanHeight = 0
+            density = 1
+            minLevel = 1
+            maxLevel = 6
+            minDetailDistance = 8
             maxQuadLengthsPerFrame = 0.03
-            minLevel = 2
-            maxLevel = 16
-            //'oceanColor', you can set your ocean's color. Just input the wanted color, then copy 
-            //that code and replace the color codes under 'Material' and 'FallbackMaterial'.
-            oceanColor = 0.15,0.25,0.35,1
-            minDetailDistance = 16           
             Material
             {
-                //'oceanColor', you can set your ocean's color. Just input the wanted color, then copy 
-                //that code and replace the color codes under 'Material' and 'FallbackMaterial'.
-                colorFromSpace = 0.15,0.25,0.35,1
-                color = 0.15,0.25,0.35,1
+                color = 0.413805217,0.387094229,0.514925361,1
+                colorFromSpace = 0.116878122,0.126456618,0.156862751,1
+                specColor = 1,1,1,1
+                shininess = 1
+                gloss = 0.2
+                tiling = 1000
+                waterTex = BUILTIN/sea-water8
+                waterTex1 = BUILTIN/sea-water1
+                bTiling = 800
+                bumpMap = BUILTIN/quiet
+                displacement = 0.05
+                texDisplacement = 0.31
+                dispFreq = 0.15
+                mix = 0.4032745
+                oceanOpacity = 0.3
+                falloffPower = 3
+                falloffExp = 0.05
+                fogColor = 0.321443439,0.611232221,0.947761178,1
+                heightFallOff = 0.2
+                globalDensity = -8E-06
+                atmosphereDepth = 50000
+                fogColorRamp = BUILTIN/blue_atmogradient
+                fadeStart = 20000
+                fadeEnd = 60000
+                planetOpacity = 1
+                normalXYFudge = 1.4
+                normalZFudge = 1.18
             }
             FallbackMaterial
             {
-                //'oceanColor', you can set your ocean's color. Just input the wanted color, then copy 
-                //that code and replace the color codes under 'Material' and 'FallbackMaterial'.
-                colorFromSpace = 0.15,0.25,0.35,1
-                color = 0.15,0.25,0.35,1
+                color = 0.336603671,0.378080368,0.447761178,1
+                colorFromSpace = 0.116878122,0.126456618,0.156862751,1
+                specColor = 0.8493402,0.8493402,0.8493402,1
+                shininess = 1
+                gloss = 0.3336538
+                tiling = 1000
+                waterTex = BUILTIN/sea-water1
+                waterTex1 = BUILTIN/sea-water2
+                fadeStart = 20000
+                fadeEnd = 60000
+                planetOpacity = 1
             }
             Mods
             {
-                AerialPerspectiveMaterial
+                RemoveQuadMap
                 {
-                    //I don't recommend changing anything under 'AerialPerspectiveMaterial' unless you know what you're doing.
-                    globalDensity = -0.00001
-                    heightFalloff = 6.75
-                    atmosphereDepth = 150000
-                    DEBUG_SetEveryFrame = true
-                    cameraAlt = 0
-                    cameraAtmosAlt = 0
-                    heightDensAtViewer = 0
-                    enabled = true
-                    order = 200
+                    map = BUILTIN/oceanmoon_height
+                    deformity = 0
+                    maxHeight = 0.5
+                    minHeight = 0
+                    order = 1000
+                    enabled = True
+                    name = QuadRemoveMap
                 }
                 OceanFX
                 {
-                    Watermain
-                    {
-                        //You can use the BUILTIN textures specified in the example to get the same ocean textures as Eve, Kerbin 
-                        //and Laythe, or you could make your own ocean textures and create filepaths to those.
-                        waterTex-0 = BUILTIN/sea-water1
-                        waterTex-1 = BUILTIN/sea-water2
-                        waterTex-2 = BUILTIN/sea-water3
-                        waterTex-3 = BUILTIN/sea-water4
-                        waterTex-4 = BUILTIN/sea-water5
-                        waterTex-5 = BUILTIN/sea-water6
-                        waterTex-6 = BUILTIN/sea-water7
-                        waterTex-7 = BUILTIN/sea-water8
-                    }
-                    //Again, I don't recommend touching the rest of the values unless you know what you're doing.
-                    framesPerSecond = 1
-                    spaceAltitude = 150000
+                    angle = 0
                     blendA = 0
                     blendB = 0
-                    texBlend = 0
-                    angle = 0
-                    specColor = 0.0,0.0,-1,1
+                    framesPerSecond = 10
                     oceanOpacity = 0
+                    spaceAltitude = 0
                     spaceSurfaceBlend = 0
-                    enabled = true
-                    order = 200
+                    specColor = 0,0,0,0
+                    texBlend = 0
+                    txIndex = 0
+                    order = 100
+                    enabled = True
+                    name = OceanFX
+                    Watermain
+                    {
+                        value = BUILTIN/sea-water1
+                        value = BUILTIN/sea-water2
+                        value = BUILTIN/sea-water3
+                        value = BUILTIN/sea-water4
+                        value = BUILTIN/sea-water5
+                        value = BUILTIN/sea-water6
+                        value = BUILTIN/sea-water7
+                        value = BUILTIN/sea-water8
+                        value = BUILTIN/sea-water1
+                    }
                 }
             }
             Fog
             {
-                //This...adds underwater fog. Just punch in the same colors as 'oceanColor'.
-                fogColorEnd = 0.15,0.25,0.35,1
-                fogColorStart = 0.15,0.25,0.35,1
-                skyColorOpacityBase = 0.7
+                afgAltMult = 0.05
+                afgBase = 0.6
+                afgLerp = False
+                afgMin = 0.05
+                fogColorEnd = 0,0.0850000009,0.122500002,1
+                fogColorStart = 0,0.340000004,0.49000001,1
+                fogDensityAltScalar = -0.0008
+                fogDensityEnd = 0.025
+                fogDensityExponent = 1
+                fogDensityPQSMult = 0.02
+                fogDensityStart = 0.005
+                skyColorMult = 1.1
+                skyColorOpacityAltMult = 15
+                skyColorOpacityBase = 0.25
+                sunAltMult = 0.01
+                sunBase = 0.5
+                sunMin = 0.05
+                useFog = True
             }
         }

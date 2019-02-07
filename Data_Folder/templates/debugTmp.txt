@@ -1,0 +1,6 @@
+%Debug
+        {
+            exportMesh = True // Whether Kopernicus should save a .bin file with the ScaledSpace mesh.
+            update = True // Setting this to true will force Kopernicus to update the ScaledSpace mesh.
+            showSOI = false
+        }
