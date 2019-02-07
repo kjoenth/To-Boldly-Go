@@ -21,7 +21,7 @@ SUB MakeAsteroids (star_Name$,Max_num_asteroids):
 		theDescription$ = "When Jeb was originally shown a map of our galaxy he said 'Wow! Thats big! Dont suppose we get any rest stops out there do we?' This statement encouraged our scientists to look closer, And eventually this asteroid among many, Was discovered. Dont expect vending machines, And if you do find them... Dont expect candy."
 		theRadius$ = str$(INT(RND * 80000) + 5000)
 		aPropertiesTemplate$ = thePropertiesTemplate$
-		aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, "", "", "", "", "", "", "", "", "")
+		aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, "", "", "", "", "", "", "", "", "NA", "NA", "")
 		print #1, aPropertiesNode$
 		'#########################'
 		'###Fill in orbit data'

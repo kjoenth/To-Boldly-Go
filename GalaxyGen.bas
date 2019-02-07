@@ -1,4 +1,4 @@
-'To Boldly Go v0.3.1.2 - Kopernicus Procedural Galaxy Generator!"
+'To Boldly Go v0.3.1.3.1b - Kopernicus Procedural Galaxy Generator!"
 'Copyright (C) 2018  Daniel L. & Sean T. Hammond"
 '
 'This program is free software; you can redistribute it and/or modify"
@@ -15,7 +15,7 @@
 'along with this program; if not, write to the Free Software"
 'Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 
-TBG_Version$ = "0.3.1.2"
+TBG_Version$ = "0.3.1.3.1b"
 _TITLE "To Boldly Go version " + TBG_Version$
 
 i& = _LOADIMAGE("Data_Folder/Galaxy-icon.png", 32) '<<<<<<< use your image file name here
@@ -321,7 +321,8 @@ PRINT #1, "//Seed: " + STR$(SEED)
 '#############################
 '###Read in the string templates
 DIM SHARED thePropertiesTemplate$, theOrbitTemplate$, theLightTemplate$, theMaterialTemplate$, theCoronasTemplate$
-DIM SHARED theGasGiantTemplate$, theRingsTemplate$, theOceanTemplate$, thePlanetTemplate$, theStarTmp$, theWikiTemplate$
+DIM SHARED theGasGiantTemplate$, theRingsTemplate$, theOceanTemplate$, thePlanetTemplate$, theStarTmp$, theWikiTemplate$, thePQSTemplate$
+DIM SHARED theCity2Template$, theDebugTemplate$, theScaledVersionTemplate$
 thePropertiesTemplate$ = fileAsString("propertiesTmp.txt")
 theOrbitTemplate$ = fileAsString("orbitTmp.txt")
 theLightTemplate$ = fileAsString("lightTmp.txt")
@@ -330,6 +331,10 @@ theCoronasTemplate$ = fileAsString("coronaTmp.txt")
 theGasGiantTemplate$ = fileAsString("gasGiantScaledVersionTmp.txt")
 theRingsTemplate$ = fileAsString("ringsTmp.txt")
 theOceanTemplate$ = fileAsString("oceanTmp.txt")
+theScaledVersionTemplate$ = fileAsString("scaledVersionTmp.txt")
+thePQSTemplate$ = fileAsString("pqsTmp.txt")
+theCity2Template$ = fileAsString("city2Tmp.txt")
+theDebugTemplate$ = fileAsString("debugTmp.txt")
 thePlanetTemplate$ = fileAsString("planetTmp.txt")
 theStarTmp$ = fileAsString("starTmp.txt")
 theWikiTemplate$ = fileAsString("wikiTemplate.html")
@@ -658,7 +663,7 @@ FOR a_Star = 1 TO OSTAR
     IF PENABLE$ = "y" THEN
         '# parent name, number of planets (max), minimum distance from star, maximum distance from star
         star_OrbitalInclination = INT(RND * 360)
-        CALL MakePlanets(star_Name$, star_MassKSP, star_RadiusKSP, star_OrbitalInclination, 5, 0.5 * star_HillSphereRadius, star_FrostLineKSP*1000)
+        CALL MakePlanets(star_Name$, star_MassKSP, star_RadiusKSP, star_OrbitalInclination, 6, 0.5 * star_HillSphereRadius, star_FrostLineKSP*1000)
     END IF
     SOBJECTNUMBER = SOBJECTNUMBER + 1
 NEXT
@@ -824,7 +829,7 @@ FOR a_Star = 1 TO DWARFSTAR
     star_RadiusKSP = INT(RND * 700000) + 300000
     star_SOI = 90118820000
     aPropertiesTemplate$ = thePropertiesTemplate$
-    aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, star_Description$, STR$(star_RadiusKSP), "", "", "", "", "", "", "", "", STR$(star_SOI))
+    aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, star_Description$, STR$(star_RadiusKSP), "", "", "", "", "", "", "", "", "", "", STR$(star_SOI))
     PRINT #1, aPropertiesNode$
     '###End property data'
     '########################'
@@ -944,7 +949,7 @@ FOR a_Star = 1 TO BLACKHOLE
     theSphereOfInfluence$ = STR$(90118820000.5)
     theGeeASL$ = STR$(1000000)
     aPropertiesTemplate$ = thePropertiesTemplate$
-    aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, "", "", theGeeASL$, "", "", "", "", "", theSphereOfInfluence$)
+    aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, "", "", theGeeASL$, "", "", "", "", "", "", "", theSphereOfInfluence$)
     PRINT #1, aPropertiesNode$
     '###End property data'
     '########################'
@@ -2022,7 +2027,7 @@ FUNCTION ReplaceStr$ (text$, old$, new$)
     ReplaceStr$ = text$
 END FUNCTION
 
-FUNCTION propertyNode$ (aTemplate$, theDescription$, theRadius$, theMass$, theGravParam$, theGeeASL$, theDoesRotate$, theRotationPeriod$, theInitialRotation$, theIsTidallyLocked$, theIsHomeWord$, theSOI$)
+FUNCTION propertyNode$ (aTemplate$, theDescription$, theRadius$, theMass$, theGravParam$, theGeeASL$, theDoesRotate$, theRotationPeriod$, theInitialRotation$, theIsTidallyLocked$, theIsHomeWord$, inLWHZ$, inLMHZ$, theSOI$)
     '#####STH 2017-0124. QBasic doesn't have string formatting like python.
     '#####Replicated that function with string replacement function.
     '###########################'
@@ -2070,6 +2075,12 @@ FUNCTION propertyNode$ (aTemplate$, theDescription$, theRadius$, theMass$, theGr
     IF theIsHomeWord$ <> "" THEN
         aTemplate$ = ReplaceStr(aTemplate$, "//%isHomeWorld =", "%isHomeWorld =")
         aTemplate$ = ReplaceStr(aTemplate$, "%(isHomeWorld)s", theIsHomeWord$)
+    END IF
+    IF inLWHZ$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "%(inLWHZ)s", inLWHZ$)
+    END IF
+    IF inLMHZ$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "%(inLMHZ)s", inLMHZ$)
     END IF
     IF theSOI$ <> "" THEN IF val(theSOI$) > 0 THEN 
         aTemplate$ = ReplaceStr(aTemplate$, "//%sphereOfInfluence =", "%sphereOfInfluence =")
@@ -2231,6 +2242,33 @@ FUNCTION ringNode$ (aTemplate$, theAngle$, theOuterRadius$, theInnerRadius$, the
         aTemplate$ = ReplaceStr(aTemplate$, "%(theUnlit)s", theUnlit$)
     END IF
     ringNode$ = aTemplate$
+END FUNCTION
+
+FUNCTION city2Node$ (aTemplate$, city2Altitude$, city2Latitude$, city2Longitude$, city2isCommnetStation$, city2isKSC$, city2Name$, city2ModelPath$, city2Scale$)
+    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
+    '#####Replicated that function with string replacement function.
+    aTemplate$ = ReplaceStr(aTemplate$, "%(city2Altitude)s", city2Altitude$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(city2Latitude)s", city2Latitude$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(city2Longitude)s", city2Longitude$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(city2isCommnetStation)s", city2isCommnetStation$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(city2isKSC)s", city2isKSC$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(city2Name)s", city2Name$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(city2ModelPath)s", city2ModelPath$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(city2Scale)s", city2Scale$)
+    city2Node$ = aTemplate$
+END FUNCTION
+
+FUNCTION PQSNode$ (aTemplate$, vertexSimplexHeightAbsoluteSeed$, vertexHeightNoiseSeed$, voronoiCratersSimplexSeed$, voronoiCratersVoronoiSeed$, aCity2Node$)
+    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
+    '#####Replicated that function with string replacement function.
+    IF aCity2Node$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(theCity2)s", aCity2Node$)
+    END IF
+    aTemplate$ = ReplaceStr(aTemplate$, "%(vertexSimplexHeightAbsoluteSeed)s", vertexSimplexHeightAbsoluteSeed$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(vertexHeightNoiseSeed)s", vertexHeightNoiseSeed$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(voronoiCratersSimplexSeed)s", voronoiCratersSimplexSeed$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(voronoiCratersVoronoiSeed)s", voronoiCratersVoronoiSeed$)
+    PQSNode$ = aTemplate$
 END FUNCTION
 
 SUB readPlanetTemplates ()
@@ -2418,7 +2456,7 @@ FUNCTION simpleRocheLimit (mass_primary)
     '#the standard roche limit calc can't be used'
     '#use this dogshit instead.
     '#returns units in km
-    simpleRocheLimit = (7.52E-24)*mass_primary
+    simpleRocheLimit = (7.52E-23)*mass_primary
 END FUNCTION
 
 FUNCTION rocheLimit (mass_primary, mass_secondary, radius_primary, radius_secondary)
@@ -2448,6 +2486,68 @@ END FUNCTION
 FUNCTION siderealRotationalVel (theRadius, rotationalPeriod)
     theVelocity = starCircumference(theRadius) / rotationalPeriod
     siderealRotationalVel = theVelocity
+END FUNCTION
+
+FUNCTION innerLWHZ (theMass)
+    '#uses solar mass for calcs
+    '#returns distance in kerbal meters
+    '#convert kerbal mass to real world mass
+    theMass = 1.7565459E+28
+    rwKG = kerbol2Sol_kg(theMass)
+    '#convert real world kilograms to solar masses
+    rwSM = kg2solarMass(rwKG)
+
+    realAU=0.95*(rwSM^1.5)
+    realKM=AU2km(realAU)
+    kerbalM=realKM2kerbinKM(realKM)*1000
+    innerLWHZ = kerbalM
+END FUNCTION
+
+FUNCTION outerLWHZ (theMass)
+    '#uses solar mass for calcs
+    '#returns distance in kerbal meters
+    '#convert kerbal mass to real world mass
+    rwKG = kerbol2Sol_kg(theMass)
+    '#convert real world kilograms to solar masses
+    rwSM = kg2solarMass(rwKG)
+
+    realAU=1.37*(rwSM^1.5)
+    realKM=AU2km(realAU)
+    kerbalM=realKM2kerbinKM(realKM)*1000
+    outerLWHZ = kerbalM
+END FUNCTION
+
+FUNCTION innerLMHZ (theMass)
+    '#uses solar mass for calcs
+    '#returns distance in kerbal meters
+    '#convert kerbal mass to real world mass
+    'print #1, str$(theMass)
+    rwKG = kerbol2Sol_kg(theMass)
+    'print #1, str$(rwKG)
+    '#convert real world kilograms to solar masses
+    rwSM = kg2solarMass(rwKG)
+    'print #1, str$(rwSM)
+
+    realAU=((rwSM^3.5)/0.057)^0.5
+    'print #1, str$(realAU)
+    realKM=AU2km(realAU)
+    kerbalM=realKM2kerbinKM(realKM)*1000
+    'print #1, str$(kerbalM)
+    innerLMHZ = kerbalM
+END FUNCTION
+
+FUNCTION outerLMHZ (theMass)
+    '#uses solar mass for calcs
+    '#returns distance in kerbal meters
+    '#convert kerbal mass to real world mass
+    rwKG = kerbol2Sol_kg(theMass)
+    '#convert real world kilograms to solar masses
+    rwSM = kg2solarMass(rwKG)
+
+    realAU=((rwSM^3.5)/0.007)^0.5
+    realKM=AU2km(realAU)
+    kerbalM=realKM2kerbinKM(realKM)*1000
+    outerLMHZ = kerbalM
 END FUNCTION
 
 FUNCTION synchronousOrbit (theRadius, theMass, rotationalPeriod)
@@ -2535,7 +2635,7 @@ FUNCTION starTempSubstitution$ (aTemplate$, aName$, aPropertiesNode$, aOrbitNode
     starTempSubstitution$ = aTemplate$
 END FUNCTION
 
-FUNCTION planetTempSubstitution$ (aTemplate$, aBodyNode$, aName$, aTemplateNode$, aPropertiesNode$, aOrbitNode$, aScaledVerionNode$, aRingNode$, aAtmosphereNode$, aPQSNode$, aOceanNode$)
+FUNCTION planetTempSubstitution$ (aTemplate$, aBodyNode$, aName$, aTemplateNode$, aPropertiesNode$, aOrbitNode$, aScaledVerionNode$, aRingNode$, aAtmosphereNode$, aPQSNode$, aOceanNode$, aDebugNode$)
     '#####STH 2017-0124. QBasic doesn't have string formatting like python.
     '#####Replicated that function with string replacement function.
     '###########################'
@@ -2559,7 +2659,7 @@ FUNCTION planetTempSubstitution$ (aTemplate$, aBodyNode$, aName$, aTemplateNode$
         aTemplate$ = ReplaceStr(aTemplate$, "//%(theRingData)s", aRingNode$)
     END IF
     IF aScaledVerionNode$ <> "" THEN
-        aTemplate$ = ReplaceStr(aTemplate$, "//%(ScaledVersion)s", aScaledVerionNode$)
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(theScaledVersion)s", aScaledVerionNode$)
     END IF
     IF aAtmosphereNode$ <> "" THEN
         aTemplate$ = ReplaceStr(aTemplate$, "//%(theAtmosphere)s", aAtmosphereNode$)
@@ -2569,6 +2669,9 @@ FUNCTION planetTempSubstitution$ (aTemplate$, aBodyNode$, aName$, aTemplateNode$
     END IF
     IF aOceanNode$ <> "" THEN
         aTemplate$ = ReplaceStr(aTemplate$, "//%(theOcean)s", aOceanNode$)
+    END IF
+    IF aDebugNode$ <> "" THEN
+        aTemplate$ = ReplaceStr(aTemplate$, "//%(theDebug)s", aDebugNode$)
     END IF
 
     '###########################'

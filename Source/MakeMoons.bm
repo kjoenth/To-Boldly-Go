@@ -71,13 +71,13 @@ SUB MakeMoons (thePlanetName$,parentInclination,parentRadius,Max_num_moons):
 				PLANETDESC$ = "Semimajor axis:\\nn          "+str$(theMoonSemiMajorAxis)+"m\\nn \\nnArg. of periapsis: "+theArgumentOfPeriapsis$+"°\\nn \\nnInclination: "+theInclination$+"°\\nn \\nnTidal locked:\\nn \\nnHabitable zone:"
 			end if
 			aPropertiesTemplate$ = thePropertiesTemplate$
-			aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, PLANETDESC$, STR$(PLANETRADI), STR$(PLANETMASS), "", "", "", "", "", "", "", STR$(PLANETSOI))
+			aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, PLANETDESC$, STR$(PLANETRADI), STR$(PLANETMASS), "", "", "", "", "", "", "", "NA", "NA", STR$(PLANETSOI))
 			'########################'
 			aOrbitTemp$ = theOrbitTemplate$
 			aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
 			
 			aMoonTemp$ = thePlanetTemplate$
-			aMoonTemp$ = planetTempSubstitution$ (aMoonTemp$, aBodyNode$, theMoonName$, templateNode$, aPropertiesNode$, aOrbitNode$, "", "", "", "", "")
+			aMoonTemp$ = planetTempSubstitution$ (aMoonTemp$, aBodyNode$, theMoonName$, templateNode$, aPropertiesNode$, aOrbitNode$, "", "", "", "", "", "")
 			print #1, aMoonTemp$
 
 			'########################

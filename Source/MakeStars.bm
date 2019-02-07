@@ -85,7 +85,7 @@ SUB makeAStar (star_MassKG, star_Name$, star_Description$):
     '########################'
     '###Fill in property data'
     aPropertiesTemplate$ = thePropertiesTemplate$
-    aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, star_Description$, STR$(star_RadiusKSP), STR$(star_MassKSP), STR$(star_stdGravitationalParameter), STR$(star_surfaceGravity), "True", STR$(star_RotationalPeriod), "", "", "", STR$(star_SOI))
+    aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, star_Description$, STR$(star_RadiusKSP), STR$(star_MassKSP), STR$(star_stdGravitationalParameter), STR$(star_surfaceGravity), "True", STR$(star_RotationalPeriod), "", "", "", "NA", "NA", STR$(star_SOI))
     'PRINT #1, aPropertiesNode$
     '###End property data'
     '########################'
