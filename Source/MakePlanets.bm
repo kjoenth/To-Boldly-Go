@@ -9,7 +9,7 @@ SUB MakePlanets (star_Name$,star_MassKSP,star_RadiusKSP,parentInclination,Max_nu
 		planetNumb = 1		
 		theSemiMajorAxis = 0
 		planet_distanceMin = simpleRocheLimit(star_MassKSP)*1000
-		planet_distanceMin = simpleRocheLimit(1.7565459e28)*1000
+		'#planet_distanceMin = simpleRocheLimit(1.7565459e28)*1000
 		FOR aPlanet = 1 TO maxPlanets
 			'########################
 			'#Start out by seeing if the planet is in the LWHZ.
