@@ -1,4 +1,4 @@
-SUB MakeMoons (thePlanetName$,parentInclination,parentRadius,Max_num_moons):
+SUB MakeMoons (thePlanetName$,parentInclination,parentRadius,Max_num_moons,isInLWHZ$,isInLMHZ$):
 	'#Essentially the same as MakePlanets.bm
 	'#Smarter way to to this would be to abstract further and have moon and planet gen call common code'
 	'#STH 2017-0406'
@@ -71,10 +71,14 @@ SUB MakeMoons (thePlanetName$,parentInclination,parentRadius,Max_num_moons):
 				PLANETDESC$ = "Semimajor axis:\\nn          "+str$(theMoonSemiMajorAxis)+"m\\nn \\nnArg. of periapsis: "+theArgumentOfPeriapsis$+"°\\nn \\nnInclination: "+theInclination$+"°\\nn \\nnTidal locked:\\nn \\nnHabitable zone:"
 			end if
 			aPropertiesTemplate$ = thePropertiesTemplate$
-			aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, PLANETDESC$, STR$(PLANETRADI), STR$(PLANETMASS), "", "", "", "", "", "", "", "NA", "NA", STR$(PLANETSOI))
+			'#(aTemplate$, theDescription$, theRadius$, theMass$, theGravParam$, theGeeASL$, theDoesRotate$, theRotationPeriod$, theInitialRotation$, theIsTidallyLocked$, theIsHomeWord$, inLWHZ$, inLMHZ$, theSOI$)
+			aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, PLANETDESC$, STR$(PLANETRADI), STR$(PLANETMASS), "", "", "", "", "", "", "", isInLWHZ$, isInLMHZ$, STR$(PLANETSOI))
 			'########################'
 			aOrbitTemp$ = theOrbitTemplate$
 			aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theMoonSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
+			
+
+
 			
 			aMoonTemp$ = thePlanetTemplate$
 			aMoonTemp$ = planetTempSubstitution$ (aMoonTemp$, aBodyNode$, theMoonName$, templateNode$, aPropertiesNode$, aOrbitNode$, "", "", "", "", "", "")
