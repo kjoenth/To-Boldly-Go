@@ -1,5 +1,5 @@
-'To Boldly Go v0.3.1.3.1b - Kopernicus Procedural Galaxy Generator!"
-'Copyright (C) 2018  Daniel L. & Sean T. Hammond"
+'To Boldly Go v0.3.8 - Kopernicus Procedural Galaxy Generator!"
+'Copyright (C) 2019  Daniel L. & Sean T. Hammond"
 '
 'This program is free software; you can redistribute it and/or modify"
 'it under the terms of the GNU General Public License as published by"
@@ -15,7 +15,7 @@
 'along with this program; if not, write to the Free Software"
 'Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 
-TBG_Version$ = "0.3.1.3.1b"
+TBG_Version$ = "0.3.8"
 _TITLE "To Boldly Go version " + TBG_Version$
 
 i& = _LOADIMAGE("Data_Folder/Galaxy-icon.png", 32) '<<<<<<< use your image file name here
@@ -123,11 +123,11 @@ GSTAR = 0
 KSTAR = 0
 MSTAR = 0
 LSTAR = 0
-DWARFSTAR = 0
+'DWARFSTAR = 0
 CLUSTER = 0
 
 IF CUSTOM$ = "c" THEN
-    INPUT "Galaxy Age (0-5. 1 is recommended):", AGE
+    INPUT "Galaxy Age (0-5. 2 is recommended):", AGE
     INPUT "Planets? (y/n):", PENABLE$ 'Asks the user whether they want to have planets or not
     '*******************************************************************************
     INPUT "Asteroids? (y/n):", ASTTOG$ 'Asks the user whether they want to have asteroids or not
@@ -171,8 +171,8 @@ IF CUSTOM$ = "c" THEN
         INPUT "Blue Giants:", OSTAR 'Asks the user how many blue stars they want to generate.
         OSTAR = OSTAR + 0
         '*******************************************************************************
-        INPUT "White Dwarves:", DWARFSTAR 'Asks the user how many white dwarves they want to generate.
-        DWARFSTAR = DWARFSTAR + 0
+        'INPUT "White Dwarves:", DWARFSTAR 'Asks the user how many white dwarves they want to generate.
+        'DWARFSTAR = DWARFSTAR + 0
         '*******************************************************************************
         'INPUT " BLACK HOLES:", BLACKHOLE 'Asks the user how many black holes they want to generate.
         'BLACKHOLE = BLACKHOLE + 0
@@ -196,38 +196,49 @@ IF CUSTOM$ = "c" THEN
         END IF
         SELECT CASE AGE
             CASE 0
-                MSTAR = INT(RND * 20) + 10
-                KSTAR = INT(RND * 15) + 20
-                GSTAR = INT(RND * 20) + 5
-                ASTAR = INT(RND * 15) + 4
-                BSTAR = INT(RND * 10) + 1
-                LSTAR = INT(RND * 40) + 5
+                BSTAR = INT(RND * 10) + 50
+                OSTAR = INT(RND * 5) + 50
             CASE 1
-                MSTAR = INT(RND * 20) + 10
-                KSTAR = INT(RND * 15) + 7
-                GSTAR = INT(RND * 10) + 5
-                ASTAR = INT(RND * 7) + 4
-                BSTAR = INT(RND * 4) + 1
-                LSTAR = INT(RND * 40) + 5
-                DWARFSTAR = INT(RND * 5)
+                GSTAR = INT(RND * 10) + 15
+                FSTAR = INT(RND * 20) + 30
+                ASTAR = INT(RND * 7) + 30
+                BSTAR = INT(RND * 4) + 15
+                OSTAR = INT(RND * 5) + 10
+                'DWARFSTAR = INT(RND * 5)
             CASE 2
-                MSTAR = INT(RND * 20) + 10
-                KSTAR = INT(RND * 12) + 7
-                GSTAR = INT(RND * 3) + 1
-                LSTAR = INT(RND * 40) + 5
-                DWARFSTAR = INT(RND * 10) + 5
+                LSTAR = INT(RND * 5) + 7
+                MSTAR = INT(RND * 7) + 11
+                KSTAR = INT(RND * 7) + 15
+                GSTAR = INT(RND * 10) + 20
+                FSTAR = INT(RND * 20) + 20
+                ASTAR = INT(RND * 7) + 15
+                BSTAR = INT(RND * 4) + 7
+                OSTAR = INT(RND * 5) + 5
+                'DWARFSTAR = INT(RND * 10) + 5
             CASE 3
-                MSTAR = INT(RND * 10) + 10
-                KSTAR = INT(RND * 7) + 3
-                LSTAR = INT(RND * 30) + 5
-                DWARFSTAR = INT(RND * 30) + 10
+                LSTAR = INT(RND * 5) + 8
+                MSTAR = INT(RND * 7) + 25
+                KSTAR = INT(RND * 7) + 30
+                GSTAR = INT(RND * 10) + 14
+                FSTAR = INT(RND * 20) + 11
+                ASTAR = INT(RND * 7) + 7
+                BSTAR = INT(RND * 4) + 3
+                OSTAR = INT(RND * 5) + 2
+                'DWARFSTAR = INT(RND * 30) + 10
             CASE 4
-                MSTAR = INT(RND * 3)
-                LSTAR = INT(RND * 20) + 5
-                DWARFSTAR = INT(RND * 40) + 10
+                LSTAR = INT(RND * 5) + 30
+                MSTAR = INT(RND * 7) + 40
+                KSTAR = INT(RND * 7) + 15
+                GSTAR = INT(RND * 10) + 5
+                FSTAR = INT(RND * 20) + 5
+                ASTAR = INT(RND * 7) + 3
+                BSTAR = INT(RND * 4) + 1
+                OSTAR = INT(RND * 5) + 1
+                'DWARFSTAR = INT(RND * 40) + 10
             CASE 5
-                LSTAR = INT(RND * 15)
-                DWARFSTAR = INT(RND * 60) + 10
+                LSTAR = INT(RND * 5) + 100
+                MSTAR = INT(RND * 7) + 0
+                'DWARFSTAR = INT(RND * 60) + 10
         END SELECT
     END IF
 ELSE
@@ -248,38 +259,44 @@ ELSE
 
         SELECT CASE AGE
             CASE 0
-                MSTAR = INT(RND * 20) + 10
-                KSTAR = INT(RND * 15) + 20
-                GSTAR = INT(RND * 20) + 5
-                ASTAR = INT(RND * 15) + 4
-                BSTAR = INT(RND * 10) + 1
-                LSTAR = INT(RND * 40) + 5
+                BSTAR = INT(RND * 10) + 50
+                OSTAR = INT(RND * 5) + 50
             CASE 1
-                MSTAR = INT(RND * 20) + 10
-                KSTAR = INT(RND * 15) + 7
-                GSTAR = INT(RND * 10) + 5
-                ASTAR = INT(RND * 7) + 4
-                BSTAR = INT(RND * 4) + 1
-                LSTAR = INT(RND * 40) + 5
-                DWARFSTAR = INT(RND * 5)
+                GSTAR = INT(RND * 10) + 15
+                FSTAR = INT(RND * 20) + 30
+                ASTAR = INT(RND * 7) + 30
+                BSTAR = INT(RND * 4) + 15
+                OSTAR = INT(RND * 5) + 10
             CASE 2
-                MSTAR = INT(RND * 20) + 10
-                KSTAR = INT(RND * 12) + 7
-                GSTAR = INT(RND * 3) + 1
-                LSTAR = INT(RND * 40) + 5
-                DWARFSTAR = INT(RND * 10) + 5
+                LSTAR = INT(RND * 5) + 7
+                MSTAR = INT(RND * 7) + 11
+                KSTAR = INT(RND * 7) + 15
+                GSTAR = INT(RND * 10) + 20
+                FSTAR = INT(RND * 20) + 20
+                ASTAR = INT(RND * 7) + 15
+                BSTAR = INT(RND * 4) + 7
+                OSTAR = INT(RND * 5) + 5
             CASE 3
-                MSTAR = INT(RND * 10) + 10
-                KSTAR = INT(RND * 7) + 3
-                LSTAR = INT(RND * 30) + 5
-                DWARFSTAR = INT(RND * 30) + 10
+                LSTAR = INT(RND * 5) + 8
+                MSTAR = INT(RND * 7) + 25
+                KSTAR = INT(RND * 7) + 30
+                GSTAR = INT(RND * 10) + 14
+                FSTAR = INT(RND * 20) + 11
+                ASTAR = INT(RND * 7) + 7
+                BSTAR = INT(RND * 4) + 3
+                OSTAR = INT(RND * 5) + 2
             CASE 4
-                MSTAR = INT(RND * 3)
-                LSTAR = INT(RND * 20) + 5
-                DWARFSTAR = INT(RND * 40) + 10
+                LSTAR = INT(RND * 5) + 30
+                MSTAR = INT(RND * 7) + 40
+                KSTAR = INT(RND * 7) + 15
+                GSTAR = INT(RND * 10) + 5
+                FSTAR = INT(RND * 20) + 5
+                ASTAR = INT(RND * 7) + 3
+                BSTAR = INT(RND * 4) + 1
+                OSTAR = INT(RND * 5) + 1
             CASE 5
-                LSTAR = INT(RND * 15)
-                DWARFSTAR = INT(RND * 60) + 10
+                LSTAR = INT(RND * 5) + 100
+                MSTAR = INT(RND * 7) + 0
         END SELECT
         'BLACKHOLE = INT(RND * 3)
         'ROGUE = INT(RND * 10)
@@ -343,6 +360,14 @@ theWikiTemplate$ = fileAsString("wikiTemplate.html")
 '#Template files for integration with other mods
 DIM SHARED theResearchBodyTemplate$
 theResearchBodyTemplate$ = fileAsString("forReserachBodiesTmp.txt")
+DIM SHARED theEVETemplate$
+theEVETemplate$ = ""
+DIM SHARED theKethaneEVETemplate$
+theKethaneEVETemplate$ = fileAsString("forEnvirEnhanTmp-Kethane.txt")
+DIM SHARED theWaterEVETemplate$
+theWaterEVETemplate$ = fileAsString("forEnvirEnhanTmp-Water.txt")
+DIM SHARED theEveEVETemplate$
+theEveEVETemplate$ = fileAsString("forEnvirEnhanTmp-Explodium.txt")
 
 DIM SHARED blackHole_MassKSP
 DIM SHARED blackHole_RadiusKSP
@@ -647,6 +672,11 @@ OPEN "wikiEntry.html" FOR OUTPUT AS #10 '#Creates the wiki file
 '###Make the researchBodies mod file
 OPEN "TBG-ResearchBodies.cfg" FOR OUTPUT AS #20 '#Creates the researchBodies mod file
 
+'###########
+'###Make the researchBodies mod file
+OPEN "TBG-EnvironVisEnhanc.cfg" FOR OUTPUT AS #30 '#Creates the researchBodies mod file
+
+
 '******************************************************************************
 FOR a_Star = 1 TO OSTAR
     star_MassKg = 3.18168E+31 + (RND(1) * (3.18168E+32 - 3.18168E+31)) '###pick a star mass in the O stellar class range'
@@ -807,827 +837,12 @@ FOR a_Star = 1 TO LSTAR
     SOBJECTNUMBER = SOBJECTNUMBER + 1
 NEXT
 
-'******************************************************************************
-FOR a_Star = 1 TO DWARFSTAR
-    '###These print statements can go away once the starTemplate can be used
-    '###Need to get planet and moon template generation working in basic first
-    '###STH 2017-0127
-    star_Name$ = starNameList$(SOBJECTNUMBER)
-    PRINT #1, "@Kopernicus"
-    PRINT #1, "{"
-    PRINT #1, "    //https://github.com/Kopernicus/Kopernicus/wiki/Syntax-for-stars"
-    PRINT #1, "    Body"
-    PRINT #1, "    {"
-    PRINT #1, "        %name = "; star_Name$
-    PRINT #1, "        Template"
-    PRINT #1, "        {"
-    PRINT #1, "            name = Sun"
-    PRINT #1, "        }"
-    '########################'
-    '###Fill in property data'
-    star_Description$ = star_Name$ + " is a white dwarf stellar core remnant."
-    star_RadiusKSP = INT(RND * 700000) + 300000
-    star_SOI = 90118820000
-    aPropertiesTemplate$ = thePropertiesTemplate$
-    aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, star_Description$, STR$(star_RadiusKSP), "", "", "", "", "", "", "", "", "", "", STR$(star_SOI))
-    PRINT #1, aPropertiesNode$
-    '###End property data'
-    '########################'
-    '########################'
-    '###Fill in orbit data'
-    IF (GTYPE = 0 OR GTYPE = 1) THEN
-        theReferenceBody$ = "Core"
-        IF GTYPE = 0 THEN theInclination$ = STR$(INT(RND * 360))
-        IF GTYPE = 1 THEN theInclination$ = STR$(INT(RND * 25) + 1)
-        '#theSemiMajorAxis$ = STR$(INT(RND * 1D+16) + 100000000000000#)
-        theSemimajorAxis$ = str$(galaxy_RadiusKSP)
-    ELSE
-        theReferenceBody$ = STR$(INT(RND * CLUSTERNUM))
-        theInclination$ = STR$(INT(RND * 360))
-        theSemiMajorAxis$ = STR$(INT(RND * 10000000000000) + 10000000000)
-    END IF
-    theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
-    theMeanAnomalyAtEpoch$ = STR$(0)
-    theEpoch$ = STR$(0)
-    theMode$ = STR$(0)
-    theColour$ = "1,1,1,1"
-    aOrbitTemp$ = theOrbitTemplate$
-    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
-    PRINT #1, aOrbitNode$
-    '###End orbit data'
-    '########################'
-    PRINT #1, "        ScaledVersion"
-    PRINT #1, "        {"
-    '########################'
-    '###Fill in light data'
-    sunlightColor$ = "1.0,1.0,1.0,1.0"
-    sunlightIntensity$ = "0.5"
-    scaledSunlightColor$ = "1.0,1.0,1.0,1.0"
-    scaledSunlightIntensity$ = "0.20"
-    IVASuncolor$ = "1.0,1.0,1.0,1.0"
-    IVASunIntensity$ = "0.5"
-    'sunLensFlareColor$ = "0.2303371,0.4494382,1,1.0"
-    sunLensFlareColor$ = "1.0,1.0,1.0,1.0,1.0"
-    ambientLightColor$ = "0,0,0,1"
-    sunAU$ = "135998402"
-    luminosity$ = "0"
-    givesOffLight$ = "True"
-    aLightTemp$ = theLightTemplate$
-    aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$, " 0.0045")
-    PRINT #1, aLightNode$
-    '###End light data'
-    '########################'
-    '########################'
-    '###Fill in material data'
-    emitColorZero$ = "1.0,1.0,1.0,1.0"
-    emitColorOne$ = "1.0,1.0,1.0,1.0"
-    sunspotColor$ = "1.0,1.0,1.0,1.0"
-    rimColor$ = "0.7,0.7,0.7,1.0"
-    rimPower$ = "1"
-    rimBlend$ = "1"
-    aMaterialTemp$ = theMaterialTemplate$
-    aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
-    PRINT #1, aMaterialNode$
-    '###End material data'
-    '########################'
-    '########################'
-    '###Fill in coronas data'
-    starColour$ = "White"
-    aCoronaTemp$ = theCoronasTemplate$
-    aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
-    PRINT #1, aCoronaNode$
-    '###End coronas data'
-    '########################'
-    PRINT #1, "        }"
-    PRINT #1, "    }"
-
-    IF ASTTOG$ = "y" THEN
-        CALL MakeAsteroids(star_Name$, 2)
-    END IF
-    PRINT #1, "}"
-    SOBJECTNUMBER = SOBJECTNUMBER + 1
-    DWARFSTARNUMBER = DWARFSTARNUMBER + 1
-NEXT
-
-'******************************************************************************
-
-FOR a_Star = 1 TO BLACKHOLE
-    'star_MassKg = 4.17596e30 +(RND(1)*(3.18168e31-4.17596e30)) '###pick a star mass in the B stellar class range'
-    'star_MassKg = 2.78397E30 +(RND(1)*(4.17596E30-2.78397E30)) '###pick a star mass in the A stellar class range'
-    'star_MassKg = 2.06809E30 +(RND(1)*(2.78397E30-2.06809E30)) '###pick a star mass in the F stellar class range'
-    'star_MassKg = 1.59084E30 +(RND(1)*(2.06809E30-1.59084E30)) '###pick a star mass in the G stellar class range'
-    'star_MassKg = 8.94848E29 +(RND(1)*(1.59084E30-8.94848E29)) '###pick a star mass in the K stellar class range'
-    star_MassKg = 1.59084E29 + (RND(1) * (8.94848E29 - 1.59084E29)) '###pick a star mass in the M stellar class range'
-    'star_MassKg = 2.46740E28 +(RND(1)*(1.59084E29-2.46740E28)) '###pick a star mass in the Y to L stellar class range'
-    '#test value: feed in Kerbol's mass in real world kg: 1.7565459e28*113.2393
-    '#star_MassKg = 1.7565459e28*113.2393
-    'star_MassKg = RND*(3.18168e31) '###pick a star mass in the Y to L stellar class range'
-
-    '###########################'
-    '###STH 2017-0209 Do calculations to get star characteristics
-    star_Name$ = starNameList$(SOBJECTNUMBER)
-    star_Description$ = "Dim light, Yet so bright. A lonely outpost in the deep dark night. Travelers come far shall know where they are. A new land, A new star, How much pain and suffering it must have took to go this far. For at " + star_Name$ + " your journey might be done. And you will be free."
-    CALL makeAStar(star_MassKg, star_Name$, star_Description$) '#call the subroutinue to make a star'
-    '###These print statements can go away once the starTemplate can be used
-    '###Need to get planet and moon template generation working in basic first
-    '###STH 2017-0127
-    aStarName$ = theStarName$ '#Calls the function "theStarName"
-    PRINT #1, "@Kopernicus"
-    PRINT #1, "{"
-    PRINT #1, "    Body"
-    PRINT #1, "    {"
-    PRINT #1, "        name = "; aStarName$
-    PRINT #1, "        Template"
-    PRINT #1, "        {"
-    PRINT #1, "            name = Sun"
-    PRINT #1, "        }"
-    '########################'
-    '###Fill in property data'
-    'theDescription$ = "BILLYBOB -" + STR$(BLACKHOLENUMBER) + "is a black hole. An infinitely dense singularity encapsulated by the event horizon."
-    theDescription$ = aStarName$ + "is a black hole. An infinitely dense singularity encapsulated by the event horizon."
-    theRadius$ = STR$(INT(RND * 700000) + 300000)
-    theSphereOfInfluence$ = STR$(90118820000.5)
-    theGeeASL$ = STR$(1000000)
-    aPropertiesTemplate$ = thePropertiesTemplate$
-    aPropertiesNode$ = propertyNode$(aPropertiesTemplate$, theDescription$, theRadius$, "", "", theGeeASL$, "", "", "", "", "", "", "", theSphereOfInfluence$)
-    PRINT #1, aPropertiesNode$
-    '###End property data'
-    '########################'
-    '########################'
-    '###Fill in orbit data'
-    IF (GTYPE = 0 OR GTYPE = 1) THEN
-        theReferenceBody$ = "Core"
-        IF GTYPE = 0 THEN theInclination$ = STR$(INT(RND * 360))
-        IF GTYPE = 1 THEN theInclination$ = STR$(INT(RND * 25) + 1)
-        '#theSemiMajorAxis$ = STR$(INT(RND * 1D+16) + 100000000000000#)
-        theSemimajorAxis = galaxy_RadiusKSP
-    ELSE
-        theReferenceBody$ = STR$(INT(RND * CLUSTERNUM))
-        theInclination$ = STR$(INT(RND * 360))
-        theSemiMajorAxis$ = STR$(INT(RND * 10000000000000) + 10000000000)
-    END IF
-    theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
-    theMeanAnomalyAtEpoch$ = STR$(0)
-    theEpoch$ = STR$(0)
-    theMode$ = "" 'STR$(0)
-    theColour$ = "0.2,0.2,0.2,1"
-    aOrbitTemp$ = theOrbitTemplate$
-    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
-    PRINT #1, aOrbitNode$
-    '###End orbit data'
-    '########################'
-    '###Fill in Ring Data'
-    theAngle$ = "0"
-    theOuterRadius$ = "72000"
-    theInnerRadius$ = "200"
-    theRingTexture$ = "BH_ring"
-    theColour$ = "0.100, 1.000, 1.000, 1.000"
-    theLockRotation$ = "True"
-    theUnlit$ = "True"
-    aRingsTemp$ = theRingsTemplate$
-    aRingsNode$ = ringNode$(aRingsTemp$, theAngle$, theOuterRadius$, theInnerRadius$, theRingTexture$, theColour$, theLockRotation$, theUnlit$)
-    PRINT #1, aRingsNode$
-    '###End ring data'
-    '########################'
-    PRINT #1, "        ScaledVersion"
-    PRINT #1, "        {"
-    '########################'
-    '###Fill in light data'
-    sunlightColor$ = "1.0,1.0,1.0,1.0"
-    sunlightIntensity$ = "0.45"
-    scaledSunlightColor$ = "1.0,1.0,1.0,1.0"
-    scaledSunlightIntensity$ = "0.45"
-    IVASuncolor$ = "1.0, 0.977, 0.896, 1.0"
-    IVASunIntensity$ = "0.34"
-    sunLensFlareColor$ = "0.0, 0.0, 0.0, 1.0"
-    ambientLightColor$ = "0,0,0,1"
-    sunAU$ = "13599840256"
-    luminosity$ = "0"
-    givesOffLight$ = "False"
-    aLightTemp$ = theLightTemplate$
-    aLightNode$ = lightNode$(aLightTemp$, sunlightColor$, sunlightIntensity$, scaledSunlightColor$, scaledSunlightIntensity$, IVASuncolor$, IVASunIntensity$, sunLensFlareColor$, ambientLightColor$, sunAU$, luminosity$, givesOffLight$, "0.0045")
-    PRINT #1, aLightNode$
-    '###End light data'
-    '########################'
-    '########################'
-    '###Fill in material data'
-    emitColorZero$ = "0.0,0.0,0.0,1.0"
-    emitColorOne$ = "0.0,0.0,0.0,1.0"
-    sunspotColor$ = "0.0,0.0,0.0,1.0"
-    rimColor$ = "0.0,0.0,0.0,1.0"
-    rimPower$ = "1.5"
-    rimBlend$ = "1.8"
-    aMaterialTemp$ = theMaterialTemplate$
-    aMaterialNode$ = materialNode$(aMaterialTemp$, emitColorZero$, emitColorOne$, sunspotColor$, rimColor$, rimPower$, rimBlend$)
-    PRINT #1, aMaterialNode$
-    '###End material data'
-    '########################'
-    '########################'
-    '###Fill in coronas data'
-    starColour$ = "BlackHoleCorona"
-    aCoronaTemp$ = theCoronasTemplate$
-    aCoronaNode$ = coronaNode$(aCoronaTemp$, starColour$)
-    PRINT #1, aCoronaNode$
-    '###End coronas data'
-    '########################'
-    PRINT #1, "        }"
-    PRINT #1, "    }"
-
-    IF ASTTOG$ = "y" THEN
-        CALL MakeAsteroids(star_Name$, 2)
-    END IF
-
-    SOBJECTNUMBER = SOBJECTNUMBER + 1
-    BLACKHOLENUMBER = BLACKHOLENUMBER + 1
-NEXT
-
-'******************************************************************************
-
-FOR a_Star = 1 TO ROGUE
-    aStarName$ = theStarName$ '#Calls the function "theStarName"
-    PRINT #1, "@Kopernicus"
-    PRINT #1, "{"
-    PRINT #1, "    Body"
-    PRINT #1, "    {"
-    PRINT #1, "         name = "; aStarName$
-    '########################'
-    '###Fill in orbit data'
-    IF (GTYPE = 0 OR GTYPE = 1) THEN
-        theReferenceBody$ = "Sun"
-        IF GTYPE = 0 THEN theInclination$ = STR$(INT(RND * 360))
-        IF GTYPE = 1 THEN theInclination$ = STR$(INT(RND * 25) + 1)
-        '#theSemiMajorAxis$ = STR$(INT(RND * 1D+16) + 100000000000000#)
-        theSemimajorAxis = galaxy_RadiusKSP
-    ELSE
-        theReferenceBody$ = STR$(INT(RND * CLUSTERNUM))
-        theInclination$ = STR$(INT(RND * 360))
-        theSemiMajorAxis$ = STR$(INT(RND * 10000000000000) + 10000000000)
-    END IF
-    theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
-    theMeanAnomalyAtEpoch$ = STR$(0)
-    theEpoch$ = STR$(0)
-    theMode$ = "" 'STR$(0)
-    theColour$ = "1,1,0,1"
-    aOrbitTemp$ = theOrbitTemplate$
-    aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, theSemiMajorAxis$, theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)
-    PRINT #1, aOrbitNode$
-    '###End property data'
-    '########################'
-
-    PRINT #1, "         Template"
-    PRINT #1, "         {"
-
-        
-    PLANETTYPE = INT(RND * 13)
-    SELECT CASE PLANETTYPE
-        CASE 0
-            PLANETTYPE$ = "Moho"
-        CASE 1
-            PLANETTYPE$ = "Eve"
-        CASE 2
-            PLANETTYPE$ = "Mun"
-        CASE 3
-            PLANETTYPE$ = "Minmus"
-        CASE 4
-            PLANETTYPE$ = "Duna"
-        CASE 5
-            PLANETTYPE$ = "Ike"
-        CASE 6
-            PLANETTYPE$ = "Dres"
-        CASE 7
-            PLANETTYPE$ = "Jool"
-        CASE 8
-            PLANETTYPE$ = "Laythe"
-        CASE 9
-            PLANETTYPE$ = "Vall"
-        CASE 10
-            PLANETTYPE$ = "Tylo"
-        CASE 11
-            PLANETTYPE$ = "Jool"
-        CASE 12
-            PLANETTYPE$ = "Jool"
-        CASE 13
-            PLANETTYPE$ = "Eeloo"
-    END SELECT
-    IF PLANETTYPE$ = "Moho" THEN
-        PRINT #1, "             name = "; PLANETTYPE$
-        PRINT #1, "         }"
-
-        PRINT #1, "         Properties"
-        PRINT #1, "         {"
-
-
-
-
-            
-        PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
-        PRINT #1, "            sphereOfInfluence = 50118820000"
-
-        PRINT #1, "         }"
-            
-        RINGS = INT(RND * 3)
-        IF RINGS = 0 THEN
-            PRINT #1, "         Rings"
-            PRINT #1, "         {"
-            PRINT #1, "             Ring"
-            PRINT #1, "             {"
-            PRINT #1, "                 angle = 0"
-            PRINT #1, "                 outerRadius = 3000"
-            PRINT #1, "                 innerRadius = 2000"
-                
-            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-            PRINT #1, "                 color = 1.0,1,1,1.0"
-            PRINT #1, "                 lockRotation = false"
-            PRINT #1, "                 unlit = false"
-            PRINT #1, "             }"
-            PRINT #1, "          }"
-        END IF
-        PRINT #1, "    }"
-        PRINT #1, "}"
-    END IF
-    IF PLANETTYPE$ = "Eve" THEN
-        PRINT #1, "             name = "; PLANETTYPE$
-        PRINT #1, "         }"
-
-        PRINT #1, "         Properties"
-        PRINT #1, "         {"
-
-
-
-
-            
-        PRINT #1, "            radius ="; INT(RND * 1500000) + 300000; ""
-        PRINT #1, "            sphereOfInfluence = 50118820000"
-
-        PRINT #1, "         }"
-            
-        RINGS = INT(RND * 3)
-        IF RINGS = 0 THEN
-            PRINT #1, "         Rings"
-            PRINT #1, "         {"
-            PRINT #1, "             Ring"
-            PRINT #1, "             {"
-            PRINT #1, "                 angle = 0"
-            PRINT #1, "                 outerRadius = 3000"
-            PRINT #1, "                 innerRadius = 2000"
-                
-            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-            PRINT #1, "                 color = 1.0,1,1,1.0"
-            PRINT #1, "                 lockRotation = false"
-            PRINT #1, "                 unlit = false"
-            PRINT #1, "             }"
-            PRINT #1, "          }"
-        END IF
-        PRINT #1, "    }"
-        PRINT #1, "}"
-    END IF
-    IF PLANETTYPE$ = "Mun" THEN
-        PRINT #1, "             name = "; PLANETTYPE$
-        PRINT #1, "         }"
-
-        PRINT #1, "         Properties"
-        PRINT #1, "         {"
-
-
-
-
-            
-        PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
-        PRINT #1, "            sphereOfInfluence = 50118820000"
-
-        PRINT #1, "         }"
-            
-        RINGS = INT(RND * 3)
-        IF RINGS = 0 THEN
-            PRINT #1, "         Rings"
-            PRINT #1, "         {"
-            PRINT #1, "             Ring"
-            PRINT #1, "             {"
-            PRINT #1, "                 angle = 0"
-            PRINT #1, "                 outerRadius = 3000"
-            PRINT #1, "                 innerRadius = 2000"
-                
-            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-            PRINT #1, "                 color = 1.0,1,1,1.0"
-            PRINT #1, "                 lockRotation = false"
-            PRINT #1, "                 unlit = false"
-            PRINT #1, "             }"
-            PRINT #1, "          }"
-        END IF
-        PRINT #1, "    }"
-        PRINT #1, "}"
-    END IF
-    IF PLANETTYPE$ = "Minmus" THEN
-        PRINT #1, "             name = "; PLANETTYPE$
-        PRINT #1, "         }"
-
-        PRINT #1, "         Properties"
-        PRINT #1, "         {"
-
-
-
-
-            
-        PRINT #1, "                     radius ="; INT(RND * 120000) + 80000; ""
-        PRINT #1, "            sphereOfInfluence = 50118820000"
-
-        PRINT #1, "         }"
-            
-        RINGS = INT(RND * 3)
-        IF RINGS = 0 THEN
-            PRINT #1, "         Rings"
-            PRINT #1, "         {"
-            PRINT #1, "             Ring"
-            PRINT #1, "             {"
-            PRINT #1, "                 angle = 0"
-            PRINT #1, "                 outerRadius = 3000"
-            PRINT #1, "                 innerRadius = 2000"
-                
-            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-            PRINT #1, "                 color = 1.0,1,1,1.0"
-            PRINT #1, "                 lockRotation = false"
-            PRINT #1, "                 unlit = false"
-            PRINT #1, "             }"
-            PRINT #1, "          }"
-        END IF
-        PRINT #1, "    }"
-        PRINT #1, "}"
-    END IF
-    IF PLANETTYPE$ = "Duna" THEN
-        PRINT #1, "             name = "; PLANETTYPE$
-        PRINT #1, "         }"
-
-        PRINT #1, "         Properties"
-        PRINT #1, "         {"
-
-
-
-
-            
-        PRINT #1, "            radius ="; INT(RND * 700000) + 270000; ""
-        PRINT #1, "            sphereOfInfluence = 50118820000"
-
-        PRINT #1, "         }"
-            
-        RINGS = INT(RND * 3)
-        IF RINGS = 0 THEN
-            PRINT #1, "         Rings"
-            PRINT #1, "         {"
-            PRINT #1, "             Ring"
-            PRINT #1, "             {"
-            PRINT #1, "                 angle = 0"
-            PRINT #1, "                 outerRadius = 3000"
-            PRINT #1, "                 innerRadius = 2000"
-                
-            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-            PRINT #1, "                 color = 1.0,1,1,1.0"
-            PRINT #1, "                 lockRotation = false"
-            PRINT #1, "                 unlit = false"
-            PRINT #1, "             }"
-            PRINT #1, "          }"
-        END IF
-        PRINT #1, "    }"
-        PRINT #1, "}"
-    END IF
-    IF PLANETTYPE$ = "Ike" THEN
-        PRINT #1, "             name = "; PLANETTYPE$
-        PRINT #1, "         }"
-
-        PRINT #1, "         Properties"
-        PRINT #1, "         {"
-
-
-
-
-            
-        PRINT #1, "            radius ="; INT(RND * 250000) + 50000; ""
-        PRINT #1, "            sphereOfInfluence = 50118820000"
-
-        PRINT #1, "         }"
-            
-        RINGS = INT(RND * 3)
-        IF RINGS = 0 THEN
-            PRINT #1, "         Rings"
-            PRINT #1, "         {"
-            PRINT #1, "             Ring"
-            PRINT #1, "             {"
-            PRINT #1, "                 angle = 0"
-            PRINT #1, "                 outerRadius = 3000"
-            PRINT #1, "                 innerRadius = 2000"
-                
-            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-            PRINT #1, "                 color = 1.0,1,1,1.0"
-            PRINT #1, "                 lockRotation = false"
-            PRINT #1, "                 unlit = false"
-            PRINT #1, "             }"
-            PRINT #1, "          }"
-        END IF
-        PRINT #1, "    }"
-        PRINT #1, "}"
-    END IF
-    IF PLANETTYPE$ = "Dres" THEN
-        PRINT #1, "             name = "; PLANETTYPE$
-        PRINT #1, "         }"
-
-        PRINT #1, "         Properties"
-        PRINT #1, "         {"
-
-
-
-
-            
-        PRINT #1, "            radius ="; INT(RND * 250000) + 50000; ""
-        PRINT #1, "            sphereOfInfluence = 50118820000"
-
-        PRINT #1, "         }"
-            
-        RINGS = INT(RND * 3)
-        IF RINGS = 0 THEN
-            PRINT #1, "         Rings"
-            PRINT #1, "         {"
-            PRINT #1, "             Ring"
-            PRINT #1, "             {"
-            PRINT #1, "                 angle = 0"
-            PRINT #1, "                 outerRadius = 3000"
-            PRINT #1, "                 innerRadius = 2000"
-                
-            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-            PRINT #1, "                 color = 1.0,1,1,1.0"
-            PRINT #1, "                 lockRotation = false"
-            PRINT #1, "                 unlit = false"
-            PRINT #1, "             }"
-            PRINT #1, "          }"
-        END IF
-        PRINT #1, "    }"
-        PRINT #1, "}"
-    END IF
-    IF PLANETTYPE$ = "Laythe" THEN
-        PRINT #1, "             name = "; PLANETTYPE$
-        PRINT #1, "         }"
-
-        PRINT #1, "         Properties"
-        PRINT #1, "         {"
-
-
-
-
-            
-        PRINT #1, "            radius ="; INT(RND * 1000000) + 300000; ""
-        PRINT #1, "            sphereOfInfluence = 50118820000"
-
-        PRINT #1, "         }"
-            
-        RINGS = INT(RND * 3)
-        IF RINGS = 0 THEN
-            PRINT #1, "         Rings"
-            PRINT #1, "         {"
-            PRINT #1, "             Ring"
-            PRINT #1, "             {"
-            PRINT #1, "                 angle = 0"
-            PRINT #1, "                 outerRadius = 3000"
-            PRINT #1, "                 innerRadius = 2000"
-                
-            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-            PRINT #1, "                 color = 1.0,1,1,1.0"
-            PRINT #1, "                 lockRotation = false"
-            PRINT #1, "                 unlit = false"
-            PRINT #1, "             }"
-            PRINT #1, "          }"
-        END IF
-        PRINT #1, "    }"
-        PRINT #1, "}"
-    END IF
-    IF PLANETTYPE$ = "Vall" THEN
-        PRINT #1, "             name = "; PLANETTYPE$
-        PRINT #1, "         }"
-
-        PRINT #1, "         Properties"
-        PRINT #1, "         {"
-
-
-
-
-            
-        PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
-        PRINT #1, "            sphereOfInfluence = 50118820000"
-
-        PRINT #1, "         }"
-            
-        RINGS = INT(RND * 3)
-        IF RINGS = 0 THEN
-            PRINT #1, "         Rings"
-            PRINT #1, "         {"
-            PRINT #1, "             Ring"
-            PRINT #1, "             {"
-            PRINT #1, "                 angle = 0"
-            PRINT #1, "                 outerRadius = 3000"
-            PRINT #1, "                 innerRadius = 2000"
-                
-            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-            PRINT #1, "                 color = 1.0,1,1,1.0"
-            PRINT #1, "                 lockRotation = false"
-            PRINT #1, "                 unlit = false"
-            PRINT #1, "             }"
-            PRINT #1, "          }"
-        END IF
-        PRINT #1, "    }"
-        PRINT #1, "}"
-    END IF
-    IF PLANETTYPE$ = "Tylo" THEN
-        PRINT #1, "             name = "; PLANETTYPE$
-        PRINT #1, "         }"
-
-        PRINT #1, "         Properties"
-        PRINT #1, "         {"
-
-
-
-
-            
-        PRINT #1, "            radius ="; INT(RND * 1500000) + 300000; ""
-        PRINT #1, "            sphereOfInfluence = 50118820000"
-
-        PRINT #1, "         }"
-            
-        RINGS = INT(RND * 3)
-        IF RINGS = 0 THEN
-            PRINT #1, "         Rings"
-            PRINT #1, "         {"
-            PRINT #1, "             Ring"
-            PRINT #1, "             {"
-            PRINT #1, "                 angle = 0"
-            PRINT #1, "                 outerRadius = 3000"
-            PRINT #1, "                 innerRadius = 2000"
-                
-            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-            PRINT #1, "                 color = 1.0,1,1,1.0"
-            PRINT #1, "                 lockRotation = false"
-            PRINT #1, "                 unlit = false"
-            PRINT #1, "             }"
-            PRINT #1, "          }"
-        END IF
-        PRINT #1, "    }"
-        PRINT #1, "}"
-    END IF
-    IF PLANETTYPE$ = "Bop" THEN
-        PRINT #1, "             name = "; PLANETTYPE$
-        PRINT #1, "         }"
-
-        PRINT #1, "         Properties"
-        PRINT #1, "         {"
-
-
-
-
-            
-        PRINT #1, "            radius ="; INT(RND * 100000) + 70000; ""
-        PRINT #1, "            sphereOfInfluence = 50118820000"
-
-        PRINT #1, "         }"
-            
-        RINGS = INT(RND * 3)
-        IF RINGS = 0 THEN
-            PRINT #1, "         Rings"
-            PRINT #1, "         {"
-            PRINT #1, "             Ring"
-            PRINT #1, "             {"
-            PRINT #1, "                 angle = 0"
-            PRINT #1, "                 outerRadius = 3000"
-            PRINT #1, "                 innerRadius = 2000"
-                
-            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-            PRINT #1, "                 color = 1.0,1,1,1.0"
-            PRINT #1, "                 lockRotation = false"
-            PRINT #1, "                 unlit = false"
-            PRINT #1, "             }"
-            PRINT #1, "          }"
-        END IF
-        PRINT #1, "    }"
-        PRINT #1, "}"
-    END IF
-    IF PLANETTYPE$ = "Pol" THEN
-        PRINT #1, "             name = "; PLANETTYPE$
-        PRINT #1, "         }"
-
-        PRINT #1, "         Properties"
-        PRINT #1, "         {"
-
-
-
-
-            
-        PRINT #1, "            radius ="; INT(RND * 100000) + 70000; ""
-        PRINT #1, "            sphereOfInfluence = 50118820000"
-
-        PRINT #1, "         }"
-            
-        RINGS = INT(RND * 3)
-        IF RINGS = 0 THEN
-            PRINT #1, "         Rings"
-            PRINT #1, "         {"
-            PRINT #1, "             Ring"
-            PRINT #1, "             {"
-            PRINT #1, "                 angle = 0"
-            PRINT #1, "                 outerRadius = 3000"
-            PRINT #1, "                 innerRadius = 2000"
-                
-            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-            PRINT #1, "                 color = 1.0,1,1,1.0"
-            PRINT #1, "                 lockRotation = false"
-            PRINT #1, "                 unlit = false"
-            PRINT #1, "             }"
-            PRINT #1, "          }"
-        END IF
-        PRINT #1, "    }"
-        PRINT #1, "}"
-    END IF
-    IF PLANETTYPE$ = "Eeloo" THEN
-        PRINT #1, "             name = "; PLANETTYPE$
-        PRINT #1, "         }"
-
-        PRINT #1, "         Properties"
-        PRINT #1, "         {"
-
-
-
-
-            
-        PRINT #1, "            radius ="; INT(RND * 300000) + 70000; ""
-        PRINT #1, "            sphereOfInfluence = 50118820000"
-
-        PRINT #1, "         }"
-            
-        RINGS = INT(RND * 3)
-        IF RINGS = 0 THEN
-            PRINT #1, "         Rings"
-            PRINT #1, "         {"
-            PRINT #1, "             Ring"
-            PRINT #1, "             {"
-            PRINT #1, "                 angle = 0"
-            PRINT #1, "                 outerRadius = 3000"
-            PRINT #1, "                 innerRadius = 2000"
-                
-            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-            PRINT #1, "                 color = 1.0,1,1,1.0"
-            PRINT #1, "                 lockRotation = false"
-            PRINT #1, "                 unlit = false"
-            PRINT #1, "             }"
-            PRINT #1, "          }"
-        END IF
-        PRINT #1, "    }"
-        PRINT #1, "}"
-    END IF
-    IF PLANETTYPE$ = "Jool" THEN
-        PRINT #1, "             name = "; PLANETTYPE$
-        PRINT #1, "         }"
-
-        PRINT #1, "         ScaledVersion"
-        PRINT #1, "         {"
-        PRINT #1, "             Material"
-        PRINT #1, "             {"
-            
-        PRINT #1, "                 texture = To_Boldly_Go/gastextures/-"; INT(RND * 16); ".jpg"
-        PRINT #1, "             }"
-        PRINT #1, "         }"
-        PRINT #1, "         Properties"
-        PRINT #1, "         {"
-
-
-
-
-            
-        PRINT #1, "            radius ="; INT(RND * 10000000) + 700000; ""
-        PRINT #1, "            sphereOfInfluence = 50118820000"
-
-        PRINT #1, "         }"
-            
-        RINGS = INT(RND * 1)
-        IF RINGS = 0 THEN
-            PRINT #1, "         Rings"
-            PRINT #1, "         {"
-            PRINT #1, "             Ring"
-            PRINT #1, "             {"
-            PRINT #1, "                 angle = 0"
-            PRINT #1, "                 outerRadius = 3000"
-            PRINT #1, "                 innerRadius = 2000"
-                
-            PRINT #1, "                 texture = To_Boldly_Go/ringtextures/-"; INT(RND * 3); "-.png"
-            PRINT #1, "                 color = 1.0,1,1,1.0"
-            PRINT #1, "                 lockRotation = false"
-            PRINT #1, "                 unlit = false"
-            PRINT #1, "             }"
-            PRINT #1, "          }"
-        END IF
-        PRINT #1, "    }"
-        PRINT #1, "}"
-    END IF
-    POBJECTNUMBER = POBJECTNUMBER + 1
-NEXT
-
 
 
 tempVar$ = forResearchBodies$(theResearchBodyTemplate$, "", discoveryText$, ignoreLevels$, localizationText$ )
 print #20, tempVar$
+print #30, "EVE_CLOUDS{"+chr$(10)+theEVETemplate$+chr$(10)+"}"
+
 '******************************************************************************
 
 PRINT ""
@@ -1669,7 +884,7 @@ PRINT #1, "F class (~Yellow-white~):"; FSTAR
 PRINT #1, "A class (~White~):"; ASTAR
 PRINT #1, "B class (~Blue-White~):"; BSTAR
 PRINT #1, "O class (~Blue~):"; OSTAR
-PRINT #1, "White Dwarves:"; DWARFSTARNUMBER
+'PRINT #1, "White Dwarves:"; DWARFSTARNUMBER
 PRINT #1, "-----------------"
 PRINT #1, SOBJECTNUMBER; "Stars"
 PRINT #1, POBJECTNUMBER; "Planets"
@@ -2258,17 +1473,47 @@ FUNCTION city2Node$ (aTemplate$, city2Altitude$, city2Latitude$, city2Longitude$
     city2Node$ = aTemplate$
 END FUNCTION
 
-FUNCTION PQSNode$ (aTemplate$, vertexSimplexHeightAbsoluteSeed$, vertexHeightNoiseSeed$, voronoiCratersSimplexSeed$, voronoiCratersVoronoiSeed$, aCity2Node$)
+FUNCTION PQSNode$ (aTemplate$, vertexSimplexHeightAbsoluteSeed$, vertexSimplexHeightDeformity$, vertexSimplexHeightOctives$, vertexSimplexHeightFrequency$, vertexHeightNoiseSeed$, voronoiCratersSimplexSeed$, voronoiCratersVoronoiSeed$, aCity2Node$)
     '#####STH 2017-0124. QBasic doesn't have string formatting like python.
     '#####Replicated that function with string replacement function.
     IF aCity2Node$ <> "" THEN
         aTemplate$ = ReplaceStr(aTemplate$, "//%(theCity2)s", aCity2Node$)
     END IF
     aTemplate$ = ReplaceStr(aTemplate$, "%(vertexSimplexHeightAbsoluteSeed)s", vertexSimplexHeightAbsoluteSeed$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(vertexSimplexHeightDeformity)s", vertexSimplexHeightDeformity$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(vertexSimplexHeightOctives)s", vertexSimplexHeightOctives$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(vertexSimplexHeightFrequency)s", vertexSimplexHeightFrequency$)
     aTemplate$ = ReplaceStr(aTemplate$, "%(vertexHeightNoiseSeed)s", vertexHeightNoiseSeed$)
     aTemplate$ = ReplaceStr(aTemplate$, "%(voronoiCratersSimplexSeed)s", voronoiCratersSimplexSeed$)
     aTemplate$ = ReplaceStr(aTemplate$, "%(voronoiCratersVoronoiSeed)s", voronoiCratersVoronoiSeed$)
     PQSNode$ = aTemplate$
+END FUNCTION
+
+FUNCTION oceanNode$ (aTemplate$, oceanColor$, oceanHeight$, density$, color$, colorFromSpace$, specColor$, waterTex$, waterTex1$, fogColor$, fogColorRamp$, fogColorEnd$, fogColorStart$)
+    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
+    '#####Replicated that function with string replacement function.
+    aTemplate$ = ReplaceStr(aTemplate$, "%(oceanColor)s", oceanColor$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(oceanHeight)s", oceanHeight$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(density)s", density$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(color)s", color$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(colorFromSpace)s", colorFromSpace$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(specColor)s", specColor$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(waterTex)s", waterTex$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(waterTex1)s", waterTex1$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(fogColor)s", fogColor$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(fogColorRamp)s", fogColorRamp$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(fogColorEnd)s", fogColorEnd$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(fogColorStart)s", fogColorStart$)
+    oceanNode$ = aTemplate$
+END FUNCTION
+
+FUNCTION scaledVersionNode$ (aTemplate$, texture$, normals$, rimColorRamp$)
+    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
+    '#####Replicated that function with string replacement function.
+    aTemplate$ = ReplaceStr(aTemplate$, "%(texture)s", texture$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(normals)s", normals$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(rimColorRamp)s", rimColorRamp$)
+    scaledVersionNode$ = aTemplate$
 END FUNCTION
 
 SUB readPlanetTemplates ()
@@ -2488,11 +1733,25 @@ FUNCTION siderealRotationalVel (theRadius, rotationalPeriod)
     siderealRotationalVel = theVelocity
 END FUNCTION
 
+FUNCTION innerLEZ (theMass)
+    '#uses solar mass for calcs
+    '#returns distance in kerbal meters
+    '#convert kerbal mass to real world mass
+    rwKG = kerbol2Sol_kg(theMass)
+    '#convert real world kilograms to solar masses
+    rwSM = kg2solarMass(rwKG)
+
+    realAU=0.7*(rwSM^1.5)
+    realKM=AU2km(realAU)
+    kerbalM=realKM2kerbinKM(realKM)*1000
+    innerLEZ = kerbalM
+END FUNCTION
+
 FUNCTION innerLWHZ (theMass)
     '#uses solar mass for calcs
     '#returns distance in kerbal meters
     '#convert kerbal mass to real world mass
-    theMass = 1.7565459E+28
+    'theMass = 1.7565459E+28
     rwKG = kerbol2Sol_kg(theMass)
     '#convert real world kilograms to solar masses
     rwSM = kg2solarMass(rwKG)
@@ -2521,18 +1780,13 @@ FUNCTION innerLMHZ (theMass)
     '#uses solar mass for calcs
     '#returns distance in kerbal meters
     '#convert kerbal mass to real world mass
-    'print #1, str$(theMass)
     rwKG = kerbol2Sol_kg(theMass)
-    'print #1, str$(rwKG)
     '#convert real world kilograms to solar masses
     rwSM = kg2solarMass(rwKG)
-    'print #1, str$(rwSM)
 
     realAU=((rwSM^3.5)/0.057)^0.5
-    'print #1, str$(realAU)
     realKM=AU2km(realAU)
     kerbalM=realKM2kerbinKM(realKM)*1000
-    'print #1, str$(kerbalM)
     innerLMHZ = kerbalM
 END FUNCTION
 
@@ -2717,6 +1971,17 @@ FUNCTION forResearchBodies$ (aTemplate$, ignoreStrings$, onDiscoveryStrings$, on
     aTemplate$ = ReplaceStr(aTemplate$, "%(localizationText)s", localizationTextUS$)
     '###########################'
     forResearchBodies$ = aTemplate$
+END FUNCTION
+FUNCTION forEnvironVisEnhanc$(aTemplate$, aName$, theClouds1$, theClouds2$, theClouds3$)
+    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
+    '#####Replicated that function with string replacement function.
+    '###########################'
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theName)s", aName$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theClouds1)s", theClouds1$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theClouds2)s", theClouds2$)
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theClouds3)s", theClouds3$)
+    '###########################'
+    forEnvironVisEnhanc$ = aTemplate$
 END FUNCTION
 
 '$INCLUDE: 'Source\MakeAsteroids.bm'

@@ -2,9 +2,12 @@
 SUB MakePlanets (star_Name$,star_MassKSP,star_RadiusKSP,parentInclination,Max_num_planets,planet_distanceMax,star_FrostLineM):
 	'# Planet Gen Start
 	'#Note that star_FrostLineM is in meters
-	maxPlanets = INT(RND * Max_num_planets) '#how many planets in this system?
-	'maxPlanets = INT(RND * 10) '#how many planets in this system? Max of 10
-	'#maxPlanets = 10
+	Max_num_planets = 10
+	maxPlanets = INT(RND*Max_num_planets) '#how many planets in this system?
+	maxEveWorlds = 3
+	numbEveWorlds = 0
+	maxKethaneWorlds = 3
+	numbKethaneWorlds = 0
 	IF maxPlanets > 0 THEN
 		planetNumb = 1		
 		theSemiMajorAxis = 0
@@ -29,12 +32,22 @@ SUB MakePlanets (star_Name$,star_MassKSP,star_RadiusKSP,parentInclination,Max_nu
 			'#What are the limits?
 			'#planet_distanceMax is passed in
 			'#star_FrostLineM is passed in
-			inLWHZ = innerLWHZ(star_MassKSP)
-			outLWHZ = outerLWHZ(star_MassKSP)
-			inLMHZ = innerLMHZ(star_MassKSP)
-			outLMHZ = outerLMHZ(star_MassKSP)
+			inLEZ = innerLEZ(star_MassKSP)    '#For EVE-like planets 
+			outLEZ = innerLWHZ(star_MassKSP)  '#For EVE-like planets 
+
+			inLWHZ = innerLWHZ(star_MassKSP)  '#For Kerbin-like planets 
+			outLWHZ = outerLWHZ(star_MassKSP) '#For Kerbin-like planets 
+
+			inLMHZ = innerLMHZ(star_MassKSP)  '#For Liquid-Kethane planets 
+			outLMHZ = outerLMHZ(star_MassKSP) '#For Liquid-Kethane planets 
 			'#################
-			'#See if the planet falls within the liquid water habitable zone
+			'#See if the body falls within the Eve zone
+			isInLEZ$ = "FALSE"
+			if (theSemiMajorAxis>inLEZ and theSemiMajorAxis<outLEZ) then
+				isInLEZ$ = "TRUE"
+			end if
+			'#################
+			'#See if the body falls within the liquid water habitable zone
 			isInLWHZ$ = "FALSE"
 			if (theSemiMajorAxis>inLWHZ and theSemiMajorAxis<outLWHZ) then
 				isInLWHZ$ = "TRUE"
@@ -47,10 +60,46 @@ SUB MakePlanets (star_Name$,star_MassKSP,star_RadiusKSP,parentInclination,Max_nu
 			end if
 
 
+			'########################'
+			'###Whether a body is in the LEZ or not is different than whether the max number of bodies have been made
+			makeLEBody$ = "FALSE"
+			if isInLEZ$ = "TRUE" and (numbEveWorlds < maxEveWorlds) then
+				'#~50% chance of making a kethane world
+				if INT(RND*2) = 1 then
+					makeLEBody$ = "TRUE"
+				end if
+			end if
+			'########################'
+			'###Whether a body is in the LMZ or not is different than whether the max number of kethane bodies have been made
+			makeLKBody$ = "FALSE"
+			if isInLMHZ$ = "TRUE" and (numbKethaneWorlds < maxKethaneWorlds) then
+				'#~33% chance of making a kethane world
+				if INT(RND*3) = 1 then
+					makeLKBody$ = "TRUE"
+				end if
+			end if
+			'######################'
+			'#For world debugging, set things to true
+			'isInLWHZ$ = "TRUE"
 
+			'isInLMHZ$ = "FALSE"
+			'makeLKBody$ = "FALSE"
+
+			'isInLEZ$ = "TRUE"
+			'makeLEBody$ = "TRUE"
 
 			'########################'
-			if isInLWHZ$ = "FALSE" then
+			'###The code will place as many water worlds in the LWHZ as possible
+			'###but there are limits placed on the number of kethane worlds since
+			'###the zone is very large and extends to the end of the star's SOI.
+			'###Lack of limits means the system will _only_ have kethane worlds once 
+			'###the SMA reaches the LKHZ
+			'###STH 2019-0523
+			'########################'
+
+			'########################'
+			'###Planet template
+			if isInLWHZ$ = "FALSE" and makeLKBody$ = "FALSE" and makeLEBody$ = "FALSE" then
 				'#Pick a random planet template from what is read in'
 				keyIndex = 1 + INT(RND * (UBOUND(planetKey$))) 'want the range to be from 1 to end. Index 0 is the header
 				PLANETTYPE$ = planetKey$(keyIndex)
@@ -83,6 +132,30 @@ SUB MakePlanets (star_Name$,star_MassKSP,star_RadiusKSP,parentInclination,Max_nu
 				aBodyNode$ = "Body"+chr$(13)
 				templateNode$ = "Template"+chr$(13)+"        {"+chr$(13)+"            name = "+ PLANETTYPE$+chr$(13)+"            removePQSMods = PQSLandControl,VertexHeightMap,PQSCity,VertexHeightNoise,VertexHeightNoiseVertHeight,VertexSimplexHeightMap"+chr$(13)+"        }"
 			end if
+			if makeLKBody$ = "TRUE" then
+				'#Limit to the laythe template for now.
+				'#Should eventually be able to use Kerbin, Eve, or Laythe
+				PLANETTYPE$ = "Laythe"
+				PLANETDESC$ = ""
+				PLANETRADIUS = 600000
+				PLANETMASS = 5.2915158E+22
+				PLANETSTOCK$ = "TRUE"
+				PLANETSOI = kspSOI(star_MassKSP, PLANETMASS, theSemiMajorAxis)
+				aBodyNode$ = "Body"+chr$(13)
+				templateNode$ = "Template"+chr$(13)+"        {"+chr$(13)+"            name = "+ PLANETTYPE$+chr$(13)+"            removePQSMods = PQSLandControl,VertexHeightMap,PQSCity,VertexHeightNoise,VertexHeightNoiseVertHeight,VertexSimplexHeightMap"+chr$(13)+"        }"
+			end if
+			if makeLEBody$ = "TRUE" then
+				'#Limit to the laythe template for now.
+				'#Should eventually be able to use Kerbin, Eve, or Laythe
+				PLANETTYPE$ = "Eve"
+				PLANETDESC$ = ""
+				PLANETRADIUS = 700000
+				PLANETMASS = 1.2243980E+23
+				PLANETSTOCK$ = "TRUE"
+				PLANETSOI = kspSOI(star_MassKSP, PLANETMASS, theSemiMajorAxis)
+				aBodyNode$ = "Body"+chr$(13)
+				templateNode$ = "Template"+chr$(13)+"        {"+chr$(13)+"            name = "+ PLANETTYPE$+chr$(13)+"            removePQSMods = PQSLandControl,VertexHeightMap,PQSCity,VertexHeightNoise,VertexHeightNoiseVertHeight,VertexSimplexHeightMap"+chr$(13)+"        }"
+			end if
 
 			'########################'
 			'###Planet name
@@ -98,6 +171,7 @@ SUB MakePlanets (star_Name$,star_MassKSP,star_RadiusKSP,parentInclination,Max_nu
 			IF planetNumb = 9 THEN PNM$ = "IX"
 			IF planetNumb = 10 THEN PNM$ = "X"
 			thePlanetName$ = star_Name$ +" "+ PNM$
+
 			'########################'
 			'###Fill in orbit data'
 			theReferenceBody$ = star_Name$
@@ -115,14 +189,15 @@ SUB MakePlanets (star_Name$,star_MassKSP,star_RadiusKSP,parentInclination,Max_nu
 			theEccentricity$ = ""
 
 			theLongitudeOfAscendingNode$ = "0"
-			theArgumentOfPeriapsis$ = STR$(INT(RND * 1000))
+			theArgumentOfPeriapsis$ = STR$(INT(RND * 300))
 			theMeanAnomalyAtEpoch$ = STR$(0)
 			theEpoch$ = STR$(0)
+
 			'########################'
 			'###Fill in property data'
 			'#moved the property data code to take advantage of orbital values in description'
 			if PLANETDESC$ = "" then
-				PLANETDESC$ = "Semimajor axis:\\nn "+str$(theSemiMajorAxis)+"m\\nn \\nnArg. of periapsis: "+theArgumentOfPeriapsis$+"°\\nn \\nnInclination: "+theInclination$+"°\\nn \\nnTidal locked: unknown\\nn \\nnLWH zone: "+isInLWHZ$
+				PLANETDESC$ = "Semimajor axis:\\nn "+str$(theSemiMajorAxis)+"m\\nn \\nnArg. of periapsis: "+theArgumentOfPeriapsis$+"°\\nn \\nnInclination: "+theInclination$+"°\\nn \\nnTidal locked: unknown\\nn \\nnLWZ zone: "+isInLWHZ$+"\\nn \\nnLMZ zone: "+isInLMHZ$
 			end if
 			aPropertiesTemplate$ = thePropertiesTemplate$
 			'#(aTemplate$, theDescription$, theRadius$, theMass$, theGravParam$, theGeeASL$, theDoesRotate$, theRotationPeriod$, theInitialRotation$, theIsTidallyLocked$, theIsHomeWord$, inLWHZ$, inLMHZ$, theSOI$)
@@ -130,50 +205,99 @@ SUB MakePlanets (star_Name$,star_MassKSP,star_RadiusKSP,parentInclination,Max_nu
 			'########################'
 			aOrbitTemp$ = theOrbitTemplate$
 			aOrbitNode$ = orbitNode$(aOrbitTemp$, theReferenceBody$, theColour$, theMode$, theInclination$, theEccentricity$, STR$(theSemiMajorAxis), theLongitudeOfAscendingNode$, theArgumentOfPeriapsis$, theMeanAnomalyAtEpoch$, theEpoch$)		
+
 			'########################'
 			'###10% chance of having a ring
-			RINGS = INT(RND * 10)
+			'RINGS = INT(RND * 10)
 			'RINGS = 0
-			IF RINGS = 0 THEN
-				'#theAngle$ = "0"
-				theAngle$ = theInclination$
-				theOuterRadius$ = "3000"
-				theInnerRadius$ = "2000"
-				theRingTexture$ = ltrim$(str$(INT(RND * 3) + 1))
-				theColour$ = "1.0,0.1,0.1,1.0"
-				theLockRotation$ = "false"
-				theUnlit$ = "false"
-				aRingsTemp$ = theRingsTemplate$
-				aRingNode$ = ringNode$(aRingsTemp$, theAngle$, theOuterRadius$, theInnerRadius$, theRingTexture$, theColour$, theLockRotation$, theUnlit$)
-			END IF
+			'IF RINGS = 0 THEN
+			''	'#theAngle$ = "0"
+			''	theAngle$ = theInclination$
+			''	theOuterRadius$ = "3000"
+			''	theInnerRadius$ = "2000"
+			''	theRingTexture$ = ltrim$(str$(INT(RND * 3) + 1))
+			''	theColour$ = "1.0,0.1,0.1,1.0"
+			''	theLockRotation$ = "false"
+			''	theUnlit$ = "false"
+			''	aRingsTemp$ = theRingsTemplate$
+			''	aRingNode$ = ringNode$(aRingsTemp$, theAngle$, theOuterRadius$, theInnerRadius$, theRingTexture$, theColour$, theLockRotation$, theUnlit$)
+			'END IF
 
 			'########################''
 			'###ScaledVersion template
-			if isInLWHZ$ = "TRUE" then
+			if isInLWHZ$ = "TRUE" or makeLKBody$ = "TRUE" or makeLEBody$ = "TRUE" then
 				aScaledVersionNode$ = theScaledVersionTemplate$
-			end if
-			'########################'
-
-
-			
-
-
-			'########################'
-			'###Ocean template
-			if isInLWHZ$ = "TRUE" then
+				normals$ = "To-Boldly-Go/Data_Folder/textures/solidplanettextures/greycolor.png"
+				if isInLEZ$ = "TRUE" then
+					texture$ = "To-Boldly-Go/Data_Folder/textures/solidplanettextures/purplecolor.png"					
+					rimColorRamp$ = "BUILTIN/purple_atmogradiant"
+				end if
+				if isInLWHZ$ = "TRUE" then
+					texture$ = "To-Boldly-Go/Data_Folder/textures/solidplanettextures/oceancolor.png"
+					rimColorRamp$ = "BUILTIN/AerialRampKerbin2"
+				end if
+				if isInLMHZ$ = "TRUE" then
+					texture$ = "To-Boldly-Go/Data_Folder/textures/solidplanettextures/kethanecolor.png"
+					rimColorRamp$ = "BUILTIN/desert_atmogradient"
+				end if
+				aScaledVersionNode$ = scaledVersionNode$(aScaledVersionNode$, texture$, normals$, rimColorRamp$)	
+				'########################'
+				'###Ocean template
 				aOceanNode$ = theOceanTemplate$
-			end if
+				if isInLEZ$ = "TRUE" then
+					oceanColor$ = "0.266666681,0.243137255,0.305882365,1"
+					oceanHeight$ = "0"
+					density$ = "1.5"
+					color$ = "0.524246514,0.461349964,0.567164183,1"
+					oceanColorFromSpace$ = "0.470588237,0.360784322,0.545098066,1"
+					specColor$ = "0.0148983598,0.0148983598,0.0148983598,1"
+					waterTex$ = "BUILTIN/quiet"
+					waterTex1$ = "BUILTIN/quiet"
+					fogColor$ = "0.917910457,0.917910457,1,1"
+					fogColorRamp$ = "BUILTIN/purple_atmogradiant"
+					fogColorEnd$ = "0,0.0850000009,0.122500002,1"
+					fogColorStart$ = "0.379999995,0,0.49000001,1"
+				end if
+				if isInLWHZ$ = "TRUE" then
+					oceanColor$ = "0.413805217,0.387094229,0.514925361,1"
+					oceanHeight$ = "0"
+					density$ = "1"
+					color$ = "0.413805217,0.387094229,0.514925361,1"
+					oceanColorFromSpace$ = "0.116878122,0.126456618,0.156862751,1"
+					specColor$ = "1,1,1,1"
+					waterTex$ = "BUILTIN/sea-water8"
+					waterTex1$ = "BUILTIN/sea-water1"
+					fogColor$ = "0.321443439,0.611232221,0.947761178,1"
+					fogColorRamp$ = "BUILTIN/blue_atmogradient"
+					fogColorEnd$ = "0,0.0850000009,0.122500002,1"
+					fogColorStart$ = "0,0.340000004,0.49000001,1"
+				end if
+				if makeLKBody$ = "TRUE" then
+					oceanColor$ = "0.2274,0.2823,0.2313,1"
+					oceanHeight$ = "0"
+					density$ = "2"
+					color$ = "0,0.49000001,0.340000004,1"
+					oceanColorFromSpace$ = "0,0.49000001,0.340000004,1"
+					specColor$ = "0.0148983598,0.0148983598,0.0148983598,1"
+					waterTex$ = "BUILTIN/quiet"
+					waterTex1$ = "BUILTIN/quiet"
+					fogColor$ = "0.917910457,0.917910457,1,1"
+					fogColorRamp$ = "BUILTIN/desert_atmogradient"
+					fogColorEnd$ = "0,0.1225,0.085,1"
+					fogColorStart$ = "0,0.49000001,0.340000004,1"
+				end if
+				aOceanNode$ = oceanNode$(aOceanNode$, oceanColor$, oceanHeight$, density$, color$, oceanColorFromSpace$, specColor$, waterTex$, waterTex1$, fogColor$, fogColorRamp$, fogColorEnd$, fogColorStart$)	
+				'########################'
+				'###PQS template	
+				vertexSimplexHeightAbsoluteSeed$ = str$(int(RND * 200)+1)
+				vertexSimplexHeightDeformity$ = str$(int(RND * 10000)+1)
+				vertexSimplexHeightOctives$ = str$(int(RND * 20)+1)
+				vertexSimplexHeightFrequency$ = str$(int(RND * 10)+1)
+				
+				vertexHeightNoiseSeed$ = str$(int(RND * 10)+1)
 
-
-
-			'########################'
-			'########################'
-			'###PQS template	
-			if isInLWHZ$ = "TRUE" then
-				vertexSimplexHeightAbsoluteSeed$ = str$(int(RND * 200))
-				vertexHeightNoiseSeed$ = str$(int(RND * 10))
-				voronoiCratersSimplexSeed$ = str$(int(RND * 200000))
-				voronoiCratersVoronoiSeed$ = str$(int(RND * 1000))
+				voronoiCratersSimplexSeed$ = str$(int(RND * 200000)+1)
+				voronoiCratersVoronoiSeed$ = str$(int(RND * 1000)+1)
 				'###city2 values
 				city2Altitude$ = "-600000"
 				city2Latitude$ = "0.0" '#str$((rnd*180)-90)
@@ -188,7 +312,7 @@ SUB MakePlanets (star_Name$,star_MassKSP,star_RadiusKSP,parentInclination,Max_nu
 				aCity2Node$ = city2Node$(aCity2Temp$, city2Altitude$, city2Latitude$, city2Longitude$, city2isCommnetStation$, city2isKSC$, city2Name$, city2ModelPath$, city2Scale$)
 
 				aPQSTemp$ = thePQSTemplate$
-				aPQSNode$ = PQSNode$(aPQSTemp$, vertexSimplexHeightAbsoluteSeed$, vertexHeightNoiseSeed$, voronoiCratersSimplexSeed$, voronoiCratersVoronoiSeed$, aCity2Node$)
+				aPQSNode$ = PQSNode$(aPQSTemp$, vertexSimplexHeightAbsoluteSeed$, vertexSimplexHeightDeformity$, vertexSimplexHeightOctives$, vertexSimplexHeightFrequency$, vertexHeightNoiseSeed$,   voronoiCratersSimplexSeed$, voronoiCratersVoronoiSeed$, aCity2Node$)
 			end if
 
 			'########################'
@@ -228,10 +352,45 @@ SUB MakePlanets (star_Name$,star_MassKSP,star_RadiusKSP,parentInclination,Max_nu
     		if PLANETRADIUS<300500 then
 				discoveryText$ = discoveryText$+"        //"+thePlanetName$+" is too small"+chr$(10)
 			end if
+
+			'########################'
+			'####add planet data to EnvironVisEnhanc file
+			if isInLWHZ$ = "TRUE" or makeLKBody$ = "TRUE" or makeLEBody$ = "TRUE" then
+				'#2019-0522 SVE uses the following cloud types for _MainTex stock planets:
+				'#eve1, LaytheClouds, kerbin1, DunaClouds, hadrianClouds00
+				'#2019-0522 SVE uses the following cloud types for _DetailTex stock planets:
+				'#eDetailLow, detailCumulus, detail1
+				if isInLEZ$ = "TRUE" then
+					theClouds1$ = "eve1"
+					theClouds2$ = "hadrianClouds00"
+					theClouds3$ = "LaytheClouds"
+					aEVETemplate$ = theEveEVETemplate$
+					numbEveWorlds = numbEveWorlds +1
+				end if
+				if isInLWHZ$ = "TRUE" then
+					theClouds1$ = "DunaClouds"
+					theClouds2$ = "eve1"
+					theClouds3$ = "hadrianClouds00"
+					aEVETemplate$ = theWaterEVETemplate$
+				end if
+				if makeLKBody$ = "TRUE" then
+					theClouds1$ = "eve1"
+					theClouds2$ = "hadrianClouds00"
+					theClouds3$ = "eve1"
+					aEVETemplate$ = theKethaneEVETemplate$
+					numbKethaneWorlds = numbKethaneWorlds +1
+				end if
+				theEVETemplate$ = theEVETemplate$ + forEnvironVisEnhanc$(aEVETemplate$, thePlanetName$, theClouds1$, theClouds2$, theClouds3$)
+				'#print #30, aEVETemplate$
+				aEVETemplate$ =""
+			end if
+
+
+
 			'########################'
 			'####
 			'#25% chance of there being a moon
-			CALL MakeMoons (thePlanetName$,parentInclination,PLANETRADIUS,4)
+			'#CALL MakeMoons(thePlanetName$,parentInclination,PLANETRADIUS,4,isInLWHZ$,isInLMHZ$)
 			
 			planetNumb = planetNumb + 1
 			POBJECTNUMBER = POBJECTNUMBER + 1
