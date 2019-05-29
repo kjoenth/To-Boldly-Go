@@ -94,10 +94,10 @@
                     name = HeightMod1
                     order = 3
                     seed = %(vertexSimplexHeightAbsoluteSeed)s //123 // The seed of the simplex height
-                    deformity = 5000 // The deformity of the simplex terrain
-                    octaves = 3 // Octaves of the simplex height
+                    deformity = %(vertexSimplexHeightDeformity)s //5000 // The deformity of the simplex terrain
+                    octaves = %(vertexSimplexHeightOctives)s //3 // Octaves of the simplex height
                     persistence = 0.5 // Persistence of the simplex height
-                    frequency = 1 // The frequency of the simplex terrain
+                    frequency = %(vertexSimplexHeightFrequency)s //1 // The frequency of the simplex terrain
                 }
                 VertexHeightNoise
                 {

@@ -6,7 +6,7 @@ City2
                     alt = %(city2Altitude)s //-600000
                     lat = %(city2Latitude)s
                     lon = %(city2Longitude)s
-                    objectName = Test
+                    objectName = %(city2Name)s
                     up = 0,1,0
                     rotation = 0
                     snapHeightOffset = 0

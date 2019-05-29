@@ -1,23 +1,26 @@
 %Ocean
         {
             ocean = True
-            oceanColor = 0.116715364,0.12626785,0.156716406,1
-            oceanHeight = 0
-            density = 1
+            oceanColor = %(oceanColor)s
+            oceanHeight = %(oceanHeight)s
+            density = %(density)s
             minLevel = 1
             maxLevel = 6
             minDetailDistance = 8
             maxQuadLengthsPerFrame = 0.03
             Material
             {
-                color = 0.413805217,0.387094229,0.514925361,1
-                colorFromSpace = 0.116878122,0.126456618,0.156862751,1
-                specColor = 1,1,1,1
+                color = %(color)s
+                colorFromSpace = %(colorFromSpace)s
+                specColor = %(specColor)s
+                //---
                 shininess = 1
                 gloss = 0.2
                 tiling = 1000
-                waterTex = BUILTIN/sea-water8
-                waterTex1 = BUILTIN/sea-water1
+                //--
+                waterTex = %(waterTex)s
+                waterTex1 = %(waterTex1)s
+                //--
                 bTiling = 800
                 bumpMap = BUILTIN/quiet
                 displacement = 0.05
@@ -27,11 +30,15 @@
                 oceanOpacity = 0.3
                 falloffPower = 3
                 falloffExp = 0.05
-                fogColor = 0.321443439,0.611232221,0.947761178,1
+                //--
+                fogColor = %(fogColor)s
+                //--
                 heightFallOff = 0.2
                 globalDensity = -8E-06
                 atmosphereDepth = 50000
-                fogColorRamp = BUILTIN/blue_atmogradient
+                //--
+                fogColorRamp = %(fogColorRamp)s
+                //--
                 fadeStart = 20000
                 fadeEnd = 60000
                 planetOpacity = 1
@@ -40,14 +47,18 @@
             }
             FallbackMaterial
             {
-                color = 0.336603671,0.378080368,0.447761178,1
-                colorFromSpace = 0.116878122,0.126456618,0.156862751,1
-                specColor = 0.8493402,0.8493402,0.8493402,1
+                //--
+                color = %(color)s
+                colorFromSpace = %(colorFromSpace)s
+                specColor = %(specColor)s
+                //--
                 shininess = 1
                 gloss = 0.3336538
                 tiling = 1000
-                waterTex = BUILTIN/sea-water1
-                waterTex1 = BUILTIN/sea-water2
+                //--
+                waterTex = %(waterTex)s
+                waterTex1 = %(waterTex1)s
+                //--
                 fadeStart = 20000
                 fadeEnd = 60000
                 planetOpacity = 1
@@ -99,8 +110,10 @@
                 afgBase = 0.6
                 afgLerp = False
                 afgMin = 0.05
-                fogColorEnd = 0,0.0850000009,0.122500002,1
-                fogColorStart = 0,0.340000004,0.49000001,1
+                //--
+                fogColorEnd = %(fogColorEnd)s
+                fogColorStart = %(fogColorStart)s
+                //--
                 fogDensityAltScalar = -0.0008
                 fogDensityEnd = 0.025
                 fogDensityExponent = 1

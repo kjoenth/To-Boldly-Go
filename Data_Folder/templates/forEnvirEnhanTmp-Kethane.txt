@@ -1,0 +1,166 @@
+	OBJECT
+	{
+		name = %(theName)s-Clouds1
+		body = %(theName)s
+		altitude = 9200
+		speed = 0,35,0
+		detailSpeed = 0,0,0
+		settings
+		{
+			_DetailScale = 4
+			_Color = 195,184,93,255
+			_DetailDist = 0.25E-06
+			_MainTex
+			{
+				value = StockVisualEnhancements/Textures/%(theClouds1)s
+			}
+			_DetailTex
+			{
+				value = StockVisualEnhancements/Textures/detailCumulus
+			}
+		}
+		layer2D
+		{
+			macroCloudMaterial
+			{
+				_FalloffPow = 5
+				_FalloffScale = 6
+				_RimDistSub = 0.0001
+				_RimDist = 0.0001
+				_MinLight = -0.01
+			}
+			shadowMaterial
+			{
+				_ShadowFactor = 0.35
+			}
+		}
+		layerVolume
+		{
+			size = 5400,2
+			area = 18000,4
+			followDetail = True
+			particleMaterial
+			{
+				_Tex = StockVisualEnhancements/Textures/particle/rgb
+			}
+		}
+	}
+	OBJECT
+	{
+		name = %(theName)s-Clouds2
+		body = %(theName)s
+		altitude = 8000
+		speed = 0,65,0
+		detailSpeed = 0,0,0
+		settings
+		{
+			_DetailScale = 4
+			_Color = 205,205,95,150
+			_DetailDist = 0.325E-07
+			_MainTex
+			{
+				value = StockVisualEnhancements/Textures/%(theClouds2)s
+			}
+			_DetailTex
+			{
+				value = StockVisualEnhancements/Textures/detail1
+			}
+		}
+		layer2D
+		{
+			macroCloudMaterial
+			{
+				_FalloffPow = 5
+				_FalloffScale = 6
+				_RimDistSub = 0.0001
+				_RimDist = 0.0001
+				_MinLight = -0.01
+			}
+		}
+	}
+	OBJECT
+	{
+		name = %(theName)s-Clouds3
+		body = %(theName)s
+		altitude = 2300
+		speed = 0,75,0
+		detailSpeed = 0,300,0
+		settings
+		{
+			_DetailScale = 2
+			_Color = 158,195,93,255
+			_DetailDist = 0.25E-06
+			_MainTex
+			{
+				value = StockVisualEnhancements/Textures/%(theClouds3)s
+			}
+			_DetailTex
+			{
+				value = StockVisualEnhancements/Textures/detailCumulus
+			}
+		}
+		layer2D
+		{
+			macroCloudMaterial
+			{
+				_FalloffPow = 5
+				_FalloffScale = 6
+				_RimDistSub = 0.0001
+				_RimDist = 0.0001
+				_MinLight = -0.01
+			}
+			shadowMaterial
+			{
+				_ShadowFactor = 0.35
+			}
+		}
+		layerVolume
+		{
+			size = 5400,2
+			area = 18000,4
+			followDetail = True
+			particleMaterial
+			{
+				_Tex = StockVisualEnhancements/Textures/particle/rgb
+			}
+		}
+	}
+	OBJECT
+	{
+		name = %(theName)s-lightning
+		body = %(theName)s
+		altitude = 9200.06
+		detailSpeed = 10,-55000,2
+		speed = 0,0,0
+		killBodyRotation = True
+		settings
+		{
+			_DetailScale = 0.3
+			_DetailDist = 0
+			_Color = 255,255,255,300
+			_UVNoiseStrength = 0.0040000001
+			_MainTex
+			{
+				value = StockVisualEnhancements/Textures/lightning
+			}
+			_DetailTex
+			{
+				value = StockVisualEnhancements/Textures/lightning
+			}
+			_UVNoiseTex
+			{
+				value = StockVisualEnhancements/Textures/uvnoise1
+			}
+		}
+		layer2D
+		{
+			macroCloudMaterial
+			{
+				_FalloffPow = 5
+				_FalloffScale = 6
+				_RimDistSub = 0.0001
+				_RimDist = 0.0001
+				_MinLight = 2
+			}
+		}
+	}
