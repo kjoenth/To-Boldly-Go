@@ -64,7 +64,7 @@ SUB MakePlanets (star_Name$,star_MassKSP,star_RadiusKSP,parentInclination,Max_nu
 			'###Whether a body is in the LEZ or not is different than whether the max number of bodies have been made
 			makeLEBody$ = "FALSE"
 			if isInLEZ$ = "TRUE" and (numbEveWorlds < maxEveWorlds) then
-				'#~50% chance of making a kethane world
+				'#~50% chance of making an world
 				if INT(RND*2) = 1 then
 					makeLEBody$ = "TRUE"
 				end if
@@ -82,8 +82,8 @@ SUB MakePlanets (star_Name$,star_MassKSP,star_RadiusKSP,parentInclination,Max_nu
 			'#For world debugging, set things to true
 			'isInLWHZ$ = "TRUE"
 
-			'isInLMHZ$ = "FALSE"
-			'makeLKBody$ = "FALSE"
+			'isInLMHZ$ = "TRUE"
+			'makeLKBody$ = "TRUE"
 
 			'isInLEZ$ = "TRUE"
 			'makeLEBody$ = "TRUE"

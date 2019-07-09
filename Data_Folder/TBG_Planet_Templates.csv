@@ -1,6 +1,5 @@
 Stock, Template name, radius(m), mass(kg), SOI(m), description
 TRUE, Moho, 250000, 2.53E+21, 9646660, ""
-TRUE, Eve, 700000, 1.22E+23, 85109360, ""
 TRUE, Gilly, 13000, 1.24E+17, 126120, ""
 TRUE, Mun, 200000, 9.76E+20, 2429560, ""
 TRUE, Minmus, 60000, 2.65E+19, 2429560, ""
