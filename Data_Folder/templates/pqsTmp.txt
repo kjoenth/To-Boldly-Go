@@ -82,7 +82,7 @@
             }
             Mods
             {
-                VertexHeightOffset﻿
+                VertexHeightOffset
                 {
                     enabled = true
                     order = 2
