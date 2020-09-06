@@ -1,5 +1,5 @@
-'To Boldly Go v0.3.9 - Kopernicus Procedural Galaxy Generator!"
-'Copyright (C) 2019  Daniel L. & Sean T. Hammond"
+'To Boldly Go v0.4.1 - Kopernicus Procedural Galaxy Generator!"
+'Copyright (C) 2020  Daniel L. & Sean T. Hammond"
 '
 'This program is free software; you can redistribute it and/or modify"
 'it under the terms of the GNU General Public License as published by"
@@ -15,7 +15,7 @@
 'along with this program; if not, write to the Free Software"
 'Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 
-TBG_Version$ = "0.3.9"
+TBG_Version$ = "0.4.1"
 _TITLE "To Boldly Go version " + TBG_Version$
 
 i& = _LOADIMAGE("Data_Folder/Galaxy-icon.png", 32) '<<<<<<< use your image file name here
