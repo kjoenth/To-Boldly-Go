@@ -368,6 +368,14 @@ DIM SHARED theWaterEVETemplate$
 theWaterEVETemplate$ = fileAsString("forEnvirEnhanTmp-Water.txt")
 DIM SHARED theEveEVETemplate$
 theEveEVETemplate$ = fileAsString("forEnvirEnhanTmp-Explodium.txt")
+'###############################
+'#Template file for integration with Sigma Cartographer (https://github.com/Sigma88/Sigma-Cartographer)
+DIM SHARED theCartographerTemplate$
+DIM SHARED theCartographerData$
+DIM SHARED hasProcedural$
+hasProcedural$ = "FALSE"
+theCartographerTemplate$ = fileAsString("forSigmaCartographer.txt")
+'###############################
 
 DIM SHARED blackHole_MassKSP
 DIM SHARED blackHole_RadiusKSP
@@ -381,7 +389,7 @@ blackHole_MassKg = 8.55E37
 blackHole_MassKSP = sol2Kerbol_kg(blackHole_MassKg)
 blackHole_RadiusKSP = 100000
 
-galaxy_RadiusKSP = (6.62251E+17)/6
+galaxy_RadiusKSP = (6.62251E+17)/10.6
 
 '################################
 PRINT #1, "@Kopernicus"
@@ -676,7 +684,6 @@ OPEN "TBG-ResearchBodies.cfg" FOR OUTPUT AS #20 '#Creates the researchBodies mod
 '###Make the researchBodies mod file
 OPEN "TBG-EnvironVisEnhanc.cfg" FOR OUTPUT AS #30 '#Creates the researchBodies mod file
 
-
 '******************************************************************************
 FOR a_Star = 1 TO OSTAR
     star_MassKg = 3.18168E+31 + (RND(1) * (3.18168E+32 - 3.18168E+31)) '###pick a star mass in the O stellar class range'
@@ -842,6 +849,15 @@ NEXT
 tempVar$ = forResearchBodies$(theResearchBodyTemplate$, "", discoveryText$, ignoreLevels$, localizationText$ )
 print #20, tempVar$
 print #30, "EVE_CLOUDS{"+chr$(10)+theEVETemplate$+chr$(10)+"}"
+'########################'
+'####add planet data to Sigma Cartographer file
+if hasProcedural$ = "TRUE" then
+    '###########
+    '###Make the Sigma Cartographer setup file
+    OPEN "TBG-SigmaCartographer.cfg" FOR OUTPUT AS #40 '#Creates the Sigma Cartographer settings file
+    print #40, "@SigmaCartographer {"+chr$(10)+theCartographerData$+chr$(10)+"}"
+end if 
+
 
 '******************************************************************************
 
@@ -1982,6 +1998,14 @@ FUNCTION forEnvironVisEnhanc$(aTemplate$, aName$, theClouds1$, theClouds2$, theC
     aTemplate$ = ReplaceStr(aTemplate$, "%(theClouds3)s", theClouds3$)
     '###########################'
     forEnvironVisEnhanc$ = aTemplate$
+END FUNCTION
+FUNCTION forSigmaCartographer$(aTemplate$, aName$)
+    '#####STH 2017-0124. QBasic doesn't have string formatting like python.
+    '#####Replicated that function with string replacement function.
+    '###########################'
+    aTemplate$ = ReplaceStr(aTemplate$, "%(theName)s", aName$)
+    '###########################'
+    forSigmaCartographer$ = aTemplate$
 END FUNCTION
 
 '$INCLUDE: 'Source\MakeAsteroids.bm'

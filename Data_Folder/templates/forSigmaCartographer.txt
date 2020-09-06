@@ -1,0 +1,12 @@
+    Maps
+    {
+        body = %(theName)s
+        normalMap = true            // export normalMap? (default = false)
+        overwriteNormalMap = false  //if the map exists, don't overwrite it
+        colorMap = true             // export colorMap? (default = false)
+        overwriteColorMap = false   //if the map exists, don't overwrite it
+        tile = 2048                 // the width of one﻿ tile (default = 1024)
+        flipH = true                // default = false. Set to true for KSP to use the resulting maps
+        LONoffset = -90             // offset longitude (default = 0). Set to -90 for KSP to use the resulting maps
+        oceanFloor = false
+    }

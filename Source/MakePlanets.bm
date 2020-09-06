@@ -2,8 +2,9 @@
 SUB MakePlanets (star_Name$,star_MassKSP,star_RadiusKSP,parentInclination,Max_num_planets,planet_distanceMax,star_FrostLineM):
 	'# Planet Gen Start
 	'#Note that star_FrostLineM is in meters
-	Max_num_planets = 10
-	maxPlanets = INT(RND*Max_num_planets) '#how many planets in this system?
+	Max_num_planets = 5
+	maxPlanets = 5+INT(RND*Max_num_planets) '#how many planets in this system?
+	'#maxPlanets = 10
 	maxEveWorlds = 3
 	numbEveWorlds = 0
 	maxKethaneWorlds = 3
@@ -225,7 +226,14 @@ SUB MakePlanets (star_Name$,star_MassKSP,star_RadiusKSP,parentInclination,Max_nu
 
 			'########################''
 			'###ScaledVersion template
+
+			'#############
+			'#For writing data for SigmaCartographer
+			isProcedural$ = "FALSE" 
+
 			if isInLWHZ$ = "TRUE" or makeLKBody$ = "TRUE" or makeLEBody$ = "TRUE" then
+				isProcedural$ = "TRUE"
+				hasProcedural$ = "TRUE" 
 				aScaledVersionNode$ = theScaledVersionTemplate$
 				normals$ = "To-Boldly-Go/Data_Folder/textures/solidplanettextures/greycolor.png"
 				if isInLEZ$ = "TRUE" then
@@ -259,11 +267,13 @@ SUB MakePlanets (star_Name$,star_MassKSP,star_RadiusKSP,parentInclination,Max_nu
 					fogColorStart$ = "0.379999995,0,0.49000001,1"
 				end if
 				if isInLWHZ$ = "TRUE" then
-					oceanColor$ = "0.413805217,0.387094229,0.514925361,1"
+					'#oceanColor$ = "0.413805217,0.387094229,0.514925361,1"
+					oceanColor$ = "0.0705882385,0.101960786,0.156862751,1"
 					oceanHeight$ = "0"
 					density$ = "1"
 					color$ = "0.413805217,0.387094229,0.514925361,1"
-					oceanColorFromSpace$ = "0.116878122,0.126456618,0.156862751,1"
+					'#oceanColorFromSpace$ = "0.116878122,0.126456618,0.156862751,1"
+					oceanColorFromSpace$ = "0.0695908442,0.10210041,0.156716406,1"
 					specColor$ = "1,1,1,1"
 					waterTex$ = "BUILTIN/sea-water8"
 					waterTex1$ = "BUILTIN/sea-water1"
@@ -385,7 +395,15 @@ SUB MakePlanets (star_Name$,star_MassKSP,star_RadiusKSP,parentInclination,Max_nu
 				aEVETemplate$ =""
 			end if
 
-
+			'########################'
+			'####add planet data to Sigma Cartographer file
+			if isProcedural$ = "TRUE" then
+				'###########
+				'###Make the researchBodies mod file
+				aCartographerTemplate$ = theCartographerTemplate$
+				theCartographerData$ = theCartographerData$ + forSigmaCartographer$(aCartographerTemplate$, thePlanetName$)
+				aCartographerTemplate$ = ""
+			end if 
 
 			'########################'
 			'####
