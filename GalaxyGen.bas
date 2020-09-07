@@ -51,6 +51,8 @@ DIM SHARED ignoreBodies$
 DIM SHARED ignoreLevels$ 
 DIM SHARED localizationText$
 
+DIM SHARED PSYCART$
+
 
 'BROWNSTARNUMBER = 1
 'REDSTARNUMBER = 1
@@ -109,10 +111,16 @@ PRINT "Please do not use capitalization"
 PRINT "for anything other than the Galaxy name."
 PRINT ""
 INPUT "Name your Galaxy:", GNAME$
-2222 INPUT " (CUSTOM/AUTO)(c/a):", CUSTOM$
 
 INPUT " Input Seed:", SEED 'asks the user for a random seed.
 RANDOMIZE SEED
+
+INPUT "Using Psi-Cartographer? (y/n):", PSYCART$ 'Determines the image paths used for ScaledVersion
+
+
+2222 INPUT " (AUTO/CUSTOM)(a/c):", CUSTOM$
+
+
 
 SOBJECTNUMBER = 0
 OSTAR = 0
@@ -259,44 +267,44 @@ ELSE
 
         SELECT CASE AGE
             CASE 0
-                BSTAR = INT(RND * 10) + 50
-                OSTAR = INT(RND * 5) + 50
+                BSTAR = INT(RND * 20) + 10
+                OSTAR = INT(RND * 20) + 10
             CASE 1
-                GSTAR = INT(RND * 10) + 15
-                FSTAR = INT(RND * 20) + 30
-                ASTAR = INT(RND * 7) + 30
-                BSTAR = INT(RND * 4) + 15
-                OSTAR = INT(RND * 5) + 10
+                GSTAR = INT(RND * 6) + 3
+                FSTAR = INT(RND * 12) + 6
+                ASTAR = INT(RND * 12) + 6
+                BSTAR = INT(RND * 6) + 3
+                OSTAR = INT(RND * 4) + 3
             CASE 2
-                LSTAR = INT(RND * 5) + 7
-                MSTAR = INT(RND * 7) + 11
-                KSTAR = INT(RND * 7) + 15
-                GSTAR = INT(RND * 10) + 20
-                FSTAR = INT(RND * 20) + 20
-                ASTAR = INT(RND * 7) + 15
-                BSTAR = INT(RND * 4) + 7
-                OSTAR = INT(RND * 5) + 5
+                LSTAR = INT(RND * 3) + 2
+                MSTAR = INT(RND * 4) + 2
+                KSTAR = INT(RND * 6) + 3
+                GSTAR = INT(RND * 8) + 4
+                FSTAR = INT(RND * 8) + 5
+                ASTAR = INT(RND * 6) + 3
+                BSTAR = INT(RND * 3) + 2
+                OSTAR = INT(RND * 2) + 1
             CASE 3
-                LSTAR = INT(RND * 5) + 8
-                MSTAR = INT(RND * 7) + 25
-                KSTAR = INT(RND * 7) + 30
-                GSTAR = INT(RND * 10) + 14
-                FSTAR = INT(RND * 20) + 11
-                ASTAR = INT(RND * 7) + 7
-                BSTAR = INT(RND * 4) + 3
-                OSTAR = INT(RND * 5) + 2
+                LSTAR = INT(RND * 3) + 2
+                MSTAR = INT(RND * 10) + 5
+                KSTAR = INT(RND * 12) + 6
+                GSTAR = INT(RND * 6) + 3
+                FSTAR = INT(RND * 4) + 2
+                ASTAR = INT(RND * 3) + 2
+                BSTAR = INT(RND * 1) + 1
+                OSTAR = INT(RND * 1) + 1
             CASE 4
-                LSTAR = INT(RND * 5) + 30
-                MSTAR = INT(RND * 7) + 40
-                KSTAR = INT(RND * 7) + 15
-                GSTAR = INT(RND * 10) + 5
-                FSTAR = INT(RND * 20) + 5
-                ASTAR = INT(RND * 7) + 3
-                BSTAR = INT(RND * 4) + 1
-                OSTAR = INT(RND * 5) + 1
+                LSTAR = INT(RND * 12) + 6
+                MSTAR = INT(RND * 16) + 8
+                KSTAR = INT(RND * 6) + 3
+                GSTAR = INT(RND * 2) + 1
+                FSTAR = INT(RND * 2) + 1
+                ASTAR = INT(RND * 1) + 1
+                BSTAR = INT(RND * 1) + 1
+                OSTAR = INT(RND * 1) + 1
             CASE 5
-                LSTAR = INT(RND * 5) + 100
-                MSTAR = INT(RND * 7) + 0
+                LSTAR = INT(RND * 40) + 40
+                MSTAR = INT(RND * 0) + 0
         END SELECT
         'BLACKHOLE = INT(RND * 3)
         'ROGUE = INT(RND * 10)
@@ -369,12 +377,12 @@ theWaterEVETemplate$ = fileAsString("forEnvirEnhanTmp-Water.txt")
 DIM SHARED theEveEVETemplate$
 theEveEVETemplate$ = fileAsString("forEnvirEnhanTmp-Explodium.txt")
 '###############################
-'#Template file for integration with Sigma Cartographer (https://github.com/Sigma88/Sigma-Cartographer)
+'#Template file for integration with Psi Cartographer (https://github.com/Sigma88/Sigma-Cartographer)
 DIM SHARED theCartographerTemplate$
 DIM SHARED theCartographerData$
 DIM SHARED hasProcedural$
 hasProcedural$ = "FALSE"
-theCartographerTemplate$ = fileAsString("forSigmaCartographer.txt")
+theCartographerTemplate$ = fileAsString("forPsiCartographer.txt")
 '###############################
 
 DIM SHARED blackHole_MassKSP
@@ -389,7 +397,8 @@ blackHole_MassKg = 8.55E37
 blackHole_MassKSP = sol2Kerbol_kg(blackHole_MassKg)
 blackHole_RadiusKSP = 100000
 
-galaxy_RadiusKSP = (6.62251E+17)/10.6
+'#galaxy_RadiusKSP = (6.62251E+17)/10.6
+galaxy_RadiusKSP = (6.62251E+17)/106.0
 
 '################################
 PRINT #1, "@Kopernicus"
@@ -850,12 +859,12 @@ tempVar$ = forResearchBodies$(theResearchBodyTemplate$, "", discoveryText$, igno
 print #20, tempVar$
 print #30, "EVE_CLOUDS{"+chr$(10)+theEVETemplate$+chr$(10)+"}"
 '########################'
-'####add planet data to Sigma Cartographer file
+'####add planet data to Psi Cartographer file
 if hasProcedural$ = "TRUE" then
     '###########
-    '###Make the Sigma Cartographer setup file
-    OPEN "TBG-SigmaCartographer.cfg" FOR OUTPUT AS #40 '#Creates the Sigma Cartographer settings file
-    print #40, "@SigmaCartographer {"+chr$(10)+theCartographerData$+chr$(10)+"}"
+    '###Make the Psi Cartographer setup file
+    OPEN "TBG-PsiCartographer.cfg" FOR OUTPUT AS #40 '#Creates the Psi Cartographer settings file
+    print #40, "@PsiCartographer{"+chr$(10)+theCartographerData$+chr$(10)+"}"
 end if 
 
 
@@ -1999,13 +2008,13 @@ FUNCTION forEnvironVisEnhanc$(aTemplate$, aName$, theClouds1$, theClouds2$, theC
     '###########################'
     forEnvironVisEnhanc$ = aTemplate$
 END FUNCTION
-FUNCTION forSigmaCartographer$(aTemplate$, aName$)
+FUNCTION forPsiCartographer$(aTemplate$, aName$)
     '#####STH 2017-0124. QBasic doesn't have string formatting like python.
     '#####Replicated that function with string replacement function.
     '###########################'
     aTemplate$ = ReplaceStr(aTemplate$, "%(theName)s", aName$)
     '###########################'
-    forSigmaCartographer$ = aTemplate$
+    forPsiCartographer$ = aTemplate$
 END FUNCTION
 
 '$INCLUDE: 'Source\MakeAsteroids.bm'
