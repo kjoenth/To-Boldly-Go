@@ -228,26 +228,38 @@ SUB MakePlanets (star_Name$,star_MassKSP,star_RadiusKSP,parentInclination,Max_nu
 			'###ScaledVersion template
 
 			'#############
-			'#For writing data for SigmaCartographer
+			'#For writing data for PsiCartographer
 			isProcedural$ = "FALSE" 
 
 			if isInLWHZ$ = "TRUE" or makeLKBody$ = "TRUE" or makeLEBody$ = "TRUE" then
 				isProcedural$ = "TRUE"
 				hasProcedural$ = "TRUE" 
 				aScaledVersionNode$ = theScaledVersionTemplate$
-				normals$ = "To-Boldly-Go/Data_Folder/textures/solidplanettextures/greycolor.png"
+				'#NOTE: else statements don't work in imported code in qb64
+				'#a lack of 'else' makes this pretty messy looking
 				if isInLEZ$ = "TRUE" then
-					texture$ = "To-Boldly-Go/Data_Folder/textures/solidplanettextures/purplecolor.png"					
 					rimColorRamp$ = "BUILTIN/purple_atmogradiant"
+					texture$ = "To-Boldly-Go/Data_Folder/textures/solidplanettextures/purplecolor.png"
+					normals$ = "To-Boldly-Go/Data_Folder/textures/solidplanettextures/greycolor.png"					
 				end if
+
 				if isInLWHZ$ = "TRUE" then
-					texture$ = "To-Boldly-Go/Data_Folder/textures/solidplanettextures/oceancolor.png"
 					rimColorRamp$ = "BUILTIN/AerialRampKerbin2"
+					texture$ = "To-Boldly-Go/Data_Folder/textures/solidplanettextures/oceancolor.png"
+					normals$ = "To-Boldly-Go/Data_Folder/textures/solidplanettextures/greycolor.png"
 				end if
+
 				if isInLMHZ$ = "TRUE" then
-					texture$ = "To-Boldly-Go/Data_Folder/textures/solidplanettextures/kethanecolor.png"
 					rimColorRamp$ = "BUILTIN/desert_atmogradient"
+					texture$ = "To-Boldly-Go/Data_Folder/textures/solidplanettextures/kethanecolor.png"
+					normals$ = "To-Boldly-Go/Data_Folder/textures/solidplanettextures/greycolor.png"	
 				end if
+
+				if PSYCART$ = "y" then
+					texture$ = "Psi-Cartographer/PluginData/"+thePlanetName$+"/ColorMap/Tile0000.png"
+					normals$ = "Psi-Cartographer/PluginData/"+thePlanetName$+"/NormalMap/Tile0000.png"
+				end if	
+
 				aScaledVersionNode$ = scaledVersionNode$(aScaledVersionNode$, texture$, normals$, rimColorRamp$)	
 				'########################'
 				'###Ocean template
@@ -396,12 +408,12 @@ SUB MakePlanets (star_Name$,star_MassKSP,star_RadiusKSP,parentInclination,Max_nu
 			end if
 
 			'########################'
-			'####add planet data to Sigma Cartographer file
+			'####add planet data to Psi Cartographer file
 			if isProcedural$ = "TRUE" then
 				'###########
 				'###Make the researchBodies mod file
 				aCartographerTemplate$ = theCartographerTemplate$
-				theCartographerData$ = theCartographerData$ + forSigmaCartographer$(aCartographerTemplate$, thePlanetName$)
+				theCartographerData$ = theCartographerData$ + forPsiCartographer$(aCartographerTemplate$, thePlanetName$)
 				aCartographerTemplate$ = ""
 			end if 
 
